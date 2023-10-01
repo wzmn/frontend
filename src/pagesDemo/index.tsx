@@ -3,8 +3,12 @@ import { Link, type HeadFC, type PageProps, graphql } from "gatsby";
 import Layout from "../components/layout";
 import * as styles from "../styles/home.module.css";
 import Main from "../components/main";
+import Img from "gatsby-image";
 
-const IndexPage: React.FC<PageProps> = ({ data }) => {
+const IndexPage: React.FC<PageProps> = ({ data }: any) => {
+  const {
+    childImageSharp: { fluid },
+  } = data?.image;
   return (
     <Main>
       <section className={styles?.header}>
@@ -16,7 +20,8 @@ const IndexPage: React.FC<PageProps> = ({ data }) => {
             My Portfolio Projects
           </Link>
         </div>
-        {JSON.stringify(data)}
+        {/* <pre>{JSON.stringify(src, null, 4)}</pre> */}
+        <Img fluid={fluid} />
       </section>
     </Main>
   );
@@ -27,6 +32,14 @@ export const query = graphql`
     site {
       siteMetadata {
         siteUrl
+      }
+    }
+    image: file(relativePath: { eq: "banner.png" }) {
+      id
+      childImageSharp {
+        fluid {
+          ...GatsbyImageSharpFluid
+        }
       }
     }
   }

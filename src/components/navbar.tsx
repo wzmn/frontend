@@ -26,7 +26,7 @@ const Navbar = () => {
         <Link to="/aboute">Aboute Page</Link>
         <Link to="/projects">Projects</Link>
       </div>
-      {JSON.stringify(query)}
+      {JSON.stringify(__dirname)}
     </nav>
   );
 };
