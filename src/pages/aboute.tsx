@@ -1,9 +1,10 @@
 import React from "react";
 import { HeadFC } from "gatsby";
-import Layout from "../components/layout";
 import Main from "../components/main";
+import PrivateRouting from "../components/routeing/privateRouting";
 
-const Aboute = ({ serverData }: any) => {
+const Aboute = ({ serverData }: any): React.JSX.Element => {
+  console.log(serverData);
   return (
     <Main>
       <div className="">
@@ -14,7 +15,14 @@ const Aboute = ({ serverData }: any) => {
   );
 };
 
-export default Aboute;
+const ProtectAbout = ({ serverData }: any) => {
+  console.log(serverData);
+  return (
+    <PrivateRouting Component={Aboute} role={true} serverData={serverData} />
+  );
+};
+
+export default ProtectAbout;
 
 export const Head: HeadFC = () => <title>Aboute Page</title>;
 

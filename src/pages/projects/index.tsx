@@ -2,10 +2,11 @@ import React from "react";
 import * as styles from "../../styles/projects.module.css";
 import Main from "../../components/main";
 import { graphql, Link } from "gatsby";
+import PrivateRouting from "../../components/routeing/privateRouting";
 
-const Projects = ({ data }: any) => {
-  const projects = data.projects.nodes;
-  const contact = data.contact.siteMetadata.contact;
+const Projects = ({ serverData }: any) => {
+  const projects = serverData.projects.nodes;
+  const contact = serverData.contact.siteMetadata.contact;
   return (
     <Main>
       <div className={styles?.portfolio}>
@@ -14,7 +15,7 @@ const Projects = ({ data }: any) => {
         <div className={styles?.projects}>
           {projects.map((project: any) => (
             <Link
-              to={"/projects/" + project.frontmatter.slug}
+              to={"/projects/test"}
               key={"/projects/" + project.frontmatter.slug}
             >
               <div>
@@ -50,4 +51,8 @@ export const query = graphql`
   }
 `;
 
-export default Projects;
+const ProtectAbout = ({ data }: any) => {
+  return <PrivateRouting Component={Projects} role={false} serverData={data} />;
+};
+
+export default ProtectAbout;
