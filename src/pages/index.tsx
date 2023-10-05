@@ -10,20 +10,18 @@ const IndexPage: React.FC<PageProps> = ({ data }: any) => {
     childImageSharp: { fluid },
   } = data?.image;
   return (
-    <Main>
-      <section className={styles?.header}>
-        <div>
-          <h2>Design</h2>
-          <h3>Develop & Deploy</h3>
-          <p>UX designer & web developer based in Manchester.</p>
-          <Link className={styles?.btn} to="/projects">
-            My Portfolio Projects
-          </Link>
-        </div>
-        {/* <pre>{JSON.stringify(src, null, 4)}</pre> */}
-        <Img fluid={fluid} />
-      </section>
-    </Main>
+    <section className={styles?.header}>
+      <div>
+        <h2>Design</h2>
+        <h3>Develop & Deploy</h3>
+        <p>UX designer & web developer based in Manchester.</p>
+        <Link className={styles?.btn} to="/projects">
+          My Portfolio Projects
+        </Link>
+      </div>
+      {/* <pre>{JSON.stringify(src, null, 4)}</pre> */}
+      <Img fluid={fluid} />
+    </section>
   );
 };
 

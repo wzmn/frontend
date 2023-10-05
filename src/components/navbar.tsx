@@ -25,6 +25,7 @@ const Navbar = () => {
         <Link to="/">Home</Link>
         <Link to="/aboute">Aboute Page</Link>
         <Link to="/projects">Projects</Link>
+        <Link to="/login">Log Out</Link>
       </div>
       {JSON.stringify(__dirname)}
     </nav>
