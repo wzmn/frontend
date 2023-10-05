@@ -1,3 +1,8 @@
+
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV}`,
+})
+
 module.exports = {
   siteMetadata: {
     title: `Gatsby TailwindCSS Starter`,
@@ -5,10 +10,17 @@ module.exports = {
     author: `@kosvrouvas`,
   },
   flags: {
-    THE_FLAG: false
+    THE_FLAG: false,
+    DEV_SSR: true
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
+    {
+      resolve: `gatsby-source-custom`,
+      options: {
+        apiKey: process.env.API_KEY,
+      },
+    },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
