@@ -46,7 +46,7 @@ const Button = ({ title, isLoading, icon, ...props }: Props) => {
       type="button"
     >
       {icon && <div className="icon">{icon}</div>}
-      <p className={styles.title}>Login</p>
+      <p className={styles.title}>{title}</p>
       {isLoading && (
         <div className="icon">
           <FaBeer />

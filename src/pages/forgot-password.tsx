@@ -4,7 +4,7 @@ import Button from "../components/button";
 import Input from "../components/input";
 import Label from "../components/label";
 
-const Login = () => {
+const ForgotPassword = () => {
   return (
     <>
       <div className={`${styles.loginMain} `}>
@@ -12,29 +12,22 @@ const Login = () => {
           <div className={styles.img} />
 
           <div className={styles.content}>
-            <h2 className={`${styles.h2} `}>Let's get Started </h2>
-            <h3 className={`${styles.h3} `}>Sign In to your account</h3>
-
+            <h2 className={`${styles.h2} `}>Forgot Password </h2>
+            <h3 className={`${styles.h3} `}>
+              No worries. We'll send you reset instructions
+            </h3>
             <div className="space-y-4 mt-4">
-              <Label title="Username" htmlFor="username" />
-              <Input id="username" placeholder="Username" />
+              <Label title="E-mail ID" htmlFor="E-mail-ID" />
+              <Input id="E-mail-ID" placeholder="E-mail ID" />
             </div>
-
-            <div className="space-y-4 mt-4">
-              <Label title="Password" htmlFor="password" />
-              <Input id="password" placeholder="Password" />
-            </div>
-
             <Button
               // isLoading={true}
-              title="LOGIN"
+              title="RESET PASSWORD"
               className="mt-10 font-bold"
             />
 
-            <p
-              className={`${styles.forgotPassword} font-size14 mt-10 cursor-pointer`}
-            >
-              Forgot password ?
+            <p className={`${styles.forgotPassword} mt-10 cursor-pointer`}>
+              <span className="text-black">Back to</span> Login
             </p>
           </div>
         </div>
@@ -43,4 +36,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ForgotPassword;

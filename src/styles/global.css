@@ -38,6 +38,11 @@
     --color-hummingbird_green: #97dc21;
     --color-salad_green: #86da3d;
     --color-medium_aquamarine: #4ad2a7;
+
+    /* ######################### size ##################### */
+    --font-size-14: 14px;
+    --font-size-16: 16px;
+    --font-size-25: 25px;
   }
 
   /* :root[data-theme="dark"] {
