@@ -1,3 +1,48 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+  font-family: "Poppins", sans-serif;
+}
+
+@layer base {
+  :root {
+    /* yellow shades */
+    --color-candlelight: #fed000;
+
+    /* blue shades */
+    --color-aqua_blue: #32d0d1;
+    --color-aqua_blue_light: #32d0d152;
+    --color-aqua_blue_lighter: #32d0d1b2;
+
+    --color-dark_sky_blue: #3b9dff;
+    --color-blue_dress: #0a84ff;
+
+    /* black shades */
+    --color-black: #000000;
+    --color-half_black: #0000000d;
+
+    /* gray shades */
+    --color-cloudy_grey: #666666;
+    --color-dusty_grey: #99999926;
+    --color-dove_grey: #7070701c;
+    --color-cloudy_grey_light: #66666621;
+    --color-cloudy_grey_lighter: #6666668a;
+
+    /* brown shades */
+    --color-ginger_brown: #ccb6554c;
+
+    /* green shades  */
+    --color-hummingbird_green: #97dc21;
+    --color-salad_green: #86da3d;
+    --color-medium_aquamarine: #4ad2a7;
+  }
+
+  /* :root[data-theme="dark"] {
+    --color-bg-yellow: 24, 28, 33, 1;
+    --color-bg-teal: 150, 255, 29, 0.32;
+    --color-bg-gray: 3, 13, 3, 0.15;
+  } */
+}

@@ -1,4 +1,5 @@
 import type { GatsbyConfig } from "gatsby";
+import path from "path";
 
 const config: GatsbyConfig = {
   siteMetadata: {
@@ -13,7 +14,21 @@ const config: GatsbyConfig = {
   // flags: {
   //   DEV_SSR: true,
   // },
-  plugins: ["gatsby-plugin-postcss"],
+  plugins: [
+    "gatsby-plugin-postcss",
+    {
+      resolve: `gatsby-plugin-alias-imports`,
+      options: {
+        alias: {
+          "@src": "src",
+          "@components": "src/components",
+          "@layouts": "src/layouts",
+          "@pages": "src/pages",
+        },
+        extensions: ["js"],
+      },
+    },
+  ],
 };
 
 export default config;

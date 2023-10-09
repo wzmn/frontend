@@ -1,0 +1,43 @@
+.login-main {
+  height: 100vh;
+  background: transparent
+    linear-gradient(
+      119deg,
+      var(--color-candlelight) 0%,
+      var(--color-aqua_blue_light) 0%,
+      var(--color-dusty_grey) 100%
+    )
+    0% 0% no-repeat padding-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-card {
+  width: 35.063rem;
+  height: 41.375rem;
+  /* background: #ffffff 0% 0% no-repeat padding-box; */
+  /* box-shadow: 20px 20px 40px #0000000d; */
+  border: 1px solid #7070701c;
+  border-radius: 12px;
+  padding: 2.792rem 2.341rem;
+}
+
+.img {
+  width: 10.813173rem;
+  height: 3.063rem;
+  background-image: url("../images/large/Snippit_Logo_png.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.content {
+  margin-top: 4.063rem;
+  margin-left: 2.93825rem;
+  width: 22.875rem;
+}
+
+.h2 {
+  font-weight: 700;
+  font-size: 1.5rem;
+}

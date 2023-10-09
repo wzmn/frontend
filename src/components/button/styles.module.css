@@ -1,0 +1,36 @@
+.btn {
+  border: 1px solid rgba(var(--color-cloudy_grey_light));
+  border-radius: 0.2rem;
+  padding: 0.4rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.title {
+  width: 100%;
+}
+
+/* width */
+.width-full {
+  width: 100%;
+}
+
+/* size varient */
+.sm {
+}
+
+/* .md {
+  width: 50%;
+}
+
+.xl {
+  width: 100%;
+} */
+
+/* color varient */
+.color-blue {
+  background-color: var(--color-blue_dress);
+  color: #fff;
+}
