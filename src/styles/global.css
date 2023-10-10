@@ -5,6 +5,7 @@
 
 * {
   font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
 }
 
 @layer base {
@@ -50,4 +51,16 @@
     --color-bg-teal: 150, 255, 29, 0.32;
     --color-bg-gray: 3, 13, 3, 0.15;
   } */
+}
+
+html {
+  min-height: 100vh;
+  background: transparent
+    linear-gradient(
+      119deg,
+      var(--color-candlelight) 0%,
+      var(--color-aqua_blue_light) 0%,
+      var(--color-dusty_grey) 100%
+    )
+    0% 0% no-repeat padding-box;
 }

@@ -1,24 +1,39 @@
 .login-main {
   height: 100vh;
-  background: transparent
+  /* background: transparent
     linear-gradient(
       119deg,
       var(--color-candlelight) 0%,
       var(--color-aqua_blue_light) 0%,
       var(--color-dusty_grey) 100%
     )
-    0% 0% no-repeat padding-box;
+    0% 0% no-repeat padding-box; */
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.login-main::after {
+  content: "";
+  background: url("../images/large/Group.png");
+  background-size: contain;
+  position: absolute;
+  width: 22rem;
+  height: 23rem;
+  right: 8.935rem;
+  bottom: -6rem;
+  z-index: -1;
+  overflow: hidden;
 }
 
 .login-card {
   width: 35.063rem;
   height: 41.375rem;
   /* background: #ffffff 0% 0% no-repeat padding-box; */
-  /* box-shadow: 20px 20px 40px #0000000d; */
-  border: 1px solid #7070701c;
+  box-shadow: 20px 20px 40px var(--color-half_black);
+  border: 1px solid var(--color-dove_grey);
   border-radius: 12px;
   padding: 2.792rem 2.3rem;
 }
@@ -26,7 +41,7 @@
 .img {
   width: 10.813173rem;
   height: 3.063rem;
-  background-image: url("../images/large/Snippit_Logo_png.png");
+  background-image: url("../images/large/Snippit_Logo.png");
   background-repeat: no-repeat;
   background-size: contain;
 }
