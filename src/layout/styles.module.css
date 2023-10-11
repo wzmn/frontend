@@ -1,0 +1,13 @@
+.layout {
+  display: flex;
+  background-color: transparent;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  /* background-color: rgba(247, 163, 8, 0.833); */
+}
+
+.children {
+  /* background-color: yellow; */
+  flex: 1;
+}

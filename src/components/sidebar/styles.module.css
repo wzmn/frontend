@@ -1,0 +1,6 @@
+.sidebar {
+  background-color: pink;
+  width: 18rem;
+  /* position: absolute; */
+  height: inherit;
+}

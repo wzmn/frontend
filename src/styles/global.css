@@ -53,8 +53,7 @@
   } */
 }
 
-html {
-  min-height: 100vh;
+body {
   background: transparent
     linear-gradient(
       119deg,

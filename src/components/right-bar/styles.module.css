@@ -1,0 +1,42 @@
+.right-bar {
+  background-color: #ffffff95;
+  width: 25rem;
+  height: 40rem;
+  border-radius: 0.6rem;
+  position: absolute;
+  top: 50%;
+  /* right: 0%; */
+
+  transform: translate(100vw, -50%);
+
+  transition: 1s all ease-out;
+}
+
+.right-bar.slide-in {
+  transform: translate(calc(100vw - 25rem), -50%);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0.7rem;
+}
+
+.title {
+  font-size: 1.3rem;
+  font-weight: 500;
+  letter-spacing: 0.1rem;
+  position: relative;
+}
+
+.title::after {
+  content: "";
+  width: 14rem;
+  height: 0.2rem;
+  position: absolute;
+  bottom: -5px;
+  left: 0px;
+  border-radius: 2rem;
+  background-color: var(--color-blue_dress);
+}
