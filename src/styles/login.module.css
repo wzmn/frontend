@@ -1,13 +1,13 @@
 .login-main {
   height: 100vh;
-  /* background: transparent
+  background: transparent
     linear-gradient(
       119deg,
       var(--color-candlelight) 0%,
       var(--color-aqua_blue_light) 0%,
       var(--color-dusty_grey) 100%
     )
-    0% 0% no-repeat padding-box; */
+    0% 0% no-repeat padding-box;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -26,6 +26,15 @@
   bottom: -6rem;
   z-index: -1;
   overflow: hidden;
+}
+
+.login-main.t-point::before {
+  content: "";
+  position: absolute;
+  width: 3rem;
+  height: 3rem;
+  top: 0px;
+  background-color: pink;
 }
 
 .login-card {

@@ -1,13 +1,13 @@
 import React from "react";
 import * as styles from "../styles/login.module.css";
-import Button from "../components/button";
-import Input from "../components/input";
-import Label from "../components/label";
+import Button from "components/button";
+import Input from "components/input";
+import Label from "components/label";
 
 const Login = () => {
   return (
     <>
-      <div className={`${styles.loginMain} `}>
+      <div className={`${styles.loginMain} ${styles.tPoint}`}>
         <div className={`${styles.loginCard} bg-white `}>
           <div className={styles.img} />
 

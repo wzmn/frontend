@@ -1,14 +1,14 @@
 import React from "react";
-import RightBar from "../components/right-bar";
-import Sidebar from "../components/sidebar";
+import RightBar from "components/right-bar";
+import Sidebar from "components/sidebar";
 import * as styles from "./styles.module.css";
-import { PageProps, SliceComponentProps, HeadProps } from "gatsby";
+import { PageProps } from "gatsby";
 
 const routeNotToInclude = ["/login/"];
 
 const Layout = ({ children }: PageProps) => {
   return (
-    <>
+    <div className="container mx-6">
       {!routeNotToInclude.includes(location?.pathname) ? (
         <div className={styles.layout}>
           <Sidebar />
@@ -16,9 +16,9 @@ const Layout = ({ children }: PageProps) => {
           <RightBar />
         </div>
       ) : (
-        children
+        <div className={styles.authLayout}>{children}</div>
       )}
-    </>
+    </div>
   );
 };
 

@@ -7,7 +7,9 @@ const Sidebar = () => {
     <div className={styles.sidebar}>
       sidebar {open + ""}
       <br />
-      <button onClick={toggle}>Click Me</button>
+      <button className={`${styles.btn} ${styles.button}`} onClick={toggle}>
+        Click Me
+      </button>
     </div>
   );
 };

@@ -54,12 +54,12 @@
 }
 
 body {
-  background: transparent
+  /* background: transparent
     linear-gradient(
       119deg,
       var(--color-candlelight) 0%,
       var(--color-aqua_blue_light) 0%,
       var(--color-dusty_grey) 100%
     )
-    0% 0% no-repeat padding-box;
+    0% 0% no-repeat padding-box; */
 }

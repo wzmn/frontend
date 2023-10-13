@@ -4,3 +4,7 @@
   /* position: absolute; */
   height: inherit;
 }
+
+.btn.button {
+  background-color: yellow;
+}
