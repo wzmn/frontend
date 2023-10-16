@@ -1,7 +1,8 @@
 import React from "react";
 import { Fragment, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
-import { HiCheck, HiMiniChevronUpDown } from "react-icons/hi2";
+import { IoIosArrowDown } from "react-icons/io";
+import * as styles from "./styles.module.css";
 
 type DataProp = {
   name: string;
@@ -19,10 +20,10 @@ export default function SelectBox({ data }: Props) {
     <div className="  w-72">
       <Listbox value={selected} onChange={setSelected}>
         <div className="relative mt-1">
-          <Listbox.Button className="relative w-full cursor-default rounded-md bg-white80 py-2 pl-3 pr-10 text-left shadow-md focus:outline-none  sm:text-sm">
+          <Listbox.Button className="relative w-full cursor-default rounded-md  py-2 pl-3 pr-10 text-left shadow-md focus:outline-none  sm:text-sm">
             <span className="block truncate">{selected.name}</span>
             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-              <HiMiniChevronUpDown
+              <IoIosArrowDown
                 className="h-5 w-5 text-gray-400"
                 aria-hidden="true"
               />
@@ -34,7 +35,9 @@ export default function SelectBox({ data }: Props) {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white80 py-1 text-base shadow-lg  focus:outline-none sm:text-sm">
+            <Listbox.Options
+              className={`${styles.selectBoxScrollBar} absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white80 py-1 text-base shadow-lg  focus:outline-none sm:text-sm`}
+            >
               {renderData?.map((person, personIdx) => (
                 <Listbox.Option
                   key={personIdx}

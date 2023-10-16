@@ -1,5 +1,7 @@
 import SelectBox from "components/selectBox";
-import React from "react";
+import InputOtp from "components/otp";
+import React, { useState } from "react";
+import Input from "components/input";
 
 const data = [
   { name: "Wade Cooper" },
@@ -11,9 +13,23 @@ const data = [
 ];
 
 const AddEditCompany = () => {
+  const [OTP, setOTP] = useState<string>("");
+  function handleChange(OTP: string) {
+    setOTP(OTP);
+  }
+
   return (
     <>
-      <SelectBox data={data} />
+      <div className="p-10 bg-white80">
+        <SelectBox data={data} />
+
+        <Input varient="regular" />
+        <InputOtp
+          onChange={handleChange}
+          value={OTP}
+          renderSeparator={<>-</>}
+        />
+      </div>
     </>
   );
 };
