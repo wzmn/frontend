@@ -1,10 +1,101 @@
 .sidebar {
-  background-color: pink;
-  width: 18rem;
+  width: 16.938rem;
+  overflow: hidden;
+
   /* position: absolute; */
   height: inherit;
+  background: transparent
+    linear-gradient(
+      180deg,
+      var(--color-macaw-blue-green) 0%,
+      var(--color-kiwi-green) 100%
+    )
+    0% 0% no-repeat padding-box;
+  padding: 2.285rem 1.464rem;
 }
 
-.btn.button {
-  background-color: yellow;
+.sidebar > .img {
+  width: 13.45rem;
+}
+
+.sidebar > .img > img {
+  width: 100%;
+  height: 100%;
+}
+
+.icons-cont {
+  width: 11.278rem;
+}
+
+.icons-cont > .icons {
+  /* background-color: pink; */
+
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+  cursor: pointer;
+}
+
+.icons-cont > .icons::after {
+  content: "";
+  width: 8.438rem;
+  height: 0.06rem;
+  background-color: var(--color-cloudy_grey);
+  position: absolute;
+  bottom: 0rem;
+  left: 3.1rem;
+}
+
+.icons-cont > .icons:hover::after {
+  background-color: var(--color-blue_dress);
+}
+
+.icons-cont > .icons:first-child {
+  margin-top: 4.5rem;
+}
+
+.icons-cont > .icons:not(:first-child):nth-child(n) {
+  margin-top: 1.1rem;
+}
+
+.icons-cont > .icons > .img {
+  width: 2.069rem;
+  height: 2.038rem;
+}
+
+.icons-cont > .icons > p {
+  color: var(--color-black);
+}
+
+.user-details {
+  margin-top: 20rem;
+  display: flex;
+  gap: 1rem;
+  width: 12.063rem;
+}
+
+.user-details > .user-img {
+  width: 2.813rem;
+  height: 2.813rem;
+  border-radius: 100%;
+}
+
+.user-details > .user-name > p {
+  font-size: 16px;
+}
+
+.user-details > .user-name > .user-role {
+  font-size: 14px;
+  display: flex;
+  gap: 0.3rem;
+  align-items: center;
+}
+
+.user-details > .user-name > .user-role > p {
+  color: var(--color-aqua_blue);
+}
+
+.user-details > .user-name > .user-role > .icon {
+  cursor: pointer;
 }

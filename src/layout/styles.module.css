@@ -1,21 +1,20 @@
 .layout {
   display: flex;
-  background-color: transparent;
   min-height: 100vh;
   position: relative;
   overflow: hidden;
+
+  /* margin: 0rem 10%; */
+}
+
+.children {
   background: transparent
     linear-gradient(
-      119deg,
+      128deg,
       var(--color-candlelight) 0%,
       var(--color-aqua_blue_light) 0%,
       var(--color-dusty_grey) 100%
     )
     0% 0% no-repeat padding-box;
-  /* margin: 0rem 10%; */
-}
-
-.children {
-  /* background-color: yellow; */
   flex: 1;
 }
