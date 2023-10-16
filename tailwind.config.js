@@ -8,6 +8,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        // white shades
+        white: "var(--color-white)",
+        white80: "var(--color-white-80)",
+
         //yellow shades
         candlelight: "var(--color-candlelight)",
 

@@ -16,7 +16,7 @@ export const useRightBarContext = () => useContext(RightBarContext);
 
 const RightBarProvider = ({ children }: Props) => {
   const [value, setValue] = useState<Pick<Context, "open" | "element">>({
-    open: true,
+    open: false,
     element: null,
   });
 

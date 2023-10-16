@@ -10,6 +10,10 @@
 
 @layer base {
   :root {
+    /* white shades */
+    --color-white: #ffffff;
+    --color-white-80: #ffffff80;
+
     /* yellow shades */
     --color-candlelight: #fed000;
 

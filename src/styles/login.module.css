@@ -17,7 +17,7 @@
 
 .login-main::after {
   content: "";
-  background: url("../images/large/Group.png");
+  background: url("/assets/images/Group.png");
   background-size: contain;
   position: absolute;
   width: 22rem;
@@ -50,7 +50,7 @@
 .img {
   width: 10.813173rem;
   height: 3.063rem;
-  background-image: url("../images/large/Snippit_Logo.png");
+  background-image: url("/assets/images/Snippit_Logo.png");
   background-repeat: no-repeat;
   background-size: contain;
 }

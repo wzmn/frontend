@@ -1,5 +1,6 @@
 import React from "react";
 import * as styles from "../styles/login.module.css";
+import { AiFillAccountBook, AiFillAlert } from "react-icons/ai";
 import Button from "components/button";
 import Input from "components/input";
 import Label from "components/label";
@@ -26,6 +27,7 @@ const Login = () => {
             </div>
 
             <Button
+              // icon={<AiFillAlert />}
               // isLoading={true}
               title="LOGIN"
               className="mt-10 font-bold"
