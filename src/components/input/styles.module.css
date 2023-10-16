@@ -1,6 +1,5 @@
 .input {
   display: block;
-  background-color: var(--color-white);
   border: 1px solid var(--color-cloudy_grey_light);
   border-radius: 5px;
   padding-left: 0.3rem;
@@ -9,4 +8,12 @@
   padding-left: 0.9rem;
   font-size: small;
   width: 100%;
+}
+
+.input.login {
+  background-color: var(--color-white);
+}
+
+.input.regular {
+  background-color: var(--color-white80);
 }
