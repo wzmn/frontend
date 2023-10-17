@@ -1,5 +1,5 @@
 import React from "react";
-import * as styles from "./styles.module.css";
+import * as styles from "./Input.module.scss";
 
 type Varient = "auth" | "regular";
 

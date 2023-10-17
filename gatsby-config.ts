@@ -14,7 +14,11 @@ const config: GatsbyConfig = {
   // flags: {
   //   DEV_SSR: true,
   // },
-  plugins: ["gatsby-plugin-postcss", "gatsby-plugin-resolve-src"],
+  plugins: [
+    "gatsby-plugin-postcss",
+    "gatsby-plugin-resolve-src",
+    "gatsby-plugin-sass",
+  ],
 };
 
 export default config;

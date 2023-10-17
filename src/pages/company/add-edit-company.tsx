@@ -2,6 +2,8 @@ import SelectBox from "components/selectBox";
 import InputOtp from "components/otp";
 import React, { useState } from "react";
 import Input from "components/input";
+import FormWraper from "components/form-wrapper";
+import FormSection from "components/form-sections";
 
 const data = [
   { name: "Wade Cooper" },
@@ -20,15 +22,22 @@ const AddEditCompany = () => {
 
   return (
     <>
-      <div className="p-10 bg-white80">
-        <SelectBox data={data} />
+      <div className="">
+        {/* <SelectBox data={data} />
 
         <Input varient="regular" />
         <InputOtp
           onChange={handleChange}
           value={OTP}
           renderSeparator={<>-</>}
-        />
+        /> */}
+        <FormSection title="Company Details">
+          <FormWraper />
+        </FormSection>
+
+        <FormSection title=" Details">
+          <FormWraper />
+        </FormSection>
       </div>
     </>
   );

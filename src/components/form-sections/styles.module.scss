@@ -1,0 +1,24 @@
+.form-section {
+  padding: 0rem 1.688rem;
+  display: flex;
+  align-items: flex-start;
+  & .label {
+    color: var(--color-black);
+    position: relative;
+    width: 16rem;
+    margin-top: 4.937rem;
+    font-weight: 500;
+    // background-color: pink;
+
+    &::after {
+      content: "";
+      width: 11.875rem;
+      height: 0.2rem;
+      position: absolute;
+      bottom: -5px;
+      left: 0px;
+      border-radius: 2rem;
+      background-color: var(--color-blue_dress);
+    }
+  }
+}
