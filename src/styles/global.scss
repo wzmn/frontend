@@ -1,4 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+@import "./variable.scss";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,6 +8,8 @@
 * {
   font-family: "Poppins", sans-serif;
   box-sizing: border-box;
+  margin: 0%;
+  padding: 0%;
 }
 
 @layer base {
@@ -29,7 +33,7 @@
     /* black shades */
     --color-black: #000000;
     --color-half_black: #0000000d;
-    --color-black29:#00000029
+    --color-black29: #00000029;
 
     /* gray shades */
     --color-cloudy_grey: #666666;

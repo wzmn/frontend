@@ -36,19 +36,21 @@ const sideBarData = [
 const Sidebar = () => {
   return (
     <div className={styles.sidebar}>
-      <div className={styles.img}>
-        <img src="/assets/images/Snippit_Logo.png" alt="snippit" />
-      </div>
+      <div className="">
+        <div className={styles.img}>
+          <img src="/assets/images/Snippit_Logo.png" alt="snippit" />
+        </div>
 
-      <div className={styles.iconsCont}>
-        {sideBarData.map((item, key) => {
-          return (
-            <div className={styles.icons}>
-              <img className={styles.img} src={item.svg} alt={item.title} />
-              <p>{item.title}</p>
-            </div>
-          );
-        })}
+        <div className={styles.iconsCont}>
+          {sideBarData.map((item, key) => {
+            return (
+              <div className={styles.icons}>
+                <img className={styles.img} src={item.svg} alt={item.title} />
+                <p>{item.title}</p>
+              </div>
+            );
+          })}
+        </div>
       </div>
 
       <div className={styles.userDetails}>

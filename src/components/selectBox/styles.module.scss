@@ -1,0 +1,46 @@
+.select-box-scroll-bar::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+/* Track */
+.select-box-scroll-bar::-webkit-scrollbar-track {
+  /* box-shadow: inset 0 0 5px grey; */
+  border-radius: 10px;
+}
+
+/* Handle */
+.select-box-scroll-bar::-webkit-scrollbar-thumb {
+  background-color: var(--color-half_black);
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+.select-box-scroll-bar::-webkit-scrollbar-thumb:hover {
+  background: var(--color-dusty_grey);
+}
+
+// relative w-full cursor-default rounded-md py-2 pl-3 pr-10 text-left shadow-md focus:outline-none  sm:text-sm
+
+.lst-box-btn {
+  position: relative;
+  width: 100%;
+  cursor: pointer;
+  border-radius: 0.375rem;
+  padding: 0.5rem 0rem;
+  padding-left: 0.75rem;
+  padding-right: 2.5rem;
+  text-align: left;
+  outline: none;
+  border: none;
+}
+
+// varients
+
+//colors
+.lst-box-btn.gray {
+  background: var(--color-dusty_grey) 0% 0% no-repeat padding-box;
+}
+
+.lst-box-btn.white {
+  background: var(--color-white-80) 0% 0% no-repeat padding-box;
+}

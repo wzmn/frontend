@@ -2,17 +2,31 @@ import React from "react";
 import { Fragment, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { IoIosArrowDown } from "react-icons/io";
-import * as styles from "./styles.module.css";
+import * as styles from "./styles.module.scss";
 
 type DataProp = {
   name: string;
 };
 
+type color = "gray" | "white";
+
 type Props = {
   data: DataProp[];
+  color?: color;
 };
 
-export default function SelectBox({ data }: Props) {
+function varientHandler(varient: color = "white") {
+  switch (varient) {
+    case "gray":
+      return styles.gray;
+    case "white":
+      return styles.white;
+    default:
+      styles.white;
+  }
+}
+
+export default function SelectBox({ data, color }: Props) {
   const renderData = [{ name: "select" }, ...data];
   const [selected, setSelected] = useState<DataProp>(renderData[0]);
 
@@ -20,7 +34,9 @@ export default function SelectBox({ data }: Props) {
     <div className="  w-72">
       <Listbox value={selected} onChange={setSelected}>
         <div className="relative mt-1">
-          <Listbox.Button className="relative w-full cursor-default rounded-md  py-2 pl-3 pr-10 text-left shadow-md focus:outline-none  sm:text-sm">
+          <Listbox.Button
+            className={`${styles.lstBoxBtn} ${varientHandler(color)} `}
+          >
             <span className="block truncate">{selected.name}</span>
             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
               <IoIosArrowDown
@@ -36,7 +52,7 @@ export default function SelectBox({ data }: Props) {
             leaveTo="opacity-0"
           >
             <Listbox.Options
-              className={`${styles.selectBoxScrollBar} absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white80 py-1 text-base shadow-lg  focus:outline-none sm:text-sm`}
+              className={`${styles.selectBoxScrollBar} z-50 absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg  focus:outline-none sm:text-sm`}
             >
               {renderData?.map((person, personIdx) => (
                 <Listbox.Option

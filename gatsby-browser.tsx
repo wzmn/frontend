@@ -1,5 +1,5 @@
 import React from "react";
-import "./src/styles/global.css";
+import "styles/global.scss";
 import Layout from "./src/layout";
 import RightBarProvider from "./src/providers/right-bar-provider";
 import { PageProps } from "gatsby";

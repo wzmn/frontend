@@ -1,9 +1,13 @@
 .sidebar {
   width: 16.938rem;
+  height: 100vh;
   overflow: hidden;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
 
-  /* position: absolute; */
-  height: inherit;
   background: transparent
     linear-gradient(
       180deg,
@@ -12,6 +16,27 @@
     )
     0% 0% no-repeat padding-box;
   padding: 2.285rem 1.464rem;
+
+  &::-webkit-scrollbar {
+    width: 0rem;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    /* box-shadow: inset 0 0 5px grey; */
+    border-radius: 10px;
+  }
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--color-half_black);
+    border-radius: 10px;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: var(--color-dusty_grey);
+  }
 }
 
 .sidebar > .img {
@@ -69,7 +94,7 @@
 }
 
 .user-details {
-  margin-top: 20rem;
+  margin-top: 5rem;
   display: flex;
   gap: 1rem;
   width: 12.063rem;

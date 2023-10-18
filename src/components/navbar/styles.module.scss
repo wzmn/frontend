@@ -1,0 +1,9 @@
+@import "styles/variable.scss";
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  // background-color: pink;
+  height: $navbar-width;
+}

@@ -1,7 +1,7 @@
 import React from "react";
 import Layout from "./src/layout";
 
-import "./src/styles/global.css";
+import "styles/global.scss";
 import { PageProps } from "gatsby";
 
 // export const wrapRootElement = ({ element, ...restProps }, ...args) => {

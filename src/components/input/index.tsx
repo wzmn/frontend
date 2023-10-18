@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import * as styles from "./Input.module.scss";
 
 type Varient = "auth" | "regular";
@@ -6,6 +6,7 @@ type Varient = "auth" | "regular";
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   //...add your custom types here
   varient?: Varient;
+  asterisk?: boolean;
 }
 
 function handleVarient(str: string) {
@@ -21,13 +22,25 @@ function handleVarient(str: string) {
 }
 
 const Input = ({ type, placeholder, varient = "auth", ...props }: Props) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+
   return (
-    <input
-      {...props}
-      className={handleVarient(varient)}
-      type={type}
-      placeholder={placeholder}
-    />
+    <div tabIndex={0} className={styles.inputCont}>
+      <input
+        ref={inputRef}
+        {...props}
+        className={handleVarient(varient)}
+        type={type}
+        placeholder=""
+      />
+      <span
+        className={styles.placeholder}
+        onClick={(e) => inputRef?.current?.focus()}
+      >
+        {placeholder}{" "}
+        {props?.asterisk && <span className="text-red-500">*</span>}
+      </span>
+    </div>
   );
 };
 

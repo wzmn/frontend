@@ -1,7 +1,10 @@
+@import "styles/media.scss";
 .form-section {
-  padding: 0rem 1.688rem;
+  // padding: 0rem 1.688rem;
   display: flex;
+  gap: 1rem;
   align-items: flex-start;
+  justify-content: flex-start;
   & .label {
     color: var(--color-black);
     position: relative;
@@ -20,5 +23,11 @@
       border-radius: 2rem;
       background-color: var(--color-blue_dress);
     }
+  }
+
+  @include lg {
+    flex-direction: column;
+    // background-color: pink;
+    align-items: stretch;
   }
 }
