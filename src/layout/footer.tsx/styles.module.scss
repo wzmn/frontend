@@ -1,0 +1,45 @@
+@import "styles/variable.scss";
+.footer {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.6rem;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0rem;
+  width: 100%;
+  //   background-color: pink;
+  height: $footer-height;
+  & .footer-content {
+    display: flex;
+    align-items: center;
+    color: var(--color-cloudy_grey);
+    font-size: 0.875rem;
+
+    & ul {
+      $margin-right-li: 0.6rem;
+      list-style: inside;
+      //   display: inline-block;
+
+      & :first-child {
+        margin-left: 0.9rem;
+      }
+
+      & li:not(:first-child):not(:last-child):nth-child(n) {
+        margin: 0rem $margin-right-li;
+      }
+
+      & li {
+        display: inline-block;
+        &::before {
+          content: "•";
+          font-size: 1.4rem;
+          //   vertical-align: middle;
+          color: var(--color-cloudy_grey);
+          margin-right: $margin-right-li;
+        }
+      }
+    }
+  }
+}
