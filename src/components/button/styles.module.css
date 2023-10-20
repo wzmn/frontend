@@ -1,5 +1,5 @@
 .btn {
-  border: 1px solid rgba(var(--color-cloudy_grey_light));
+  border: 1px solid var(--color-cloudy_grey_light);
   border-radius: 0.2rem;
   padding: 0.4rem 1rem;
   display: flex;

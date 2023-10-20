@@ -5,39 +5,51 @@ import { IoIosArrowDown } from "react-icons/io";
 import * as styles from "./styles.module.scss";
 
 type DataProp = {
-  name: string;
+  label: string;
 };
 
-type color = "gray" | "white";
+type color = "gray" | "white" | "transparent1";
 
 type Props = {
   data: DataProp[];
   color?: color;
+  placeholder?: string;
+  asterisk?: boolean;
 };
 
-function varientHandler(varient: color = "white") {
+function varientHandler(varient: color = "transparent1") {
   switch (varient) {
     case "gray":
       return styles.gray;
     case "white":
       return styles.white;
     default:
-      styles.white;
+      return styles.transparent1;
   }
 }
 
-export default function SelectBox({ data, color }: Props) {
-  const renderData = [{ name: "select" }, ...data];
-  const [selected, setSelected] = useState<DataProp>(renderData[0]);
+export default function SelectBox({
+  data,
+  color,
+  placeholder = "select",
+  asterisk,
+}: Props) {
+  // const renderData = [{ label: placeholder }, ...data];
+  const [selected, setSelected] = useState<DataProp>();
 
   return (
-    <div className="  w-72">
+    <div className="  ">
       <Listbox value={selected} onChange={setSelected}>
-        <div className="relative mt-1">
+        <div className="relative mt-1 border ">
           <Listbox.Button
-            className={`${styles.lstBoxBtn} ${varientHandler(color)} `}
+            className={`${styles.lstBoxBtn} ${varientHandler(color)}`}
           >
-            <span className="block truncate">{selected.name}</span>
+            <span className="block truncate">
+              {selected?.label ?? placeholder}
+              {!selected?.label && asterisk && (
+                <span className="text-red-500">&nbsp;*</span>
+              )}
+            </span>
             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
               <IoIosArrowDown
                 className="h-5 w-5 text-gray-400"
@@ -54,15 +66,23 @@ export default function SelectBox({ data, color }: Props) {
             <Listbox.Options
               className={`${styles.selectBoxScrollBar} z-50 absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg  focus:outline-none sm:text-sm`}
             >
-              {renderData?.map((person, personIdx) => (
+              <Listbox.Option
+                className={({ active }) =>
+                  `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                    active ? "bg-white80 text-amber-900" : "text-gray-900"
+                  }`
+                }
+                value=""
+              ></Listbox.Option>
+              {data?.map((item, itemIdx) => (
                 <Listbox.Option
-                  key={personIdx}
+                  key={itemIdx}
                   className={({ active }) =>
                     `relative cursor-default select-none py-2 pl-10 pr-4 ${
                       active ? "bg-white80 text-amber-900" : "text-gray-900"
                     }`
                   }
-                  value={person}
+                  value={item}
                 >
                   {/* {({ selected }) => (
                     <>
@@ -71,7 +91,7 @@ export default function SelectBox({ data, color }: Props) {
                           selected ? "font-medium" : "font-normal"
                         }`}
                       > */}
-                  {person.name}
+                  {item.label}
                   {/* </span> */}
                   {/* {selected ? (
                         <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">

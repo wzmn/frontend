@@ -15,7 +15,7 @@ function handleVarient(str: string) {
       return `${styles.input} ${styles.login} `;
 
     case "regular":
-      return `${styles.input} ${styles.regular} shadow-md`;
+      return `${styles.input} ${styles.regular} `;
     default:
       `${styles.input} ${styles.login}`;
   }

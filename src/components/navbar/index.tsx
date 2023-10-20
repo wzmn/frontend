@@ -4,21 +4,25 @@ import React from "react";
 import * as styles from "./styles.module.scss";
 
 const data = [
-  { name: "Wade Cooper" },
-  { name: "Arlene Mccoy" },
-  { name: "Devon Webb" },
-  { name: "Tom Cook" },
-  { name: "Tanya Fox" },
-  { name: "Hellen Schmidt" },
+  { label: "Wade Cooper" },
+  { label: "Arlene Mccoy" },
+  { label: "Devon Webb" },
+  { label: "Tom Cook" },
+  { label: "Tanya Fox" },
+  { label: "Hellen Schmidt" },
 ];
 
 const Navbar = () => {
   return (
     <div className={styles.navbar}>
-      <SelectBox color="gray" data={data} />
+      <div className="w-72">
+        <SelectBox color="gray" data={data} />
+      </div>
       <div className="flex items-center gap-4">
         <FaRegBell className="text-2xl" />
-        <SelectBox color="gray" data={data} />
+        <div className="w-72">
+          <SelectBox color="gray" data={data} />
+        </div>
       </div>
     </div>
   );

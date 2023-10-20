@@ -1,51 +1,12 @@
-import SelectBox from "components/selectBox";
-import InputOtp from "components/otp";
-import React, { CSSProperties, useEffect, useState } from "react";
-import Input from "components/input";
-import FormWraper from "components/form-wrapper";
-import FormSection from "components/form-sections";
-import * as styles from "./styles.module.scss";
 import DNDImage from "components/dnd-image";
-
-const data = [
-  { name: "Wade Cooper" },
-  { name: "Arlene Mccoy" },
-  { name: "Devon Webb" },
-  { name: "Tom Cook" },
-  { name: "Tanya Fox" },
-  { name: "Hellen Schmidt" },
-];
-
-const thumbsContainer: CSSProperties = {
-  display: "flex",
-  flexDirection: "row",
-  flexWrap: "wrap",
-  marginTop: 16,
-};
-
-const thumb: CSSProperties = {
-  display: "inline-flex",
-  borderRadius: 2,
-  border: "1px solid #eaeaea",
-  marginBottom: 8,
-  marginRight: 8,
-  width: 100,
-  height: 100,
-  padding: 4,
-  boxSizing: "border-box",
-};
-
-const thumbInner: CSSProperties = {
-  display: "flex",
-  minWidth: 0,
-  overflow: "hidden",
-};
-
-const img: CSSProperties = {
-  display: "block",
-  width: "auto",
-  height: "100%",
-};
+import FormSection from "components/form-sections";
+import FormWraper from "components/form-wrapper";
+import Input from "components/input";
+import React, { useEffect, useState } from "react";
+import * as styles from "./styles.module.scss";
+import SelectBox from "components/selectBox";
+import { UnitTypes, StreetTypes, States } from "../../constants";
+import ButtonGroup from "components/button-group";
 
 interface FileProps extends File {
   preview: string;
@@ -64,21 +25,6 @@ const AddEditCompany = () => {
     // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
     return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
   }, []);
-
-  const thumbs = files.map((file) => (
-    <div style={thumb} key={file.name}>
-      <div style={thumbInner}>
-        <img
-          src={file.preview}
-          style={img}
-          // Revoke data uri after image is loaded
-          onLoad={() => {
-            URL.revokeObjectURL(file.preview);
-          }}
-        />
-      </div>
-    </div>
-  ));
 
   return (
     <>
@@ -155,7 +101,11 @@ const AddEditCompany = () => {
                 <Input varient="regular" placeholder="Level No" asterisk />
               </div>
               <div className="max-w-3xl">
-                <Input varient="regular" placeholder="Unit Type" asterisk />
+                <SelectBox
+                  placeholder="Select Unit Type"
+                  data={UnitTypes}
+                  asterisk
+                />
               </div>
               <div className="max-w-3xl">
                 <Input varient="regular" placeholder="Unit No" asterisk />
@@ -165,7 +115,13 @@ const AddEditCompany = () => {
                 <Input varient="regular" placeholder="Lot No." asterisk />
               </div>
               <div className="max-w-3xl">
-                <Input varient="regular" placeholder="Street No" asterisk />
+                <div className="max-w-3xl">
+                  <SelectBox
+                    placeholder="Street No"
+                    data={StreetTypes}
+                    asterisk
+                  />
+                </div>
               </div>
               <div className="max-w-3xl">
                 <Input varient="regular" placeholder="Street Name" asterisk />
@@ -181,7 +137,7 @@ const AddEditCompany = () => {
                 <Input varient="regular" placeholder="Suburb" asterisk />
               </div>
               <div className="max-w-3xl">
-                <Input varient="regular" placeholder="State" asterisk />
+                <SelectBox placeholder="State" data={States} asterisk />
               </div>
               <div className="max-w-3xl">
                 <Input varient="regular" placeholder="Pincode" asterisk />
@@ -189,6 +145,45 @@ const AddEditCompany = () => {
 
               <div className="max-w-3xl">
                 <Input varient="regular" placeholder="LGA" asterisk />
+              </div>
+            </div>
+          </FormWraper>
+        </FormSection>
+
+        <FormSection title=" Upload Documents">
+          <FormWraper>
+            <>
+              <p className="text-sm mb-10">
+                <span className="text-red-500 font-bold">Note: &nbsp;</span>
+                You must upload at least ONE Primary document. Foreign documents
+                mustr be accompanied by an official translation.
+              </p>
+              <div className="grid grid-flow-row grid-cols-2 gap-7">
+                <ButtonGroup title="Primary Documents" groupTitle="Upload" />
+                <ButtonGroup title="Secondary Documents" groupTitle="Upload" />
+                <ButtonGroup title="Additional Documents" groupTitle="Upload" />
+              </div>
+            </>
+          </FormWraper>
+        </FormSection>
+
+        <FormSection title="Owner Details">
+          <FormWraper>
+            <div className="grid grid-flow-row grid-cols-2 gap-7">
+              <div className="max-w-3xl">
+                <Input varient="regular" placeholder="First Name" asterisk />
+              </div>
+              <div className="max-w-3xl">
+                <Input varient="regular" placeholder="Last Name" asterisk />
+              </div>
+              <div className="max-w-3xl">
+                <Input varient="regular" placeholder="Mobile Number" asterisk />
+              </div>
+              <div className="max-w-3xl">
+                <Input varient="regular" placeholder="E-mail ID" asterisk />
+              </div>
+              <div className="max-w-3xl">
+                <Input varient="regular" placeholder="Status" asterisk />
               </div>
             </div>
           </FormWraper>
