@@ -4,12 +4,11 @@ import Sidebar from "components/sidebar";
 import * as styles from "./styles.module.scss";
 import { PageProps } from "gatsby";
 import Navbar from "components/navbar";
-
-const routeNotToInclude = ["/login/"];
+const routeNotToInclude = ["/login/", "/reset-password/", "/forgot-password/"];
 
 const Layout = ({ children }: PageProps) => {
   return (
-    <div className="container mx-6">
+    <div className=" mx-6">
       {!routeNotToInclude.includes(location?.pathname) ? (
         <div className={styles.layout}>
           <Sidebar />

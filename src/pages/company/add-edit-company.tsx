@@ -1,9 +1,11 @@
 import SelectBox from "components/selectBox";
 import InputOtp from "components/otp";
-import React, { useState } from "react";
+import React, { CSSProperties, useEffect, useState } from "react";
 import Input from "components/input";
 import FormWraper from "components/form-wrapper";
 import FormSection from "components/form-sections";
+import * as styles from "./styles.module.scss";
+import DNDImage from "components/dnd-image";
 
 const data = [
   { name: "Wade Cooper" },
@@ -14,11 +16,69 @@ const data = [
   { name: "Hellen Schmidt" },
 ];
 
+const thumbsContainer: CSSProperties = {
+  display: "flex",
+  flexDirection: "row",
+  flexWrap: "wrap",
+  marginTop: 16,
+};
+
+const thumb: CSSProperties = {
+  display: "inline-flex",
+  borderRadius: 2,
+  border: "1px solid #eaeaea",
+  marginBottom: 8,
+  marginRight: 8,
+  width: 100,
+  height: 100,
+  padding: 4,
+  boxSizing: "border-box",
+};
+
+const thumbInner: CSSProperties = {
+  display: "flex",
+  minWidth: 0,
+  overflow: "hidden",
+};
+
+const img: CSSProperties = {
+  display: "block",
+  width: "auto",
+  height: "100%",
+};
+
+interface FileProps extends File {
+  preview: string;
+}
+
 const AddEditCompany = () => {
   const [OTP, setOTP] = useState<string>("");
+
+  const [files, setFiles] = useState<FileProps[]>([]);
+
   function handleChange(OTP: string) {
     setOTP(OTP);
   }
+
+  useEffect(() => {
+    // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
+    return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
+  }, []);
+
+  const thumbs = files.map((file) => (
+    <div style={thumb} key={file.name}>
+      <div style={thumbInner}>
+        <img
+          src={file.preview}
+          style={img}
+          // Revoke data uri after image is loaded
+          onLoad={() => {
+            URL.revokeObjectURL(file.preview);
+          }}
+        />
+      </div>
+    </div>
+  ));
 
   return (
     <>
@@ -31,6 +91,8 @@ const AddEditCompany = () => {
           value={OTP}
           renderSeparator={<>-</>}
         /> */}
+        {/* <Input varient="regular" /> */}
+
         <FormSection title="Company Details">
           <FormWraper>
             <div className="grid grid-flow-row grid-cols-2 gap-7">
@@ -50,6 +112,31 @@ const AddEditCompany = () => {
                   asterisk
                 />
               </div>
+              <label htmlFor="">Upload Logo</label>
+              <label htmlFor=""></label>
+              <div className={styles.file}>
+                <DNDImage setFiles={setFiles} />
+              </div>
+
+              <aside className={styles.preview}>
+                {files?.[0]?.preview ? (
+                  <img
+                    src={files?.[0]?.preview}
+                    alt="/assets/images/picture.svg"
+                    // Revoke data uri after image is loaded
+                    onLoad={() => {
+                      URL.revokeObjectURL(files?.[0]?.preview);
+                    }}
+                  />
+                ) : (
+                  <img
+                    src="/assets/images/picture.svg"
+
+                    // alt="/assets/images/picture.svg"
+                    // Revoke data uri after image is loaded
+                  />
+                )}
+              </aside>
             </div>
           </FormWraper>
         </FormSection>

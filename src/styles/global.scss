@@ -12,8 +12,14 @@
   padding: 0%;
 }
 
+// $test-color: pink;
+// @mixin fun() {
+//   --color-test: #{$test-color};
+// }
+
 @layer base {
   :root {
+    // @include fun();
     /* white shades */
     --color-white: #ffffff;
     --color-white-80: #ffffff80;
@@ -56,13 +62,12 @@
     --font-size-16: 16px;
     --font-size-25: 25px;
   }
-
-  /* :root[data-theme="dark"] {
-    --color-bg-yellow: 24, 28, 33, 1;
-    --color-bg-teal: 150, 255, 29, 0.32;
-    --color-bg-gray: 3, 13, 3, 0.15;
-  } */
 }
+
+// :root[data-theme="dark"] {
+//   $test-color: yellow;
+//   @include fun();
+// }
 
 body {
   /* background: transparent

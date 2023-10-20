@@ -41,6 +41,8 @@ module.exports = {
         hummingbird_green: "var(--color-hummingbird_green)",
         salad_green: "var(--color-salad_green)",
         medium_aquamarine: "var(--color-medium_aquamarine)",
+
+        // test_color: "var(--color-test)",
       },
     },
   },
