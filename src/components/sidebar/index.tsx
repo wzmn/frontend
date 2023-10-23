@@ -56,7 +56,7 @@ const Sidebar = () => {
       <div className={styles.userDetails}>
         <img
           className={styles.userImg}
-          src="/assets/images/Group+.png"
+          src="/assets/images/Group.png"
           alt="user image"
         />
         <div className={styles.userName}>

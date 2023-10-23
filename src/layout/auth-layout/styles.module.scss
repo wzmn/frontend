@@ -1,0 +1,148 @@
+.auth-layout {
+  height: 100vh;
+  background: transparent
+    linear-gradient(
+      119deg,
+      var(--color-candlelight) 0%,
+      var(--color-aqua_blue_light) 0%,
+      var(--color-dusty_grey) 100%
+    )
+    0% 0% no-repeat padding-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: "";
+    background: url("/assets/images/Group.png");
+    background-size: contain;
+    position: absolute;
+    width: 22rem;
+    height: 23rem;
+    right: 8.935rem;
+    bottom: -6rem;
+    z-index: -1;
+    overflow: hidden;
+  }
+
+  & .t-point,
+  .m-point,
+  .b-point {
+    z-index: -10;
+    // position: absolute;
+    // display: none;
+  }
+
+  & .t-point::before {
+    content: "";
+    position: absolute;
+    width: 1.313rem;
+    height: 1.688rem;
+    top: 5%;
+    left: 28%;
+    background-color: var(--color-candlelight);
+    clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%);
+    // rotate: 180deg;
+  }
+
+  & .t-point::after {
+    content: "";
+    position: absolute;
+    width: 1.313rem;
+    height: 1.688rem;
+    top: 10%;
+    left: 80%;
+    background-color: var(--color-hummingbird_green);
+    clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%);
+    rotate: 180deg;
+  }
+
+  & .m-point::before {
+    content: "";
+    position: absolute;
+    width: 1.313rem;
+    height: 1.688rem;
+    top: 50%;
+    left: 19rem;
+    background-color: var(--color-dark_sky_blue);
+    clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%);
+    rotate: 90deg;
+  }
+
+  & .m-point::after {
+    content: "";
+    position: absolute;
+    width: 1.313rem;
+    height: 1.688rem;
+    top: 32.063rem;
+    left: 107.75rem;
+    background-color: var(--color-candlelight);
+    clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%);
+    // rotate: 180deg;
+  }
+
+  & .b-point::before {
+    content: "";
+    position: absolute;
+    width: 1.313rem;
+    height: 1.688rem;
+    top: 56.375rem;
+    left: 29.875rem;
+    background-color: var(--color-candlelight);
+    clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%);
+    rotate: 180deg;
+  }
+
+  & .b-point::after {
+    content: "";
+    position: absolute;
+    width: 1.313rem;
+    height: 1.688rem;
+    top: 50.875rem;
+    left: 86.5rem;
+    background-color: var(--color-aqua_blue);
+    clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%);
+    rotate: 270deg;
+  }
+}
+
+.login-card {
+  width: 35.063rem;
+  //   height: 41.375rem;
+  /* background: #ffffff 0% 0% no-repeat padding-box; */
+  box-shadow: 20px 20px 40px var(--color-half_black);
+  border: 1px solid var(--color-dove_grey);
+  border-radius: 12px;
+  padding: 2.792rem 2.3rem;
+}
+
+.img {
+  width: 10.813173rem;
+  height: 3.063rem;
+  background-image: url("/assets/images/Snippit_Logo.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.content {
+  margin-top: 4.063rem;
+  margin-left: 2.93825rem;
+  width: 22.875rem;
+}
+
+.h2 {
+  font-weight: 700;
+  font-size: var(--font-size-25);
+}
+
+.h3 {
+  color: var(--color-cloudy_grey);
+  font-size: var(--font-size-16);
+}
+
+.forgot-password {
+  color: var(--color-dark_sky_blue);
+  text-align: center;
+}

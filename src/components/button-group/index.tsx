@@ -16,8 +16,8 @@ const ButtonGroup = ({
   ...props
 }: Props) => {
   return (
-    <div className={styles.gBtnCont}>
-      <button {...props} className={` ${styles.gBtn}`} type="button">
+    <button {...props} className={styles.gBtnCont} type="button">
+      <div className={` ${styles.gBtn}`}>
         {icon && <div className="icon">{icon}</div>}
         <p className={styles.title}>{title}</p>
         {/* {isLoading && (
@@ -25,9 +25,9 @@ const ButtonGroup = ({
           <FaBeer />
         </div>
       )} */}
-      </button>
+      </div>
       <span className={styles.group}>{groupTitle}</span>
-    </div>
+    </button>
   );
 };
 

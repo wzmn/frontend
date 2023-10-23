@@ -1,5 +1,5 @@
 import React from "react";
-import * as styles from "./styles.module.css";
+import * as styles from "./styles.module.scss";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsThreeDots } from "react-icons/bs";
 import { useRightBarContext } from "../../providers/right-bar-provider";

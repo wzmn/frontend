@@ -7,6 +7,7 @@ import * as styles from "./styles.module.scss";
 import SelectBox from "components/selectBox";
 import { UnitTypes, StreetTypes, States } from "../../constants";
 import ButtonGroup from "components/button-group";
+import { useRightBarContext } from "providers/right-bar-provider";
 
 interface FileProps extends File {
   preview: string;
@@ -16,6 +17,8 @@ const AddEditCompany = () => {
   const [OTP, setOTP] = useState<string>("");
 
   const [files, setFiles] = useState<FileProps[]>([]);
+
+  const { toggle } = useRightBarContext();
 
   function handleChange(OTP: string) {
     setOTP(OTP);
@@ -28,6 +31,7 @@ const AddEditCompany = () => {
 
   return (
     <>
+      <p className={styles.title}>Create Company</p>
       <div className="space-y-16 mb-3">
         {/* <SelectBox data={data} />
 
@@ -159,9 +163,21 @@ const AddEditCompany = () => {
                 mustr be accompanied by an official translation.
               </p>
               <div className="grid grid-flow-row grid-cols-2 gap-7">
-                <ButtonGroup title="Primary Documents" groupTitle="Upload" />
-                <ButtonGroup title="Secondary Documents" groupTitle="Upload" />
-                <ButtonGroup title="Additional Documents" groupTitle="Upload" />
+                <ButtonGroup
+                  onClick={toggle}
+                  title="Primary Documents"
+                  groupTitle="Upload"
+                />
+                <ButtonGroup
+                  onClick={toggle}
+                  title="Secondary Documents"
+                  groupTitle="Upload"
+                />
+                <ButtonGroup
+                  onClick={toggle}
+                  title="Additional Documents"
+                  groupTitle="Upload"
+                />
               </div>
             </>
           </FormWraper>
