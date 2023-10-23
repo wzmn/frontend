@@ -45,7 +45,7 @@ const AddEditCompany = () => {
 
         <FormSection title="Company Details">
           <FormWraper>
-            <div className="grid grid-flow-row grid-cols-2 gap-7">
+            <div className={styles.formGrid}>
               <div className="max-w-3xl">
                 <Input varient="regular" placeholder="ABN No." asterisk />
               </div>
@@ -93,7 +93,7 @@ const AddEditCompany = () => {
 
         <FormSection title="Address Details">
           <FormWraper>
-            <div className="grid grid-flow-row grid-cols-2 gap-7">
+            <div className={styles.formGrid}>
               <div className="max-w-3xl">
                 <Input
                   varient="regular"
@@ -162,7 +162,7 @@ const AddEditCompany = () => {
                 You must upload at least ONE Primary document. Foreign documents
                 mustr be accompanied by an official translation.
               </p>
-              <div className="grid grid-flow-row grid-cols-2 gap-7">
+              <div className={styles.formGrid}>
                 <ButtonGroup
                   onClick={toggle}
                   title="Primary Documents"
@@ -185,7 +185,7 @@ const AddEditCompany = () => {
 
         <FormSection title="Owner Details">
           <FormWraper>
-            <div className="grid grid-flow-row grid-cols-2 gap-7">
+            <div className={styles.formGrid}>
               <div className="max-w-3xl">
                 <Input varient="regular" placeholder="First Name" asterisk />
               </div>

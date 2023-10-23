@@ -11,7 +11,7 @@ $shrink-sidebar-width: 5rem;
   width: $sidebar-width;
   height: 100vh;
 
-  transition: all 1s ease-in-out;
+  transition: all 0.25s ease-in-out;
   transition-property: width, transform;
   transform: translateX(-$sidebar-width - 1rem);
 
@@ -20,6 +20,8 @@ $shrink-sidebar-width: 5rem;
 
     & .sidebar {
       & .title-img {
+        width: 13.45rem;
+        height: 3.778rem;
         background-image: url("/assets/images/Snippit_Logo.png");
       }
     }
@@ -59,25 +61,15 @@ $shrink-sidebar-width: 5rem;
     background-color: white;
 
     & .title-img {
-      width: 13.45rem;
-      height: 3.778rem;
+      width: 10rem;
+      height: 2.4rem;
+
       // background-color: pink;
       background-size: contain;
       background-repeat: no-repeat;
       transition: all 1s;
 
-      @include lg {
-        width: 10rem;
-        height: 2.4rem;
-
-        background-image: url("/assets/images/logo.png");
-      }
-
-      @include xl {
-        width: 13.45rem;
-        height: 3.778rem;
-        background-image: url("/assets/images/Snippit_Logo.png");
-      }
+      background-image: url("/assets/images/logo.png");
     }
 
     // & > .img > img {

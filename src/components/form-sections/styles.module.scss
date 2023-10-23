@@ -3,8 +3,9 @@
   // padding: 0rem 1.688rem;
   display: flex;
   gap: 1rem;
-  align-items: flex-start;
-  justify-content: flex-start;
+  flex-direction: column;
+  padding: 0rem 2rem;
+
   & .label {
     color: var(--color-black);
     position: relative;
@@ -25,9 +26,11 @@
     }
   }
 
-  @include lg {
-    flex-direction: column;
+  @include xl {
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 0rem 0rem;
+
     // background-color: pink;
-    align-items: stretch;
   }
 }
