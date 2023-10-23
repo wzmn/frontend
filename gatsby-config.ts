@@ -3,7 +3,7 @@ import path from "path";
 
 const config: GatsbyConfig = {
   siteMetadata: {
-    siteUrl: `https://www.yourdomain.tld`,
+    siteUrl: `http://localhost:8000/`,
     contact: "example@example.com",
   },
 

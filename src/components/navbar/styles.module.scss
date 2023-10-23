@@ -1,4 +1,5 @@
 @import "styles/variable.scss";
+@import "styles/media.scss";
 
 .navbar {
   display: flex;
@@ -6,4 +7,10 @@
   justify-content: space-between;
   // background-color: pink;
   height: $navbar-height;
+
+  & .berger {
+    @include lg {
+      display: none;
+    }
+  }
 }

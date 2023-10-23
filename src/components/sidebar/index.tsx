@@ -1,6 +1,11 @@
 import React from "react";
-import { AiOutlinePoweroff } from "react-icons/ai";
-import * as styles from "./styles.module.css";
+import {
+  AiOutlinePoweroff,
+  AiOutlineLeftCircle,
+  AiFillAmazonCircle,
+} from "react-icons/ai";
+import * as styles from "./styles.module.scss";
+import { useSidebarContext } from "providers/sidebar-provider";
 
 const sideBarData = [
   {
@@ -34,38 +39,45 @@ const sideBarData = [
 ] as const;
 
 const Sidebar = () => {
+  const { sidebarFlag, toggle } = useSidebarContext();
+  const screenWidth = window.innerWidth > 0 ? window.innerWidth : screen.width;
+
   return (
-    <div className={styles.sidebar}>
-      <div className="">
-        <div className={styles.img}>
-          <img src="/assets/images/Snippit_Logo.png" alt="snippit" />
+    <div className={`${styles.sidebarCont} ${sidebarFlag && styles.slideIn}`}>
+      <span className={styles.backArrow} onClick={toggle}>
+        <AiOutlineLeftCircle />
+      </span>
+      <div className={`${styles.sidebar} `}>
+        <div className="">
+          {/* {sidebarFlag + ""} */}
+          <div className={styles.titleImg}></div>
+
+          <div className={styles.iconsCont}>
+            {sideBarData.map((item, key) => {
+              return (
+                <div className={styles.icons}>
+                  <img className={styles.img} src={item.svg} alt={item.title} />
+                  <p>{item.title}</p>
+                </div>
+              );
+            })}
+          </div>
         </div>
 
-        <div className={styles.iconsCont}>
-          {sideBarData.map((item, key) => {
-            return (
-              <div className={styles.icons}>
-                <img className={styles.img} src={item.svg} alt={item.title} />
-                <p>{item.title}</p>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
-      <div className={styles.userDetails}>
-        <img
-          className={styles.userImg}
-          src="/assets/images/Group.png"
-          alt="user image"
-        />
-        <div className={styles.userName}>
-          <p>Jason Jackson</p>
-          <div className={styles.userRole}>
-            <p>Superadmin</p>
-            <span className={styles.icon}>
-              <AiOutlinePoweroff />
-            </span>
+        <div className={styles.userDetails}>
+          <img
+            className={styles.userImg}
+            src="/assets/images/Group.png"
+            alt="user image"
+          />
+          <div className={styles.userName}>
+            <p>Jason Jackson</p>
+            <div className={styles.userRole}>
+              <p>Superadmin</p>
+              <span className={styles.icon}>
+                <AiOutlinePoweroff />
+              </span>
+            </div>
           </div>
         </div>
       </div>

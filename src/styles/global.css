@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
-@import "./variable.scss";
+/* @import "./variable.scss"; */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -12,14 +12,14 @@
   padding: 0%;
 }
 
-// $test-color: pink;
+/* // $test-color: pink;
 // @mixin fun() {
 //   --color-test: #{$test-color};
-// }
+// } */
 
 @layer base {
   :root {
-    // @include fun();
+    /* // @include fun(); */
     /* white shades */
     --color-white: #ffffff;
     --color-white-80: #ffffff80;
@@ -64,10 +64,10 @@
   }
 }
 
-// :root[data-theme="dark"] {
+/* // :root[data-theme="dark"] {
 //   $test-color: yellow;
 //   @include fun();
-// }
+// } */
 
 body {
   /* background: transparent

@@ -6,22 +6,30 @@ import { PageProps } from "gatsby";
 import Navbar from "components/navbar";
 import Footer from "./footer.tsx";
 import AuthLayout from "./auth-layout";
+import SidebarContext from "providers/sidebar-provider";
 const routeNotToInclude = ["/login/", "/reset-password/", "/forgot-password/"];
 
-const Layout = ({ children }: PageProps) => {
-  return (
-    <div className="relative mx-6">
-      {!routeNotToInclude.includes(location?.pathname) ? (
-        <div className={styles.layout}>
-          <Sidebar />
-          <div className={styles.children}>
-            <Navbar />
+type Props = {
+  children: React.ReactNode;
+};
 
-            <div className={styles.mainContent}>{children}</div>
-            <Footer />
+const Layout = ({ children }: Props) => {
+  let pathname = typeof window !== "undefined" ? window.location.pathname : "";
+  return (
+    <div className={styles.container}>
+      {!routeNotToInclude.includes(pathname) ? (
+        <SidebarContext>
+          <div className={`${styles.layout} `}>
+            <Sidebar />
+            <div className={styles.children}>
+              <Navbar />
+
+              <div className={styles.mainContent}>{children}</div>
+              <Footer />
+            </div>
+            <RightBar /> {/* has absolute position */}
           </div>
-          <RightBar /> {/* has absolute position */}
-        </div>
+        </SidebarContext>
       ) : (
         <AuthLayout>
           <div>
