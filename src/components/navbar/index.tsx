@@ -19,15 +19,15 @@ const Navbar = () => {
     <div className={styles.navbar}>
       <div className="w-72 flex items-center gap-3">
         <FaGripLines onClick={toggle} className={styles.berger} />
-        <div className="flex-1">
+        {/* <div className="flex-1">
           <SelectBox color="gray" data={data} />
-        </div>
+        </div> */}
       </div>
       <div className="flex items-center gap-4">
         <FaRegBell className="text-2xl" />
-        <div className="w-72">
+        {/* <div className="w-72">
           <SelectBox color="gray" data={data} />
-        </div>
+        </div> */}
       </div>
     </div>
   );
