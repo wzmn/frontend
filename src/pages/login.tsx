@@ -1,12 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import * as styles from "../layout/auth-layout/styles.module.scss";
 import { AiFillAccountBook, AiFillAlert } from "react-icons/ai";
 import Button from "components/button";
 import Input from "components/input";
 import Label from "components/label";
 import { Link } from "gatsby";
+import Axios from "services/Axios";
 
 const Login = () => {
+  useEffect(() => {
+    Axios.post("/users/login/", {
+      username: "admin@example.com",
+      password: "Test@4321",
+    })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <>
       <div className={`${styles.loginCard} bg-white `}>

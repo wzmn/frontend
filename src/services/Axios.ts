@@ -1,6 +1,22 @@
-import axios from "axios";
+import axios, { AxiosInstance } from "axios";
 
-const Axios = axios.create();
+const Axios: AxiosInstance = axios.create({
+  baseURL: "http://dev-services.snippit.com.au/api",
+  timeout: 10000,
+  params: {}, // do not remove this, its added to add params later in the config
+});
+
+// Add a request interceptor
+Axios.interceptors.request.use(
+  function (config) {
+    // Do something before request is sent
+    return config;
+  },
+  function (error) {
+    // Do something with request error
+    return Promise.reject(error);
+  }
+);
 
 // Add a response interceptor
 Axios.interceptors.response.use(
