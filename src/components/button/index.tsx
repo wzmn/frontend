@@ -43,7 +43,6 @@ const Button = ({ title, isLoading, icon, ...props }: Props) => {
       className={` ${styles.btn} ${sizeHandler()} ${widthHandler(
         "full"
       )} ${colorHandler("blue")} ${props?.className}`}
-      type="button"
     >
       {icon && <div className="icon">{icon}</div>}
       <p className={styles.title}>{title}</p>

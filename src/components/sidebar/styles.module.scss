@@ -160,11 +160,11 @@ $shrink-sidebar-width: 5rem;
 }
 
 .user-details > .user-name > p {
-  font-size: 16px;
+  font-size: $font-normal;
 }
 
 .user-details > .user-name > .user-role {
-  font-size: 14px;
+  font-size: $font-medium;
   display: flex;
   gap: 0.3rem;
   align-items: center;

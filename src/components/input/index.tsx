@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { forwardRef } from "react";
 import * as styles from "./Input.module.scss";
 
 type Varient = "auth" | "regular";
@@ -7,6 +7,7 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   //...add your custom types here
   varient?: Varient;
   asterisk?: boolean;
+  errorMessage?: string;
 }
 
 function handleVarient(str: string) {
@@ -21,28 +22,37 @@ function handleVarient(str: string) {
   }
 }
 
-const Input = ({ type, placeholder, varient = "auth", ...props }: Props) => {
-  const inputRef = useRef<HTMLInputElement>(null);
+const Input = forwardRef<HTMLInputElement, Props>((props, ref) => {
+  const { placeholder, varient = "auth", errorMessage } = props;
 
   return (
-    <div tabIndex={0} className={styles.inputCont}>
-      <input
-        ref={inputRef}
-        {...props}
-        className={handleVarient(varient)}
-        type={type}
-        placeholder=""
-      />
-      <span
-        className={styles.placeholder}
-        onClick={(e) => inputRef?.current?.focus()}
-      >
-        {placeholder}{" "}
-        {props?.asterisk && <span className="text-red-500">*</span>}
-      </span>
+    <div className={styles.inputCont}>
+      <div className={styles.inputHolder}>
+        <input
+          ref={ref}
+          {...props}
+          className={handleVarient(varient)}
+          placeholder=""
+        />
+        <span
+          className={styles.placeholder}
+          onClick={(e) =>
+            (
+              (e.target as HTMLElement)
+                .previousElementSibling as HTMLInputElement
+            ).focus()
+          }
+        >
+          {placeholder}{" "}
+          {props?.asterisk && <span className="text-red-500">*</span>}
+        </span>
+      </div>
+      {errorMessage && (
+        <span className={styles.errorMessage}>{errorMessage}</span>
+      )}
     </div>
   );
-};
+});
 
 Input.defaultProps = {
   type: "text",

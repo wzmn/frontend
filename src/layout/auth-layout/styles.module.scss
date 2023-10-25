@@ -1,3 +1,4 @@
+@import "styles/variable.scss";
 .auth-layout {
   height: 100vh;
   background: transparent
@@ -134,15 +135,16 @@
 
 .h2 {
   font-weight: 700;
-  font-size: var(--font-size-25);
+  font-size: $font-larger;
 }
 
 .h3 {
   color: var(--color-cloudy_grey);
-  font-size: var(--font-size-16);
+  font-size: $font-normal;
 }
 
 .forgot-password {
+  font-size: $font-medium;
   color: var(--color-dark_sky_blue);
   text-align: center;
 }

@@ -26,7 +26,7 @@ const ForgotPassword = () => {
             className="mt-10 font-bold"
           />
 
-          <div className={`${styles.forgotPassword} font-size14 mt-10 `}>
+          <div className={`${styles.forgotPassword} mt-10 `}>
             <span className="text-black">Back to</span>{" "}
             <Link to="/login" replace>
               Login

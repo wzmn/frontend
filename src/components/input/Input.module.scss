@@ -1,51 +1,60 @@
+@import "styles/variable.scss";
 .input-cont {
-  position: relative;
-
-  & .placeholder {
-    color: var(--color-black);
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    left: 1rem;
-  }
-
-  .input {
-    display: block;
-    border: 1px solid var(--color-cloudy_grey_light);
-    border-radius: 5px;
-    padding-left: 0.3rem;
-    outline: none;
-    padding: 0.3rem 0rem;
-    padding-left: 0.9rem;
-    font-size: medium;
-    width: 100%;
+  & .input-holder {
     position: relative;
 
-    &:not(:placeholder-shown) + .placeholder {
-      display: none;
+    & .placeholder {
+      color: var(--color-black);
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      left: 1rem;
     }
 
-    &:focus + .placeholder {
-      display: none;
+    .input {
+      display: block;
+      border: 1px solid var(--color-cloudy_grey_light);
+      border-radius: 5px;
+      padding-left: 0.3rem;
+      outline: none;
+      padding: 0.3rem 0rem;
+      padding-left: 0.9rem;
+      font-size: medium;
+      width: 100%;
+      position: relative;
+      margin-bottom: 0.2rem;
+
+      &:not(:placeholder-shown) + .placeholder {
+        display: none;
+      }
+
+      &:focus + .placeholder {
+        display: none;
+      }
+
+      &.login {
+        background-color: var(--color-white);
+      }
+
+      &.regular {
+        background-color: var(--color-white80);
+      }
+
+      // &::-webkit-input-placeholder::first-letter {
+      //   color: red;
+      //   border-bottom: 1px solid red;
+      // }
+
+      // &::-ms-input-placeholder {
+      //   /* Edge 12 -18 */
+      //   color: var(--color-black);
+      // }
     }
+  }
 
-    &.login {
-      background-color: var(--color-white);
-    }
-
-    &.regular {
-      background-color: var(--color-white80);
-    }
-
-    // &::-webkit-input-placeholder::first-letter {
-    //   color: red;
-    //   border-bottom: 1px solid red;
-    // }
-
-    // &::-ms-input-placeholder {
-    //   /* Edge 12 -18 */
-    //   color: var(--color-black);
-    // }
+  .error-message {
+    font-size: $font-small;
+    color: rgb(236, 76, 76);
   }
 }
 

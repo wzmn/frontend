@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.17",
+    "@hookform/resolvers": "^3.3.2",
     "axios": "^1.5.1",
     "gatsby": "^5.12.3",
     "gatsby-image": "^3.11.0",

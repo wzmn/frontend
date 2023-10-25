@@ -16,7 +16,7 @@
     display: flex;
     align-items: center;
     color: var(--color-cloudy_grey);
-    font-size: 0.875rem;
+    font-size: $font-medium;
 
     & ul {
       $margin-right-li: 0.6rem;
@@ -35,7 +35,7 @@
         display: inline-block;
         &::before {
           content: "•";
-          font-size: 1.4rem;
+          font-size: $font-larger;
           //   vertical-align: middle;
           color: var(--color-cloudy_grey);
           margin-right: $margin-right-li;
