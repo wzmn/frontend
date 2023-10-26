@@ -8,6 +8,7 @@ import SelectBox from "components/selectBox";
 import { UnitTypes, StreetTypes, States } from "../../constants";
 import ButtonGroup from "components/button-group";
 import { useRightBarContext } from "providers/right-bar-provider";
+import TextField from "components/text-field";
 
 interface FileProps extends File {
   preview: string;
@@ -32,6 +33,7 @@ const AddEditCompany = () => {
   return (
     <>
       <p className={styles.title}>Create Company</p>
+
       <div className="space-y-16 mb-3">
         {/* <SelectBox data={data} />
 
@@ -47,20 +49,16 @@ const AddEditCompany = () => {
           <FormWraper>
             <div className={styles.formGrid}>
               <div className="max-w-3xl">
-                <Input varient="regular" placeholder="ABN No." asterisk />
+                <TextField title="ABN No." asterisk errorMessage="Abn" />
               </div>
               <div className="max-w-3xl">
-                <Input varient="regular" placeholder="Company Name" asterisk />
+                <TextField title="Company Name" asterisk />
               </div>
               <div className="max-w-3xl">
-                <Input varient="regular" placeholder="Mobile Number" asterisk />
+                <TextField title="Mobile Number" asterisk />
               </div>
               <div className="max-w-3xl">
-                <Input
-                  varient="regular"
-                  placeholder="Company E-mail ID"
-                  asterisk
-                />
+                <TextField title="Company E-mail ID" asterisk />
               </div>
               <label htmlFor="">Upload Logo</label>
               <label htmlFor=""></label>
@@ -95,14 +93,10 @@ const AddEditCompany = () => {
           <FormWraper>
             <div className={styles.formGrid}>
               <div className="max-w-3xl">
-                <Input
-                  varient="regular"
-                  placeholder="Building Name."
-                  asterisk
-                />
+                <TextField title="Building Name." asterisk />
               </div>
               <div className="max-w-3xl">
-                <Input varient="regular" placeholder="Level No" asterisk />
+                <TextField title="Level No" asterisk />
               </div>
               <div className="max-w-3xl">
                 <SelectBox
@@ -112,11 +106,11 @@ const AddEditCompany = () => {
                 />
               </div>
               <div className="max-w-3xl">
-                <Input varient="regular" placeholder="Unit No" asterisk />
+                <TextField title="Unit No" asterisk />
               </div>
 
               <div className="max-w-3xl">
-                <Input varient="regular" placeholder="Lot No." asterisk />
+                <TextField title="Lot No." asterisk />
               </div>
               <div className="max-w-3xl">
                 <div className="max-w-3xl">
@@ -128,27 +122,27 @@ const AddEditCompany = () => {
                 </div>
               </div>
               <div className="max-w-3xl">
-                <Input varient="regular" placeholder="Street Name" asterisk />
+                <TextField title="Street Name" asterisk />
               </div>
               <div className="max-w-3xl">
-                <Input varient="regular" placeholder="Street Type" asterisk />
+                <TextField title="Street Type" asterisk />
               </div>
 
               <div className="max-w-3xl">
-                <Input varient="regular" placeholder="Suffix." asterisk />
+                <TextField title="Suffix." asterisk />
               </div>
               <div className="max-w-3xl">
-                <Input varient="regular" placeholder="Suburb" asterisk />
+                <TextField title="Suburb" asterisk />
               </div>
               <div className="max-w-3xl">
                 <SelectBox placeholder="State" data={States} asterisk />
               </div>
               <div className="max-w-3xl">
-                <Input varient="regular" placeholder="Pincode" asterisk />
+                <TextField title="Pincode" asterisk />
               </div>
 
               <div className="max-w-3xl">
-                <Input varient="regular" placeholder="LGA" asterisk />
+                <TextField title="LGA" asterisk />
               </div>
             </div>
           </FormWraper>
@@ -187,19 +181,19 @@ const AddEditCompany = () => {
           <FormWraper>
             <div className={styles.formGrid}>
               <div className="max-w-3xl">
-                <Input varient="regular" placeholder="First Name" asterisk />
+                <TextField title="First Name" asterisk />
               </div>
               <div className="max-w-3xl">
-                <Input varient="regular" placeholder="Last Name" asterisk />
+                <TextField title="Last Name" asterisk />
               </div>
               <div className="max-w-3xl">
-                <Input varient="regular" placeholder="Mobile Number" asterisk />
+                <TextField title="Mobile Number" asterisk />
               </div>
               <div className="max-w-3xl">
-                <Input varient="regular" placeholder="E-mail ID" asterisk />
+                <TextField title="E-mail ID" asterisk />
               </div>
               <div className="max-w-3xl">
-                <Input varient="regular" placeholder="Status" asterisk />
+                <TextField title="Status" asterisk />
               </div>
             </div>
           </FormWraper>

@@ -34,7 +34,7 @@
 .form-grid {
   display: grid;
   grid-auto-flow: row;
-  gap: 1.75rem;
+  gap: 2.2rem;
   grid-template-columns: repeat(1, minmax(0, 1fr));
 
   @include lg {
