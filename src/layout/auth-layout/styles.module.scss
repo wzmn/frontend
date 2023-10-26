@@ -1,4 +1,6 @@
 @import "styles/variable.scss";
+@import "styles/media.scss";
+
 .auth-layout {
   height: 100vh;
   background: transparent
@@ -14,6 +16,7 @@
   align-items: center;
   position: relative;
   overflow: hidden;
+  // overflow-y: scroll;
 
   &::after {
     content: "";
@@ -110,13 +113,17 @@
 }
 
 .login-card {
-  width: 35.063rem;
   //   height: 41.375rem;
+  width: 21.063rem;
+
   /* background: #ffffff 0% 0% no-repeat padding-box; */
   box-shadow: 20px 20px 40px var(--color-half_black);
   border: 1px solid var(--color-dove_grey);
   border-radius: 12px;
   padding: 2.792rem 2.3rem;
+  @include sm {
+    width: 35.063rem;
+  }
 }
 
 .img {
@@ -129,8 +136,12 @@
 
 .content {
   margin-top: 4.063rem;
-  margin-left: 2.93825rem;
-  width: 22.875rem;
+  margin-left: 0.93825rem;
+
+  @include sm {
+    width: 22.875rem;
+    margin-left: 2.93825rem;
+  }
 }
 
 .h2 {
