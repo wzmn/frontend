@@ -7,6 +7,7 @@ import Navbar from "components/navbar";
 import Footer from "./footer.tsx";
 import AuthLayout from "./auth-layout";
 import SidebarContext from "providers/sidebar-provider";
+
 const routeNotToInclude = ["/login/", "/reset-password/", "/forgot-password/"];
 
 type Props = {
@@ -16,7 +17,7 @@ type Props = {
 const Layout = ({ children }: Props) => {
   let pathname = typeof window !== "undefined" ? window.location.pathname : "";
   return (
-    <div className={styles.container}>
+    <div className="c-container">
       {!routeNotToInclude.includes(pathname) ? (
         <SidebarContext>
           <div className={`${styles.layout} `}>

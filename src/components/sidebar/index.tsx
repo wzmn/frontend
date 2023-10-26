@@ -40,7 +40,6 @@ const sideBarData = [
 
 const Sidebar = () => {
   const { sidebarFlag, toggle } = useSidebarContext();
-  const screenWidth = window.innerWidth > 0 ? window.innerWidth : screen.width;
 
   return (
     <div className={`${styles.sidebarCont} ${sidebarFlag && styles.slideIn}`}>

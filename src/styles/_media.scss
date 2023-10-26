@@ -30,7 +30,7 @@ $breakpoints: (
   }
 }
 
-@mixin xl2 {
+@mixin xl-2 {
   @media (min-width: map-get($breakpoints,"2xl")) {
     @content;
   }

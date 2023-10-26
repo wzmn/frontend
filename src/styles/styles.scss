@@ -1,0 +1,30 @@
+@import "./media";
+@import "./variable";
+@import "./common";
+
+$container-width: 100%;
+
+@include sm {
+  $container-width: 640px !global;
+}
+
+@include md {
+  $container-width: 768px !global;
+}
+
+@include lg {
+  $container-width: 1024px !global;
+}
+
+@include xl {
+  $container-width: 1280px !global;
+}
+
+@include xl-2 {
+  $container-width: 1536px !global;
+}
+
+.c-container {
+  width: $container-width;
+  margin: 0rem auto;
+}

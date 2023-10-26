@@ -8,7 +8,7 @@ $shrink-sidebar-width: 5rem;
   z-index: 1;
   // overflow: hidden;
   position: absolute;
-  background-color: pink;
+
   width: $sidebar-width;
   height: 100vh;
 
@@ -49,14 +49,6 @@ $shrink-sidebar-width: 5rem;
     flex-direction: column;
     justify-content: space-between;
     position: absolute;
-
-    /* background: transparent
-      linear-gradient(
-        180deg,
-        var(--color-macaw-blue-green) 0%,
-        var(--color-kiwi-green) 100%
-      )
-      0% 0% no-repeat padding-box; */
     padding: 2.285rem 1.464rem;
 
     background-color: white;
@@ -80,6 +72,15 @@ $shrink-sidebar-width: 5rem;
     }
 
     @include scrollBarStyle;
+    @include md {
+      background: transparent
+        linear-gradient(
+          180deg,
+          var(--color-macaw-blue-green) 0%,
+          var(--color-kiwi-green) 100%
+        )
+        0% 0% no-repeat padding-box;
+    }
   }
 
   @include lg {
