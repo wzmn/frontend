@@ -47,9 +47,8 @@ const Input = forwardRef<HTMLInputElement, Props>((props, ref) => {
           {props?.asterisk && <span className="text-red-500">*</span>}
         </span>
       </div>
-      {errorMessage && (
-        <span className={styles.errorMessage}>{errorMessage}</span>
-      )}
+
+      <p className={styles.errorMessage}>{errorMessage}</p>
     </div>
   );
 });

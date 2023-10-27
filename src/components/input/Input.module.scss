@@ -22,7 +22,7 @@
       font-size: medium;
       width: 100%;
       position: relative;
-      margin-bottom: 0.2rem;
+      // margin-bottom: 0.2rem;
 
       &:not(:placeholder-shown) + .placeholder {
         display: none;
@@ -53,6 +53,8 @@
   }
 
   .error-message {
+    // height: $font-small;
+
     font-size: $font-small;
     color: rgb(236, 76, 76);
   }

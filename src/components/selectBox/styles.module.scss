@@ -26,26 +26,30 @@
   width: 100%;
   cursor: pointer;
   border-radius: 0.375rem;
-  padding: 0.5rem 0rem;
+  padding: 0.3rem 0rem;
   padding-left: 0.75rem;
   padding-right: 2.5rem;
   text-align: left;
   outline: none;
   border: none;
+
+  //colors
+  &.gray {
+    background: var(--color-dusty_grey) 0% 0% no-repeat padding-box;
+  }
+
+  &.white {
+    background: var(--color-white-80) 0% 0% no-repeat padding-box;
+  }
+
+  &.full-white {
+    background: white 0% 0% no-repeat padding-box;
+  }
+
+  &.transparent {
+    background: pink 0% 0% no-repeat padding-box;
+    border: 1px solid gray;
+  }
 }
 
 // varients
-
-//colors
-.lst-box-btn.gray {
-  background: var(--color-dusty_grey) 0% 0% no-repeat padding-box;
-}
-
-.lst-box-btn.white {
-  background: var(--color-white-80) 0% 0% no-repeat padding-box;
-}
-
-.lst-box-btn.transparent {
-  background: pink 0% 0% no-repeat padding-box;
-  border: 1px solid gray;
-}

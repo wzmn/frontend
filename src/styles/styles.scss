@@ -2,29 +2,39 @@
 @import "./variable";
 @import "./common";
 
-$container-width: 100%;
+.c-container {
+  width: 100%;
+  margin: 0rem auto;
+  //   height: 100vh;
+  //   background-color: khaki;
+}
 
 @include sm {
-  $container-width: 640px !global;
+  .c-container {
+    width: 640px;
+  }
 }
 
 @include md {
-  $container-width: 768px !global;
+  .c-container {
+    width: 768px;
+  }
 }
 
 @include lg {
-  $container-width: 1024px !global;
+  .c-container {
+    width: 1024px;
+  }
 }
 
 @include xl {
-  $container-width: 1280px !global;
+  .c-container {
+    width: 1280px;
+  }
 }
 
 @include xl-2 {
-  $container-width: 1536px !global;
-}
-
-.c-container {
-  width: $container-width;
-  margin: 0rem auto;
+  .c-container {
+    width: 1536px;
+  }
 }

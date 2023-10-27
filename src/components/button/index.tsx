@@ -1,10 +1,11 @@
 import React from "react";
-import * as styles from "./styles.module.css";
+import * as styles from "./styles.module.scss";
 import { FaBeer } from "react-icons/fa";
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   icon?: JSX.Element;
   isLoading?: boolean;
+  width?: "full" | "fit";
 }
 
 function sizeHandler(size?: string) {
@@ -36,12 +37,12 @@ function colorHandler(size?: string) {
   }
 }
 
-const Button = ({ title, isLoading, icon, ...props }: Props) => {
+const Button = ({ title, isLoading, icon, width, ...props }: Props) => {
   return (
     <button
       {...props}
       className={` ${styles.btn} ${sizeHandler()} ${widthHandler(
-        "full"
+        width
       )} ${colorHandler("blue")} ${props?.className}`}
     >
       {icon && <div className="icon">{icon}</div>}

@@ -66,6 +66,7 @@ const Login = () => {
           <Button
             // icon={<AiFillAlert />}
             // isLoading={true}
+            width="full"
             type="submit"
             title="LOGIN"
             className="mt-10 font-bold"

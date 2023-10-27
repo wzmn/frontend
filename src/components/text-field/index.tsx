@@ -24,7 +24,7 @@ const TextField = forwardRef<HTMLInputElement, Omit<Props, "placeholder">>(
               (
                 (e.target as HTMLElement)
                   .previousElementSibling as HTMLInputElement
-              ).focus()
+              )?.focus()
             }
             className={styles.placeholder}
           >

@@ -8,7 +8,7 @@ type DataProp = {
   label: string;
 };
 
-type color = "gray" | "white" | "transparent1";
+type color = "gray" | "white" | "transparent1" | "full-white";
 
 type Props = {
   data: DataProp[];
@@ -23,6 +23,8 @@ function varientHandler(varient: color = "transparent1") {
       return styles.gray;
     case "white":
       return styles.white;
+    case "full-white":
+      return styles.fullWhite;
     default:
       return styles.transparent1;
   }
