@@ -120,9 +120,8 @@ function DraggableComponent({ title, id, section }: any) {
       isDragging: !!monitor.isDragging(),
     }),
   }));
-
   return (
-    <div className="border" ref={drag}>
+    <div className={`border ${isDragging && "hidden"}`} ref={drag}>
       <p className="bg-white text-center py-2">{title}</p>
     </div>
   );
@@ -138,12 +137,9 @@ function MyDropTarget({ data, title, section, handleDrop }: any) {
   }));
 
   return (
-    <div
-      ref={drop}
-      className={`${styles.dropCont} ${!isOver ? "bg-white" : "bg-gray-600"}  `}
-    >
+    <div ref={drop} className={`${styles.dropCont}   `}>
       <p className={styles.dropContTitle}>{title}</p>
-      <div className={styles.content}>
+      <div className={`${styles.content} ${isOver && styles.over}`}>
         {data?.map((item: any, index: number) => {
           return (
             <DraggableComponent

@@ -11,6 +11,7 @@ import { Link } from "gatsby";
 import Axios from "services/Axios";
 import { useForm } from "react-hook-form";
 import { loginSchema } from "schema/auth-schema";
+import TextField from "components/text-field";
 
 const Login = () => {
   const {
@@ -43,22 +44,18 @@ const Login = () => {
           <h2 className={`${styles.h2} `}>Let's get Started </h2>
           <h3 className={`${styles.h3} `}>Sign In to your account</h3>
 
-          <div className="space-y-4 mt-4">
-            <Label title="Username" htmlFor="username" />
-            <Input
+          <div className="space-y-8 mt-8">
+            <TextField
               {...register("email")}
               id="username"
-              placeholder="Username"
+              title="Username"
               errorMessage={errors.email?.message}
             />
-          </div>
 
-          <div className="space-y-4 mt-4">
-            <Label title="Password" htmlFor="password" />
-            <Input
+            <TextField
               {...register("password")}
               id="password"
-              placeholder="Password"
+              title="Password"
               errorMessage={errors.password?.message}
             />
           </div>

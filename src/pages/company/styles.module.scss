@@ -83,6 +83,11 @@
     overflow-y: scroll;
     height: calc(100% - 2.5px - 3rem);
 
+    &.over {
+      margin-top: 2rem;
+      border-top: 2px solid pink;
+    }
+
     @include scrollBarStyle;
   }
 
