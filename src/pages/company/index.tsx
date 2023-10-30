@@ -5,6 +5,7 @@ import { useDrag, useDrop } from "react-dnd";
 import Input from "components/input";
 import SelectBox from "components/selectBox";
 import * as styles from "./styles.module.scss";
+import Pagination from "components/pagination";
 const dataList = [
   { label: "Wade Cooper" },
   { label: "Arlene Mccoy" },
@@ -12,6 +13,17 @@ const dataList = [
   { label: "Tom Cook" },
   { label: "Tanya Fox" },
   { label: "Hellen Schmidt" },
+];
+
+const pg = [
+  { label: "100" },
+  { label: "1" },
+  { label: "1" },
+  { label: "1" },
+  { label: "1" },
+  { label: "1" },
+  { label: "1" },
+  { label: "1" },
 ];
 
 const Company = () => {
@@ -81,9 +93,9 @@ const Company = () => {
 
         <Input placeholder="Search" />
 
-        <div className="w-64">
+        {/* <div className="w-64">
           <SelectBox color="full-white" data={dataList} />
-        </div>
+        </div> */}
       </div>
 
       <div className="flex gap-7 flex-wrap mb-5">
@@ -106,6 +118,7 @@ const Company = () => {
           data={data.rejected}
         />
       </div>
+      <Pagination />
     </>
   );
 };

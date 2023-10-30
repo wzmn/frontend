@@ -1,0 +1,30 @@
+.select-list-cont {
+  width: fit-content;
+  display: flex;
+  //   background-color: orange;
+  padding: 1rem;
+  position: relative;
+
+  & input[type="checkbox"] {
+    display: none;
+  }
+
+  & .checkbox {
+    padding: 1rem;
+    border: 1px solid pink;
+    width: fit-content;
+    height: fit-content;
+    // position: absolute;
+    // display: inline-block;
+  }
+
+  & .checkbox:nth-child(2n) {
+    // background-color: yellow;
+    margin-right: -1rem;
+  }
+
+  & .checkbox:nth-child(2n):hover {
+    z-index: 1;
+    border-color: gray;
+  }
+}

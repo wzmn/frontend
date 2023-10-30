@@ -44,6 +44,7 @@
     /* gray shades */
     --color-cloudy_grey: #666666;
     --color-dusty_grey: #99999926;
+    --color-dusty_grey_dark: #99999959;
     --color-dove_grey: #7070701c;
     --color-cloudy_grey_light: #66666621;
     --color-cloudy_grey_lighter: #6666668a;
@@ -56,6 +57,10 @@
     --color-salad_green: #86da3d;
     --color-medium_aquamarine: #4ad2a7;
     --color-kiwi-green: #97dc2129;
+
+    /* red shades */
+    --color-red-dark: #e02020;
+    --color-red: #ea1a1a;
 
     /* ######################### size ##################### */
     --font-size-14: 14px;

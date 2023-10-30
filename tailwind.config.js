@@ -29,6 +29,7 @@ module.exports = {
         //gray shades
         cloudy_grey: "var(--color-cloudy_grey)",
         dusty_grey: "var(--color-dusty_grey)",
+        dusty_grey_dark: "var(--color-dusty_grey_dark)",
         dove_grey: "var(--color-dove_grey)",
         cloudy_grey_light: "var(--color-cloudy_grey_light)",
         cloudy_grey_lighter: "var(--color-cloudy_grey_lighter)",
@@ -42,7 +43,9 @@ module.exports = {
         salad_green: "var(--color-salad_green)",
         medium_aquamarine: "var(--color-medium_aquamarine)",
 
-        // test_color: "var(--color-test)",
+        //red shades
+        red_dark: "var(--color-red-dark)",
+        red: "var(--color-red)",
       },
     },
   },

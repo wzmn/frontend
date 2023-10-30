@@ -1,0 +1,20 @@
+@import "styles/variable.scss";
+
+.pagination {
+  width: 50%;
+  margin: 0rem auto;
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.07rem;
+  font-size: $font-normal;
+
+  & .select {
+    //   height: 1.3rem;
+    margin: 0rem 0.4rem;
+    border: 1px solid var(--color-dusty_grey);
+    border-radius: 5px;
+    font-size: $font-base;
+    color: var(--color-blue_dress);
+    outline-color: var(--color-blue_dress);
+  }
+}
