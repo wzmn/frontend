@@ -10,7 +10,7 @@ import ButtonGroup from "components/button-group";
 import { useRightBarContext } from "providers/right-bar-provider";
 import TextField from "components/text-field";
 import Button from "components/button";
-// import SelectList from "components/select-list";
+import SelectList from "components/select-list";
 
 const pg = [
   { label: "100" },
@@ -45,10 +45,8 @@ const AddEditCompany = () => {
 
   return (
     <>
-      {/* <SelectList /> */}
-      <div className="w-[5rem]">
-        <SelectBox data={pg} />
-      </div>
+      <SelectList />
+
       <p className={styles.title}>Create Company</p>
 
       <form className="space-y-16 mb-3">

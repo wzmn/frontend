@@ -93,9 +93,9 @@ const Company = () => {
 
         <Input placeholder="Search" />
 
-        {/* <div className="w-64">
+        <div className="w-64">
           <SelectBox color="full-white" data={dataList} />
-        </div> */}
+        </div>
       </div>
 
       <div className="flex gap-7 flex-wrap mb-5">
