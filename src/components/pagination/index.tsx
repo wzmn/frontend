@@ -13,7 +13,7 @@ const Pagination = () => {
         <option value="200">100</option>
       </select>
       1-100 of 6450 Company{" "}
-      <select className={styles.select} name="" id="" value={0}>
+      <select className={styles.select} name="" id="" defaultValue={0}>
         <option value="10">10</option>
         <option value="20">20</option>
         <option value="30">30</option>

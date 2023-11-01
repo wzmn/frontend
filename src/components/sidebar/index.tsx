@@ -63,6 +63,7 @@ const Sidebar = () => {
             {sideBarData.map((item) => {
               return (
                 <Link
+                  partiallyActive={item.link !== "/" ? true : false}
                   activeClassName={styles.active}
                   key={item.title}
                   to={item.link}

@@ -62,30 +62,47 @@ const Employees = () => {
         </div>
       </div>
 
-      <div className="flex gap-7 flex-wrap mb-5">
+      <div className=" w-[100%] mb-5 flex gap-7 overflow-y-hidden overflow-x-auto">
         <Drop
           titleRingColor={drop1Color}
           accept="company"
           handleDrop={handleDrop}
-          section="pending"
-          title="Pending"
-          data={data.pending}
+          section="auditor"
+          title="AUDITOR"
+          data={data.auditor}
         />
         <Drop
           titleRingColor={drop2Color}
           accept="company"
           handleDrop={handleDrop}
-          section="approved"
-          title="Approved"
-          data={data.approved}
+          section="admin"
+          title="ADMIN"
+          data={data.admin}
         />
         <Drop
           titleRingColor={drop3Color}
           accept="company"
           handleDrop={handleDrop}
-          section="rejected"
-          title="Rejected"
-          data={data.rejected}
+          section="manager"
+          title="MANAGER"
+          data={data.manager}
+        />
+
+        <Drop
+          titleRingColor={drop3Color}
+          accept="company"
+          handleDrop={handleDrop}
+          section="agent"
+          title="AGENT"
+          data={data.agent}
+        />
+        <Drop
+          titleRingColor={drop3Color}
+          accept="company"
+          handleDrop={handleDrop}
+          section="fieldworkar"
+          title="FIELDWORKAR"
+          data={data.fieldworkar}
         />
       </div>
       <Pagination />
