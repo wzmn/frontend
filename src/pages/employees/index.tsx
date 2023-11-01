@@ -17,7 +17,7 @@ const dataList = [
   { label: "Hellen Schmidt" },
 ];
 
-const Users = () => {
+const Employees = () => {
   const [data, setData] = useState(demoDndData);
 
   const drop1Color = cssVar("--color-blue_dress");
@@ -50,7 +50,7 @@ const Users = () => {
       {/* <pre>{JSON.stringify(data, null, 4)}</pre> */}
       <div className={styles.btnCont}>
         <Button
-          title="Create User"
+          title="Create Employee"
           icon={<AiOutlinePlus />}
           className="flex-row-reverse"
         />
@@ -93,4 +93,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default Employees;

@@ -53,6 +53,55 @@ $shrink-sidebar-width: 5rem;
 
     background-color: white;
 
+    .sidebar-links {
+      width: 11.278rem;
+
+      & > .link {
+        /* background-color: pink; */
+
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        position: relative;
+        cursor: pointer;
+
+        &:first-child {
+          margin-top: 4.5rem;
+        }
+
+        &:not(:first-child):nth-child(n) {
+          margin-top: 1.1rem;
+        }
+
+        &::after {
+          content: "";
+          width: 8.438rem;
+          height: 0.09rem;
+          background-color: var(--color-cloudy_grey);
+          position: absolute;
+          bottom: 0rem;
+          left: 3.6rem;
+        }
+
+        &:hover::after {
+          background-color: var(--color-blue_dress);
+        }
+
+        &.active::after {
+          background-color: var(--color-blue_dress);
+        }
+
+        & > .img {
+          width: 2.069rem;
+          height: 2.038rem;
+        }
+
+        & > p {
+          color: var(--color-black);
+        }
+      }
+    }
+
     & .title-img {
       width: 10rem;
       height: 2.4rem;
@@ -100,51 +149,6 @@ $shrink-sidebar-width: 5rem;
       position: relative;
     }
   }
-}
-
-.icons-cont {
-  width: 11.278rem;
-}
-
-.icons-cont > .icons {
-  /* background-color: pink; */
-
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  position: relative;
-  cursor: pointer;
-}
-
-.icons-cont > .icons::after {
-  content: "";
-  width: 8.438rem;
-  height: 0.06rem;
-  background-color: var(--color-cloudy_grey);
-  position: absolute;
-  bottom: 0rem;
-  left: 3.6rem;
-}
-
-.icons-cont > .icons:hover::after {
-  background-color: var(--color-blue_dress);
-}
-
-.icons-cont > .icons:first-child {
-  margin-top: 4.5rem;
-}
-
-.icons-cont > .icons:not(:first-child):nth-child(n) {
-  margin-top: 1.1rem;
-}
-
-.icons-cont > .icons > .img {
-  width: 2.069rem;
-  height: 2.038rem;
-}
-
-.icons-cont > .icons > p {
-  color: var(--color-black);
 }
 
 .user-details {
