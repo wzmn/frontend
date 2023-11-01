@@ -4,6 +4,7 @@ import Button from "../components/button";
 import Input from "../components/input";
 import Label from "../components/label";
 import { Link } from "gatsby";
+import TextField from "components/text-field";
 
 const ForgotPassword = () => {
   return (
@@ -16,9 +17,13 @@ const ForgotPassword = () => {
           <h3 className={`${styles.h3} `}>
             No worries. We'll send you reset instructions
           </h3>
-          <div className="space-y-4 mt-4">
-            <Label title="E-mail ID" htmlFor="E-mail-ID" />
-            <Input id="E-mail-ID" placeholder="E-mail ID" />
+          <div className="space-y-4 mt-8">
+            <TextField
+              // {...register("password")}
+
+              title="E-mail ID"
+              // errorMessage={errors.password?.message}
+            />
           </div>
           <Button
             // isLoading={true}

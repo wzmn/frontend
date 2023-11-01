@@ -6,6 +6,7 @@ interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   icon?: JSX.Element;
   isLoading?: boolean;
   width?: "full" | "fit";
+  color?: "red" | "blue";
 }
 
 function sizeHandler(size?: string) {
@@ -32,18 +33,28 @@ function colorHandler(size?: string) {
   switch (size) {
     case "blue":
       return styles.colorBlue;
+    case "red":
+      return styles.colorRed;
     default:
       return "";
   }
 }
 
-const Button = ({ title, isLoading, icon, width, ...props }: Props) => {
+const Button = ({
+  title,
+  color = "blue",
+  isLoading,
+  icon,
+  width,
+  ...props
+}: Props) => {
+  const { className } = props;
   return (
     <button
       {...props}
-      className={` ${styles.btn} ${sizeHandler()} ${widthHandler(
+      className={`${styles.btn} ${sizeHandler()} ${widthHandler(
         width
-      )} ${colorHandler("blue")} ${props?.className}`}
+      )} ${colorHandler(color)} ${className}`}
     >
       {icon && <div className="icon">{icon}</div>}
       <p className={styles.title}>{title}</p>

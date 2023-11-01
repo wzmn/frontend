@@ -1,13 +1,13 @@
-import Button from "components/button";
-import { Drop } from "components/drop-zone";
-import Input from "components/input";
-import Pagination from "components/pagination";
-import SelectBox from "components/selectBox";
-import { demoDndData } from "constants/demo-dnd-data";
 import React, { useState } from "react";
+import Button from "components/button";
 import { AiOutlinePlus } from "react-icons/ai";
-import * as styles from "styles/pages/common.module.scss";
+import Input from "components/input";
+import SelectBox from "components/selectBox";
+import Pagination from "components/pagination";
+import { Drop } from "components/drop-zone";
 import cssVar from "utility/css-var";
+import { demoDndData } from "constants/demo-dnd-data";
+import * as styles from "styles/pages/common.module.scss";
 const dataList = [
   { label: "Wade Cooper" },
   { label: "Arlene Mccoy" },
@@ -17,7 +17,7 @@ const dataList = [
   { label: "Hellen Schmidt" },
 ];
 
-const Company = () => {
+const Users = () => {
   const [data, setData] = useState(demoDndData);
 
   const drop1Color = cssVar("--color-blue_dress");
@@ -50,7 +50,7 @@ const Company = () => {
       {/* <pre>{JSON.stringify(data, null, 4)}</pre> */}
       <div className={styles.btnCont}>
         <Button
-          title="Create Company"
+          title="Create User"
           icon={<AiOutlinePlus />}
           className="flex-row-reverse"
         />
@@ -93,4 +93,4 @@ const Company = () => {
   );
 };
 
-export default Company;
+export default Users;

@@ -1,0 +1,104 @@
+@import "styles/variable.scss";
+@import "styles/common.scss";
+
+.select-list-cont {
+  width: fit-content;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  padding-left: 0.19rem;
+  position: relative;
+
+  & > input[type="checkbox"] {
+    display: none;
+  }
+
+  & input:checked + div {
+    z-index: 20 !important;
+    // border: 2px solid var(--color-white);
+    box-shadow: 0 0 0 3px var(--color-blue_dress);
+  }
+
+  & .checkbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    width: 40px;
+    transition: border 0.1s ease-out 0s;
+    border-radius: 50%;
+    cursor: pointer;
+    overflow: hidden;
+    // border: 2px solid cyan;
+    box-shadow: 0 0 0 3px var(--color-white);
+
+    & img {
+      object-fit: cover;
+    }
+  }
+
+  & .checkbox:not(:nth-child(2)):nth-child(2n) {
+    margin-left: -1px;
+  }
+
+  & .checkbox:nth-child(n):hover {
+    z-index: 21 !important;
+  }
+
+  & .extra {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 35px;
+    width: 35px;
+    margin-left: -5px;
+    transition: border 0.1s ease-out 0s;
+    border-radius: 50%;
+    color: var(--color-white);
+    vertical-align: middle;
+    cursor: pointer;
+    font-size: $font-small;
+  }
+
+  & .extra-list {
+    background-color: var(--color-white);
+    width: 15rem;
+    height: 15rem;
+    padding: 0.5rem 0rem;
+    border-radius: 4px;
+    position: absolute;
+    bottom: -15.5rem;
+    right: -14rem;
+    overflow: hidden;
+    overflow-y: scroll;
+    // background-color: aqua;
+    z-index: 2;
+
+    // &.extra-list[data-toggle="false"] {
+    //   display: none;
+    // }
+
+    & .item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      width: 100%;
+      padding: 0.4rem 1rem;
+      border-bottom: 1px solid gray;
+
+      &:first-child {
+        border-top: 1px solid gray;
+      }
+
+      & .img-cont {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        overflow: hidden;
+        // border: 1px solid pink;
+      }
+    }
+
+    @include scrollBarStyle;
+  }
+}
