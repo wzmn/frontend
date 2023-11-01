@@ -1,11 +1,13 @@
 import Button from "components/button";
+import { Drop } from "components/drop-zone";
+import Input from "components/input";
+import Pagination from "components/pagination";
+import SelectBox from "components/selectBox";
+import { demoDndData } from "constants/demo-dnd-data";
 import React, { useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
-import { useDrag, useDrop } from "react-dnd";
-import Input from "components/input";
-import SelectBox from "components/selectBox";
-import * as styles from "./styles.module.scss";
-import Pagination from "components/pagination";
+import * as styles from "styles/pages/common.module.scss";
+import cssVar from "utility/css-var";
 const dataList = [
   { label: "Wade Cooper" },
   { label: "Arlene Mccoy" },
@@ -15,50 +17,12 @@ const dataList = [
   { label: "Hellen Schmidt" },
 ];
 
-const pg = [
-  { label: "100" },
-  { label: "1" },
-  { label: "1" },
-  { label: "1" },
-  { label: "1" },
-  { label: "1" },
-  { label: "1" },
-  { label: "1" },
-];
-
 const Company = () => {
-  const [data, setData] = useState({
-    pending: [
-      {
-        id: 1,
-        title: "title1",
-      },
-      {
-        id: 2,
-        title: "title2",
-      },
-    ],
-    approved: [
-      {
-        id: 3,
-        title: "title3",
-      },
-      {
-        id: 4,
-        title: "title4",
-      },
-    ],
-    rejected: [
-      {
-        id: 5,
-        title: "title5",
-      },
-      {
-        id: 6,
-        title: "title6",
-      },
-    ],
-  });
+  const [data, setData] = useState(demoDndData);
+
+  const drop1Color = cssVar("--color-blue_dress");
+  const drop2Color = cssVar("--color-candlelight");
+  const drop3Color = cssVar("--color-aqua_blue");
 
   function handleDrop(item: any, section: string) {
     if (item.section === section) return;
@@ -99,19 +63,25 @@ const Company = () => {
       </div>
 
       <div className="flex gap-7 flex-wrap mb-5">
-        <MyDropTarget
+        <Drop
+          titleRingColor={drop1Color}
+          accept="company"
           handleDrop={handleDrop}
           section="pending"
           title="Pending"
           data={data.pending}
         />
-        <MyDropTarget
+        <Drop
+          titleRingColor={drop2Color}
+          accept="company"
           handleDrop={handleDrop}
           section="approved"
           title="Approved"
           data={data.approved}
         />
-        <MyDropTarget
+        <Drop
+          titleRingColor={drop3Color}
+          accept="company"
           handleDrop={handleDrop}
           section="rejected"
           title="Rejected"
@@ -124,46 +94,3 @@ const Company = () => {
 };
 
 export default Company;
-
-function DraggableComponent({ title, id, section }: any) {
-  const [{ isDragging }, drag] = useDrag(() => ({
-    type: "company",
-    item: { id, section },
-    collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
-    }),
-  }));
-  return (
-    <div className={`border ${isDragging && "hidden"}`} ref={drag}>
-      <p className="bg-white text-center py-2">{title}</p>
-    </div>
-  );
-}
-
-function MyDropTarget({ data, title, section, handleDrop }: any) {
-  const [{ isOver }, drop] = useDrop(() => ({
-    accept: "company",
-    drop: (item) => handleDrop(item, section),
-    collect: (monitor) => ({
-      isOver: !!monitor.isOver(),
-    }),
-  }));
-
-  return (
-    <div ref={drop} className={`${styles.dropCont}   `}>
-      <p className={styles.dropContTitle}>{title}</p>
-      <div className={`${styles.content} ${isOver && styles.over}`}>
-        {data?.map((item: any, index: number) => {
-          return (
-            <DraggableComponent
-              section={section}
-              key={item.id}
-              id={item.id}
-              title={item.title}
-            />
-          );
-        })}
-      </div>
-    </div>
-  );
-}

@@ -1,0 +1,46 @@
+@import "styles/common.scss";
+
+.drop-cont {
+  width: 14.796rem;
+  height: 44.601rem;
+  padding: 1.098rem !important;
+  padding-bottom: 3rem !important;
+
+  // overflow: auto;
+  // overflow-y: scroll;
+  background: var(--color-white-80) 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 6px #00000029;
+  // opacity: 0.88;
+  backdrop-filter: blur(50px);
+  -webkit-backdrop-filter: blur(50px);
+  position: relative;
+
+  & .drop-cont-title {
+    border: 1px solid blue;
+    padding: 10px;
+    background-color: white;
+    text-align: center;
+    border-radius: 3px;
+  }
+
+  & .content {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+    padding-bottom: 3rem !important;
+    overflow: hidden;
+    overflow-y: scroll;
+    height: calc(100% - 2.5px - 3rem);
+
+    &.over {
+      margin-top: 2rem;
+      border-top: 2px solid pink;
+    }
+
+    @include scrollBarStyle;
+  }
+
+  & > :not(:first-child) {
+    margin-top: 1.098rem;
+  }
+}

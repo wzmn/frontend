@@ -3,7 +3,7 @@ import FormSection from "components/form-sections";
 import FormWraper from "components/form-wrapper";
 import Input from "components/input";
 import React, { useEffect, useState } from "react";
-import * as styles from "./styles.module.scss";
+import * as styles from "styles/pages/common.module.scss";
 import SelectBox from "components/selectBox";
 import { UnitTypes, StreetTypes, States } from "../../constants";
 import ButtonGroup from "components/button-group";
