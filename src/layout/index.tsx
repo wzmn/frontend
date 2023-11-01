@@ -1,8 +1,8 @@
 import React from "react";
-import RightBar from "components/right-bar";
-import Sidebar from "components/sidebar";
+import RightBar from "layout/right-bar";
+import Sidebar from "layout/sidebar";
 import * as styles from "./styles.module.scss";
-import Navbar from "components/navbar";
+import Navbar from "layout/navbar";
 import Footer from "./footer.tsx";
 import AuthLayout from "./auth-layout";
 import SidebarContext from "providers/sidebar-provider";

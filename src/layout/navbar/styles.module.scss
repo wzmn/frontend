@@ -13,4 +13,14 @@
       display: none;
     }
   }
+
+  & .right-side {
+    display: flex;
+    align-items: center;
+    gap: 1.6rem;
+
+    & .bell-icon {
+      font-size: 1.8rem;
+    }
+  }
 }

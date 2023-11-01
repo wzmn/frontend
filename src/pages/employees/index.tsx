@@ -62,7 +62,7 @@ const Employees = () => {
         </div>
       </div>
 
-      <div className=" w-[100%] mb-5 flex gap-7 overflow-y-hidden overflow-x-auto">
+      <div className={styles.tableCont}>
         <Drop
           titleRingColor={drop1Color}
           accept="company"
