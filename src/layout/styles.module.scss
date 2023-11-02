@@ -25,6 +25,7 @@
     )
     0% 0% no-repeat padding-box;
   flex: 1;
+  overflow: scroll;
   position: relative;
 
   & .main-content {
@@ -35,4 +36,5 @@
 
     @include scrollBarStyle;
   }
+  @include scrollBarStyle;
 }

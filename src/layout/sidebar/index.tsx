@@ -6,35 +6,43 @@ import {
 } from "react-icons/ai";
 import * as styles from "./styles.module.scss";
 import { useSidebarContext } from "providers/sidebar-provider";
+import { Link } from "gatsby";
 
 const sideBarData = [
   {
     svg: "/assets/icons/Line.svg",
     title: "Dashboard",
+    link: "/",
   },
   {
     svg: "/assets/icons/customer.svg",
     title: "Customers",
+    link: "/customers",
   },
   {
     svg: "/assets/icons/Layer.svg",
     title: "Jobs",
+    link: "/jobs",
   },
   {
     svg: "/assets/icons/to-do-list.svg",
     title: "Appointments",
+    link: "/appointments",
   },
   {
     svg: "/assets/icons/group.svg",
-    title: "Users",
+    title: "Employees",
+    link: "/employees",
   },
   {
     svg: "/assets/icons/building.svg",
     title: "Company",
+    link: "/company",
   },
   {
     svg: "/assets/icons/settings.svg",
     title: "Settings",
+    link: "/settings",
   },
 ] as const;
 
@@ -51,13 +59,19 @@ const Sidebar = () => {
           {/* {sidebarFlag + ""} */}
           <div className={styles.titleImg}></div>
 
-          <div className={styles.iconsCont}>
-            {sideBarData.map((item, key) => {
+          <div className={styles.sidebarLinks}>
+            {sideBarData.map((item) => {
               return (
-                <div className={styles.icons}>
+                <Link
+                  partiallyActive={item.link !== "/" ? true : false}
+                  activeClassName={styles.active}
+                  key={item.title}
+                  to={item.link}
+                  className={styles.link}
+                >
                   <img className={styles.img} src={item.svg} alt={item.title} />
                   <p>{item.title}</p>
-                </div>
+                </Link>
               );
             })}
           </div>

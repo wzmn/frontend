@@ -1,4 +1,5 @@
 @import "../media.scss";
+@import "../common.scss";
 
 //pages
 .file {
@@ -50,4 +51,14 @@
   @include lg {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+}
+
+.table-cont {
+  margin-bottom: 1.25rem;
+  display: flex;
+  overflow: hidden;
+  overflow-x: scroll;
+  gap: 1.75rem;
+
+  @include scrollBarStyle;
 }

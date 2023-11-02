@@ -1,8 +1,9 @@
-import SelectBox from "components/selectBox";
-import { FaRegBell, FaGripLines } from "react-icons/fa";
-import React from "react";
-import * as styles from "./styles.module.scss";
+import SelectList from "components/select-list";
 import { useSidebarContext } from "providers/sidebar-provider";
+import React from "react";
+import { FaGripLines, FaRegBell } from "react-icons/fa";
+import { GrCircleQuestion } from "react-icons/gr";
+import * as styles from "./styles.module.scss";
 
 const data = [
   { label: "Wade Cooper" },
@@ -23,11 +24,13 @@ const Navbar = () => {
           <SelectBox color="gray" data={data} />
         </div> */}
       </div>
-      <div className="flex items-center gap-4">
-        <FaRegBell className="text-2xl" />
+      <div className={styles.rightSide}>
+        <FaRegBell className={styles.bellIcon} />
         {/* <div className="w-72">
           <SelectBox color="gray" data={data} />
         </div> */}
+        <SelectList />
+        <GrCircleQuestion className={styles.bellIcon} />
       </div>
     </div>
   );

@@ -17,7 +17,7 @@ const dataList = [
   { label: "Hellen Schmidt" },
 ];
 
-const Users = () => {
+const Employees = () => {
   const [data, setData] = useState(demoDndData);
 
   const drop1Color = cssVar("--color-blue_dress");
@@ -50,7 +50,7 @@ const Users = () => {
       {/* <pre>{JSON.stringify(data, null, 4)}</pre> */}
       <div className={styles.btnCont}>
         <Button
-          title="Create User"
+          title="Create Employee"
           icon={<AiOutlinePlus />}
           className="flex-row-reverse"
         />
@@ -62,30 +62,47 @@ const Users = () => {
         </div>
       </div>
 
-      <div className="flex gap-7 flex-wrap mb-5">
+      <div className={styles.tableCont}>
         <Drop
           titleRingColor={drop1Color}
           accept="company"
           handleDrop={handleDrop}
-          section="pending"
-          title="Pending"
-          data={data.pending}
+          section="auditor"
+          title="AUDITOR"
+          data={data.auditor}
         />
         <Drop
           titleRingColor={drop2Color}
           accept="company"
           handleDrop={handleDrop}
-          section="approved"
-          title="Approved"
-          data={data.approved}
+          section="admin"
+          title="ADMIN"
+          data={data.admin}
         />
         <Drop
           titleRingColor={drop3Color}
           accept="company"
           handleDrop={handleDrop}
-          section="rejected"
-          title="Rejected"
-          data={data.rejected}
+          section="manager"
+          title="MANAGER"
+          data={data.manager}
+        />
+
+        <Drop
+          titleRingColor={drop3Color}
+          accept="company"
+          handleDrop={handleDrop}
+          section="agent"
+          title="AGENT"
+          data={data.agent}
+        />
+        <Drop
+          titleRingColor={drop3Color}
+          accept="company"
+          handleDrop={handleDrop}
+          section="fieldworkar"
+          title="FIELDWORKAR"
+          data={data.fieldworkar}
         />
       </div>
       <Pagination />
@@ -93,4 +110,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default Employees;

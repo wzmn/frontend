@@ -62,7 +62,7 @@ const Jobs = () => {
         </div>
       </div>
 
-      <div className="flex gap-7 flex-wrap mb-5">
+      <div className={styles.tableCont}>
         <Drop
           titleRingColor={drop1Color}
           accept="company"
