@@ -2,7 +2,8 @@
 
 @mixin scrollBarStyle {
   &::-webkit-scrollbar {
-    width: 0rem;
+    width: 0.5rem;
+    height: 0.5rem;
   }
 
   /* Track */
