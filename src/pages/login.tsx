@@ -19,7 +19,7 @@ const Login = () => {
     resolver: yupResolver(loginSchema),
   });
 
-  const { userAuth, setUserAuth } = useAuthContext();
+  const { setUserAuth } = useAuthContext();
 
   async function onSubmit(data: any) {
     try {
@@ -40,7 +40,6 @@ const Login = () => {
     <>
       <div className={`${styles.loginCard} bg-white `}>
         <div className={styles.img} />
-        {JSON.stringify(userAuth)}
         <form onSubmit={handleSubmit(onSubmit)} className={styles.content}>
           <h2 className={`${styles.h2} `}>Let's get Started </h2>
           <h3 className={`${styles.h3} `}>Sign In to your account</h3>
@@ -68,6 +67,7 @@ const Login = () => {
             type="submit"
             title="LOGIN"
             className="mt-10 font-bold"
+            name="login-btn"
           />
           <div className={`${styles.forgotPassword} mt-10 `}>
             <Link to="/forgot-password">Forgot password ?</Link>

@@ -27,8 +27,9 @@ const ForgotPassword = () => {
           </div>
           <Button
             // isLoading={true}
-            title="RESET PASSWORD"
+            title="FORGOT PASSWORD"
             className="mt-10 font-bold"
+            name="forgot-btn"
           />
 
           <div className={`${styles.forgotPassword} mt-10 `}>

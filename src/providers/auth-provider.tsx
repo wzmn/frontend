@@ -1,6 +1,6 @@
 import useLocalStorage from "hook/use-local-storage";
 import { LoginResType } from "index";
-import React, { Dispatch, createContext, useContext, useEffect } from "react";
+import React, { Dispatch, createContext, useContext } from "react";
 
 type Props = {
   children: JSX.Element;

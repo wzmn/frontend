@@ -3,6 +3,7 @@ import * as styles from "../layout/auth-layout/styles.module.scss";
 import Button from "../components/button";
 import Input from "../components/input";
 import Label from "../components/label";
+import TextField from "components/text-field";
 
 const ResetPassword = () => {
   return (
@@ -20,25 +21,26 @@ const ResetPassword = () => {
               <Input id="current-password" placeholder="Current Password" />
             </div> */}
 
-          <div className="space-y-4 mt-4">
-            <Label title="New Password" htmlFor="new-password" />
-            <Input id="new-password" placeholder="New Password" />
-          </div>
-
-          <div className="space-y-4 mt-4">
-            <Label
-              title="Confirm New Password"
-              htmlFor="confirm-new-password"
+          <div className="space-y-8 mt-8">
+            <TextField
+              // {...register("password")}
+              // id="password"
+              title="New Password"
+              // errorMessage={errors.password?.message}
             />
-            <Input
-              id="confirm-new-password"
-              placeholder="Confirm New Password"
+
+            <TextField
+              // {...register("password")}
+              // id="password"
+              title="Confirm New Password"
+              // errorMessage={errors.password?.message}
             />
           </div>
           <Button
             // isLoading={true}
             title="RESET PASSWORD"
             className="mt-10 font-bold"
+            name="reset-btn"
           />
         </div>
       </div>

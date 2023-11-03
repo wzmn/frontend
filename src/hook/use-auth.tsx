@@ -19,14 +19,7 @@ const useAuth = () => {
 
     if (!!userAuth) navigate("/", { replace: true });
     console.log("login", userAuth);
-    return (
-      <>
-        {children}
-        <br />
-        jhbvg
-        {JSON.stringify(userAuth)}
-      </>
-    );
+    return <>{children}</>;
   };
 
   return { ProtectedRoutes, HandleRedirect };
