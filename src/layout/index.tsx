@@ -8,6 +8,8 @@ import AuthLayout from "./auth-layout";
 import SidebarContext from "providers/sidebar-provider";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
+import useAuth from "hook/use-auth";
+import AuthProvider from "providers/auth-provider";
 
 const routeNotToInclude = ["/login/", "/reset-password/", "/forgot-password/"];
 
@@ -17,31 +19,38 @@ type Props = {
 
 const Layout = ({ children }: Props) => {
   let pathname = typeof window !== "undefined" ? window.location.pathname : "";
+  const { ProtectedRoutes, HandleRedirect } = useAuth();
   return (
     <div className="c-container">
-      {!routeNotToInclude.includes(pathname) ? (
-        <DndProvider backend={HTML5Backend}>
-          <SidebarContext>
-            <div className={`${styles.layout} `}>
-              <Sidebar />
-              <div className={styles.children}>
-                <Navbar />
+      <AuthProvider>
+        {!routeNotToInclude.includes(pathname) ? (
+          <ProtectedRoutes>
+            <DndProvider backend={HTML5Backend}>
+              <SidebarContext>
+                <div className={`${styles.layout} `}>
+                  <Sidebar />
+                  <div className={styles.children}>
+                    <Navbar />
 
-                <div className={styles.mainContent}>{children}</div>
+                    <div className={styles.mainContent}>{children}</div>
+                    <Footer />
+                  </div>
+                  <RightBar /> {/* has absolute position */}
+                </div>
+              </SidebarContext>
+            </DndProvider>
+          </ProtectedRoutes>
+        ) : (
+          <HandleRedirect>
+            <AuthLayout>
+              <div>
+                {children}
                 <Footer />
               </div>
-              <RightBar /> {/* has absolute position */}
-            </div>
-          </SidebarContext>
-        </DndProvider>
-      ) : (
-        <AuthLayout>
-          <div>
-            {children}
-            <Footer />
-          </div>
-        </AuthLayout>
-      )}
+            </AuthLayout>
+          </HandleRedirect>
+        )}
+      </AuthProvider>
     </div>
   );
 };
