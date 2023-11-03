@@ -1,55 +1,55 @@
-import React, { useEffect, useRef } from "react";
-import yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-
-import * as styles from "../layout/auth-layout/styles.module.scss";
-import { AiFillAccountBook, AiFillAlert } from "react-icons/ai";
+import React from "react";
 import Button from "components/button";
-import Input from "components/input";
-import Label from "components/label";
+import TextField from "components/text-field";
 import { Link } from "gatsby";
-import Axios from "services/Axios";
 import { useForm } from "react-hook-form";
 import { loginSchema } from "schema/auth-schema";
-import TextField from "components/text-field";
+import * as styles from "../layout/auth-layout/styles.module.scss";
+import { request } from "services/http-request";
+import { LoginResType } from "index";
+import { useAuthContext } from "providers/auth-provider";
 
 const Login = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({
     resolver: yupResolver(loginSchema),
   });
 
-  function onSubmit(data: any) {
-    console.log(data);
-  }
+  const { setUserAuth } = useAuthContext();
 
-  useEffect(() => {
-    Axios.post("/users/login/", {
-      username: "admin@example.com",
-      password: "Test@4321",
-    })
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
-  }, []);
+  async function onSubmit(data: any) {
+    try {
+      const response = await request<LoginResType>({
+        url: "/users/login/",
+        data,
+        method: "post",
+      });
+      // if(AxiosExceptStatueReg.test(String(response.status)) ){
+      setUserAuth(response.data);
+      // }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <>
       <div className={`${styles.loginCard} bg-white `}>
         <div className={styles.img} />
-
         <form onSubmit={handleSubmit(onSubmit)} className={styles.content}>
           <h2 className={`${styles.h2} `}>Let's get Started </h2>
           <h3 className={`${styles.h3} `}>Sign In to your account</h3>
 
           <div className="space-y-8 mt-8">
             <TextField
-              {...register("email")}
+              {...register("username")}
               id="username"
               title="Username"
-              errorMessage={errors.email?.message}
+              errorMessage={errors.username?.message}
             />
 
             <TextField
@@ -62,11 +62,12 @@ const Login = () => {
 
           <Button
             // icon={<AiFillAlert />}
-            // isLoading={true}
+            isLoading={isSubmitting}
             width="full"
             type="submit"
             title="LOGIN"
             className="mt-10 font-bold"
+            name="login-btn"
           />
           <div className={`${styles.forgotPassword} mt-10 `}>
             <Link to="/forgot-password">Forgot password ?</Link>

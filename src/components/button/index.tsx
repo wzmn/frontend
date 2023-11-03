@@ -1,7 +1,6 @@
 import React from "react";
 import * as styles from "./styles.module.scss";
 import { FaBeer } from "react-icons/fa";
-
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   icon?: JSX.Element;
   isLoading?: boolean;
@@ -56,13 +55,13 @@ const Button = ({
         width
       )} ${colorHandler(color)} ${className}`}
     >
-      {icon && <div className="icon">{icon}</div>}
+      <div className="icon">{icon}</div>
       <p className={styles.title}>{title}</p>
-      {isLoading && (
-        <div className="icon">
-          <FaBeer />
-        </div>
-      )}
+      {/* {isLoading && ( */}
+      <div className={styles.loader}>
+        {isLoading && <img src="/assets/loader/Spinner.svg" alt="" />}
+      </div>
+      {/* )} */}
     </button>
   );
 };

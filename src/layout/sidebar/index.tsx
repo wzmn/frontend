@@ -7,6 +7,7 @@ import {
 import * as styles from "./styles.module.scss";
 import { useSidebarContext } from "providers/sidebar-provider";
 import { Link } from "gatsby";
+import { useAuthContext } from "providers/auth-provider";
 
 const sideBarData = [
   {
@@ -48,6 +49,7 @@ const sideBarData = [
 
 const Sidebar = () => {
   const { sidebarFlag, toggle } = useSidebarContext();
+  const { setUserAuth } = useAuthContext();
 
   return (
     <div className={`${styles.sidebarCont} ${sidebarFlag && styles.slideIn}`}>
@@ -87,7 +89,7 @@ const Sidebar = () => {
             <p>Jason Jackson</p>
             <div className={styles.userRole}>
               <p>Superadmin</p>
-              <span className={styles.icon}>
+              <span className={styles.icon} onClick={() => setUserAuth(null)}>
                 <AiOutlinePoweroff />
               </span>
             </div>
