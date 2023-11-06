@@ -20,7 +20,8 @@ const AuthProvider = ({ children }: Props) => {
 
   return (
     <AuthContext.Provider value={{ userAuth, setUserAuth }}>
-      {children}
+      {typeof window !== "undefined" ? children : "loading...."}
+      {/* {children} */}
     </AuthContext.Provider>
   );
 };
