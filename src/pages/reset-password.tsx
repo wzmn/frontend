@@ -36,6 +36,7 @@ const ResetPassword = () => {
           </div>
           <Button
             // isLoading={true}
+            width="full"
             title="RESET PASSWORD"
             className="mt-10 font-bold"
             name="reset-btn"

@@ -10,15 +10,16 @@ type Props = {
   accept: string;
   titleRingColor?: string;
   handleDrop: (p1: any, p2: string) => void;
+  children: JSX.Element;
 };
 
 export function Drop({
-  data,
   title,
   section,
   handleDrop,
   accept,
   titleRingColor,
+  children,
 }: Props) {
   const [{ isOver }, drop] = useDrop(() => ({
     accept: accept,
@@ -37,7 +38,8 @@ export function Drop({
         {title}
       </p>
       <div className={`${styles.content} ${isOver && styles.over}`}>
-        {data?.map((item: any, index: number) => {
+        {children}
+        {/* {data?.map((item: any, index: number) => {
           return (
             <Drage
               key={item.id} //you can`t use index from map id should be unique
@@ -47,7 +49,7 @@ export function Drop({
               title={item.title}
             />
           );
-        })}
+        })} */}
       </div>
     </div>
   );
