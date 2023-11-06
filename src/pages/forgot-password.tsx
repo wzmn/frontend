@@ -5,7 +5,7 @@ import Input from "../components/input";
 import Label from "../components/label";
 import { Link } from "gatsby";
 import TextField from "components/text-field";
-
+//to triger build
 const ForgotPassword = () => {
   return (
     <>
