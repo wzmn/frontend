@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 
 const Axios: AxiosInstance = axios.create({
-  baseURL: "https://dev-services.snippit.com.au/api",
+  baseURL: process.env.API_URL,
   timeout: 10000,
   params: {}, // do not remove this, its added to add params later in the config
 });

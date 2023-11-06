@@ -60,7 +60,7 @@ const AddEditCompany = () => {
           <FormWraper>
             <div className={styles.formGrid}>
               <div className="max-w-3xl">
-                <TextField title="ABN No." asterisk errorMessage="Abn" />
+                <TextField title="ABN No." asterisk />
               </div>
               <div className="max-w-3xl">
                 <TextField title="Company Name" asterisk />

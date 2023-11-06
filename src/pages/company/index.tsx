@@ -4,6 +4,7 @@ import Input from "components/input";
 import Pagination from "components/pagination";
 import SelectBox from "components/selectBox";
 import { demoDndData } from "constants/demo-dnd-data";
+import { Link } from "gatsby";
 import React, { useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import * as styles from "styles/pages/common.module.scss";
@@ -49,11 +50,13 @@ const Company = () => {
     <>
       {/* <pre>{JSON.stringify(data, null, 4)}</pre> */}
       <div className={styles.btnCont}>
-        <Button
-          title="Create Company"
-          icon={<AiOutlinePlus />}
-          className="flex-row-reverse"
-        />
+        <Link to="add-edit-company">
+          <Button
+            title="Create Company"
+            icon={<AiOutlinePlus />}
+            className="flex-row-reverse"
+          />
+        </Link>
 
         <Input placeholder="Search" />
 
