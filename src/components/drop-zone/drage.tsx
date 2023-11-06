@@ -2,13 +2,13 @@ import React from "react";
 import { useDrag } from "react-dnd";
 
 type Props = {
-  title: string;
   id: string | number;
   section: string;
   accept: string;
+  children: JSX.Element;
 };
 
-export function Drage({ title, id, section, accept }: Props) {
+export function Drage({ children, id, section, accept }: Props) {
   const [{ isDragging }, drag] = useDrag(() => ({
     type: accept,
     item: { id, section },
@@ -18,7 +18,7 @@ export function Drage({ title, id, section, accept }: Props) {
   }));
   return (
     <div className={`border ${isDragging && "hidden"}`} ref={drag}>
-      <p className="bg-white text-center py-2">{title}</p>
+      <div className="bg-white text-center py-2">{children}</div>
     </div>
   );
 }

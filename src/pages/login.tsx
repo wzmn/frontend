@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { loginSchema } from "schema/auth-schema";
 import * as styles from "../layout/auth-layout/styles.module.scss";
 import { request } from "services/http-request";
-import { LoginResType } from "index";
+import { LoginResType } from "type/auth";
 import { useAuthContext } from "providers/auth-provider";
 
 const Login = () => {

@@ -1,13 +1,17 @@
 import Button from "components/button";
 import { Drop } from "components/drop-zone";
+import { Drage } from "components/drop-zone/drage";
 import Input from "components/input";
 import Pagination from "components/pagination";
 import SelectBox from "components/selectBox";
+import { COMPANY_LISTING } from "constants/api";
 import { demoDndData } from "constants/demo-dnd-data";
 import { Link } from "gatsby";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
+import { request } from "services/http-request";
 import * as styles from "styles/pages/common.module.scss";
+import { CompanyDataType, CompanyStatus } from "type/company";
 import cssVar from "utility/css-var";
 const dataList = [
   { label: "Wade Cooper" },
@@ -18,19 +22,31 @@ const dataList = [
   { label: "Hellen Schmidt" },
 ];
 
+type DProps = CompanyDataType & {
+  status: boolean;
+};
+
 const Company = () => {
   const [data, setData] = useState(demoDndData);
+  const [d, setD] = useState<Record<CompanyStatus, DProps[]>>({
+    "upload info": [],
+    "document review": [],
+    verified: [],
+    operational: [],
+    rejected: [],
+  });
 
   const drop1Color = cssVar("--color-blue_dress");
   const drop2Color = cssVar("--color-candlelight");
   const drop3Color = cssVar("--color-aqua_blue");
 
-  function handleDrop(item: any, section: string) {
+  function handleDrop(item: any, section: string, make: boolean = false) {
+    console.log(item, section);
     if (item.section === section) return;
-
-    const dt: any = { ...data };
+    // console.log(item);
+    const dt: any = { ...d };
     let idx;
-    dt[item.section].some((itm: any, key: any) => {
+    dt[item.section]?.some((itm: any, key: any) => {
       console.log(item.id, itm.id);
       if (item.id === itm.id) {
         idx = key;
@@ -40,15 +56,56 @@ const Company = () => {
 
     if (idx !== undefined) {
       const pop = dt[item.section].splice(idx, 1)[0];
-      dt[section].unshift(pop);
+      dt[section].unshift({ ...pop, status: make });
 
-      setData(() => dt);
+      setD(() => dt);
+      // if(make){
+      //   updateData(item,section)
+      // }
     }
   }
 
+  async function fetchData() {
+    try {
+      const response = await request<CompanyDataType[]>({
+        url: COMPANY_LISTING,
+      });
+
+      const filterData = { ...d };
+
+      response.data.forEach((item) => {
+        console.log(item.company_status);
+        filterData[item.company_status!].push({ ...item, status: false });
+      });
+
+      setData((prev) => ({ ...prev, filterData }));
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function updateData(item: any, to: string) {
+    const data = {
+      company_status: to,
+    };
+    try {
+      const response = await request<CompanyDataType[]>({
+        url: COMPANY_LISTING + item.id + "/approval/",
+        method: "patch",
+        data,
+      });
+    } catch (error) {
+      handleDrop(item, to);
+    }
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <>
-      {/* <pre>{JSON.stringify(data, null, 4)}</pre> */}
+      {/* <pre>{JSON.stringify(d, null, 4)}</pre> */}
       <div className={styles.btnCont}>
         <Link to="add-edit-company">
           <Button
@@ -65,35 +122,61 @@ const Company = () => {
         </div>
       </div>
 
-      <div className="flex gap-7 flex-wrap mb-5">
-        <Drop
-          titleRingColor={drop1Color}
-          accept="company"
-          handleDrop={handleDrop}
-          section="pending"
-          title="Pending"
-          data={data.pending}
-        />
-        <Drop
-          titleRingColor={drop2Color}
-          accept="company"
-          handleDrop={handleDrop}
-          section="approved"
-          title="Approved"
-          data={data.approved}
-        />
-        <Drop
-          titleRingColor={drop3Color}
-          accept="company"
-          handleDrop={handleDrop}
-          section="rejected"
-          title="Rejected"
-          data={data.rejected}
-        />
+      <div className={styles.tableCont}>
+        {Object.keys(d).map((dropName) => {
+          return (
+            <Drop
+              key={dropName}
+              titleRingColor={drop1Color}
+              accept="company"
+              handleDrop={handleDrop}
+              section={dropName}
+              title={dropName.toLocaleUpperCase()}
+              data={d[dropName as CompanyStatus]}
+            >
+              <>
+                {d[dropName as CompanyStatus].map((dragItem) => {
+                  return (
+                    <Drage
+                      key={dragItem.id} //you can`t use index from map id should be unique
+                      accept={dragItem.status ? "" : "company"}
+                      section={dropName}
+                      id={dragItem.id as number}
+                    >
+                      <List
+                        // currentSection={dropName}
+                        // nextSection
+                        data={dragItem}
+                      />
+                    </Drage>
+                  );
+                })}
+              </>
+            </Drop>
+          );
+        })}
       </div>
       <Pagination />
     </>
   );
 };
+let count = 0;
+function List({ data }: { data: any }) {
+  const [v, sV] = useState();
+
+  useEffect(() => {
+    console.log(data.id, "ini");
+  }, []);
+  useEffect(() => {
+    count++;
+    console.log(data.id, "rend");
+  }, [v]);
+  return (
+    <div className="">
+      <p className="">{count}</p>
+      {data.id}
+    </div>
+  );
+}
 
 export default Company;

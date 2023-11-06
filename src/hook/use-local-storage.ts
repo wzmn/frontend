@@ -1,4 +1,4 @@
-import { UseLocalStorageP1Type } from "index";
+import { UseLocalStorageP1Type } from "type/auth";
 import { useEffect, useState } from "react";
 
 type ReturnType<T> = [T, React.Dispatch<T | null>];
