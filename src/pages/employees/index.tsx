@@ -101,7 +101,7 @@ const Employees = () => {
           accept="company"
           handleDrop={handleDrop}
           section="fieldworkar"
-          title="FIELDWORKAR"
+          title="FIELDWORKER"
           data={data.fieldworkar}
         />
       </div>
