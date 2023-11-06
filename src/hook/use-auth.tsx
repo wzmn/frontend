@@ -10,18 +10,22 @@ const useAuth = () => {
   const ProtectedRoutes = ({ children }: Props) => {
     const { userAuth } = useAuthContext();
 
-    if (!userAuth)
+    if (!userAuth) {
       typeof window !== "undefined" && navigate("/login", { replace: true });
-    return <>{children}</>;
+      return <>{children}</>;
+    }
+    return null;
   };
 
   const HandleRedirect = ({ children }: Props) => {
     const { userAuth } = useAuthContext();
 
-    if (!!userAuth)
+    if (!!userAuth) {
       typeof window !== "undefined" && navigate("/", { replace: true });
-    console.log("login", userAuth);
-    return <>{children}</>;
+      console.log("login", userAuth);
+      return <>{children}</>;
+    }
+    return null;
   };
 
   return { ProtectedRoutes, HandleRedirect };
