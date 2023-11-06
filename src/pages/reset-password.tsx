@@ -1,8 +1,6 @@
 import React from "react";
 import * as styles from "../layout/auth-layout/styles.module.scss";
 import Button from "../components/button";
-import Input from "../components/input";
-import Label from "../components/label";
 import TextField from "components/text-field";
 
 const ResetPassword = () => {
