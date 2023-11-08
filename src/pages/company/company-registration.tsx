@@ -1,20 +1,22 @@
+import { yupResolver } from "@hookform/resolvers/yup";
+import Button from "components/button";
+import ButtonGroup from "components/button-group";
 import DNDImage from "components/dnd-image";
 import FormSection from "components/form-sections";
 import FormWraper from "components/form-wrapper";
-import React, { useEffect, useState } from "react";
-import * as styles from "styles/pages/common.module.scss";
 import SelectBox from "components/selectBox";
-import { UnitTypes, StreetTypes, States } from "../../constants";
-import ButtonGroup from "components/button-group";
-import { useRightBarContext } from "providers/right-bar-provider";
 import TextField from "components/text-field";
-import Button from "components/button";
+import { useRightBarContext } from "providers/right-bar-provider";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { RiDeleteBin6Line } from "react-icons/ri";
 import {
   CompanyRegistrationSchemaType,
   companyRegistrationSchema,
 } from "schema/company-schema";
+import * as styles from "styles/pages/common.module.scss";
+import * as companyStyles from "./styles.module.scss";
+import { States, StreetTypes, UnitTypes } from "../../constants";
 
 const pg = [
   { label: "100" },
@@ -115,23 +117,33 @@ const AddEditCompany = () => {
                 <DNDImage setFiles={setFiles} />
               </div>
 
-              <aside className={styles.preview}>
+              <aside className={companyStyles.preview}>
                 {files?.[0]?.preview ? (
-                  <img
-                    src={files?.[0]?.preview}
-                    alt="/assets/images/picture.svg"
-                    // Revoke data uri after image is loaded
-                    onLoad={() => {
-                      URL.revokeObjectURL(files?.[0]?.preview);
-                    }}
-                  />
+                  <div className="">
+                    <img
+                      src={files?.[0]?.preview}
+                      alt="/assets/images/picture.svg"
+                      // Revoke data uri after image is loaded
+                      onLoad={() => {
+                        URL.revokeObjectURL(files?.[0]?.preview);
+                      }}
+                    />
+                    <RiDeleteBin6Line
+                      className="w-5 h-5 cursor-pointer absolute top-1 right-4"
+                      onClick={() => {
+                        setFiles(() => []);
+                      }}
+                    />
+                  </div>
                 ) : (
-                  <img
-                    src="/assets/images/picture.svg"
+                  <div className="">
+                    <img
+                      src="/assets/images/picture.svg"
 
-                    // alt="/assets/images/picture.svg"
-                    // Revoke data uri after image is loaded
-                  />
+                      // alt="/assets/images/picture.svg"
+                      // Revoke data uri after image is loaded
+                    />
+                  </div>
                 )}
               </aside>
             </div>
