@@ -1,0 +1,26 @@
+@import "styles/variable.scss";
+.list {
+  text-align: left;
+  padding: 1.037rem;
+  position: relative;
+  //   background-color: aliceblue;
+  svg {
+    fill: white;
+  }
+}
+.abn-no span:first-child {
+  font-size: $font-medium;
+}
+
+.abn-no span:last-child {
+  font-weight: lighter;
+}
+
+.company-info {
+  line-height: 1rem;
+}
+
+.company-info span {
+  font-size: $font-small;
+  color: var(--color-cloudy_grey);
+}

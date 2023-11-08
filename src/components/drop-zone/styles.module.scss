@@ -45,3 +45,12 @@
     margin-top: 1.098rem;
   }
 }
+
+.card {
+  background-color: white;
+  cursor: pointer;
+  &.loading {
+    pointer-events: none;
+    background-color: #00000019;
+  }
+}

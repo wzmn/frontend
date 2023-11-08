@@ -1,18 +1,21 @@
 import Button from "components/button";
 import { Drop } from "components/drop-zone";
-import { Drage } from "components/drop-zone/drage";
+import { DragProps, Drage } from "components/drop-zone/drage";
 import Input from "components/input";
 import Pagination from "components/pagination";
 import SelectBox from "components/selectBox";
 import { COMPANY_LISTING } from "constants/api";
 import { demoDndData } from "constants/demo-dnd-data";
 import { Link } from "gatsby";
-import React, { useEffect, useState } from "react";
+import moment from "moment";
+import React, { Fragment, useEffect, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
+import { ImSpinner10 } from "react-icons/im";
 import { request } from "services/http-request";
 import * as styles from "styles/pages/common.module.scss";
 import { CompanyDataType, CompanyStatus } from "type/company";
 import cssVar from "utility/css-var";
+import * as companyStyles from "./styles.module.scss";
 const dataList = [
   { label: "Wade Cooper" },
   { label: "Arlene Mccoy" },
@@ -27,8 +30,7 @@ type DProps = CompanyDataType & {
 };
 
 const Company = () => {
-  const [data, setData] = useState(demoDndData);
-  const [d, setD] = useState<Record<CompanyStatus, DProps[]>>({
+  const [data, setData] = useState<Record<CompanyStatus, DProps[]>>({
     "upload info": [],
     "document review": [],
     verified: [],
@@ -40,11 +42,15 @@ const Company = () => {
   const drop2Color = cssVar("--color-candlelight");
   const drop3Color = cssVar("--color-aqua_blue");
 
-  function handleDrop(item: any, section: string, make: boolean = false) {
+  async function handleDrop(
+    item: any,
+    section: CompanyStatus,
+    make: boolean = true
+  ) {
     console.log(item, section);
     if (item.section === section) return;
     // console.log(item);
-    const dt: any = { ...d };
+    const dt: any = { ...data };
     let idx;
     dt[item.section]?.some((itm: any, key: any) => {
       console.log(item.id, itm.id);
@@ -58,10 +64,9 @@ const Company = () => {
       const pop = dt[item.section].splice(idx, 1)[0];
       dt[section].unshift({ ...pop, status: make });
 
-      setD(() => dt);
-      // if(make){
-      //   updateData(item,section)
-      // }
+      setData(() => dt);
+
+      updateData(item, section, idx);
     }
   }
 
@@ -71,31 +76,65 @@ const Company = () => {
         url: COMPANY_LISTING,
       });
 
-      const filterData = { ...d };
+      const filterData = { ...data };
+
+      Object.keys(data).map(
+        (item) => (filterData[item as CompanyStatus].length = 0)
+      );
 
       response.data.forEach((item) => {
         console.log(item.company_status);
         filterData[item.company_status!].push({ ...item, status: false });
       });
 
-      setData((prev) => ({ ...prev, filterData }));
+      setData(() => filterData);
     } catch (error) {
       console.log(error);
     }
   }
 
-  async function updateData(item: any, to: string) {
-    const data = {
+  async function updateData(item: DragProps, to: CompanyStatus, index: number) {
+    const datap = {
       company_status: to,
     };
     try {
       const response = await request<CompanyDataType[]>({
         url: COMPANY_LISTING + item.id + "/approval/",
         method: "patch",
-        data,
+        data: datap,
       });
+
+      const dd = { ...data };
+      let idx;
+      dd[to]?.some((itm: any, key: any) => {
+        console.log(item.id, itm.id);
+        if (item.id === itm.id) {
+          idx = key;
+          return true;
+        }
+      });
+
+      if (idx !== undefined) {
+        dd[to][idx].status = false;
+        setData(() => dd);
+      }
     } catch (error) {
-      handleDrop(item, to);
+      const dt: any = { ...data };
+      let idx;
+      dt[to]?.some((itm: any, key: any) => {
+        console.log(item.id, itm.id);
+        if (item.id === itm.id) {
+          idx = key;
+          return true;
+        }
+      });
+
+      if (idx !== undefined) {
+        const pop = dt[to].splice(idx, 1)[0];
+        dt[item.section].splice(index, 0, { ...pop, status: false });
+
+        setData(() => dt);
+      }
     }
   }
 
@@ -105,7 +144,6 @@ const Company = () => {
 
   return (
     <>
-      {/* <pre>{JSON.stringify(d, null, 4)}</pre> */}
       <div className={styles.btnCont}>
         <Link to="add-edit-company">
           <Button
@@ -123,7 +161,8 @@ const Company = () => {
       </div>
 
       <div className={styles.tableCont}>
-        {Object.keys(d).map((dropName) => {
+        {Object.keys(data).map((dropName) => {
+          console.log(dropName);
           return (
             <Drop
               key={dropName}
@@ -132,23 +171,33 @@ const Company = () => {
               handleDrop={handleDrop}
               section={dropName}
               title={dropName.toLocaleUpperCase()}
-              data={d[dropName as CompanyStatus]}
             >
               <>
-                {d[dropName as CompanyStatus].map((dragItem) => {
+                {data[dropName as CompanyStatus].map((dragItem: DProps) => {
                   return (
-                    <Drage
-                      key={dragItem.id} //you can`t use index from map id should be unique
-                      accept={dragItem.status ? "" : "company"}
-                      section={dropName}
-                      id={dragItem.id as number}
-                    >
-                      <List
-                        // currentSection={dropName}
-                        // nextSection
-                        data={dragItem}
-                      />
-                    </Drage>
+                    <Fragment key={dragItem.id}>
+                      {/* {!dragItem.status ? ( */}
+                      <Drage
+                        key={dragItem.id} //you can`t use index from map id should be unique
+                        accept={"company"}
+                        section={dropName}
+                        id={dragItem.id as number}
+                        loading={dragItem.status}
+                        // isEnabled={!dragItem.status}
+                      >
+                        <>
+                          <List
+                            // currentSection={dropName}
+                            // nextSection
+                            data={dragItem}
+                            loading={dragItem.status}
+                          />
+                        </>
+                      </Drage>
+                      {/* ) : (
+                        <div className="">Loading...</div>
+                      )} */}
+                    </Fragment>
                   );
                 })}
               </>
@@ -160,21 +209,25 @@ const Company = () => {
     </>
   );
 };
-let count = 0;
-function List({ data }: { data: any }) {
-  const [v, sV] = useState();
-
-  useEffect(() => {
-    console.log(data.id, "ini");
-  }, []);
-  useEffect(() => {
-    count++;
-    console.log(data.id, "rend");
-  }, [v]);
+function List({ data, loading }: { data: DProps; loading: boolean }) {
   return (
-    <div className="">
-      <p className="">{count}</p>
-      {data.id}
+    <div className={companyStyles.list}>
+      {/* <p className="">{data.status ? "Loading" : "ll"}</p> */}
+      <div className="absolute right-3 top-1">
+        <ImSpinner10 className="animate-spin" />
+      </div>
+      <div className={companyStyles.abnNo}>
+        <span className="">ABN No. </span>
+        <span className={companyStyles.id}>{data.id}</span>
+      </div>
+      <div className={companyStyles.companyInfo}>
+        <p className="">{data.company_name}</p>
+        <span className="">
+          {" "}
+          created on: Mon,3.40 am{moment(data.created_at).format("ddd,MM a")}
+        </span>
+      </div>
+      <div className="contactInfo"></div>
     </div>
   );
 }
