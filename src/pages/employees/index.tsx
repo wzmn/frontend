@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import Button from "components/button";
 import { AiOutlinePlus } from "react-icons/ai";
 import Input from "components/input";
@@ -8,6 +8,11 @@ import { Drop } from "components/drop-zone";
 import cssVar from "utility/css-var";
 import { demoDndData } from "constants/demo-dnd-data";
 import * as styles from "styles/pages/common.module.scss";
+import { EmployeeDataType, EmployeeRole } from "type/employee";
+import { findMatchingId } from "utility/find-matching-id";
+import { DragProps, Drage } from "components/drop-zone/drage";
+import { request } from "services/http-request";
+import { EMPLOYEE_LISTING } from "constants/api";
 const dataList = [
   { label: "Wade Cooper" },
   { label: "Arlene Mccoy" },
@@ -18,36 +23,98 @@ const dataList = [
 ];
 
 const Employees = () => {
-  const [data, setData] = useState(demoDndData);
+  const [data, setData] = useState<Record<EmployeeRole, EmployeeDataType[]>>({
+    admin: [],
+    agent: [],
+    auditor: [],
+    field_worker: [],
+    manager: [],
+  });
 
   const drop1Color = cssVar("--color-blue_dress");
   const drop2Color = cssVar("--color-candlelight");
   const drop3Color = cssVar("--color-aqua_blue");
 
-  function handleDrop(item: any, section: string) {
+  async function handleDrop(
+    item: any,
+    section: EmployeeRole,
+    make: boolean = true
+  ) {
+    console.log(item, section);
     if (item.section === section) return;
-
-    const dt: any = { ...data };
-    let idx;
-    dt[item.section].some((itm: any, key: any) => {
-      console.log(item.id, itm.id);
-      if (item.id === itm.id) {
-        idx = key;
-        return true;
-      }
-    });
+    const copyData: any = { ...data };
+    let idx = findMatchingId(data, item.id, item.section);
 
     if (idx !== undefined) {
-      const pop = dt[item.section].splice(idx, 1)[0];
-      dt[section].unshift(pop);
+      const pop = copyData[item.section].splice(idx, 1)[0];
+      copyData[section].unshift({ ...pop, status: make });
 
-      setData(() => dt);
+      setData(() => copyData);
+
+      updateData(item, section, idx);
     }
   }
 
+  async function fetchData() {
+    try {
+      const response = await request<EmployeeDataType[]>({
+        url: EMPLOYEE_LISTING,
+      });
+
+      const filterData = { ...data };
+
+      Object.keys(data).map(
+        (item) => (filterData[item as EmployeeRole].length = 0)
+      );
+
+      response.data.forEach((item) => {
+        // filterData[item.company_status!].push({ ...item, status: false });
+      });
+
+      setData(() => filterData);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function updateData(item: DragProps, to: EmployeeRole, index: number) {
+    const datap = {
+      company_status: to,
+    };
+    try {
+      const response = await request<EmployeeDataType[]>({
+        url: EMPLOYEE_LISTING + item.id + "/approval/",
+        method: "patch",
+        data: datap,
+      });
+
+      const copyData = { ...data };
+      let idx = findMatchingId(data, item.id, to);
+
+      if (idx !== undefined) {
+        // copyData[to][idx].status = false;
+        setData(() => copyData);
+      }
+    } catch (error) {
+      const copyData: any = { ...data };
+      let idx = findMatchingId(data, item.id, to);
+
+      if (idx !== undefined) {
+        const pop = copyData[to].splice(idx, 1)[0];
+        copyData[item.section].splice(index, 0, { ...pop, status: false });
+
+        setData(() => copyData);
+      }
+    }
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <>
-      {/* <pre>{JSON.stringify(data, null, 4)}</pre> */}
+      <pre>{JSON.stringify(data, null, 4)}</pre>
       <div className={styles.btnCont}>
         <Button
           title="Create Employee"
@@ -63,47 +130,39 @@ const Employees = () => {
       </div>
 
       <div className={styles.tableCont}>
-        <Drop
-          titleRingColor={drop1Color}
-          accept="company"
-          handleDrop={handleDrop}
-          section="auditor"
-          title="AUDITOR"
-          data={data.auditor}
-        />
-        <Drop
-          titleRingColor={drop2Color}
-          accept="company"
-          handleDrop={handleDrop}
-          section="admin"
-          title="ADMIN"
-          data={data.admin}
-        />
-        <Drop
-          titleRingColor={drop3Color}
-          accept="company"
-          handleDrop={handleDrop}
-          section="manager"
-          title="MANAGER"
-          data={data.manager}
-        />
-
-        <Drop
-          titleRingColor={drop3Color}
-          accept="company"
-          handleDrop={handleDrop}
-          section="agent"
-          title="AGENT"
-          data={data.agent}
-        />
-        <Drop
-          titleRingColor={drop3Color}
-          accept="company"
-          handleDrop={handleDrop}
-          section="fieldworkar"
-          title="FIELDWORKER"
-          data={data.fieldworkar}
-        />
+        {Object.keys(data).map((dropName) => {
+          console.log(dropName);
+          return (
+            <Drop
+              key={dropName}
+              titleRingColor={drop1Color}
+              accept="company"
+              handleDrop={handleDrop}
+              section={dropName}
+              title={dropName.toLocaleUpperCase()}
+            >
+              <>
+                {data[dropName as EmployeeRole].map((dragItem) => {
+                  return (
+                    <Fragment key={dragItem.id}>
+                      <Drage
+                        key={dragItem.id} //you can`t use index from map id should be unique
+                        accept={"company"}
+                        section={dropName}
+                        id={dragItem.id as number}
+                        loading={false}
+                      >
+                        <>
+                          {/* <List data={dragItem} loading={dragItem.status} /> */}
+                        </>
+                      </Drage>
+                    </Fragment>
+                  );
+                })}
+              </>
+            </Drop>
+          );
+        })}
       </div>
       <Pagination />
     </>

@@ -5,7 +5,6 @@ import Input from "components/input";
 import Pagination from "components/pagination";
 import SelectBox from "components/selectBox";
 import { COMPANY_LISTING } from "constants/api";
-import { demoDndData } from "constants/demo-dnd-data";
 import { Link } from "gatsby";
 import moment from "moment";
 import React, { Fragment, useEffect, useState } from "react";
@@ -16,6 +15,7 @@ import * as styles from "styles/pages/common.module.scss";
 import { CompanyDataType, CompanyStatus } from "type/company";
 import cssVar from "utility/css-var";
 import * as companyStyles from "./styles.module.scss";
+import { findMatchingId } from "utility/find-matching-id";
 const dataList = [
   { label: "Wade Cooper" },
   { label: "Arlene Mccoy" },
@@ -49,22 +49,14 @@ const Company = () => {
   ) {
     console.log(item, section);
     if (item.section === section) return;
-    // console.log(item);
-    const dt: any = { ...data };
-    let idx;
-    dt[item.section]?.some((itm: any, key: any) => {
-      console.log(item.id, itm.id);
-      if (item.id === itm.id) {
-        idx = key;
-        return true;
-      }
-    });
+    const copyData: any = { ...data };
+    let idx = findMatchingId(data, item.id, item.section);
 
     if (idx !== undefined) {
-      const pop = dt[item.section].splice(idx, 1)[0];
-      dt[section].unshift({ ...pop, status: make });
+      const pop = copyData[item.section].splice(idx, 1)[0];
+      copyData[section].unshift({ ...pop, status: make });
 
-      setData(() => dt);
+      setData(() => copyData);
 
       updateData(item, section, idx);
     }
@@ -104,36 +96,22 @@ const Company = () => {
         data: datap,
       });
 
-      const dd = { ...data };
-      let idx;
-      dd[to]?.some((itm: any, key: any) => {
-        console.log(item.id, itm.id);
-        if (item.id === itm.id) {
-          idx = key;
-          return true;
-        }
-      });
+      const copyData = { ...data };
+      let idx = findMatchingId(data, item.id, to);
 
       if (idx !== undefined) {
-        dd[to][idx].status = false;
-        setData(() => dd);
+        copyData[to][idx].status = false;
+        setData(() => copyData);
       }
     } catch (error) {
-      const dt: any = { ...data };
-      let idx;
-      dt[to]?.some((itm: any, key: any) => {
-        console.log(item.id, itm.id);
-        if (item.id === itm.id) {
-          idx = key;
-          return true;
-        }
-      });
+      const copyData: any = { ...data };
+      let idx = findMatchingId(data, item.id, to);
 
       if (idx !== undefined) {
-        const pop = dt[to].splice(idx, 1)[0];
-        dt[item.section].splice(index, 0, { ...pop, status: false });
+        const pop = copyData[to].splice(idx, 1)[0];
+        copyData[item.section].splice(index, 0, { ...pop, status: false });
 
-        setData(() => dt);
+        setData(() => copyData);
       }
     }
   }
@@ -145,7 +123,7 @@ const Company = () => {
   return (
     <>
       <div className={styles.btnCont}>
-        <Link to="add-edit-company">
+        <Link to="company-registration">
           <Button
             title="Create Company"
             icon={<AiOutlinePlus />}
@@ -176,27 +154,17 @@ const Company = () => {
                 {data[dropName as CompanyStatus].map((dragItem: DProps) => {
                   return (
                     <Fragment key={dragItem.id}>
-                      {/* {!dragItem.status ? ( */}
                       <Drage
                         key={dragItem.id} //you can`t use index from map id should be unique
                         accept={"company"}
                         section={dropName}
                         id={dragItem.id as number}
                         loading={dragItem.status}
-                        // isEnabled={!dragItem.status}
                       >
                         <>
-                          <List
-                            // currentSection={dropName}
-                            // nextSection
-                            data={dragItem}
-                            loading={dragItem.status}
-                          />
+                          <List data={dragItem} loading={dragItem.status} />
                         </>
                       </Drage>
-                      {/* ) : (
-                        <div className="">Loading...</div>
-                      )} */}
                     </Fragment>
                   );
                 })}
@@ -233,3 +201,9 @@ function List({ data, loading }: { data: DProps; loading: boolean }) {
 }
 
 export default Company;
+
+// company
+// {
+//   "username": "c1@example.com",
+//   "password": "Test@4321"
+// }

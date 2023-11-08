@@ -3,7 +3,7 @@ import { useDrag } from "react-dnd";
 import * as styles from "./styles.module.scss";
 
 export type DragProps = {
-  id: string | number;
+  id: number;
   section: string;
   accept: string;
   isEnabled?: boolean;
