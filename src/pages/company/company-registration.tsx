@@ -8,7 +8,7 @@ import SelectBox from "components/selectBox";
 import TextField from "components/text-field";
 import { useRightBarContext } from "providers/right-bar-provider";
 import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import {
   CompanyRegistrationSchemaType,

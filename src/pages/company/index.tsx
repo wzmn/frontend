@@ -7,7 +7,7 @@ import SelectBox from "components/selectBox";
 import { COMPANY_LISTING } from "constants/api";
 import { Link } from "gatsby";
 import moment from "moment";
-import React, { Fragment, useEffect, useState } from "react";
+import React, { ChangeEvent, Fragment, useEffect, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { ImSpinner10 } from "react-icons/im";
 import { request } from "services/http-request";
@@ -16,6 +16,7 @@ import { CompanyDataType, CompanyStatus } from "type/company";
 import cssVar from "utility/css-var";
 import * as companyStyles from "./styles.module.scss";
 import { findMatchingId } from "utility/find-matching-id";
+import { debounce } from "utility/debounce";
 const dataList = [
   { label: "Wade Cooper" },
   { label: "Arlene Mccoy" },
@@ -62,10 +63,11 @@ const Company = () => {
     }
   }
 
-  async function fetchData() {
+  async function fetchData(params?: Record<any, any>) {
     try {
       const response = await request<CompanyDataType[]>({
         url: COMPANY_LISTING,
+        params,
       });
 
       const filterData = { ...data };
@@ -116,6 +118,10 @@ const Company = () => {
     }
   }
 
+  const handleSearch = debounce((e: ChangeEvent<HTMLInputElement>) => {
+    fetchData({ search: e.target.value });
+  });
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -128,10 +134,15 @@ const Company = () => {
             title="Create Company"
             icon={<AiOutlinePlus />}
             className="flex-row-reverse"
+            name="create-company"
           />
         </Link>
 
-        <Input placeholder="Search" />
+        <Input
+          name="company-search"
+          placeholder="Search"
+          onChange={handleSearch}
+        />
 
         <div className="w-64">
           <SelectBox color="full-white" data={dataList} />
