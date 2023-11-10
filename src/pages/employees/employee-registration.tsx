@@ -13,6 +13,7 @@ import {
 } from "schema/company-schema";
 import { AiFillAlert } from "react-icons/ai";
 import * as styles from "styles/pages/common.module.scss";
+import Radio from "components/radio";
 
 const pg = [
   { label: "100" },
@@ -39,6 +40,7 @@ const EmployeeRegistration = () => {
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { isSubmitting, errors },
   } = useForm({
     resolver: yupResolver(companyRegistrationSchema),
@@ -60,7 +62,6 @@ const EmployeeRegistration = () => {
   return (
     <>
       <p className={styles.title}>Create Company</p>
-
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-16 mb-3">
         <FormSection title="Employee Details">
           <div className="flex-1">
