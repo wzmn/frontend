@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosInstance, AxiosResponse } from "axios";
 import { LoginResType } from "type/auth";
 
 const Axios: AxiosInstance = axios.create({
-  baseURL: process.env.API_URL,
+  baseURL: process.env.API_URL + "/api",
   timeout: 10000,
   params: {}, // do not remove this, its added to add params later in the config
 });
