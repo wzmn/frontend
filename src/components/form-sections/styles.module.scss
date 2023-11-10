@@ -23,6 +23,9 @@
       border-radius: 2rem;
       background-color: var(--color-blue_dress);
     }
+    & .note {
+      color: var(--color-red-dark);
+    }
   }
 
   @include xl {

@@ -16,6 +16,7 @@ import { EMPLOYEE_LISTING } from "constants/api";
 import Filterbtn from "components/filterBtn";
 import Menu from "components/menu";
 import { CompanyFilter, DateFilter } from "pages/company/helper";
+import { Link } from "gatsby";
 const dataList = [
   { label: "Wade Cooper" },
   { label: "Arlene Mccoy" },
@@ -119,11 +120,13 @@ const Employees = () => {
     <>
       <pre>{JSON.stringify(data, null, 4)}</pre>
       <div className={styles.btnCont}>
-        <Button
-          title="Create Employee"
-          icon={<AiOutlinePlus />}
-          className="flex-row-reverse"
-        />
+        <Link to="employee-registration">
+          <Button
+            title="Create Employee"
+            icon={<AiOutlinePlus />}
+            className="flex-row-reverse"
+          />
+        </Link>
 
         <Input placeholder="Search" />
 
@@ -135,7 +138,7 @@ const Employees = () => {
           <Menu title="Date">
             <DateFilter />
           </Menu>
-          <Menu title="Company Type">
+          <Menu title="Manager">
             <CompanyFilter />
           </Menu>
         </Filterbtn>
