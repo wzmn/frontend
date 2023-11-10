@@ -1,5 +1,6 @@
 @import "../media.scss";
 @import "../common.scss";
+@import "../variable.scss";
 
 //pages
 .file {
@@ -42,4 +43,56 @@
   gap: 1.75rem;
 
   @include scrollBarStyle;
+}
+
+.card {
+  text-align: left;
+  padding: 1.037rem;
+  position: relative;
+  //   background-color: aliceblue;
+  & > div > svg {
+    fill: white;
+  }
+
+  & .header {
+    margin-bottom: 0.8rem;
+    & span:first-child {
+      font-size: $font-medium;
+    }
+
+    & span:last-child {
+      font-weight: lighter;
+    }
+  }
+
+  & .card-info {
+    line-height: 1rem;
+    & span {
+      font-size: $font-small;
+      color: var(--color-cloudy_grey);
+    }
+  }
+
+  & .contact-info {
+    margin-top: 0.8rem;
+    & div:first-child {
+      margin-bottom: 0.2rem;
+    }
+    & div {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: $font-small;
+      color: var(--color-cloudy_grey);
+
+      & .icon {
+        // width: 1rem;
+        // height: 1rem;
+        & > * {
+          font-size: $font-small;
+          color: var(--color-cloudy_grey);
+        }
+      }
+    }
+  }
 }

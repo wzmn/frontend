@@ -8,7 +8,11 @@ import { Drop } from "components/drop-zone";
 import cssVar from "utility/css-var";
 import { demoDndData } from "constants/demo-dnd-data";
 import * as styles from "styles/pages/common.module.scss";
-import { EmployeeDataType, EmployeeRole } from "type/employee";
+import {
+  EmployeeDataStateType,
+  EmployeeDataType,
+  EmployeeRole,
+} from "type/employee";
 import { findMatchingId } from "utility/find-matching-id";
 import { DragProps, Drage } from "components/drop-zone/drage";
 import { request } from "services/http-request";
@@ -17,6 +21,10 @@ import Filterbtn from "components/filterBtn";
 import Menu from "components/menu";
 import { CompanyFilter, DateFilter } from "pages/company/helper";
 import { Link } from "gatsby";
+import { IoCallOutline } from "react-icons/io5";
+import moment from "moment";
+import { ImSpinner10 } from "react-icons/im";
+import { TfiEmail } from "react-icons/tfi";
 const dataList = [
   { label: "Wade Cooper" },
   { label: "Arlene Mccoy" },
@@ -27,12 +35,14 @@ const dataList = [
 ];
 
 const Employees = () => {
-  const [data, setData] = useState<Record<EmployeeRole, EmployeeDataType[]>>({
-    admin: [],
-    agent: [],
-    auditor: [],
-    field_worker: [],
-    manager: [],
+  const [data, setData] = useState<
+    Record<EmployeeRole, EmployeeDataStateType[]>
+  >({
+    Admin: [],
+    Agent: [],
+    Auditor: [],
+    "Field Worker": [],
+    Manager: [],
   });
 
   const drop1Color = cssVar("--color-blue_dress");
@@ -72,7 +82,8 @@ const Employees = () => {
       );
 
       response.data.forEach((item) => {
-        // filterData[item.company_status!].push({ ...item, status: false });
+        console.log(item.role);
+        filterData[item.role! as EmployeeRole].push({ ...item, status: false });
       });
 
       setData(() => filterData);
@@ -83,11 +94,11 @@ const Employees = () => {
 
   async function updateData(item: DragProps, to: EmployeeRole, index: number) {
     const datap = {
-      company_status: to,
+      role: to,
     };
     try {
       const response = await request<EmployeeDataType[]>({
-        url: EMPLOYEE_LISTING + item.id + "/approval/",
+        url: EMPLOYEE_LISTING + item.id + "/update-role/",
         method: "patch",
         data: datap,
       });
@@ -96,7 +107,7 @@ const Employees = () => {
       let idx = findMatchingId(data, item.id, to);
 
       if (idx !== undefined) {
-        // copyData[to][idx].status = false;
+        copyData[to][idx].status = false;
         setData(() => copyData);
       }
     } catch (error) {
@@ -118,7 +129,6 @@ const Employees = () => {
 
   return (
     <>
-      <pre>{JSON.stringify(data, null, 4)}</pre>
       <div className={styles.btnCont}>
         <Link to="employee-registration">
           <Button
@@ -165,10 +175,10 @@ const Employees = () => {
                         accept={"company"}
                         section={dropName}
                         id={dragItem.id as number}
-                        loading={false}
+                        loading={dragItem.status}
                       >
                         <>
-                          {/* <List data={dragItem} loading={dragItem.status} /> */}
+                          <List loading={dragItem.status} data={dragItem} />
                         </>
                       </Drage>
                     </Fragment>
@@ -183,5 +193,50 @@ const Employees = () => {
     </>
   );
 };
+
+export function List({
+  data,
+  loading,
+}: {
+  data: EmployeeDataStateType;
+  loading: boolean;
+}) {
+  return (
+    <div className={styles.card}>
+      {/* <p className="">{data.status ? "Loading" : "ll"}</p> */}
+      <div className="absolute right-3 top-1">
+        <ImSpinner10 className="animate-spin" />
+      </div>
+      {/* <div className={styles.header}>
+       
+        <span>{data.user?.first_name}</span>
+      </div> */}
+      <div className={styles.cardInfo}>
+        <p className="">{data.user?.first_name}</p>
+        <span className="">
+          {" "}
+          created on: {moment(data.user?.created_at).format("ddd, MM a")}
+        </span>
+      </div>
+      <div className={styles.contactInfo}>
+        <div className="">
+          <span className={styles.icon}>
+            <TfiEmail className={styles.icon} />
+          </span>
+
+          <span className={styles.contact}>{data.user?.phone}</span>
+        </div>
+
+        <div className="">
+          <span className={styles.icon}>
+            <IoCallOutline className={styles.icon} />
+          </span>
+
+          <span className={styles.contact}>{data.user?.email}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default Employees;

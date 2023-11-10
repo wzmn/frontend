@@ -3,22 +3,18 @@ import { Drop } from "components/drop-zone";
 import { DragProps, Drage } from "components/drop-zone/drage";
 import Input from "components/input";
 import Pagination from "components/pagination";
-import SelectBox from "components/selectBox";
 import { COMPANY_LISTING } from "constants/api";
 import { Link } from "gatsby";
-import moment from "moment";
+import Filterbtn from "components/filterBtn";
+import Menu from "components/menu";
 import React, { ChangeEvent, Fragment, useEffect, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
-import { ImSpinner10 } from "react-icons/im";
 import { request } from "services/http-request";
 import * as styles from "styles/pages/common.module.scss";
 import { CompanyDataType, CompanyStatus, DProps } from "type/company";
 import cssVar from "utility/css-var";
-import * as companyStyles from "./styles.module.scss";
-import { findMatchingId } from "utility/find-matching-id";
 import { debounce } from "utility/debounce";
-import Filterbtn from "components/filterBtn";
-import Menu from "components/menu";
+import { findMatchingId } from "utility/find-matching-id";
 import { CompanyFilter, DateFilter, List } from "./helper";
 const dataList = [
   { label: "Wade Cooper" },
