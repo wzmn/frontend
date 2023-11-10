@@ -42,3 +42,7 @@ export type CompanyStatus =
   | "verified"
   | "operational"
   | "rejected";
+
+export type DProps = CompanyDataType & {
+  status: boolean;
+};

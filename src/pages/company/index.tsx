@@ -12,11 +12,14 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { ImSpinner10 } from "react-icons/im";
 import { request } from "services/http-request";
 import * as styles from "styles/pages/common.module.scss";
-import { CompanyDataType, CompanyStatus } from "type/company";
+import { CompanyDataType, CompanyStatus, DProps } from "type/company";
 import cssVar from "utility/css-var";
 import * as companyStyles from "./styles.module.scss";
 import { findMatchingId } from "utility/find-matching-id";
 import { debounce } from "utility/debounce";
+import Filterbtn from "components/filterBtn";
+import Menu from "components/menu";
+import { CompanyFilter, DateFilter, List } from "./helper";
 const dataList = [
   { label: "Wade Cooper" },
   { label: "Arlene Mccoy" },
@@ -25,10 +28,6 @@ const dataList = [
   { label: "Tanya Fox" },
   { label: "Hellen Schmidt" },
 ];
-
-type DProps = CompanyDataType & {
-  status: boolean;
-};
 
 const Company = () => {
   const [data, setData] = useState<Record<CompanyStatus, DProps[]>>({
@@ -144,9 +143,17 @@ const Company = () => {
           onChange={handleSearch}
         />
 
-        <div className="w-64">
+        {/* <div className="w-64">
           <SelectBox color="full-white" data={dataList} />
-        </div>
+        </div> */}
+        <Filterbtn>
+          <Menu title="Date">
+            <DateFilter />
+          </Menu>
+          <Menu title="Company Type">
+            <CompanyFilter />
+          </Menu>
+        </Filterbtn>
       </div>
 
       <div className={styles.tableCont}>
@@ -188,28 +195,6 @@ const Company = () => {
     </>
   );
 };
-function List({ data, loading }: { data: DProps; loading: boolean }) {
-  return (
-    <div className={companyStyles.list}>
-      {/* <p className="">{data.status ? "Loading" : "ll"}</p> */}
-      <div className="absolute right-3 top-1">
-        <ImSpinner10 className="animate-spin" />
-      </div>
-      <div className={companyStyles.abnNo}>
-        <span className="">ABN No. </span>
-        <span className={companyStyles.id}>{data.id}</span>
-      </div>
-      <div className={companyStyles.companyInfo}>
-        <p className="">{data.company_name}</p>
-        <span className="">
-          {" "}
-          created on: Mon,3.40 am{moment(data.created_at).format("ddd,MM a")}
-        </span>
-      </div>
-      <div className="contactInfo"></div>
-    </div>
-  );
-}
 
 export default Company;
 

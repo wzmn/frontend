@@ -45,3 +45,16 @@
     width: 100%;
   }
 }
+
+.filter-cont {
+  padding: 1rem 1rem;
+  & .filter {
+    padding: 0.3rem 0.4rem;
+    & > label {
+      display: flex;
+      gap: 1rem;
+      font-size: $font-base;
+      cursor: pointer;
+    }
+  }
+}

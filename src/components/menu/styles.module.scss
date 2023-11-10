@@ -1,0 +1,22 @@
+@import "styles/variable.scss";
+$dpd-width: 14.75rem;
+
+.menu {
+  position: relative;
+  & button {
+    width: 100%;
+    font-weight: 500;
+    padding: 0.5rem 0.6rem;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    font-size: $font-base;
+    &:hover {
+      background-color: rgba(227, 220, 220, 0.188);
+    }
+  }
+
+  & .drop-position {
+    right: -$dpd-width - 0.2;
+  }
+}

@@ -40,7 +40,7 @@ export default function SelectBox({
   const [selected, setSelected] = useState<DataProp>();
 
   return (
-    <div className="  ">
+    <div className="w-full ">
       <Listbox value={selected} onChange={setSelected}>
         <div className="relative mt-1 border ">
           <Listbox.Button

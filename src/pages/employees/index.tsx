@@ -13,6 +13,9 @@ import { findMatchingId } from "utility/find-matching-id";
 import { DragProps, Drage } from "components/drop-zone/drage";
 import { request } from "services/http-request";
 import { EMPLOYEE_LISTING } from "constants/api";
+import Filterbtn from "components/filterBtn";
+import Menu from "components/menu";
+import { CompanyFilter, DateFilter } from "pages/company/helper";
 const dataList = [
   { label: "Wade Cooper" },
   { label: "Arlene Mccoy" },
@@ -124,9 +127,18 @@ const Employees = () => {
 
         <Input placeholder="Search" />
 
-        <div className="w-64">
+        {/* <div className="w-64">
           <SelectBox color="full-white" data={dataList} />
-        </div>
+        </div> */}
+
+        <Filterbtn>
+          <Menu title="Date">
+            <DateFilter />
+          </Menu>
+          <Menu title="Company Type">
+            <CompanyFilter />
+          </Menu>
+        </Filterbtn>
       </div>
 
       <div className={styles.tableCont}>
