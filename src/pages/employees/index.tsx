@@ -202,40 +202,42 @@ export function List({
   loading: boolean;
 }) {
   return (
-    <div className={styles.card}>
-      {/* <p className="">{data.status ? "Loading" : "ll"}</p> */}
-      <div className="absolute right-3 top-1">
-        <ImSpinner10 className="animate-spin" />
-      </div>
-      {/* <div className={styles.header}>
+    <Link to="employee-details">
+      <div className={styles.card}>
+        {/* <p className="">{data.status ? "Loading" : "ll"}</p> */}
+        <div className="absolute right-3 top-1">
+          <ImSpinner10 className="animate-spin" />
+        </div>
+        {/* <div className={styles.header}>
        
         <span>{data.user?.first_name}</span>
       </div> */}
-      <div className={styles.cardInfo}>
-        <p className="">{data.user?.first_name}</p>
-        <span className="">
-          {" "}
-          created on: {moment(data.user?.created_at).format("ddd, MM a")}
-        </span>
-      </div>
-      <div className={styles.contactInfo}>
-        <div className="">
-          <span className={styles.icon}>
-            <TfiEmail className={styles.icon} />
+        <div className={styles.cardInfo}>
+          <p className="">{data.user?.first_name}</p>
+          <span className="">
+            {" "}
+            created on: {moment(data.user?.created_at).format("ddd, MM a")}
           </span>
-
-          <span className={styles.contact}>{data.user?.phone}</span>
         </div>
+        <div className={styles.contactInfo}>
+          <div className="">
+            <span className={styles.icon}>
+              <TfiEmail className={styles.icon} />
+            </span>
 
-        <div className="">
-          <span className={styles.icon}>
-            <IoCallOutline className={styles.icon} />
-          </span>
+            <span className={styles.contact}>{data.user?.email}</span>
+          </div>
 
-          <span className={styles.contact}>{data.user?.email}</span>
+          <div className="">
+            <span className={styles.icon}>
+              <IoCallOutline className={styles.icon} />
+            </span>
+
+            <span className={styles.contact}>{data.user?.phone}</span>
+          </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 

@@ -1,0 +1,96 @@
+@import "styles/variable.scss";
+.name {
+  font-size: $font-normal;
+
+  & .bold {
+    font-weight: 500;
+  }
+
+  & .tag {
+    color: var(--color-blue_dress);
+  }
+
+  & .tag2 {
+    color: var(--color-cloudy_grey);
+  }
+}
+
+.contact-info {
+  margin: 2rem 0rem;
+  & div:first-child {
+    margin-bottom: 0.2rem;
+  }
+  & div {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: $font-normal;
+    color: var(--color-cloudy_grey);
+
+    & .icon {
+      // width: 1rem;
+      // height: 1rem;
+      & > * {
+        // font-size: $font-normal;
+        color: var(--color-cloudy_grey);
+      }
+    }
+  }
+}
+
+.create-by {
+  padding: 1rem 0rem;
+}
+
+.user-role {
+  margin-top: 2rem;
+  display: flex;
+  gap: 2rem;
+
+  & .roles {
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1;
+    gap: 2rem;
+  }
+}
+
+.attachments {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  justify-content: space-between;
+}
+
+.addAttachments {
+  margin-top: 3rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  font-size: $font-medium;
+  color: var(--color-blue_dress);
+}
+
+.comment-box {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  & .user {
+    border: 0.01rem solid var(--color-cloudy_grey_lighter);
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: $font-large;
+    font-weight: 700;
+    background-color: var(--color-aqua_blue_lighter);
+  }
+
+  & .input {
+    flex: 1;
+  }
+}
