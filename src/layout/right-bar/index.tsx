@@ -5,7 +5,7 @@ import { BsThreeDots } from "react-icons/bs";
 import { useRightBarContext } from "providers/right-bar-provider";
 
 const RightBar = () => {
-  const { open, toggle } = useRightBarContext();
+  const { open, toggle, element } = useRightBarContext();
 
   return (
     <div className={`${styles.rightBarCont}  ${open && styles.slideIn}`}>
@@ -17,54 +17,7 @@ const RightBar = () => {
         </div>
       </div>
       <div className={`${styles.rightBar}`}>
-        <div className={styles.barBody}>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque,
-          voluptas. Porro repellat, est quidem ratione saepe hic laudantium
-          dolor magni quas praesentium debitis obcaecati voluptate vel sequi
-          quis quibusdam. Architecto! Lorem ipsum dolor sit amet consectetur
-          adipisicing elit. Atque, voluptas. Porro repellat, est quidem ratione
-          saepe hic laudantium dolor magni quas praesentium debitis obcaecati
-          voluptate vel sequi quis quibusdam. Architecto! Lorem ipsum dolor sit
-          amet consectetur adipisicing elit. Atque, voluptas. Porro repellat,
-          est quidem ratione saepe hic laudantium dolor magni quas praesentium
-          debitis obcaecati voluptate vel sequi quis quibusdam. Architecto!
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque,
-          voluptas. Porro repellat, est quidem ratione saepe hic laudantium
-          dolor magni quas praesentium debitis obcaecati voluptate vel sequi
-          quis quibusdam. Architecto! Lorem ipsum dolor sit amet consectetur
-          adipisicing elit. Atque, voluptas. Porro repellat, est quidem ratione
-          saepe hic laudantium dolor magni quas praesentium debitis obcaecati
-          voluptate vel sequi quis quibusdam. Architecto! Lorem ipsum dolor sit
-          amet consectetur adipisicing elit. Atque, voluptas. Porro repellat,
-          est quidem ratione saepe hic laudantium dolor magni quas praesentium
-          debitis obcaecati voluptate vel sequi quis quibusdam. Architecto! amet
-          consectetur adipisicing elit. Atque, voluptas. Porro repellat, est
-          quidem ratione saepe hic laudantium dolor magni quas praesentium
-          debitis obcaecati voluptate vel sequi quis quibusdam. Architecto!
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque,
-          voluptas. Porro repellat, est quidem ratione saepe hic laudantium
-          dolor magni quas praesentium debitis obcaecati voluptate vel sequi
-          quis quibusdam. Architecto! Lorem ipsum dolor sit amet consectetur
-          adipisicing elit. Atque, voluptas. Porro repellat, est quidem ratione
-          saepe hic laudantium dolor magni quas praesentium debitis obcaecati
-          voluptate vel sequi quis quibusdam. Architecto! Lorem ipsum dolor sit
-          amet consectetur adipisicing elit. Atque, voluptas. Porro repellat,
-          est quidem ratione saepe hic laudantium dolor magni quas praesentium
-          debitis obcaecati voluptate vel sequi quis quibusdam. Architecto!
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque,
-          voluptas. Porro repellat, est quidem ratione saepe hic laudantium
-          dolor magni quas praesentium debitis obcaecati voluptate vel sequi
-          quis quibusdam. Architecto! Lorem ipsum dolor sit amet consectetur
-          adipisicing elit. Atque, voluptas. Porro repellat, est quidem ratione
-          saepe hic laudantium dolor magni quas praesentium debitis obcaecati
-          voluptate vel sequi quis quibusdam. Architecto! Lorem ipsum dolor sit
-          amet consectetur adipisicing elit. Atque, voluptas. Porro repellat,
-          est quidem ratione saepe hic laudantium dolor magni quas praesentium
-          debitis obcaecati voluptate vel sequi quis quibusdam. Architecto! amet
-          consectetur adipisicing elit. Atque, voluptas. Porro repellat, est
-          quidem ratione saepe hic laudantium dolor magni quas praesentium
-          debitis obcaecati voluptate vel sequi quis quibusdam. Architecto!
-        </div>
+        <div className={styles.barBody}>{element}</div>
       </div>
     </div>
   );

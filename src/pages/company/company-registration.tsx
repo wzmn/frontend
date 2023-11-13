@@ -17,6 +17,7 @@ import {
 import * as styles from "styles/pages/common.module.scss";
 import * as companyStyles from "./styles.module.scss";
 import { States, StreetTypes, UnitTypes } from "../../constants";
+import UploadDoc from "components/pages/company/upload-doc/upload-doc";
 
 const pg = [
   { label: "100" },
@@ -38,7 +39,7 @@ const AddEditCompany = () => {
 
   const [files, setFiles] = useState<FileProps[]>([]);
 
-  const { toggle } = useRightBarContext();
+  const { toggle, setElement } = useRightBarContext();
 
   const {
     register,
@@ -66,16 +67,6 @@ const AddEditCompany = () => {
       <p className={styles.title}>Create Company</p>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-16 mb-3">
-        {/* <SelectBox data={data} />
-
-        <Input varient="regular" />
-        <InputOtp
-          onChange={handleChange}
-          value={OTP}
-          renderSeparator={<>-</>}
-        /> */}
-        {/* <Input varient="regular" /> */}
-
         <FormSection title="Company Details">
           <FormWraper>
             <div className={styles.formGrid}>
@@ -269,17 +260,26 @@ const AddEditCompany = () => {
               </p>
               <div className={styles.formGrid}>
                 <ButtonGroup
-                  onClick={toggle}
+                  onClick={() => {
+                    setElement(<UploadDoc />);
+                    toggle();
+                  }}
                   title="Primary Documents"
                   groupTitle="Upload"
                 />
                 <ButtonGroup
-                  onClick={toggle}
+                  onClick={() => {
+                    setElement(<>Secondary Documents</>);
+                    toggle();
+                  }}
                   title="Secondary Documents"
                   groupTitle="Upload"
                 />
                 <ButtonGroup
-                  onClick={toggle}
+                  onClick={() => {
+                    setElement(<>Additional Documents</>);
+                    toggle();
+                  }}
                   title="Additional Documents"
                   groupTitle="Upload"
                 />

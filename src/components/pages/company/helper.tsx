@@ -5,7 +5,7 @@ import { TfiEmail } from "react-icons/tfi";
 import { IoCallOutline } from "react-icons/io5";
 import { DProps } from "type/company";
 import * as styles from "styles/pages/common.module.scss";
-import * as companyStyles from "./styles.module.scss";
+import * as companyStyles from "pages/company/styles.module.scss";
 
 export function List({ data, loading }: { data: DProps; loading: boolean }) {
   return (

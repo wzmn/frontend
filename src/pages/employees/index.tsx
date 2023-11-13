@@ -19,7 +19,7 @@ import { request } from "services/http-request";
 import { EMPLOYEE_LISTING } from "constants/api";
 import Filterbtn from "components/filterBtn";
 import Menu from "components/menu";
-import { CompanyFilter, DateFilter } from "pages/company/helper";
+import { CompanyFilter, DateFilter } from "components/pages/company/helper";
 import { Link } from "gatsby";
 import { IoCallOutline } from "react-icons/io5";
 import moment from "moment";
