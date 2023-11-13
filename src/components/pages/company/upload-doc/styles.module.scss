@@ -1,0 +1,61 @@
+@import "styles/variable.scss";
+
+.doc {
+  color: var(--color-white);
+  & .header {
+    // height: 3.688rem;
+    padding: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--color-dark_sky_blue);
+    font-size: $font-medium;
+
+    & .title {
+      //   font-size: $font-medium;
+    }
+
+    & .sub-title {
+      display: flex;
+      align-items: center;
+
+      & .icon > svg {
+        font-size: 2.4rem;
+      }
+    }
+  }
+
+  & .body {
+    background-color: var(--color-white);
+    transition: all 4s ease-out;
+
+    & .disclosure-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 4s ease-out;
+      text-align: left;
+
+      color: var(--color-black);
+      font-size: $font-small;
+      padding: 0.8rem;
+      width: 100%;
+      border: 0.5px solid var(--color-dusty_grey);
+
+      & > span {
+        width: 18rem;
+      }
+
+      & .pts {
+        display: flex;
+        align-items: center;
+      }
+    }
+
+    & .panel {
+      height: 10rem;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+  }
+}

@@ -1,18 +1,25 @@
 import Button from "components/button";
 import { Drop } from "components/drop-zone";
-import { Drage } from "components/drop-zone/drage";
+import { DragProps, Drage } from "components/drop-zone/drage";
 import Input from "components/input";
 import Pagination from "components/pagination";
-import SelectBox from "components/selectBox";
 import { COMPANY_LISTING } from "constants/api";
-import { demoDndData } from "constants/demo-dnd-data";
 import { Link } from "gatsby";
-import React, { useEffect, useState } from "react";
+import Filterbtn from "components/filterBtn";
+import Menu from "components/menu";
+import React, { ChangeEvent, Fragment, useEffect, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { request } from "services/http-request";
 import * as styles from "styles/pages/common.module.scss";
-import { CompanyDataType, CompanyStatus } from "type/company";
+import { CompanyDataType, CompanyStatus, DProps } from "type/company";
 import cssVar from "utility/css-var";
+import { debounce } from "utility/debounce";
+import { findMatchingId } from "utility/find-matching-id";
+import {
+  CompanyFilter,
+  DateFilter,
+  List,
+} from "../../components/pages/company/helper";
 const dataList = [
   { label: "Wade Cooper" },
   { label: "Arlene Mccoy" },
@@ -22,13 +29,8 @@ const dataList = [
   { label: "Hellen Schmidt" },
 ];
 
-type DProps = CompanyDataType & {
-  status: boolean;
-};
-
 const Company = () => {
-  const [data, setData] = useState(demoDndData);
-  const [d, setD] = useState<Record<CompanyStatus, DProps[]>>({
+  const [data, setData] = useState<Record<CompanyStatus, DProps[]>>({
     "upload info": [],
     "document review": [],
     verified: [],
@@ -40,64 +42,84 @@ const Company = () => {
   const drop2Color = cssVar("--color-candlelight");
   const drop3Color = cssVar("--color-aqua_blue");
 
-  function handleDrop(item: any, section: string, make: boolean = false) {
+  async function handleDrop(
+    item: any,
+    section: CompanyStatus,
+    make: boolean = true
+  ) {
     console.log(item, section);
     if (item.section === section) return;
-    // console.log(item);
-    const dt: any = { ...d };
-    let idx;
-    dt[item.section]?.some((itm: any, key: any) => {
-      console.log(item.id, itm.id);
-      if (item.id === itm.id) {
-        idx = key;
-        return true;
-      }
-    });
+    const copyData: any = { ...data };
+    let idx = findMatchingId(data, item.id, item.section);
 
     if (idx !== undefined) {
-      const pop = dt[item.section].splice(idx, 1)[0];
-      dt[section].unshift({ ...pop, status: make });
+      const pop = copyData[item.section].splice(idx, 1)[0];
+      copyData[section].unshift({ ...pop, status: make });
 
-      setD(() => dt);
-      // if(make){
-      //   updateData(item,section)
-      // }
+      setData(() => copyData);
+
+      updateData(item, section, idx);
     }
   }
 
-  async function fetchData() {
+  async function fetchData(params?: Record<any, any>) {
     try {
       const response = await request<CompanyDataType[]>({
         url: COMPANY_LISTING,
+        params,
       });
 
-      const filterData = { ...d };
+      const filterData = { ...data };
+
+      Object.keys(data).map(
+        (item) => (filterData[item as CompanyStatus].length = 0)
+      );
 
       response.data.forEach((item) => {
         console.log(item.company_status);
         filterData[item.company_status!].push({ ...item, status: false });
       });
 
-      setData((prev) => ({ ...prev, filterData }));
+      setData(() => filterData);
     } catch (error) {
       console.log(error);
     }
   }
 
-  async function updateData(item: any, to: string) {
-    const data = {
+  async function updateData(item: DragProps, to: CompanyStatus, index: number) {
+    const datap = {
       company_status: to,
     };
     try {
       const response = await request<CompanyDataType[]>({
         url: COMPANY_LISTING + item.id + "/approval/",
         method: "patch",
-        data,
+        data: datap,
       });
+
+      const copyData = { ...data };
+      let idx = findMatchingId(data, item.id, to);
+
+      if (idx !== undefined) {
+        copyData[to][idx].status = false;
+        setData(() => copyData);
+      }
     } catch (error) {
-      handleDrop(item, to);
+      const copyData: any = { ...data };
+      let idx = findMatchingId(data, item.id, to);
+
+      if (idx !== undefined) {
+        const pop = copyData[to].splice(idx, 1)[0];
+        copyData[item.section].splice(index, 0, { ...pop, status: false });
+
+        setData(() => copyData);
+      }
     }
   }
+
+  const handleSearch = debounce((e: ChangeEvent<HTMLInputElement>) => {
+    fetchData({ search: e.target.value });
+  });
 
   useEffect(() => {
     fetchData();
@@ -105,25 +127,38 @@ const Company = () => {
 
   return (
     <>
-      {/* <pre>{JSON.stringify(d, null, 4)}</pre> */}
       <div className={styles.btnCont}>
-        <Link to="add-edit-company">
+        <Link to="company-registration">
           <Button
             title="Create Company"
             icon={<AiOutlinePlus />}
             className="flex-row-reverse"
+            name="create-company"
           />
         </Link>
 
-        <Input placeholder="Search" />
+        <Input
+          name="company-search"
+          placeholder="Search"
+          onChange={handleSearch}
+        />
 
-        <div className="w-64">
+        {/* <div className="w-64">
           <SelectBox color="full-white" data={dataList} />
-        </div>
+        </div> */}
+        <Filterbtn>
+          <Menu title="Date">
+            <DateFilter />
+          </Menu>
+          <Menu title="Company Type">
+            <CompanyFilter />
+          </Menu>
+        </Filterbtn>
       </div>
 
       <div className={styles.tableCont}>
-        {Object.keys(d).map((dropName) => {
+        {Object.keys(data).map((dropName) => {
+          console.log(dropName);
           return (
             <Drop
               key={dropName}
@@ -132,23 +167,23 @@ const Company = () => {
               handleDrop={handleDrop}
               section={dropName}
               title={dropName.toLocaleUpperCase()}
-              data={d[dropName as CompanyStatus]}
             >
               <>
-                {d[dropName as CompanyStatus].map((dragItem) => {
+                {data[dropName as CompanyStatus].map((dragItem: DProps) => {
                   return (
-                    <Drage
-                      key={dragItem.id} //you can`t use index from map id should be unique
-                      accept={dragItem.status ? "" : "company"}
-                      section={dropName}
-                      id={dragItem.id as number}
-                    >
-                      <List
-                        // currentSection={dropName}
-                        // nextSection
-                        data={dragItem}
-                      />
-                    </Drage>
+                    <Fragment key={dragItem.id}>
+                      <Drage
+                        key={dragItem.id} //you can`t use index from map id should be unique
+                        accept={"company"}
+                        section={dropName}
+                        id={dragItem.id as number}
+                        loading={dragItem.status}
+                      >
+                        <>
+                          <List data={dragItem} loading={dragItem.status} />
+                        </>
+                      </Drage>
+                    </Fragment>
                   );
                 })}
               </>
@@ -160,23 +195,11 @@ const Company = () => {
     </>
   );
 };
-let count = 0;
-function List({ data }: { data: any }) {
-  const [v, sV] = useState();
-
-  useEffect(() => {
-    console.log(data.id, "ini");
-  }, []);
-  useEffect(() => {
-    count++;
-    console.log(data.id, "rend");
-  }, [v]);
-  return (
-    <div className="">
-      <p className="">{count}</p>
-      {data.id}
-    </div>
-  );
-}
 
 export default Company;
+
+// company
+// {
+//   "username": "c1@example.com",
+//   "password": "Test@4321"
+// }

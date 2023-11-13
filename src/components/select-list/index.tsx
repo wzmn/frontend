@@ -163,7 +163,7 @@ const SelectList = ({ outerLimit = 5 }: Props) => {
   );
 };
 
-export function Dropdown({ data, handleToggle, setState, state }: any) {
+function Dropdown({ data, handleToggle, setState, state }: any) {
   const elRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLInputElement[] | null[]>([]);
 

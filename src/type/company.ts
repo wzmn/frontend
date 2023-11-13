@@ -4,8 +4,8 @@ export interface CompanyDataType {
   company_address?: null;
   info?: any[];
   ref_id?: null;
-  created_at?: Date;
-  updated_at?: Date;
+  created_at?: string;
+  updated_at?: string;
   is_active?: boolean;
   company_name?: string;
   company_email?: string;
@@ -19,8 +19,8 @@ export interface CompanyDataType {
 export interface CompanyOwner {
   id?: number;
   ref_id?: null;
-  created_at?: Date;
-  updated_at?: Date;
+  created_at?: string;
+  updated_at?: string;
   is_active?: boolean;
   username?: null;
   email?: string;
@@ -31,7 +31,7 @@ export interface CompanyOwner {
   is_staff?: boolean;
   is_verified?: boolean;
   is_password_set?: boolean;
-  last_login?: Date;
+  last_login?: string;
   groups?: any[];
   user_permissions?: any[];
 }
@@ -42,3 +42,7 @@ export type CompanyStatus =
   | "verified"
   | "operational"
   | "rejected";
+
+export type DProps = CompanyDataType & {
+  status: boolean;
+};

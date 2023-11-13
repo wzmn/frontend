@@ -4,12 +4,12 @@ import * as styles from "./styles.module.scss";
 import { Drage } from "./drage";
 
 type Props = {
-  data: any;
+  // data: any;
   title: string;
   section: string;
   accept: string;
   titleRingColor?: string;
-  handleDrop: (p1: any, p2: string) => void;
+  handleDrop: (p1: any, p2: any) => void;
   children: JSX.Element;
 };
 

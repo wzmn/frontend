@@ -16,12 +16,15 @@
     &::after {
       content: "";
       width: 11.875rem;
-      height: 0.2rem;
+      height: 0.1rem;
       position: absolute;
       bottom: -5px;
       left: 0px;
       border-radius: 2rem;
       background-color: var(--color-blue_dress);
+    }
+    & .note {
+      color: var(--color-red-dark);
     }
   }
 

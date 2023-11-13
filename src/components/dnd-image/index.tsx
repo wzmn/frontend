@@ -1,18 +1,27 @@
 import React, { Dispatch } from "react";
 import { useDropzone } from "react-dropzone";
 import * as styles from "./styles.module.scss";
-type Generic = File & any;
+
+export type DNDImageFileType = File & {
+  preview: string;
+};
 type Props = {
-  setFiles: Dispatch<React.SetStateAction<Generic[]>>;
+  setFiles: (file: DNDImageFileType[]) => void;
+  maxFiles?: number;
+  accept?: Record<string, any>;
 };
 
-function DNDImage({ setFiles }: Props) {
+function DNDImage({
+  setFiles,
+  maxFiles = 1,
+  accept = {
+    "image/*": [],
+  },
+}: Props) {
   const { getRootProps, getInputProps } = useDropzone({
-    maxFiles: 2,
+    maxFiles: maxFiles,
 
-    accept: {
-      "image/*": [],
-    },
+    accept: accept,
     onDrop: (acceptedFiles) => {
       setFiles(
         acceptedFiles.map((file) =>
