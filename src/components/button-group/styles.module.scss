@@ -1,3 +1,5 @@
+@import "styles/variable.scss";
+
 .g-btn-cont {
   //   width: fit-content;
   display: flex;
@@ -5,6 +7,7 @@
   border: 1px solid var(--color-cloudy_grey_light);
   border-radius: 0.5rem;
   overflow: hidden;
+  font-size: $font-small;
 
   & .g-btn {
     border: 1px solid var(--color-cloudy_grey_light);
