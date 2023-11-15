@@ -8,6 +8,7 @@ import { Drop } from "components/drop-zone";
 import cssVar from "utility/css-var";
 import { demoDndData } from "constants/demo-dnd-data";
 import * as styles from "styles/pages/common.module.scss";
+import { Link } from "gatsby";
 const dataList = [
   { label: "Wade Cooper" },
   { label: "Arlene Mccoy" },
@@ -48,15 +49,21 @@ const Appintments = () => {
     <>
       {/* <pre>{JSON.stringify(data, null, 4)}</pre> */}
       <div className={styles.btnCont}>
-        <Button
-          title="Create Appointment"
-          icon={<AiOutlinePlus />}
-          className="flex-row-reverse"
-        />
+        <div className="">
+          <Link to="#">
+            <Button
+              title="Create Appointment"
+              icon={<AiOutlinePlus />}
+              className="flex-row-reverse"
+            />
+          </Link>
+        </div>
 
-        <Input placeholder="Search" />
+        <div className="">
+          <Input placeholder="Search" />
+        </div>
 
-        <div className="w-64">
+        <div className="">
           <SelectBox color="full-white" data={dataList} />
         </div>
       </div>
