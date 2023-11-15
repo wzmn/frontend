@@ -21,6 +21,7 @@ $header-height: 3rem;
   // box-sizing: border-box;
   transform: translate($right-bar-width, 0%);
   transition: 0.3s all ease-out;
+  z-index: 20;
 
   &.slide-in {
     transform: translate(0rem, 0%);

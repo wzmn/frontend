@@ -34,11 +34,12 @@
 
     & img {
       object-fit: cover;
+      scale: 140%;
     }
   }
 
   & .checkbox:not(:nth-child(2)):nth-child(2n) {
-    margin-left: -1px;
+    margin-left: -10px;
   }
 
   & .checkbox:nth-child(n):hover {
@@ -69,7 +70,7 @@
     border-radius: 4px;
     position: absolute;
     bottom: -15.5rem;
-    right: -4rem;
+    right: -1rem;
     overflow: hidden;
     overflow-y: scroll;
     // background-color: aqua;
@@ -97,6 +98,11 @@
         border-radius: 50%;
         overflow: hidden;
         // border: 1px solid pink;
+        & > img {
+          object-fit: cover;
+
+          scale: 140%;
+        }
       }
     }
 

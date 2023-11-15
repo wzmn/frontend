@@ -4,20 +4,20 @@ import ButtonGroup from "components/button-group";
 import DNDImage from "components/dnd-image";
 import FormSection from "components/form-sections";
 import FormWraper from "components/form-wrapper";
+import UploadDoc from "components/pages/company/upload-doc/upload-doc";
 import SelectBox from "components/selectBox";
 import TextField from "components/text-field";
 import { useRightBarContext } from "providers/right-bar-provider";
 import React, { useEffect, useState } from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import {
   CompanyRegistrationSchemaType,
   companyRegistrationSchema,
 } from "schema/company-schema";
 import * as styles from "styles/pages/common.module.scss";
-import * as companyStyles from "./styles.module.scss";
 import { States, StreetTypes, UnitTypes } from "../../constants";
-import UploadDoc from "components/pages/company/upload-doc/upload-doc";
+import * as companyStyles from "./styles.module.scss";
 
 const pg = [
   { label: "100" },
@@ -39,11 +39,12 @@ const AddEditCompany = () => {
 
   const [files, setFiles] = useState<FileProps[]>([]);
 
-  const { toggle, setElement } = useRightBarContext();
+  const { open, toggle, setElement } = useRightBarContext();
 
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { isSubmitting, errors },
   } = useForm({
     resolver: yupResolver(companyRegistrationSchema),
@@ -148,16 +149,16 @@ const AddEditCompany = () => {
                 <TextField
                   title="Building Name."
                   asterisk
-                  {...register("buildingName")}
-                  errorMessage={errors.buildingName?.message}
+                  {...register("address.buildingName")}
+                  errorMessage={errors.address?.buildingName?.message}
                 />
               </div>
               <div className="max-w-3xl">
                 <TextField
                   title="Level No"
                   asterisk
-                  {...register("levelNo")}
-                  errorMessage={errors.levelNo?.message}
+                  {...register("address.levelNo")}
+                  errorMessage={errors.address?.levelNo?.message}
                 />
               </div>
               <div className="max-w-3xl">
@@ -165,14 +166,17 @@ const AddEditCompany = () => {
                   placeholder="Select Unit Type"
                   data={UnitTypes}
                   asterisk
+                  onChange={(e) => {
+                    setValue("address.unitType", e.label);
+                  }}
                 />
               </div>
               <div className="max-w-3xl">
                 <TextField
                   title="Unit No"
                   asterisk
-                  {...register("unitNo")}
-                  errorMessage={errors.unitNo?.message}
+                  {...register("address.unitNo")}
+                  errorMessage={errors.address?.unitNo?.message}
                 />
               </div>
 
@@ -180,8 +184,8 @@ const AddEditCompany = () => {
                 <TextField
                   title="Lot No."
                   asterisk
-                  {...register("lotNo")}
-                  errorMessage={errors.lotNo?.message}
+                  {...register("address.lotNo")}
+                  errorMessage={errors.address?.lotNo?.message}
                 />
               </div>
               <div className="max-w-3xl">
@@ -190,6 +194,9 @@ const AddEditCompany = () => {
                     placeholder="Street No"
                     data={StreetTypes}
                     asterisk
+                    onChange={(e) => {
+                      setValue("address.streetNo", e.label);
+                    }}
                   />
                 </div>
               </div>
@@ -197,16 +204,16 @@ const AddEditCompany = () => {
                 <TextField
                   title="Street Name"
                   asterisk
-                  {...register("streetName")}
-                  errorMessage={errors.streetName?.message}
+                  {...register("address.streetName")}
+                  errorMessage={errors.address?.streetName?.message}
                 />
               </div>
               <div className="max-w-3xl">
                 <TextField
                   title="Street Type"
                   asterisk
-                  {...register("streetType")}
-                  errorMessage={errors.streetType?.message}
+                  {...register("address.streetType")}
+                  errorMessage={errors.address?.streetType?.message}
                 />
               </div>
 
@@ -214,27 +221,34 @@ const AddEditCompany = () => {
                 <TextField
                   title="Suffix."
                   asterisk
-                  {...register("suffix")}
-                  errorMessage={errors.suffix?.message}
+                  {...register("address.suffix")}
+                  errorMessage={errors.address?.suffix?.message}
                 />
               </div>
               <div className="max-w-3xl">
                 <TextField
                   title="Suburb"
                   asterisk
-                  {...register("suburb")}
-                  errorMessage={errors.suburb?.message}
+                  {...register("address.suburb")}
+                  errorMessage={errors.address?.suburb?.message}
                 />
               </div>
               <div className="max-w-3xl">
-                <SelectBox placeholder="State" data={States} asterisk />
+                <SelectBox
+                  placeholder="State"
+                  data={States}
+                  asterisk
+                  onChange={(e) => {
+                    setValue("state", e.label);
+                  }}
+                />
               </div>
               <div className="max-w-3xl">
                 <TextField
                   title="Pincode"
                   asterisk
-                  {...register("pincode")}
-                  errorMessage={errors.pincode?.message}
+                  {...register("address.pincode")}
+                  errorMessage={errors.address?.pincode?.message}
                 />
               </div>
 
@@ -242,8 +256,8 @@ const AddEditCompany = () => {
                 <TextField
                   title="LGA"
                   asterisk
-                  {...register("lga")}
-                  errorMessage={errors.lga?.message}
+                  {...register("address.lga")}
+                  errorMessage={errors.address?.lga?.message}
                 />
               </div>
             </div>
@@ -254,31 +268,40 @@ const AddEditCompany = () => {
           <FormWraper>
             <>
               <p className="text-sm mb-10">
-                <span className="text-red-500 font-bold">Note: &nbsp;</span>
+                <span className={companyStyles.note}>Note: &nbsp;</span>
                 You must upload at least ONE Primary document. Foreign documents
-                mustr be accompanied by an official translation.
+                mustr be accompanied by an official translation.{" "}
+                <a
+                  href="https://www.google.com"
+                  className={companyStyles.moreInfo}
+                >
+                  Click for more info
+                </a>
               </p>
               <div className={styles.formGrid}>
                 <ButtonGroup
                   onClick={() => {
-                    setElement(<UploadDoc />);
-                    toggle();
+                    setElement(<UploadDoc />, "Primary Documents");
+                    !open && toggle();
                   }}
                   title="Primary Documents"
                   groupTitle="Upload"
                 />
                 <ButtonGroup
                   onClick={() => {
-                    setElement(<>Secondary Documents</>);
-                    toggle();
+                    setElement(<>Secondary Documents</>, "Secondary Documents");
+                    !open && toggle();
                   }}
                   title="Secondary Documents"
                   groupTitle="Upload"
                 />
                 <ButtonGroup
                   onClick={() => {
-                    setElement(<>Additional Documents</>);
-                    toggle();
+                    setElement(
+                      <>Additional Documents</>,
+                      "Additional Documents"
+                    );
+                    !open && toggle();
                   }}
                   title="Additional Documents"
                   groupTitle="Upload"
@@ -324,14 +347,41 @@ const AddEditCompany = () => {
                     errorMessage={errors.ownerEmail?.message}
                   />
                 </div>
-                <div className="max-w-3xl">
-                  <TextField
-                    title="Status"
-                    asterisk
-                    {...register("state")}
-                    errorMessage={errors.state?.message}
-                  />
+                <label htmlFor="">Upload Profile Photo</label>
+                <label htmlFor="">Preview</label>
+                <div className={styles.file}>
+                  <DNDImage setFiles={setFiles} />
                 </div>
+
+                <aside className={companyStyles.preview}>
+                  {files?.[0]?.preview ? (
+                    <div className="">
+                      <img
+                        src={files?.[0]?.preview}
+                        alt="/assets/images/picture.svg"
+                        // Revoke data uri after image is loaded
+                        onLoad={() => {
+                          URL.revokeObjectURL(files?.[0]?.preview);
+                        }}
+                      />
+                      <RiDeleteBin6Line
+                        className="w-5 h-5 cursor-pointer absolute top-1 right-4"
+                        onClick={() => {
+                          setFiles(() => []);
+                        }}
+                      />
+                    </div>
+                  ) : (
+                    <div className="">
+                      <img
+                        src="/assets/images/picture.svg"
+
+                        // alt="/assets/images/picture.svg"
+                        // Revoke data uri after image is loaded
+                      />
+                    </div>
+                  )}
+                </aside>
               </div>
             </FormWraper>
 
