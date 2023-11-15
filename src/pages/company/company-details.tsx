@@ -2,18 +2,18 @@ import Divider from "components/divider";
 import DNDImage, { DNDImageFileType } from "components/dnd-image";
 import FormSection from "components/form-sections";
 import FormWraper from "components/form-wrapper";
+import Input from "components/input";
 import Radio from "components/radio";
 import React, { useState } from "react";
-import { IoCallOutline } from "react-icons/io5";
-import { ImAttachment } from "react-icons/im";
-import { TfiEmail } from "react-icons/tfi";
-import * as companyStyles from "../company/styles.module.scss";
-import * as styles from "styles/pages/common.module.scss";
 import { useFieldArray, useForm } from "react-hook-form";
+import { ImAttachment } from "react-icons/im";
+import { IoCallOutline, IoLocationOutline } from "react-icons/io5";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import Input from "components/input";
+import { TfiEmail } from "react-icons/tfi";
+import * as styles from "styles/pages/common.module.scss";
+import * as companyStyles from "../company/styles.module.scss";
 
-const EmployeeDetails = () => {
+const CompanyDetails = () => {
   const { control, setValue, handleSubmit } = useForm<any>({
     defaultValues: {
       attachments: [{ file: null }],
@@ -33,14 +33,12 @@ const EmployeeDetails = () => {
 
   return (
     <div className="space-y-16 mb-3">
-      <FormSection title="Employee Details">
+      <FormSection title="Company Details">
         <div className="flex-1">
           <FormWraper>
             <>
               <p className={styles.name}>
-                <span className={styles.bold}>Employee name: &nbsp; </span>
-                Jason Stone &nbsp;
-                <span className={styles.tag}>(Company Owner)</span>
+                <span className={styles.bold}>ABN No: AA00044</span>
               </p>
 
               <div className={styles.contactInfo}>
@@ -59,14 +57,22 @@ const EmployeeDetails = () => {
 
                   <span className={styles.contact}>+61 7894568521</span>
                 </div>
+
+                <div className="">
+                  <span className={styles.icon}>
+                    <IoLocationOutline className={styles.icon} />
+                  </span>
+
+                  <span className={styles.contact}>
+                    Mrs Smith 98 Shirley Street PIMPAMA QLD 4209 AUSTRALIA
+                  </span>
+                </div>
               </div>
 
               <Divider />
 
               <p className={`${styles.name} ${styles.createBy}`}>
-                <span className={styles.bold}>
-                  Employee Created by: &nbsp;{" "}
-                </span>
+                <span className={styles.bold}>Company Created by: &nbsp; </span>
                 Superadmin/Jackson &nbsp;
                 <span className={styles.tag2}>01-08-2023 at 7.00 am</span>
               </p>
@@ -75,16 +81,13 @@ const EmployeeDetails = () => {
 
               <div className={styles.userRole}>
                 <p className={styles.name}>
-                  <span className={styles.bold}>Employee Role</span>
+                  <span className={styles.bold}>Company Status</span>
                 </p>
 
                 <div className={styles.roles}>
-                  <Radio label="ADMIN" />
-                  <Radio label="MANAGER" />
-                  <Radio label="TEAM LEADER" />
-                  <Radio label="AGENT" />
-                  <Radio label="FIELDWORKER" />
-                  <Radio label="AUDITOR" />
+                  <Radio label="APPROVED" name="status" />
+                  <Radio label="PENDING" name="status" />
+                  <Radio label="REJECTED" name="status" />
                 </div>
               </div>
             </>
@@ -181,4 +184,4 @@ const EmployeeDetails = () => {
   );
 };
 
-export default EmployeeDetails;
+export default CompanyDetails;

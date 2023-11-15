@@ -31,7 +31,7 @@ const Navbar = () => {
           <SelectBox color="gray" data={data} />
         </div> */}
         <SelectList />
-        <GrCircleQuestion className={styles.bellIcon} />
+        {/* <GrCircleQuestion className={styles.bellIcon} /> */}
       </div>
     </div>
   );

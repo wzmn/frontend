@@ -76,19 +76,19 @@ $shrink-sidebar-width: 5rem;
         &::after {
           content: "";
           width: 8.438rem;
-          height: 0.09rem;
-          background-color: var(--color-cloudy_grey);
+          // height: 0.09rem;
+          border-bottom: 0.09rem solid var(--color-cloudy_grey);
+
+          // background-color: var(--color-cloudy_grey);
           position: absolute;
           bottom: 0rem;
           left: 3.6rem;
         }
 
-        &:hover::after {
-          background-color: var(--color-blue_dress);
-        }
-
+        &:hover::after,
         &.active::after {
-          background-color: var(--color-blue_dress);
+          border-bottom: 0.09rem solid var(--color-blue_dress);
+          // background-color: var(--color-blue_dress);
         }
 
         & > .img {
