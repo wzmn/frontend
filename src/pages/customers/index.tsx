@@ -49,15 +49,20 @@ const Customers = () => {
     <>
       {/* <pre>{JSON.stringify(data, null, 4)}</pre> */}
       <div className={styles.btnCont}>
-        <Button
-          title="Create Employee"
-          icon={<AiOutlinePlus />}
-          className="flex-row-reverse"
-        />
+        <div className="">
+          <Button
+            width="full"
+            title="Create Employee"
+            icon={<AiOutlinePlus />}
+            className="flex-row-reverse"
+          />
+        </div>
 
-        <Input placeholder="Search" />
+        <div className="">
+          <Input placeholder="Search" />
+        </div>
 
-        <div className="w-64">
+        <div className="">
           <SelectBox color="full-white" data={dataList} />
         </div>
       </div>

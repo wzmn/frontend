@@ -1,30 +1,28 @@
-import React, { Fragment, useEffect, useState } from "react";
 import Button from "components/button";
-import { AiOutlinePlus } from "react-icons/ai";
-import Input from "components/input";
-import SelectBox from "components/selectBox";
-import Pagination from "components/pagination";
 import { Drop } from "components/drop-zone";
-import cssVar from "utility/css-var";
-import { demoDndData } from "constants/demo-dnd-data";
+import { DragProps, Drage } from "components/drop-zone/drage";
+import Filterbtn from "components/filterBtn";
+import Input from "components/input";
+import Menu from "components/menu";
+import { CompanyFilter, DateFilter } from "components/pages/company/helper";
+import Pagination from "components/pagination";
+import { EMPLOYEE_LISTING } from "constants/api";
+import { Link } from "gatsby";
+import moment from "moment";
+import React, { Fragment, useEffect, useState } from "react";
+import { AiOutlinePlus } from "react-icons/ai";
+import { ImSpinner10 } from "react-icons/im";
+import { IoCallOutline } from "react-icons/io5";
+import { TfiEmail } from "react-icons/tfi";
+import { request } from "services/http-request";
 import * as styles from "styles/pages/common.module.scss";
 import {
   EmployeeDataStateType,
   EmployeeDataType,
   EmployeeRole,
 } from "type/employee";
+import cssVar from "utility/css-var";
 import { findMatchingId } from "utility/find-matching-id";
-import { DragProps, Drage } from "components/drop-zone/drage";
-import { request } from "services/http-request";
-import { EMPLOYEE_LISTING } from "constants/api";
-import Filterbtn from "components/filterBtn";
-import Menu from "components/menu";
-import { CompanyFilter, DateFilter } from "components/pages/company/helper";
-import { Link } from "gatsby";
-import { IoCallOutline } from "react-icons/io5";
-import moment from "moment";
-import { ImSpinner10 } from "react-icons/im";
-import { TfiEmail } from "react-icons/tfi";
 const dataList = [
   { label: "Wade Cooper" },
   { label: "Arlene Mccoy" },
@@ -130,20 +128,26 @@ const Employees = () => {
   return (
     <>
       <div className={styles.btnCont}>
-        <Link to="employee-registration">
-          <Button
-            title="Create Employee"
-            icon={<AiOutlinePlus />}
-            className="flex-row-reverse"
-          />
-        </Link>
+        <div className="">
+          <Link to="employee-registration">
+            <Button
+              width="full"
+              title="Create Employee"
+              icon={<AiOutlinePlus />}
+              className="flex-row-reverse"
+            />
+          </Link>
+        </div>
 
-        <Input placeholder="Search" />
+        <div className="">
+          <Input placeholder="Search" />
+        </div>
 
         {/* <div className="w-64">
           <SelectBox color="full-white" data={dataList} />
         </div> */}
 
+        {/* <div className=""> */}
         <Filterbtn>
           <Menu title="Date">
             <DateFilter />
@@ -152,6 +156,7 @@ const Employees = () => {
             <CompanyFilter />
           </Menu>
         </Filterbtn>
+        {/* </div> */}
       </div>
 
       <div className={styles.tableCont}>

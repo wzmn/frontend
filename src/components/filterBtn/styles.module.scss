@@ -1,6 +1,6 @@
 @import "styles/common.scss";
 
-$dpd-width: 14.75rem;
+// $dpd-width: in;
 
 .dropdown-cont {
   position: relative;
@@ -9,7 +9,7 @@ $dpd-width: 14.75rem;
     align-items: center;
     justify-content: space-between;
     padding: 0.1rem 0.2rem;
-    width: $dpd-width;
+    width: inherit;
     height: 2.3rem;
     border-radius: 5px;
     background-color: var(--color-white);

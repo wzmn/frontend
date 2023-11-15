@@ -53,7 +53,7 @@ export default function SelectBox({
           <Listbox.Button
             className={`${styles.lstBoxBtn} ${varientHandler(color)}`}
           >
-            <span className="block truncate">
+            <span className="block truncate text-sm">
               {selected?.label ?? placeholder}
               {!selected?.label && asterisk && (
                 <span className="text-red-500">&nbsp;*</span>
