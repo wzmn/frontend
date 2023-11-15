@@ -15,6 +15,7 @@ type Props = {
   color?: color;
   placeholder?: string;
   asterisk?: boolean;
+  onChange?: (e: DataProp) => void;
 };
 
 function varientHandler(varient: color = "transparent1") {
@@ -35,13 +36,19 @@ export default function SelectBox({
   color,
   placeholder = "select",
   asterisk,
+  onChange,
 }: Props) {
   // const renderData = [{ label: placeholder }, ...data];
   const [selected, setSelected] = useState<DataProp>();
 
+  function onSelect(item: DataProp) {
+    setSelected(item);
+    onChange && onChange(item);
+  }
+
   return (
     <div className="w-full ">
-      <Listbox value={selected} onChange={setSelected}>
+      <Listbox value={selected} onChange={onSelect}>
         <div className="relative mt-1 border ">
           <Listbox.Button
             className={`${styles.lstBoxBtn} ${varientHandler(color)}`}
