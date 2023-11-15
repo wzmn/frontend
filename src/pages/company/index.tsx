@@ -124,24 +124,30 @@ const Company = () => {
   useEffect(() => {
     fetchData();
   }, []);
-
+  // width: 14.796rem;
+  //
   return (
     <>
       <div className={styles.btnCont}>
-        <Link to="company-registration">
-          <Button
-            title="Create Company"
-            icon={<AiOutlinePlus />}
-            className="flex-row-reverse"
-            name="create-company"
-          />
-        </Link>
+        <div className="">
+          <Link to="company-registration">
+            <Button
+              width="full"
+              title="Create Company"
+              icon={<AiOutlinePlus />}
+              className="flex-row-reverse"
+              name="create-company"
+            />
+          </Link>
+        </div>
 
-        <Input
-          name="company-search"
-          placeholder="Search"
-          onChange={handleSearch}
-        />
+        <div className="">
+          <Input
+            name="company-search"
+            placeholder="Search"
+            onChange={handleSearch}
+          />
+        </div>
 
         {/* <div className="w-64">
           <SelectBox color="full-white" data={dataList} />

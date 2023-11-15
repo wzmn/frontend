@@ -1,10 +1,9 @@
 import React from "react";
 import * as styles from "./styles.module.scss";
-import { FaBeer } from "react-icons/fa";
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   icon?: JSX.Element;
   isLoading?: boolean;
-  width?: "full" | "fit";
+  width?: "full" | "fit" | "inherit";
   color?: "red" | "blue";
 }
 
@@ -23,6 +22,8 @@ function widthHandler(size?: string) {
   switch (size) {
     case "full":
       return styles.widthFull;
+    case "inherit":
+      return styles.widthInherit;
     default:
       return "";
   }
