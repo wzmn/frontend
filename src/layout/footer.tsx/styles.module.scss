@@ -1,17 +1,18 @@
 @import "styles/variable.scss";
 .footer {
-  position: absolute;
+  // position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 0.6rem;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 0rem;
+  // left: 50%;
+  // transform: translateX(-50%);
+  // bottom: 0rem;
   width: 100%;
   //   background-color: pink;
-  height: $footer-height;
+  // height: $footer-height;
   overflow: hidden;
+  
   & .footer-content {
     display: flex;
     align-items: center;
