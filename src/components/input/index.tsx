@@ -2,28 +2,38 @@ import React, { forwardRef } from "react";
 import * as styles from "./Input.module.scss";
 
 type Varient = "auth" | "regular";
-
+type SizeVarient = "small";
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   //...add your custom types here
   varient?: Varient;
   asterisk?: boolean;
   errorMessage?: string;
+  sizeVarient?: SizeVarient;
+}
+
+function handleSize(str?: string) {
+  switch (str) {
+    case "small":
+      return ` ${styles.small} `;
+    default:
+      return "";
+  }
 }
 
 function handleVarient(str: string) {
   switch (str) {
     case "auth":
-      return `${styles.input} ${styles.login} `;
+      return styles.login;
 
     case "regular":
-      return `${styles.input} ${styles.regular} `;
+      return styles.regular;
     default:
-      `${styles.input} ${styles.login}`;
+      styles.login;
   }
 }
 
 const Input = forwardRef<HTMLInputElement, Props>((props, ref) => {
-  const { placeholder, varient = "auth", errorMessage } = props;
+  const { placeholder, varient = "auth", errorMessage, sizeVarient } = props;
 
   return (
     <div className={styles.inputCont}>
@@ -31,7 +41,9 @@ const Input = forwardRef<HTMLInputElement, Props>((props, ref) => {
         <input
           ref={ref}
           {...props}
-          className={handleVarient(varient)}
+          className={`${styles.input} ${handleVarient(varient)} ${handleSize(
+            sizeVarient
+          )}`}
           placeholder=""
         />
         <span

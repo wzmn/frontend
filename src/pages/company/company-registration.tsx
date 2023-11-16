@@ -18,6 +18,7 @@ import {
 import * as styles from "styles/pages/common.module.scss";
 import { States, StreetTypes, UnitTypes } from "../../constants";
 import * as companyStyles from "./styles.module.scss";
+import AdditionalDocument from "layout/additional-document";
 
 const pg = [
   { label: "100" },
@@ -297,10 +298,7 @@ const AddEditCompany = () => {
                 />
                 <ButtonGroup
                   onClick={() => {
-                    setElement(
-                      <>Additional Documents</>,
-                      "Additional Documents"
-                    );
+                    setElement(<AdditionalDocument />, "Additional Documents");
                     !open && toggle();
                   }}
                   title="Additional Documents"

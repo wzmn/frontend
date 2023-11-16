@@ -40,6 +40,13 @@
         background-color: var(--color-white80);
       }
 
+      //size
+
+      &.small {
+        height: 1.563rem;
+        font-size: $font-small;
+      }
+
       // &::-webkit-input-placeholder::first-letter {
       //   color: red;
       //   border-bottom: 1px solid red;
