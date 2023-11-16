@@ -4,7 +4,7 @@ import FormSection from "components/form-sections";
 import FormWraper from "components/form-wrapper";
 import Input from "components/input";
 import Radio from "components/radio";
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { ImAttachment } from "react-icons/im";
 import { IoCallOutline, IoLocationOutline } from "react-icons/io5";
@@ -107,7 +107,7 @@ const CompanyDetails = () => {
                 <div className={styles.attachments}>
                   {fields.map((item, index: number) => {
                     return (
-                      <>
+                      <Fragment key={item.id}>
                         {/* <div className={styles.file}> */}
                         <DNDImage
                           setFiles={(e) => {
@@ -146,10 +146,17 @@ const CompanyDetails = () => {
                                 // alt="/assets/images/picture.svg"
                                 // Revoke data uri after image is loaded
                               />
+                              <RiDeleteBin6Line
+                                className="w-5 h-5 cursor-pointer absolute top-1 right-4"
+                                onClick={() => {
+                                  files.splice(index, 1);
+                                  remove(index);
+                                }}
+                              />
                             </div>
                           )}
                         </aside>
-                      </>
+                      </Fragment>
                     );
                   })}
                 </div>
