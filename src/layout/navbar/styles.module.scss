@@ -5,8 +5,15 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-basis: 114px;
   // background-color: pink;
-  height: $navbar-height;
+  // height: $navbar-height;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+
+  .select-container {
+    width: 16rem;
+  }
 
   & .burger {
     cursor: pointer;

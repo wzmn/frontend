@@ -30,9 +30,11 @@ const Layout = ({ children }: Props) => {
                 <div className={`${styles.layout} `}>
                   <Sidebar />
                   <div className={styles.children}>
-                    <Navbar />
-                    <div className={styles.mainContent}>{children}</div>
-                    <Footer />
+                    <div className={styles.mainContent}>
+                      <Navbar />
+                      {children}
+                      <Footer />
+                    </div>
                   </div>
                   <RightBar /> {/* has absolute position */}
                 </div>

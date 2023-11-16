@@ -17,10 +17,10 @@
       border-radius: 5px;
       padding-left: 0.3rem;
       outline: none;
-      padding: 0.3rem 0rem;
-      padding-left: 0.9rem;
+      padding: 7px 10px;
+      // padding-left: 0.9rem;
       font-size: medium;
-      width: 100%;
+      
       position: relative;
       // margin-bottom: 0.2rem;
 
@@ -34,9 +34,11 @@
 
       &.login {
         background-color: var(--color-white);
+        width: $default-width;
       }
-
+      
       &.regular {
+        width: 100%;
         background-color: var(--color-white80);
       }
 
