@@ -3,14 +3,18 @@ import Button from "components/button";
 import ButtonGroup from "components/button-group";
 import FormSection from "components/form-sections";
 import FormWraper from "components/form-wrapper";
+import Radio from "components/radio";
 import TextField from "components/text-field";
+import { EMPLOYEE_LISTING } from "constants/api";
+import { useAuthContext } from "providers/auth-provider";
 import { useRightBarContext } from "providers/right-bar-provider";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
-  CompanyRegistrationSchemaType,
-  companyRegistrationSchema,
-} from "schema/company-schema";
+  EmployeeRegistrationSchemaType,
+  employeeRegistrationSchema,
+} from "schema/employee-schema";
+import { request } from "services/http-request";
 import * as styles from "styles/pages/common.module.scss";
 
 const pg = [
@@ -35,17 +39,28 @@ const EmployeeRegistration = () => {
 
   const { toggle } = useRightBarContext();
 
+  const { userAuth } = useAuthContext();
+
   const {
     register,
     handleSubmit,
     getValues,
     formState: { isSubmitting, errors },
   } = useForm({
-    resolver: yupResolver(companyRegistrationSchema),
+    resolver: yupResolver(employeeRegistrationSchema),
   });
 
-  function onSubmit(data: CompanyRegistrationSchemaType) {
-    console.log(data);
+  async function onSubmit(data: EmployeeRegistrationSchemaType) {
+    try {
+      const response = await request({
+        url: EMPLOYEE_LISTING,
+        method: "post",
+        data,
+      });
+      console.log(response);
+    } catch (error) {
+      console.log("error");
+    }
   }
 
   function handleChange(OTP: string) {
@@ -64,48 +79,72 @@ const EmployeeRegistration = () => {
         <FormSection title="Employee Details">
           <div className="flex-1">
             <FormWraper>
-              <div className={styles.formGrid}>
-                <div className="max-w-3xl">
-                  <TextField
-                    title="First Name"
-                    asterisk
-                    {...register("firstName")}
-                    errorMessage={errors.firstName?.message}
-                  />
+              <>
+                <div className={styles.formGrid}>
+                  <div className="max-w-3xl">
+                    <TextField
+                      title="First Name"
+                      asterisk
+                      {...register("user.first_name")}
+                      errorMessage={errors.user?.first_name?.message}
+                    />
+                  </div>
+                  <div className="max-w-3xl">
+                    <TextField
+                      title="Last Name"
+                      asterisk
+                      {...register("user.last_name")}
+                      errorMessage={errors.user?.last_name?.message}
+                    />
+                  </div>
+                  <div className="max-w-3xl">
+                    <TextField
+                      title="Mobile Number"
+                      asterisk
+                      {...register("user.phone")}
+                      errorMessage={errors.user?.phone?.message}
+                    />
+                  </div>
+                  <div className="max-w-3xl">
+                    <TextField
+                      title="E-mail ID"
+                      asterisk
+                      {...register("user.email")}
+                      errorMessage={errors.user?.email?.message}
+                    />
+                  </div>
                 </div>
-                <div className="max-w-3xl">
-                  <TextField
-                    title="Last Name"
-                    asterisk
-                    {...register("lastName")}
-                    errorMessage={errors.lastName?.message}
-                  />
+                <div className={styles.userRole}>
+                  <p className={styles.name}>
+                    <span className={styles.bold}>Employee Role</span>
+                  </p>
+                  <div className={styles.roles}>
+                    <Radio label="ADMIN" value="Admin" {...register("role")} />
+                    <Radio
+                      label="MANAGER"
+                      value="Manager"
+                      {...register("role")}
+                    />
+                    <Radio
+                      label="TEAM LEADER"
+                      value="Team leader"
+                      {...register("role")}
+                    />
+                    <Radio label="AGENT" value="Agent" {...register("role")} />
+                    <Radio
+                      label="FIELDWORKER"
+                      value="	Field Worker"
+                      {...register("role")}
+                    />
+                    <Radio
+                      label="AUDITOR"
+                      value="Auditor"
+                      {...register("role")}
+                    />
+                  </div>
                 </div>
-                <div className="max-w-3xl">
-                  <TextField
-                    title="Mobile Number"
-                    asterisk
-                    {...register("ownerMobileNo")}
-                    errorMessage={errors.ownerMobileNo?.message}
-                  />
-                </div>
-                <div className="max-w-3xl">
-                  <TextField
-                    title="E-mail ID"
-                    asterisk
-                    {...register("ownerEmail")}
-                    errorMessage={errors.ownerEmail?.message}
-                  />
-                </div>
-                <div className="max-w-3xl">
-                  <TextField
-                    title="Status"
-                    asterisk
-                    {...register("state")}
-                    errorMessage={errors.state?.message}
-                  />
-                </div>
-              </div>
+                <p className={styles.error}>{errors.role?.message}</p>
+              </>
             </FormWraper>
           </div>
         </FormSection>
@@ -139,7 +178,7 @@ const EmployeeRegistration = () => {
               </>
             </FormWraper>
             <div className="flex justify-center gap-36 mt-10">
-              <Button title="Submit" type="submit" />
+              <Button title="Submit" type="submit" isLoading={isSubmitting} />
 
               <Button title="Cancel" color="red" className="py-10" />
             </div>
