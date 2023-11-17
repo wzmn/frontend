@@ -12,8 +12,13 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { TfiEmail } from "react-icons/tfi";
 import * as styles from "styles/pages/common.module.scss";
 import * as companyStyles from "../company/styles.module.scss";
+import { PageProps } from "gatsby";
+import { CompanyDataType } from "type/company";
+import moment from "moment";
 
-const CompanyDetails = () => {
+const CompanyDetails = (props: PageProps) => {
+  const { location } = props;
+  const companyData = location.state as CompanyDataType;
   const { control, setValue, handleSubmit } = useForm<any>({
     defaultValues: {
       attachments: [{ file: null }],
@@ -33,7 +38,7 @@ const CompanyDetails = () => {
 
   return (
     <>
-      <p className={styles.title}>Onesotech Pvt Ltd</p>
+      <p className={styles.title}>{companyData.company_name}</p>
 
       <div className="space-y-16 mb-3">
         <FormSection title="Company Details">
@@ -41,7 +46,7 @@ const CompanyDetails = () => {
             <FormWraper>
               <>
                 <p className={styles.name}>
-                  <span className={styles.bold}>ABN No: AA00044</span>
+                  <span className={styles.bold}>ABN No: {companyData.id}</span>
                 </p>
 
                 <div className={styles.contactInfo}>
@@ -50,7 +55,9 @@ const CompanyDetails = () => {
                       <TfiEmail className={styles.icon} />
                     </span>
 
-                    <span className={styles.contact}>jason@gmail.com</span>
+                    <span className={styles.contact}>
+                      {companyData.company_email}
+                    </span>
                   </div>
 
                   <div className="">
@@ -58,7 +65,9 @@ const CompanyDetails = () => {
                       <IoCallOutline className={styles.icon} />
                     </span>
 
-                    <span className={styles.contact}>+61 7894568521</span>
+                    <span className={styles.contact}>
+                      {companyData.company_mobile_phone}
+                    </span>
                   </div>
 
                   <div className="">
@@ -67,7 +76,7 @@ const CompanyDetails = () => {
                     </span>
 
                     <span className={styles.contact}>
-                      Mrs Smith 98 Shirley Street PIMPAMA QLD 4209 AUSTRALIA
+                      {companyData.company_address || "N/A"}
                     </span>
                   </div>
                 </div>
@@ -79,7 +88,11 @@ const CompanyDetails = () => {
                     Company Created by: &nbsp;{" "}
                   </span>
                   Superadmin/Jackson &nbsp;
-                  <span className={styles.tag2}>01-08-2023 at 7.00 am</span>
+                  <span className={styles.tag2}>
+                    {moment(companyData.created_at).format(
+                      "DD-MM-yyyy HH:MM a"
+                    )}
+                  </span>
                 </p>
 
                 <Divider />
@@ -90,9 +103,26 @@ const CompanyDetails = () => {
                   </p>
 
                   <div className={styles.roles}>
-                    <Radio label="APPROVED" name="status" />
-                    <Radio label="PENDING" name="status" />
-                    <Radio label="REJECTED" name="status" />
+                    <Radio
+                      label="DOCUMENT REVIEW"
+                      name="status"
+                      checked={companyData.company_status === "document review"}
+                    />
+                    <Radio
+                      label="OPERATIONAL"
+                      name="status"
+                      checked={companyData.company_status === "operational"}
+                    />
+                    <Radio
+                      label="REJECTED"
+                      name="status"
+                      checked={companyData.company_status === "rejected"}
+                    />
+                    <Radio
+                      label="UPLOAD INFO"
+                      name="status"
+                      checked={companyData.company_status === "upload info"}
+                    />
                   </div>
                 </div>
               </>

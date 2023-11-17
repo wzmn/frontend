@@ -228,7 +228,7 @@ export function List({
   loading: boolean;
 }) {
   return (
-    <Link to="employee-details">
+    <Link to="employee-details" state={data}>
       <div className={styles.card}>
         <div className="absolute right-3 top-1">
           <ImSpinner10 className="animate-spin" />

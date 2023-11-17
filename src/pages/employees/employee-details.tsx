@@ -12,8 +12,14 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { TfiEmail } from "react-icons/tfi";
 import * as styles from "styles/pages/common.module.scss";
 import * as companyStyles from "../company/styles.module.scss";
+import { PageProps } from "gatsby";
+import { EmployeeDataType } from "type/employee";
+import moment from "moment";
 
-const EmployeeDetails = () => {
+const EmployeeDetails = (props: PageProps) => {
+  const { location } = props;
+  const employee = location.state as EmployeeDataType;
+
   const { control, setValue, handleSubmit } = useForm<any>({
     defaultValues: {
       attachments: [{ file: null }],
@@ -33,7 +39,7 @@ const EmployeeDetails = () => {
 
   return (
     <>
-      <p className={styles.title}>Employee ID: U00044</p>
+      <p className={styles.title}>Employee ID: {employee.id}</p>
 
       <div className="space-y-16 mb-3">
         <FormSection title="Employee Details">
@@ -42,7 +48,7 @@ const EmployeeDetails = () => {
               <>
                 <p className={styles.name}>
                   <span className={styles.bold}>Employee name: &nbsp; </span>
-                  Jason Stone &nbsp;
+                  {employee.user?.first_name} &nbsp;
                   <span className={styles.tag}>(Company Owner)</span>
                 </p>
 
@@ -52,7 +58,9 @@ const EmployeeDetails = () => {
                       <TfiEmail className={styles.icon} />
                     </span>
 
-                    <span className={styles.contact}>jason@gmail.com</span>
+                    <span className={styles.contact}>
+                      {employee.user?.email}
+                    </span>
                   </div>
 
                   <div className="">
@@ -60,7 +68,9 @@ const EmployeeDetails = () => {
                       <IoCallOutline className={styles.icon} />
                     </span>
 
-                    <span className={styles.contact}>+61 7894568521</span>
+                    <span className={styles.contact}>
+                      {employee.user?.phone}
+                    </span>
                   </div>
                 </div>
 
@@ -71,7 +81,11 @@ const EmployeeDetails = () => {
                     Employee Created by: &nbsp;{" "}
                   </span>
                   Superadmin/Jackson &nbsp;
-                  <span className={styles.tag2}>01-08-2023 at 7.00 am</span>
+                  <span className={styles.tag2}>
+                    {moment(employee.user?.created_at).format(
+                      "DD-MM-yyyy HH:MM a"
+                    )}
+                  </span>
                 </p>
 
                 <Divider />
@@ -82,12 +96,24 @@ const EmployeeDetails = () => {
                   </p>
 
                   <div className={styles.roles}>
-                    <Radio label="ADMIN" />
-                    <Radio label="MANAGER" />
-                    <Radio label="TEAM LEADER" />
-                    <Radio label="AGENT" />
-                    <Radio label="FIELDWORKER" />
-                    <Radio label="AUDITOR" />
+                    <Radio label="ADMIN" checked={employee.role === "Admin"} />
+                    <Radio
+                      label="MANAGER"
+                      checked={employee.role === "Manager"}
+                    />
+                    <Radio
+                      label="TEAM LEADER"
+                      checked={employee.role === "Team Lead"}
+                    />
+                    <Radio label="AGENT" checked={employee.role === "Agent"} />
+                    <Radio
+                      label="FIELDWORKER"
+                      checked={employee.role === "Fieldworker"}
+                    />
+                    <Radio
+                      label="AUDITOR"
+                      checked={employee.role === "Auditor"}
+                    />
                   </div>
                 </div>
               </>

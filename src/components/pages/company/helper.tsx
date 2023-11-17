@@ -10,7 +10,7 @@ import { Link } from "gatsby";
 
 export function List({ data, loading }: { data: DProps; loading: boolean }) {
   return (
-    <Link to="company-details">
+    <Link to="company-details" state={data}>
       <div className={styles.card}>
         {/* <p className="">{data.status ? "Loading" : "ll"}</p> */}
         <div className="absolute right-3 top-1">
