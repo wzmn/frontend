@@ -9,7 +9,7 @@ import Pagination from "components/pagination";
 import { EMPLOYEE_LISTING } from "constants/api";
 import { Link } from "gatsby";
 import moment from "moment";
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { ImSpinner10 } from "react-icons/im";
 import { IoCallOutline } from "react-icons/io5";
@@ -120,6 +120,28 @@ const Employees = () => {
       }
     }
   }
+  const table = useRef(null)
+  let isDown = false;
+  let startX;
+  let scrollLeft;
+  useEffect(()=>{
+    table?.current.addEventListener("mousedown", (e)=> {
+      isDown = true;
+      startX = e.pageX - table.current.offsetLeft;
+      scrollLeft = table.current.scrollLeft;
+    })
+    table?.current.addEventListener('mouseleave', () => {
+      isDown = false;
+    });
+    table?.current.addEventListener('mousemove', (e) => {
+      if(!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - table.current.offsetLeft;
+      const walk = (x - startX) * 3; //scroll-fast
+      table.current.scrollLeft = scrollLeft - walk;
+    });
+  }, []);
+
 
   useEffect(() => {
     fetchData();
@@ -159,7 +181,7 @@ const Employees = () => {
         {/* </div> */}
       </div>
 
-      <div className={styles.tableCont}>
+      <div className={styles.tableCont} ref={table}>
         {Object.keys(data).map((dropName) => {
           console.log(dropName);
           return (
