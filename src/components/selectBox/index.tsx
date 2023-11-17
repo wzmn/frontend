@@ -47,9 +47,9 @@ export default function SelectBox({
   }
 
   return (
-    <div className="w-full ">
+    <div className="w-full">
       <Listbox value={selected} onChange={onSelect}>
-        <div className="relative mt-1 border ">
+        <div className="relative border ">
           <Listbox.Button
             className={`${styles.lstBoxBtn} ${varientHandler(color)}`}
           >

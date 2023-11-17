@@ -5,13 +5,14 @@ export type LoginResType = {
   email?: string;
   phone?: string;
   last_login?: Date;
+  staff?: string;
   emp?: Emp;
   emp_license_info?: EmpLicenseInfo;
 };
 
 export interface Emp {
   id?: number;
-  role?: number;
+  role?: string;
   reports_to?: null;
 }
 

@@ -8,7 +8,7 @@
   align-items: center;
   padding-left: 0.19rem;
   position: relative;
-
+  margin-right: 30px;
   & > input[type="checkbox"] {
     display: none;
   }
@@ -16,7 +16,11 @@
   & input:checked + div {
     z-index: 20 !important;
     // border: 2px solid var(--color-white);
-    box-shadow: 0 0 0 3px var(--color-blue_dress);
+    // box-shadow: 0 0 0 3px var(--color-blue_dress);
+    outline-color: var(--color-blue_dress);
+    outline-style: solid;
+    outline-width: 1px;
+    border: 2px solid white;
   }
 
   & .checkbox {
@@ -29,12 +33,13 @@
     border-radius: 50%;
     cursor: pointer;
     overflow: hidden;
-    // border: 2px solid cyan;
-    box-shadow: 0 0 0 3px var(--color-white);
+    border: 2px solid transparent;
+    // box-shadow: 0 0 0 3px var(--color-white);
 
     & img {
       object-fit: cover;
-      scale: 140%;
+      width: 55px;
+      height: 55px;
     }
   }
 

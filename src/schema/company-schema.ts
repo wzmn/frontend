@@ -2,31 +2,38 @@ import { EmailReg } from "constants/regex";
 import { object, string, InferType } from "yup";
 
 export const companyRegistrationSchema = object({
-  abnNo: string().trim().required("Required"),
-  companyName: string().trim().required("Required"),
-  mobileNo: string().trim().required("Required"),
-  companyEmail: string().trim().matches(EmailReg, "Invalid email"),
+  // abnNo: string().trim().required("Required"),
+  company_name: string().trim().required("Required"),
+  company_mobile_phone: string().trim().required("Required"),
+  company_landline: string().trim().required("Required"),
+  company_email: string().trim().matches(EmailReg, "Invalid email"),
+  company_country: string().trim().required("Required"),
+  company_type: string().trim().required("Required"),
+
   logoImg: string().trim(),
   address: object({
-    buildingName: string().trim().required("Required"),
-    levelNo: string().trim().required("Required"),
-    unitType: string().trim().required("Required"),
-    unitNo: string().trim().required("Required"),
-    lotNo: string().trim().required("Required"),
-    streetNo: string().trim().required("Required"),
-    streetName: string().trim().required("Required"),
-    streetType: string().trim().required("Required"),
-    suffix: string().trim().required("Required"),
-    suburb: string().trim().required("Required"),
-    pincode: string().trim().required("Required"),
-    lga: string().trim().required("Required"),
+    buildingName: string().trim(),
+    levelNo: string().trim(),
+    unitType: string().trim(),
+    unitNo: string().trim(),
+    lotNo: string().trim(),
+    streetNo: string().trim(),
+    streetName: string().trim(),
+    streetType: string().trim(),
+    suffix: string().trim(),
+    suburb: string().trim(),
+    pincode: string().trim(),
+    lga: string().trim(),
   }),
 
-  state: string().trim().required("Required"),
-  firstName: string().trim().required("Required"),
-  lastName: string().trim().required("Required"),
-  ownerMobileNo: string().trim().required("Required"),
-  ownerEmail: string().trim().matches(EmailReg, "Invalid email"),
+  company_owner: object({
+    first_name: string().trim().required("Required"),
+    last_name: string().trim().required("Required"),
+    phone: string().trim().required("Required"),
+    email: string().trim().matches(EmailReg, "Invalid email"),
+  }),
+
+  state: string().trim(),
 });
 
 export type CompanyRegistrationSchemaType = InferType<

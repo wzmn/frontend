@@ -19,17 +19,21 @@ import * as styles from "styles/pages/common.module.scss";
 import { States, StreetTypes, UnitTypes } from "../../constants";
 import * as companyStyles from "./styles.module.scss";
 import AdditionalDocument from "layout/additional-document";
+import { request } from "services/http-request";
+import { COMPANY_LISTING } from "constants/api";
 
-const pg = [
-  { label: "100" },
-  { label: "1" },
-  { label: "1" },
-  { label: "1" },
-  { label: "1" },
-  { label: "1" },
-  { label: "1" },
-  { label: "1" },
+const countries = [
+  { label: "UK" },
+  { label: "USA" },
+  { label: "IND" },
+  { label: "CAD" },
+  { label: "RUS" },
+  { label: "JAP" },
+  { label: "AUS" },
+  { label: "NZL" },
 ];
+
+const type = [{ label: "buyer" }, { label: "seller" }];
 
 interface FileProps extends File {
   preview: string;
@@ -51,8 +55,17 @@ const AddEditCompany = () => {
     resolver: yupResolver(companyRegistrationSchema),
   });
 
-  function onSubmit(data: CompanyRegistrationSchemaType) {
-    console.log(data);
+  async function onSubmit(data: CompanyRegistrationSchemaType) {
+    try {
+      const response = await request({
+        url: COMPANY_LISTING,
+        method: "post",
+        data,
+      });
+      console.log(response);
+    } catch (error) {
+      console.log("error");
+    }
   }
 
   function handleChange(OTP: string) {
@@ -72,37 +85,71 @@ const AddEditCompany = () => {
         <FormSection title="Company Details">
           <FormWraper>
             <div className={styles.formGrid}>
-              <div className="max-w-3xl">
+              {/* <div className="max-w-3xl">
                 <TextField
                   title="ABN No."
                   asterisk
                   {...register("abnNo")}
                   errorMessage={errors.abnNo?.message}
                 />
-              </div>
+              </div> */}
               <div className="max-w-3xl">
                 <TextField
                   title="Company Name"
                   asterisk
-                  {...register("companyName")}
-                  errorMessage={errors.companyName?.message}
+                  {...register("company_name")}
+                  errorMessage={errors.company_name?.message}
                 />
               </div>
               <div className="max-w-3xl">
                 <TextField
                   title="Mobile Number"
                   asterisk
-                  {...register("mobileNo")}
-                  errorMessage={errors.mobileNo?.message}
+                  {...register("company_mobile_phone")}
+                  errorMessage={errors.company_mobile_phone?.message}
+                />
+              </div>
+
+              <div className="max-w-3xl">
+                <TextField
+                  title="landline Number"
+                  asterisk
+                  {...register("company_landline")}
+                  errorMessage={errors.company_landline?.message}
                 />
               </div>
               <div className="max-w-3xl">
                 <TextField
                   title="Company E-mail ID"
                   asterisk
-                  {...register("companyEmail")}
-                  errorMessage={errors.companyEmail?.message}
+                  {...register("company_email")}
+                  errorMessage={errors.company_email?.message}
                 />
+              </div>
+              <div className="max-w-3xl">
+                <SelectBox
+                  placeholder="Company Country"
+                  data={countries}
+                  asterisk
+                  onChange={(e) => {
+                    setValue("company_country", e.label);
+                  }}
+                />
+                <p className={styles.error}>
+                  {errors.company_country?.message}
+                </p>
+              </div>
+
+              <div className="max-w-3xl">
+                <SelectBox
+                  placeholder="Company Type"
+                  data={type}
+                  asterisk
+                  onChange={(e) => {
+                    setValue("company_type", e.label);
+                  }}
+                />
+                <p className={styles.error}>{errors.company_type?.message}</p>
               </div>
               <label htmlFor="">Upload Logo</label>
               <label htmlFor="">Preview</label>
@@ -317,32 +364,32 @@ const AddEditCompany = () => {
                   <TextField
                     title="First Name"
                     asterisk
-                    {...register("firstName")}
-                    errorMessage={errors.firstName?.message}
+                    {...register("company_owner.first_name")}
+                    errorMessage={errors.company_owner?.first_name?.message}
                   />
                 </div>
                 <div className="max-w-3xl">
                   <TextField
                     title="Last Name"
                     asterisk
-                    {...register("lastName")}
-                    errorMessage={errors.lastName?.message}
+                    {...register("company_owner.last_name")}
+                    errorMessage={errors.company_owner?.last_name?.message}
                   />
                 </div>
                 <div className="max-w-3xl">
                   <TextField
                     title="Mobile Number"
                     asterisk
-                    {...register("ownerMobileNo")}
-                    errorMessage={errors.ownerMobileNo?.message}
+                    {...register("company_owner.phone")}
+                    errorMessage={errors.company_owner?.phone?.message}
                   />
                 </div>
                 <div className="max-w-3xl">
                   <TextField
                     title="E-mail ID"
                     asterisk
-                    {...register("ownerEmail")}
-                    errorMessage={errors.ownerEmail?.message}
+                    {...register("company_owner.email")}
+                    errorMessage={errors.company_owner?.email?.message}
                   />
                 </div>
                 <label htmlFor="">Upload Profile Photo</label>
@@ -384,7 +431,7 @@ const AddEditCompany = () => {
             </FormWraper>
 
             <div className="flex justify-center gap-36 mt-10">
-              <Button title="Submit" type="submit" />
+              <Button title="Submit" type="submit" isLoading={isSubmitting} />
 
               <Button title="Cancel" color="red" className="py-10" />
             </div>

@@ -9,7 +9,7 @@ import Pagination from "components/pagination";
 import { EMPLOYEE_LISTING } from "constants/api";
 import { Link } from "gatsby";
 import moment from "moment";
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { ImSpinner10 } from "react-icons/im";
 import { IoCallOutline } from "react-icons/io5";
@@ -120,6 +120,27 @@ const Employees = () => {
       }
     }
   }
+  const table = useRef<HTMLDivElement>(null);
+  let isDown = false;
+  let startX: number;
+  let scrollLeft: number;
+  useEffect(() => {
+    table?.current!.addEventListener("mousedown", (e) => {
+      isDown = true;
+      startX = e.pageX - table.current!.offsetLeft;
+      scrollLeft = table.current!.scrollLeft;
+    });
+    table?.current!.addEventListener("mouseleave", () => {
+      isDown = false;
+    });
+    table?.current!.addEventListener("mousemove", (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - table.current!.offsetLeft;
+      const walk = (x - startX) * 3; //scroll-fast
+      table.current!.scrollLeft = scrollLeft - walk;
+    });
+  }, []);
 
   useEffect(() => {
     fetchData();
@@ -159,7 +180,7 @@ const Employees = () => {
         {/* </div> */}
       </div>
 
-      <div className={styles.tableCont}>
+      <div className={styles.tableCont} ref={table}>
         {Object.keys(data).map((dropName) => {
           console.log(dropName);
           return (
@@ -209,16 +230,11 @@ export function List({
   return (
     <Link to="employee-details">
       <div className={styles.card}>
-        {/* <p className="">{data.status ? "Loading" : "ll"}</p> */}
         <div className="absolute right-3 top-1">
           <ImSpinner10 className="animate-spin" />
         </div>
-        {/* <div className={styles.header}>
-       
-        <span>{data.user?.first_name}</span>
-      </div> */}
         <div className={styles.cardInfo}>
-          <p className="">{data.user?.first_name}</p>
+          <p className="title">{data.user?.first_name}</p>
           <span className="">
             {" "}
             created on: {moment(data.user?.created_at).format("ddd, MM a")}

@@ -18,13 +18,17 @@
 .btn-cont {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.75rem;
+  gap: 0.5rem;
+  @include sm {
+    gap: 1.75rem;
+    margin-bottom: 2rem;
+  }
+  margin-bottom: 1rem;
   align-items: center;
-  margin-bottom: 2rem;
   width: fit-content;
 
   & > div {
-    width: 14.796rem;
+    width: $default-width;
   }
 }
 
@@ -42,16 +46,16 @@
 .table-cont {
   margin-bottom: 1.25rem;
   display: flex;
-  overflow: hidden;
   overflow-x: scroll;
+  overflow: hidden;
   gap: 1.75rem;
-
+  flex-grow: 1;
   @include scrollBarStyle;
 }
 
 .card {
   text-align: left;
-  padding: 1.037rem;
+  padding: 17px 13px;
   position: relative;
   //   background-color: aliceblue;
   & > div > svg {
@@ -70,7 +74,14 @@
   }
 
   & .card-info {
-    line-height: 1rem;
+    // line-height: 1rem;
+    margin-bottom: 15px;
+    & > p {
+      letter-spacing: -0.5px;
+      font-size: 14px;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
     & span {
       font-size: $font-small;
       color: var(--color-cloudy_grey);
@@ -78,7 +89,7 @@
   }
 
   & .contact-info {
-    margin-top: 0.8rem;
+    // margin-top: 0.8rem;
     & div:first-child {
       margin-bottom: 0.2rem;
     }
@@ -88,7 +99,9 @@
       gap: 1rem;
       font-size: $font-small;
       color: var(--color-cloudy_grey);
-
+      & span {
+        word-break: break-all;
+      }
       & .icon {
         // width: 1rem;
         // height: 1rem;
@@ -99,6 +112,9 @@
       }
     }
   }
+}
+
+.contact {
 }
 
 .name {
@@ -118,14 +134,14 @@
 }
 
 .contact-info {
-  margin: 2rem 0rem;
-  & div:nth-child(n) {
-    margin-bottom: 0.9rem;
-  }
+  // margin: 2rem 0rem;
+  // & div:nth-child(n) {
+  //   margin-bottom: 0.9rem;
+  // }
   & div {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+    // display: flex;
+    // align-items: center;
+    // gap: 1rem;
 
     color: var(--color-cloudy_grey);
 
@@ -155,6 +171,10 @@
     flex: 1;
     gap: 2rem;
   }
+}
+
+.error {
+  color: var(--color-red);
 }
 
 .attachments {
