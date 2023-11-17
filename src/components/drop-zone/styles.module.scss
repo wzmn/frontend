@@ -1,15 +1,16 @@
 @import "styles/common.scss";
+@import "styles/variable.scss";
 
 .drop-cont {
-  width: 14.796rem;
-  height: 44.601rem;
-  padding: 1.098rem !important;
+  width: $default-width;
+  height: 100%;
+  padding: 21px 18px;
   padding-bottom: 3rem !important;
   flex: 0 0 auto;
 
   // overflow: auto;
   // overflow-y: scroll;
-  background: var(--color-white-80) 0% 0% no-repeat padding-box;
+  background: rgb(243 243 243);
   box-shadow: 0px 3px 6px #00000029;
   // opacity: 0.88;
   backdrop-filter: blur(50px);
@@ -18,7 +19,7 @@
 
   & .drop-cont-title {
     border: 1px solid blue;
-    padding: 10px;
+    padding: 7px;
     background-color: white;
     text-align: center;
     border-radius: 3px;
@@ -30,9 +31,12 @@
     row-gap: 1rem;
     padding-bottom: 3rem !important;
     overflow: hidden;
-    overflow-y: scroll;
-    height: calc(100% - 2.5px - 3rem);
-
+    overflow-y: auto;
+    height: 100%;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    
     &.over {
       margin-top: 2rem;
       border-top: 2px solid pink;
@@ -42,13 +46,14 @@
   }
 
   & > :not(:first-child) {
-    margin-top: 1.098rem;
+    margin-top: 20px;
   }
 }
 
 .card {
   background-color: white;
   cursor: pointer;
+  border-radius: 5px;
   &.loading {
     pointer-events: none;
     background-color: #00000019;

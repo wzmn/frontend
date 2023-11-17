@@ -8,6 +8,7 @@ import * as styles from "./styles.module.scss";
 import { useSidebarContext } from "providers/sidebar-provider";
 import { Link } from "gatsby";
 import { useAuthContext } from "providers/auth-provider";
+import logo from "./logo.png"
 
 const sideBarData = [
   {
@@ -57,10 +58,23 @@ const Sidebar = () => {
         <AiOutlineLeftCircle />
       </span>
       <div className={`${styles.sidebar} `}>
-        <div className="">
-          {/* {sidebarFlag + ""} */}
-          <div className={styles.titleImg}></div>
-
+      <div className={styles.userDetails}>
+        <img
+          className={styles.userImg}
+          src="/assets/images/user.png"
+          alt="user image"
+        />
+        <div className={styles.userName}>
+          <p>Jason Jackson</p>
+          <div className={styles.userRole}>
+            <p>Superadmin</p>
+            <span className={styles.icon} onClick={() => setUserAuth(null)}>
+              <AiOutlinePoweroff />
+            </span>
+          </div>
+        </div>
+      </div>
+        <div className={styles.menu}>
           <div className={styles.sidebarLinks}>
             {sideBarData.map((item) => {
               return (
@@ -78,22 +92,8 @@ const Sidebar = () => {
             })}
           </div>
         </div>
-
-        <div className={styles.userDetails}>
-          <img
-            className={styles.userImg}
-            src="/assets/images/Group.png"
-            alt="user image"
-          />
-          <div className={styles.userName}>
-            <p>Jason Jackson</p>
-            <div className={styles.userRole}>
-              <p>Superadmin</p>
-              <span className={styles.icon} onClick={() => setUserAuth(null)}>
-                <AiOutlinePoweroff />
-              </span>
-            </div>
-          </div>
+        <div className={styles.logo}>
+          <img src={logo} />
         </div>
       </div>
     </div>

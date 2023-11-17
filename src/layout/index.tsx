@@ -21,37 +21,44 @@ const Layout = ({ children }: Props) => {
   let pathname = typeof window !== "undefined" ? window.location.pathname : "";
   const { ProtectedRoutes, HandleRedirect } = useAuth();
   return (
-    <div className="c-container">
-      <AuthProvider>
+    <AuthProvider>
         {!routeNotToInclude.includes(pathname) ? (
+        <div className="c-container">
           <ProtectedRoutes>
             <DndProvider backend={HTML5Backend}>
               <SidebarContext>
                 <div className={`${styles.layout} `}>
                   <Sidebar />
                   <div className={styles.children}>
-                    <Navbar />
-
-                    <div className={styles.mainContent}>{children}</div>
-                    <Footer />
+                    <div className={styles.mainContent}>
+                      <Navbar />
+                      {children}
+                      <Footer />
+                    </div>
                   </div>
                   <RightBar /> {/* has absolute position */}
                 </div>
               </SidebarContext>
             </DndProvider>
           </ProtectedRoutes>
+          </div>
         ) : (
+          <div className="">
           <HandleRedirect>
             <AuthLayout>
-              <div>
-                {children}
-                <Footer />
+              <div className="flex">
+                <div className="items-center flex-1 flex">
+                  {children}
+                </div>
+                <div>
+                  <Footer />
+                </div>
               </div>
             </AuthLayout>
           </HandleRedirect>
+          </div>
         )}
       </AuthProvider>
-    </div>
   );
 };
 

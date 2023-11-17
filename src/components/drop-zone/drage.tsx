@@ -31,7 +31,7 @@ export function Drage({ children, id, section, accept, loading }: DragProps) {
       ref={drag}
     >
       {/* {JSON.stringify(isEnabled)} */}
-      <div className="background text-center py-2">{children}</div>
+      <div className="card">{children}</div>
     </div>
   );
 }

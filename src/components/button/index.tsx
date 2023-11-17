@@ -3,7 +3,7 @@ import * as styles from "./styles.module.scss";
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   icon?: JSX.Element;
   isLoading?: boolean;
-  width?: "full" | "fit" | "inherit";
+  width?: "full" | "fit" | "inherit" | "default";
   color?: "red" | "blue";
 }
 
@@ -25,7 +25,7 @@ function widthHandler(size?: string) {
     case "inherit":
       return styles.widthInherit;
     default:
-      return "";
+      return styles.defaultWidth;
   }
 }
 
@@ -58,11 +58,7 @@ const Button = ({
     >
       <div className={styles.icon}>{icon}</div>
       <p className={styles.title}>{title}</p>
-      {/* {isLoading && ( */}
-      <div className={styles.loader}>
-        {isLoading && <img src="/assets/loader/Spinner.svg" alt="" />}
-      </div>
-      {/* )} */}
+      {isLoading && <div className={styles.loader}><img src="/assets/loader/Spinner.svg" alt="" /></div>}
     </button>
   );
 };

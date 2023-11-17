@@ -16,6 +16,12 @@
   align-items: center;
   position: relative;
   overflow: hidden;
+  &>div {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+  }
   // overflow-y: scroll;
 
   &::after {

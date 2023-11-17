@@ -49,51 +49,48 @@ $shrink-sidebar-width: 5rem;
     flex-direction: column;
     justify-content: space-between;
     position: absolute;
-    padding: 2.285rem 1.464rem;
-
+    padding-bottom: 15px;
+    padding-top: 50px;
+    padding-left: 38px;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1607843137);
     background-color: white;
 
     .sidebar-links {
-      width: 11.278rem;
-
+      display: flex;
+      flex-direction: column;
+      row-gap: 22px;
       & > .link {
-        /* background-color: pink; */
-
         display: flex;
         align-items: center;
-        gap: 1.5rem;
+        gap: 0.6rem;
         position: relative;
         cursor: pointer;
-
-        &:first-child {
-          margin-top: 4.5rem;
-        }
-
-        &:not(:first-child):nth-child(n) {
-          margin-top: 1.1rem;
-        }
-
+        font-size: 0.9rem;
+        letter-spacing: -1px;
+        line-height: 1;
+       
         &::after {
           content: "";
           width: 8.438rem;
-          // height: 0.09rem;
-          border-bottom: 0.09rem solid var(--color-cloudy_grey);
-
+          // height: 1px;
+          border-bottom: 1px solid var(--color-cloudy_grey);
+          transition: border 0.5s ease;
           // background-color: var(--color-cloudy_grey);
           position: absolute;
           bottom: 0rem;
-          left: 3.6rem;
+          left: 44px;
         }
 
-        &:hover::after,
+        &:hover::after, &.active::after{
+          border-bottom: 2px solid var(--color-blue_dress);
+        }
         &.active::after {
-          border-bottom: 0.09rem solid var(--color-blue_dress);
-          // background-color: var(--color-blue_dress);
+          width: 9rem;
         }
 
         & > .img {
-          width: 2.069rem;
-          height: 2.038rem;
+          width: 2rem;
+          height: 2rem;
         }
 
         & > p {
@@ -103,33 +100,33 @@ $shrink-sidebar-width: 5rem;
     }
 
     & .title-img {
-      width: 10rem;
-      height: 2.4rem;
+      // width: 10rem;
+      // height: 2.4rem;
 
-      // background-color: pink;
-      background-size: contain;
-      background-repeat: no-repeat;
-      transition: all 1s;
+      // // background-color: pink;
+      // background-size: contain;
+      // background-repeat: no-repeat;
+      // transition: all 1s;
 
-      background-image: url("/assets/images/logo.png");
+      // background-image: url("/assets/images/logo.png");
 
-      @include xl {
-        width: 13.45rem;
-        height: 3.778rem;
-        background-image: url("/assets/images/Snippit_Logo.png");
-      }
+      // @include xl {
+      //   width: 13.45rem;
+      //   height: 3.778rem;
+      //   background-image: url("/assets/images/Snippit_Logo.png");
+      // }
     }
 
     @include scrollBarStyle;
-    @include md {
-      background: transparent
-        linear-gradient(
-          180deg,
-          var(--color-macaw-blue-green) 0%,
-          var(--color-kiwi-green) 100%
-        )
-        0% 0% no-repeat padding-box;
-    }
+    // @include md {
+    //   background: transparent
+    //     linear-gradient(
+    //       180deg,
+    //       var(--color-macaw-blue-green) 0%,
+    //       var(--color-kiwi-green) 100%
+    //     )
+    //     0% 0% no-repeat padding-box;
+    // }
   }
 
   @include lg {
@@ -150,9 +147,18 @@ $shrink-sidebar-width: 5rem;
     }
   }
 }
+.menu {
+  flex: 1;
+  margin-top: 3.8rem;
+  padding-left: 5px;
+}
+
+.logo {
+  max-width: 199px;
+}
 
 .user-details {
-  margin-top: 5rem;
+  // margin-top: 5rem;
   display: flex;
   gap: 1rem;
   width: 12.063rem;
@@ -176,7 +182,7 @@ $shrink-sidebar-width: 5rem;
 }
 
 .user-details > .user-name > .user-role > p {
-  color: var(--color-aqua_blue);
+  color: var(--color-blue_dress);
 }
 
 .user-details > .user-name > .user-role > .icon {
