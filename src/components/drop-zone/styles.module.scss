@@ -3,11 +3,12 @@
 
 .drop-cont {
   width: $default-width;
-  height: 100%;
+  height: calc(100% - 10px);
   padding: 21px 18px;
   padding-bottom: 3rem !important;
   flex: 0 0 auto;
-
+  overflow: hidden;
+  cursor: pointer;
   // overflow: auto;
   // overflow-y: scroll;
   background: rgb(243 243 243);
