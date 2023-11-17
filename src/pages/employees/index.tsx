@@ -120,28 +120,27 @@ const Employees = () => {
       }
     }
   }
-  const table = useRef(null)
+  const table = useRef<HTMLDivElement>(null);
   let isDown = false;
-  let startX;
-  let scrollLeft;
-  useEffect(()=>{
-    table?.current.addEventListener("mousedown", (e)=> {
+  let startX: number;
+  let scrollLeft: number;
+  useEffect(() => {
+    table?.current!.addEventListener("mousedown", (e) => {
       isDown = true;
-      startX = e.pageX - table.current.offsetLeft;
-      scrollLeft = table.current.scrollLeft;
-    })
-    table?.current.addEventListener('mouseleave', () => {
+      startX = e.pageX - table.current!.offsetLeft;
+      scrollLeft = table.current!.scrollLeft;
+    });
+    table?.current!.addEventListener("mouseleave", () => {
       isDown = false;
     });
-    table?.current.addEventListener('mousemove', (e) => {
-      if(!isDown) return;
+    table?.current!.addEventListener("mousemove", (e) => {
+      if (!isDown) return;
       e.preventDefault();
-      const x = e.pageX - table.current.offsetLeft;
+      const x = e.pageX - table.current!.offsetLeft;
       const walk = (x - startX) * 3; //scroll-fast
-      table.current.scrollLeft = scrollLeft - walk;
+      table.current!.scrollLeft = scrollLeft - walk;
     });
   }, []);
-
 
   useEffect(() => {
     fetchData();
