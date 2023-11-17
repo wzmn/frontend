@@ -51,14 +51,14 @@ export function List({ data, loading }: { data: DProps; loading: boolean }) {
 
 const datesFilters = [
   "All Time",
-  "Yesterday",
   "Today",
+  "Yesterday",
   "This Week",
   "This Month",
   "This Year",
 ] as const;
 
-const companyType = ["Buyer", "Seller", "All"];
+const companyType = ["All", "Buyer", "Seller"];
 
 export function DateFilter() {
   return (
