@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import Button from "components/button";
 import { AiOutlinePlus } from "react-icons/ai";
 import Input from "components/input";
@@ -39,9 +39,17 @@ const Customers = () => {
     LOST: [],
   });
 
-  const drop1Color = cssVar("--color-blue_dress");
-  const drop2Color = cssVar("--color-candlelight");
-  const drop3Color = cssVar("--color-aqua_blue");
+  function getColumnColor(int: number) {
+    const colors = [
+      cssVar("--color-blue_dress"),
+      cssVar("--color-candlelight"),
+      cssVar("--color-aqua_blue"),
+      cssVar("--color-salad_green"),
+      cssVar("--color-red"),
+      cssVar("--color-blue_dress"),
+    ];
+    return colors[int % colors.length];
+  }
 
   function handleDrop(item: any, section: string) {
     if (item.section === section) return;
@@ -87,6 +95,23 @@ const Customers = () => {
     }
   }
 
+  const table = useRef<HTMLDivElement>(null);
+  const handleScroll = (evt: any) => {
+    if (
+      evt.target!.classList.contains("drop-container") ||
+      evt.target!.classList.contains("drop-title")
+    ) {
+      evt.preventDefault();
+      table.current!.scrollLeft += evt.deltaY;
+    }
+  };
+  useEffect(() => {
+    table.current!.addEventListener("wheel", handleScroll);
+    return () => {
+      table.current?.removeEventListener("wheel", handleScroll);
+    };
+  }, [table]);
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -106,13 +131,13 @@ const Customers = () => {
         <Input placeholder="Search" />
         <SelectBox color="full-white" data={dataList} />
       </div>
-      <div className={styles.tableCont}>
-        {(Object.keys(data) as CustomerStatus[]).map((dropName) => {
+      <div className={`${styles.tableCont} drop-container`} ref={table}>
+        {(Object.keys(data) as CustomerStatus[]).map((dropName, index) => {
           console.log(dropName);
           return (
             <Drop
               key={dropName}
-              titleRingColor={drop1Color}
+              titleRingColor={getColumnColor(index)}
               accept="company"
               handleDrop={handleDrop}
               section={dropName}

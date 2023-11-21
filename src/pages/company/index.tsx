@@ -7,7 +7,13 @@ import { COMPANY_LISTING } from "constants/api";
 import { Link } from "gatsby";
 import Filterbtn from "components/filterBtn";
 import Menu from "components/menu";
-import React, { ChangeEvent, Fragment, useEffect, useState } from "react";
+import React, {
+  ChangeEvent,
+  Fragment,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { request } from "services/http-request";
 import * as styles from "styles/pages/common.module.scss";
@@ -38,9 +44,17 @@ const Company = () => {
     rejected: [],
   });
 
-  const drop1Color = cssVar("--color-blue_dress");
-  const drop2Color = cssVar("--color-candlelight");
-  const drop3Color = cssVar("--color-aqua_blue");
+  function getColumnColor(int: number) {
+    const colors = [
+      cssVar("--color-blue_dress"),
+      cssVar("--color-candlelight"),
+      cssVar("--color-aqua_blue"),
+      cssVar("--color-salad_green"),
+      cssVar("--color-red"),
+      cssVar("--color-blue_dress"),
+    ];
+    return colors[int % colors.length];
+  }
 
   async function handleDrop(
     item: any,
@@ -121,6 +135,23 @@ const Company = () => {
     fetchData({ search: e.target.value });
   });
 
+  const table = useRef<HTMLDivElement>(null);
+  const handleScroll = (evt: any) => {
+    if (
+      evt.target!.classList.contains("drop-container") ||
+      evt.target!.classList.contains("drop-title")
+    ) {
+      evt.preventDefault();
+      table.current!.scrollLeft += evt.deltaY;
+    }
+  };
+  useEffect(() => {
+    table.current!.addEventListener("wheel", handleScroll);
+    return () => {
+      table.current?.removeEventListener("wheel", handleScroll);
+    };
+  }, [table]);
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -162,20 +193,20 @@ const Company = () => {
         </Filterbtn>
       </div>
 
-      <div className={styles.tableCont}>
-        {Object.keys(data).map((dropName) => {
+      <div className={`${styles.tableCont} drop-container`} ref={table}>
+        {(Object.keys(data) as CompanyStatus[]).map((dropName, index) => {
           console.log(dropName);
           return (
             <Drop
               key={dropName}
-              titleRingColor={drop1Color}
+              titleRingColor={getColumnColor(index)}
               accept="company"
               handleDrop={handleDrop}
               section={dropName}
               title={dropName.toLocaleUpperCase()}
             >
               <>
-                {data[dropName as CompanyStatus].map((dragItem: DProps) => {
+                {data[dropName].map((dragItem: DProps) => {
                   return (
                     <Fragment key={dragItem.id}>
                       <Drage
