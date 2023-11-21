@@ -10,11 +10,14 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import useAuth from "hook/use-auth";
 import AuthProvider from "providers/auth-provider";
+import UploadDocProvider from "providers/upload-doc-provider";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const routeNotToInclude = ["/login/", "/reset-password/", "/forgot-password/"];
 
 type Props = {
-  children: React.ReactNode;
+  children: JSX.Element;
 };
 
 const Layout = ({ children }: Props) => {
@@ -22,43 +25,46 @@ const Layout = ({ children }: Props) => {
   const { ProtectedRoutes, HandleRedirect } = useAuth();
   return (
     <AuthProvider>
-        {!routeNotToInclude.includes(pathname) ? (
-        <div className="c-container">
-          <ProtectedRoutes>
-            <DndProvider backend={HTML5Backend}>
-              <SidebarContext>
-                <div className={`${styles.layout} `}>
-                  <Sidebar />
-                  <div className={styles.children}>
-                    <div className={styles.mainContent}>
-                      <Navbar />
-                      {children}
+      <>
+        <UploadDocProvider>
+          {!routeNotToInclude.includes(pathname) ? (
+            <div className="c-container">
+              <ProtectedRoutes>
+                <DndProvider backend={HTML5Backend}>
+                  <SidebarContext>
+                    <div className={`${styles.layout} `}>
+                      <Sidebar />
+                      <div className={styles.children}>
+                        <div className={styles.mainContent}>
+                          <Navbar />
+                          {children}
+                          <Footer />
+                        </div>
+                      </div>
+                      <RightBar /> {/* has absolute position */}
+                    </div>
+                  </SidebarContext>
+                </DndProvider>
+              </ProtectedRoutes>
+            </div>
+          ) : (
+            <div className="">
+              <HandleRedirect>
+                <AuthLayout>
+                  <div className="flex">
+                    <div className="items-center flex-1 flex">{children}</div>
+                    <div>
                       <Footer />
                     </div>
                   </div>
-                  <RightBar /> {/* has absolute position */}
-                </div>
-              </SidebarContext>
-            </DndProvider>
-          </ProtectedRoutes>
-          </div>
-        ) : (
-          <div className="">
-          <HandleRedirect>
-            <AuthLayout>
-              <div className="flex">
-                <div className="items-center flex-1 flex">
-                  {children}
-                </div>
-                <div>
-                  <Footer />
-                </div>
-              </div>
-            </AuthLayout>
-          </HandleRedirect>
-          </div>
-        )}
-      </AuthProvider>
+                </AuthLayout>
+              </HandleRedirect>
+            </div>
+          )}
+        </UploadDocProvider>
+        <ToastContainer />
+      </>
+    </AuthProvider>
   );
 };
 

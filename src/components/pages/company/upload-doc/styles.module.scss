@@ -56,6 +56,31 @@
       height: 10rem;
       padding: 1rem;
       margin-bottom: 1rem;
+
+      & .preview {
+        height: 9.297rem;
+        position: relative;
+        background: var(--color-white-80) 0% 0% no-repeat padding-box;
+        // padding: 2rem;
+        border: 0.5px dashed #000000;
+        // opacity: 0.65;
+        border-radius: 2rem;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        // width: 2rem;
+
+        & > svg {
+          color: var(--color-black);
+        }
+
+        & img {
+          object-fit: contain;
+          height: 100%;
+          width: 100%;
+        }
+      }
     }
   }
 }

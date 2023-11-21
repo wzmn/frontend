@@ -11,4 +11,5 @@ export interface CountryComplianceType {
   allow_multiple_docs?: boolean;
   points?: number;
   is_required?: boolean;
+  document_priority?: string;
 }

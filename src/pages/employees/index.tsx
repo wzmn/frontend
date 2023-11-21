@@ -181,7 +181,7 @@ const Employees = () => {
       </div>
 
       <div className={styles.tableCont} ref={table}>
-        {Object.keys(data).map((dropName) => {
+        {(Object.keys(data) as EmployeeRole[]).map((dropName) => {
           console.log(dropName);
           return (
             <Drop
@@ -193,7 +193,7 @@ const Employees = () => {
               title={dropName.toLocaleUpperCase()}
             >
               <>
-                {data[dropName as EmployeeRole].map((dragItem) => {
+                {data[dropName].map((dragItem) => {
                   return (
                     <Fragment key={dragItem.id}>
                       <Drage

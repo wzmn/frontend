@@ -34,6 +34,9 @@ export const companyRegistrationSchema = object({
   }),
 
   state: string().trim(),
+
+  mobile_otp: string().required("Required"),
+  email_otp: string().required("Required"),
 });
 
 export type CompanyRegistrationSchemaType = InferType<

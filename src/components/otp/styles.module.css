@@ -15,6 +15,11 @@
   height: 2.125rem;
   background-color: var(--color-dusty_grey);
   outline: none;
+  color: black;
+}
+
+.error {
+  border: 1px solid var(--color-red);
 }
 
 .inputStyle:nth-child(n) {

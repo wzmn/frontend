@@ -5,6 +5,7 @@ interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   isLoading?: boolean;
   width?: "full" | "fit" | "inherit" | "default";
   color?: "red" | "blue";
+  height?: "fit";
 }
 
 function sizeHandler(size?: string) {
@@ -29,6 +30,17 @@ function widthHandler(size?: string) {
   }
 }
 
+function heightHandler(size?: string) {
+  switch (size) {
+    case "full":
+      return "";
+    case "fit":
+      return styles.heightFit;
+    default:
+      return "";
+  }
+}
+
 function colorHandler(size?: string) {
   switch (size) {
     case "blue":
@@ -46,6 +58,7 @@ const Button = ({
   isLoading,
   icon,
   width,
+  height,
   ...props
 }: Props) => {
   const { className } = props;
@@ -54,11 +67,15 @@ const Button = ({
       {...props}
       className={`${styles.btn} ${sizeHandler()} ${widthHandler(
         width
-      )} ${colorHandler(color)} ${className}`}
+      )} ${heightHandler(height)} ${colorHandler(color)} ${className}`}
     >
       <div className={styles.icon}>{icon}</div>
       <p className={styles.title}>{title}</p>
-      {isLoading && <div className={styles.loader}><img src="/assets/loader/Spinner.svg" alt="" /></div>}
+      {isLoading && (
+        <div className={styles.loader}>
+          <img src="/assets/loader/Spinner.svg" alt="" />
+        </div>
+      )}
     </button>
   );
 };

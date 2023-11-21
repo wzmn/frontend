@@ -3,7 +3,7 @@
   border: 1px solid var(--color-cloudy_grey_light);
   border-radius: 5px;
   padding: 8.5px 11px;
-  
+
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -19,11 +19,15 @@
     width: 100%;
   }
 
+  &.height-fit {
+    height: fit-content;
+  }
+
   &.width-inherit {
     width: inherit;
   }
   &.defaultWidth {
-    width: $default-width;
+    // width: $default-width;
   }
 
   & .loader {

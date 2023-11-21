@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { PiFiles } from "react-icons/pi";
 import { FaChevronDown } from "react-icons/fa";
 import { Disclosure, Transition } from "@headlessui/react";
 import * as styles from "./styles.module.scss";
-import DNDImage from "components/dnd-image";
-const UploadDoc = () => {
+import DNDImage, { DNDImageFileType } from "components/dnd-image";
+import { CountryComplianceType } from "type/global";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { useUploadContext } from "providers/upload-doc-provider";
+
+const UploadDoc = ({ data }: { data: CountryComplianceType[] }) => {
+  const { files, setFiles } = useUploadContext();
+
   return (
     <div className={styles.doc}>
       <div className={styles.header}>
@@ -17,17 +23,14 @@ const UploadDoc = () => {
         </div>
       </div>
       <div className={styles.body}>
-        {[1, 1, 1].map(() => (
-          <Disclosure>
+        {data?.map((item, index) => (
+          <Disclosure key={item.id}>
             {({ open }) => (
               <>
                 <Disclosure.Button className={`${styles.disclosureBtn} `}>
-                  <span>
-                    Australian Passport (current or expired within last 2 years
-                    but not cancelled)
-                  </span>
+                  <span>{item.compliance_help_text}</span>
                   <div className={styles.pts}>
-                    <span>70 pts &nbsp;</span>
+                    <span>{item.points} pts &nbsp;</span>
                     <FaChevronDown
                       className={`${open ? "rotate-180 transform" : ""}`}
                     />
@@ -42,7 +45,31 @@ const UploadDoc = () => {
                   //   leaveTo="transform scale-95 opacity-0"
                 >
                   <Disclosure.Panel className={styles.panel}>
-                    <DNDImage setFiles={() => {}} />
+                    {files?.[index]?.file[0]?.preview ? (
+                      <div className={styles.preview}>
+                        <img
+                          src={files?.[index]?.file[0].preview}
+                          alt="/assets/images/picture.svg"
+                        />
+                        <RiDeleteBin6Line
+                          className="w-5 h-5 cursor-pointer absolute  top-1 right-4"
+                          onClick={() => {
+                            const file = [...files!];
+                            file[index] = { file: [] };
+                            setFiles(() => file);
+                          }}
+                        />
+                      </div>
+                    ) : (
+                      <DNDImage
+                        setFiles={(e) => {
+                          const file = [...files];
+                          console.log(file);
+                          file[index] = { file: e };
+                          setFiles(() => file);
+                        }}
+                      />
+                    )}
                   </Disclosure.Panel>
                 </Transition>
               </>
