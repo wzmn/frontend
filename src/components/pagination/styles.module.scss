@@ -1,12 +1,15 @@
 @import "styles/variable.scss";
+@import "styles/media.scss";
 
 .pagination {
   display: flex;
   align-items: center;
   justify-content: center;
   // letter-spacing: 0.07rem;
-  font-size: $font-normal;
-
+  font-size: 14px;
+    @include sm {
+    font-size: $font-normal;
+  }
   & .select {
     //   height: 1.3rem;
     margin: 0rem 0.4rem;

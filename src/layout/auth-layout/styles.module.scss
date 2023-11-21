@@ -2,40 +2,35 @@
 @import "styles/media.scss";
 
 .auth-layout {
-  height: 100vh;
-  background: transparent
-    linear-gradient(
-      119deg,
-      var(--color-candlelight) 0%,
-      var(--color-aqua_blue_light) 0%,
-      var(--color-dusty_grey) 100%
-    )
-    0% 0% no-repeat padding-box;
-  display: flex;
   justify-content: center;
-  align-items: center;
-  position: relative;
-  overflow: hidden;
-  &>div {
+  display: flex;
+  height: 100vh;
+
+  & > div {
     display: flex;
-    align-items: center;
-    flex-direction: column;
-    height: 100vh;
+    // align-items: center;
+    // flex-direction: column;
+    height: 100%;
+    & > div {
+      flex-direction: column;
+      flex: 1;
+    }
   }
+
   // overflow-y: scroll;
 
-  &::after {
-    content: "";
-    background: url("/assets/images/Group.png");
-    background-size: contain;
-    position: absolute;
-    width: 22rem;
-    height: 23rem;
-    right: 8.935rem;
-    bottom: -6rem;
-    z-index: -1;
-    overflow: hidden;
-  }
+  // &::after {
+  //   content: "";
+  //   background: url("/assets/images/Group.png");
+  //   background-size: contain;
+  //   position: absolute;
+  //   width: 22rem;
+  //   height: 23rem;
+  //   right: 8.935rem;
+  //   bottom: -6rem;
+  //   z-index: -1;
+  //   overflow: hidden;
+  // }
 
   & .t-point,
   .m-point,
@@ -127,6 +122,7 @@
   border: 1px solid var(--color-dove_grey);
   border-radius: 12px;
   padding: 2.792rem 2.3rem;
+
   @include sm {
     width: 35.063rem;
   }

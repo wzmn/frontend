@@ -8,6 +8,9 @@
   //   height: 100vh;
   //   background-color: khaki;
 }
+body {
+  background-color: var(--color-base-grey);
+}
 
 @include sm {
   .c-container {

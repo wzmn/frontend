@@ -51,9 +51,18 @@ const Layout = ({ children }: Props) => {
             <div className="">
               <HandleRedirect>
                 <AuthLayout>
-                  <div className="flex">
-                    <div className="items-center flex-1 flex">{children}</div>
-                    <div>
+                  <div className="flex flex-column">
+                    <div className="items-center flex-1 flex justify-center">
+                      {children}
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                      }}
+                    >
+                      <img style={{ maxWidth: 199 }} src="/assets/logo.png" />
                       <Footer />
                     </div>
                   </div>
