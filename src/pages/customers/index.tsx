@@ -95,12 +95,14 @@ const Customers = () => {
     <>
       {/* <pre>{JSON.stringify(data, null, 4)}</pre> */}
       <div className={styles.btnCont}>
-        <Button
-          width="default"
-          title="Create Employee"
-          icon={<AiOutlinePlus />}
-          className="flex-row-reverse"
-        />
+        <Link to="customer-registration">
+          <Button
+            width="default"
+            title="Create Employee"
+            icon={<AiOutlinePlus />}
+            className="flex-row-reverse"
+          />
+        </Link>
         <Input placeholder="Search" />
         <SelectBox color="full-white" data={dataList} />
       </div>
@@ -144,7 +146,7 @@ const Customers = () => {
 
 export function List({ data, loading }: { data: DProps; loading: boolean }) {
   return (
-    <Link to="employee-details">
+    <Link to="#">
       <div className={styles.card}>
         <div className="absolute right-3 top-1">
           <ImSpinner10 className="animate-spin" />

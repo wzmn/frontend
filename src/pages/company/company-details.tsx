@@ -4,7 +4,7 @@ import FormSection from "components/form-sections";
 import FormWraper from "components/form-wrapper";
 import Input from "components/input";
 import Radio from "components/radio";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { ImAttachment } from "react-icons/im";
 import { IoCallOutline, IoLocationOutline } from "react-icons/io5";
@@ -15,6 +15,9 @@ import * as companyStyles from "../company/styles.module.scss";
 import { PageProps } from "gatsby";
 import { CompanyDataType } from "type/company";
 import moment from "moment";
+import { request } from "services/http-request";
+import { COUNTRY_COMPLIANCE } from "constants/api";
+import { CountryComplianceType } from "type/global";
 
 const CompanyDetails = (props: PageProps) => {
   const { location } = props;
@@ -35,6 +38,22 @@ const CompanyDetails = (props: PageProps) => {
   function onSubmit(e: any) {
     console.log(e);
   }
+
+  async function fetchCountryCompliance() {
+    try {
+      const response = await request<CountryComplianceType[]>({
+        url: COUNTRY_COMPLIANCE,
+        params: {
+          company_country: "UK",
+        },
+      });
+      console.log(response);
+    } catch (error) {}
+  }
+
+  useEffect(() => {
+    fetchCountryCompliance();
+  }, []);
 
   return (
     <>
