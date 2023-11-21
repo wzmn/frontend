@@ -10,7 +10,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import useAuth from "hook/use-auth";
 import AuthProvider from "providers/auth-provider";
-
+import logo from './auth-layout/logo.png';
 const routeNotToInclude = ["/login/", "/reset-password/", "/forgot-password/"];
 
 type Props = {
@@ -46,11 +46,12 @@ const Layout = ({ children }: Props) => {
           <div className="">
           <HandleRedirect>
             <AuthLayout>
-              <div className="flex">
-                <div className="items-center flex-1 flex">
+              <div className="flex flex-column">
+                <div className="items-center flex-1 flex justify-center">
                   {children}
                 </div>
-                <div>
+                <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                  <img style={{maxWidth: 199}} src={logo} />
                   <Footer />
                 </div>
               </div>

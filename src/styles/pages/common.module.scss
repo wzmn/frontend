@@ -19,16 +19,20 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  @include sm {
+  @include lg {
     gap: 1.75rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
   }
   margin-bottom: 1rem;
   align-items: center;
-  width: fit-content;
+  width: 100%;
 
   & > div {
-    width: $default-width;
+    flex-basis: 220px;
+    flex-grow: 1;
+    @include lg {
+      flex-grow: 0;
+    }
   }
 }
 
@@ -47,9 +51,11 @@
   margin-bottom: 1.25rem;
   display: flex;
   overflow-x: scroll;
-  overflow: hidden;
+  padding-top: 10px;
+  padding-bottom: 10px;
   gap: 1.75rem;
   flex-grow: 1;
+  scroll-behavior: smooth;
   @include scrollBarStyle;
 }
 

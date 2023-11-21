@@ -19,7 +19,8 @@
   position: relative;
 
   & .drop-cont-title {
-    border: 1px solid blue;
+    border-width: 1px;
+    border-color: inherit;
     padding: 7px;
     background-color: white;
     text-align: center;
@@ -34,6 +35,7 @@
     overflow: hidden;
     overflow-y: auto;
     height: 100%;
+    border-color: inherit;
     &::-webkit-scrollbar {
       display: none;
     }
@@ -55,6 +57,7 @@
   background-color: white;
   cursor: pointer;
   border-radius: 5px;
+  border-color: inherit;
   &.loading {
     pointer-events: none;
     background-color: #00000019;

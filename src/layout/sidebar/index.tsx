@@ -9,6 +9,7 @@ import { useSidebarContext } from "providers/sidebar-provider";
 import { Link } from "gatsby";
 import { useAuthContext } from "providers/auth-provider";
 import logo from "./logo.png"
+import user from "./user.png"
 
 const sideBarData = [
   {
@@ -61,7 +62,7 @@ const Sidebar = () => {
       <div className={styles.userDetails}>
         <img
           className={styles.userImg}
-          src="/assets/images/user.png"
+          src={user}
           alt="user image"
         />
         <div className={styles.userName}>

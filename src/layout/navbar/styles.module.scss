@@ -5,30 +5,38 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-basis: 114px;
-  // background-color: pink;
-  // height: $navbar-height;
-  padding-top: 2rem;
-  padding-bottom: 2rem;
-
-  .select-container {
-    width: 16rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  row-gap: 1rem;
+  flex-wrap: wrap;
+  @include sm {
+    flex-wrap: nowrap;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
   }
+}
 
-  & .burger {
-    cursor: pointer;
-    @include lg {
-      display: none;
-    }
-  }
+.right-side,
+.left-side {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
 
-  & .right-side {
-    display: flex;
-    align-items: center;
-    gap: 1.6rem;
+.right-side {
+  justify-content: end;
+}
 
-    & .bell-icon {
-      font-size: 1.8rem;
-    }
+.left-side {
+  justify-content: start;
+
+}
+
+.burger {
+  cursor: pointer;
+  margin-right: 15px;
+
+  @include xl {
+    display: none;
   }
 }

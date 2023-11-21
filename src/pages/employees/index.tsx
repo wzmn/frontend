@@ -13,9 +13,9 @@ import React, { Fragment, useEffect, useRef, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { ImSpinner10 } from "react-icons/im";
 import { IoCallOutline } from "react-icons/io5";
-import { TfiEmail } from "react-icons/tfi";
+import { TfiEmail } from "react-icons/tfi"; 
 import { request } from "services/http-request";
-import * as styles from "styles/pages/common.module.scss";
+import * as commonStyles from "styles/pages/common.module.scss";
 import {
   EmployeeDataStateType,
   EmployeeDataType,
@@ -43,9 +43,20 @@ const Employees = () => {
     Manager: [],
   });
 
-  const drop1Color = cssVar("--color-blue_dress");
-  const drop2Color = cssVar("--color-candlelight");
-  const drop3Color = cssVar("--color-aqua_blue");
+
+
+function getColumnColor(int: number){
+  const colors = [
+    cssVar("--color-blue_dress"), 
+    cssVar("--color-candlelight"), 
+    cssVar("--color-aqua_blue"), 
+    cssVar("--color-salad_green"), 
+    cssVar("--color-red"), 
+    cssVar("--color-blue_dress"), 
+  ];
+  return colors[int % colors.length];
+}
+
 
   async function handleDrop(
     item: any,
@@ -120,35 +131,29 @@ const Employees = () => {
       }
     }
   }
+
   const table = useRef<HTMLDivElement>(null);
-  let isDown = false;
-  let startX: number;
-  let scrollLeft: number;
+  const handleScroll = (evt: any) => {
+    if (evt.target!.classList.contains("drop-container") || evt.target!.classList.contains("drop-title")){
+      evt.preventDefault();
+      table.current!.scrollLeft += evt.deltaY;
+    }
+  }
   useEffect(() => {
-    table?.current!.addEventListener("mousedown", (e) => {
-      isDown = true;
-      startX = e.pageX - table.current!.offsetLeft;
-      scrollLeft = table.current!.scrollLeft;
-    });
-    table?.current!.addEventListener("mouseleave", () => {
-      isDown = false;
-    });
-    table?.current!.addEventListener("mousemove", (e) => {
-      if (!isDown) return;
-      e.preventDefault();
-      const x = e.pageX - table.current!.offsetLeft;
-      const walk = (x - startX) * 3; //scroll-fast
-      table.current!.scrollLeft = scrollLeft - walk;
-    });
-  }, []);
+    table.current!.addEventListener('wheel', handleScroll);
+    return () => {
+      (table.current)?.removeEventListener('wheel', handleScroll);
+    }
+  }, [table]);
 
   useEffect(() => {
     fetchData();
   }, []);
 
+  const { btnCont, tableCont } = commonStyles;
   return (
     <>
-      <div className={styles.btnCont}>
+      <div className={btnCont}>
         <div className="">
           <Link to="employee-registration">
             <Button
@@ -180,13 +185,13 @@ const Employees = () => {
         {/* </div> */}
       </div>
 
-      <div className={styles.tableCont} ref={table}>
-        {Object.keys(data).map((dropName) => {
-          console.log(dropName);
+      <div className={`${tableCont} drop-container`} ref={table}>
+
+        {Object.keys(data).map((dropName, index) => {
           return (
             <Drop
               key={dropName}
-              titleRingColor={drop1Color}
+              titleRingColor={getColumnColor(index)}
               accept="company"
               handleDrop={handleDrop}
               section={dropName}
@@ -215,6 +220,7 @@ const Employees = () => {
           );
         })}
       </div>
+
       <Pagination />
     </>
   );
@@ -227,34 +233,36 @@ export function List({
   data: EmployeeDataStateType;
   loading: boolean;
 }) {
+  const { card, cardInfo, contactInfo, icon, contact } = commonStyles;
+
   return (
     <Link to="employee-details" state={data}>
-      <div className={styles.card}>
+      <div className={card}>
         <div className="absolute right-3 top-1">
           <ImSpinner10 className="animate-spin" />
         </div>
-        <div className={styles.cardInfo}>
+        <div className={cardInfo}>
           <p className="title">{data.user?.first_name}</p>
           <span className="">
             {" "}
             created on: {moment(data.user?.created_at).format("ddd, MM a")}
           </span>
         </div>
-        <div className={styles.contactInfo}>
+        <div className={contactInfo}>
           <div className="">
-            <span className={styles.icon}>
-              <TfiEmail className={styles.icon} />
+            <span className={icon}>
+              <TfiEmail className={icon} />
             </span>
 
-            <span className={styles.contact}>{data.user?.email}</span>
+            <span className={contact}>{data.user?.email}</span>
           </div>
 
           <div className="">
-            <span className={styles.icon}>
-              <IoCallOutline className={styles.icon} />
+            <span className={icon}>
+              <IoCallOutline className={icon} />
             </span>
 
-            <span className={styles.contact}>{data.user?.phone}</span>
+            <span className={contact}>{data.user?.phone}</span>
           </div>
         </div>
       </div>

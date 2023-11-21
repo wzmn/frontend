@@ -30,10 +30,10 @@ export function Drop({
   }));
 
   return (
-    <div ref={drop} className={`${styles.dropCont}   `}>
+    <div ref={drop} className={`${styles.dropCont}`} style={{ borderColor: titleRingColor }}>
       <p
-        style={{ borderColor: titleRingColor }}
-        className={styles.dropContTitle}
+        style={{}}
+        className={`${styles.dropContTitle} drop-title`}
       >
         {title}
       </p>
