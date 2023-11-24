@@ -171,7 +171,7 @@ const Customers = () => {
 
 export function List({ data, loading }: { data: DProps; loading: boolean }) {
   return (
-    <Link to="#">
+    <a href={`customer-details/?customer=${data.id}`}>
       <div className={styles.card}>
         <div className="absolute right-3 top-1">
           <ImSpinner10 className="animate-spin" />
@@ -201,7 +201,7 @@ export function List({ data, loading }: { data: DProps; loading: boolean }) {
           </div>
         </div>
       </div>
-    </Link>
+    </a>
   );
 }
 

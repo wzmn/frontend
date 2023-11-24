@@ -1,27 +1,21 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import Button from "components/button";
-import ButtonGroup from "components/button-group";
-import DNDImage from "components/dnd-image";
 import FormSection from "components/form-sections";
 import FormWraper from "components/form-wrapper";
-import UploadDoc from "components/pages/company/upload-doc/upload-doc";
+import Radio from "components/radio";
 import SelectBox from "components/selectBox";
 import TextField from "components/text-field";
+import { CUSTOMER_LISTING } from "constants/api";
 import { useRightBarContext } from "providers/right-bar-provider";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { RiDeleteBin6Line } from "react-icons/ri";
 import {
-  CompanyRegistrationSchemaType,
-  companyRegistrationSchema,
-} from "schema/company-schema";
+  CustomerRegistrationSchemaType,
+  customerRegistrationSchema,
+} from "schema/customer-schema";
+import { request } from "services/http-request";
 import * as styles from "styles/pages/common.module.scss";
 import { States, StreetTypes, UnitTypes } from "../../constants";
-import * as companyStyles from "./styles.module.scss";
-import AdditionalDocument from "layout/additional-document";
-import { request } from "services/http-request";
-import { COMPANY_LISTING } from "constants/api";
-import Radio from "components/radio";
 
 const countries = [
   { label: "UK" },
@@ -53,13 +47,13 @@ const customerRegistration = () => {
     setValue,
     formState: { isSubmitting, errors },
   } = useForm({
-    resolver: yupResolver(companyRegistrationSchema),
+    resolver: yupResolver(customerRegistrationSchema),
   });
 
-  async function onSubmit(data: CompanyRegistrationSchemaType) {
+  async function onSubmit(data: CustomerRegistrationSchemaType) {
     try {
       const response = await request({
-        url: COMPANY_LISTING,
+        url: CUSTOMER_LISTING,
         method: "post",
         data,
       });
@@ -117,16 +111,16 @@ const customerRegistration = () => {
                   <TextField
                     title="Company Name"
                     asterisk
-                    {...register("company_name")}
-                    errorMessage={errors.company_name?.message}
+                    // {...register("company_name")}
+                    // errorMessage={errors.company_name?.message}
                   />
                 </div>
                 <div className="max-w-3xl">
                   <TextField
                     title="First Name"
                     asterisk
-                    {...register("company_mobile_phone")}
-                    errorMessage={errors.company_mobile_phone?.message}
+                    {...register("user.first_name")}
+                    errorMessage={errors.user?.first_name?.message}
                   />
                 </div>
 
@@ -134,16 +128,16 @@ const customerRegistration = () => {
                   <TextField
                     title="Last Name"
                     asterisk
-                    {...register("company_landline")}
-                    errorMessage={errors.company_landline?.message}
+                    {...register("user.last_name")}
+                    errorMessage={errors.user?.last_name?.message}
                   />
                 </div>
                 <div className="max-w-3xl">
                   <TextField
                     title="E-mail ID"
                     asterisk
-                    {...register("company_email")}
-                    errorMessage={errors.company_email?.message}
+                    {...register("user.email")}
+                    errorMessage={errors.user?.email?.message}
                   />
                 </div>
 
@@ -151,8 +145,8 @@ const customerRegistration = () => {
                   <TextField
                     title="Mobile Number"
                     asterisk
-                    {...register("company_mobile_phone")}
-                    errorMessage={errors.company_mobile_phone?.message}
+                    {...register("user.phone")}
+                    errorMessage={errors.user?.phone?.message}
                   />
                 </div>
               </div>
@@ -168,16 +162,16 @@ const customerRegistration = () => {
                   <TextField
                     title="Building Name."
                     asterisk
-                    {...register("address.buildingName")}
-                    errorMessage={errors.address?.buildingName?.message}
+                    // {...register("address.buildingName")}
+                    // errorMessage={errors.address?.buildingName?.message}
                   />
                 </div>
                 <div className="max-w-3xl">
                   <TextField
                     title="Level No"
                     asterisk
-                    {...register("address.levelNo")}
-                    errorMessage={errors.address?.levelNo?.message}
+                    // {...register("address.levelNo")}
+                    // errorMessage={errors.address?.levelNo?.message}
                   />
                 </div>
                 <div className="max-w-3xl">
@@ -186,7 +180,7 @@ const customerRegistration = () => {
                     data={UnitTypes}
                     asterisk
                     onChange={(e) => {
-                      setValue("address.unitType", e.label);
+                      // setValue("address.unitType", e.label);
                     }}
                   />
                 </div>
@@ -194,8 +188,8 @@ const customerRegistration = () => {
                   <TextField
                     title="Unit No"
                     asterisk
-                    {...register("address.unitNo")}
-                    errorMessage={errors.address?.unitNo?.message}
+                    // {...register("address.unitNo")}
+                    // errorMessage={errors.address?.unitNo?.message}
                   />
                 </div>
 
@@ -203,8 +197,8 @@ const customerRegistration = () => {
                   <TextField
                     title="Lot No."
                     asterisk
-                    {...register("address.lotNo")}
-                    errorMessage={errors.address?.lotNo?.message}
+                    // {...register("address.lotNo")}
+                    // errorMessage={errors.address?.lotNo?.message}
                   />
                 </div>
                 <div className="max-w-3xl">
@@ -214,7 +208,7 @@ const customerRegistration = () => {
                       data={StreetTypes}
                       asterisk
                       onChange={(e) => {
-                        setValue("address.streetNo", e.label);
+                        // setValue("address.streetNo", e.label);
                       }}
                     />
                   </div>
@@ -223,16 +217,16 @@ const customerRegistration = () => {
                   <TextField
                     title="Street Name"
                     asterisk
-                    {...register("address.streetName")}
-                    errorMessage={errors.address?.streetName?.message}
+                    // {...register("address.streetName")}
+                    // errorMessage={errors.address?.streetName?.message}
                   />
                 </div>
                 <div className="max-w-3xl">
                   <TextField
                     title="Street Type"
                     asterisk
-                    {...register("address.streetType")}
-                    errorMessage={errors.address?.streetType?.message}
+                    // {...register("address.streetType")}
+                    // errorMessage={errors.address?.streetType?.message}
                   />
                 </div>
 
@@ -240,16 +234,16 @@ const customerRegistration = () => {
                   <TextField
                     title="Suffix."
                     asterisk
-                    {...register("address.suffix")}
-                    errorMessage={errors.address?.suffix?.message}
+                    // {...register("address.suffix")}
+                    // errorMessage={errors.address?.suffix?.message}
                   />
                 </div>
                 <div className="max-w-3xl">
                   <TextField
                     title="Suburb"
                     asterisk
-                    {...register("address.suburb")}
-                    errorMessage={errors.address?.suburb?.message}
+                    // {...register("address.suburb")}
+                    // errorMessage={errors.address?.suburb?.message}
                   />
                 </div>
                 <div className="max-w-3xl">
@@ -258,7 +252,7 @@ const customerRegistration = () => {
                     data={States}
                     asterisk
                     onChange={(e) => {
-                      setValue("state", e.label);
+                      // setValue("state", e.label);
                     }}
                   />
                 </div>
@@ -266,8 +260,8 @@ const customerRegistration = () => {
                   <TextField
                     title="Pincode"
                     asterisk
-                    {...register("address.pincode")}
-                    errorMessage={errors.address?.pincode?.message}
+                    // {...register("address.pincode")}
+                    // errorMessage={errors.address?.pincode?.message}
                   />
                 </div>
 
@@ -275,8 +269,8 @@ const customerRegistration = () => {
                   <TextField
                     title="LGA"
                     asterisk
-                    {...register("address.lga")}
-                    errorMessage={errors.address?.lga?.message}
+                    // {...register("address.lga")}
+                    // errorMessage={errors.address?.lga?.message}
                   />
                 </div>
               </div>

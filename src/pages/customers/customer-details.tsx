@@ -4,25 +4,25 @@ import FormSection from "components/form-sections";
 import FormWraper from "components/form-wrapper";
 import Input from "components/input";
 import Radio from "components/radio";
+import { CUSTOMER_LISTING } from "constants/api";
+import { PageProps } from "gatsby";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { ImAttachment } from "react-icons/im";
 import { IoCallOutline } from "react-icons/io5";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { TfiEmail } from "react-icons/tfi";
-import * as styles from "styles/pages/common.module.scss";
-import * as companyStyles from "../company/styles.module.scss";
-import { PageProps } from "gatsby";
-import { EmployeeDataType } from "type/employee";
-import moment from "moment";
-import { EMPLOYEE_LISTING } from "constants/api";
 import { request } from "services/http-request";
+import * as styles from "styles/pages/common.module.scss";
+import { EmployeeDataType } from "type/employee";
+import * as companyStyles from "../company/styles.module.scss";
 
-const EmployeeDetails = (props: PageProps) => {
+const CustomerDetails = (props: PageProps) => {
   const { location } = props;
   // const employee = location.state as EmployeeDataType;
   const params = new URLSearchParams(location.search);
-  const employeeId = params.get("employee");
+  const customerId = params.get("customer");
 
   const { control, setValue, handleSubmit } = useForm<any>({
     defaultValues: {
@@ -42,7 +42,7 @@ const EmployeeDetails = (props: PageProps) => {
   async function fetchData() {
     try {
       const response = await request<EmployeeDataType>({
-        url: EMPLOYEE_LISTING + employeeId,
+        url: CUSTOMER_LISTING + customerId,
       });
       setData(() => response.data);
     } catch (error) {
@@ -229,4 +229,4 @@ const EmployeeDetails = (props: PageProps) => {
   );
 };
 
-export default EmployeeDetails;
+export default CustomerDetails;
