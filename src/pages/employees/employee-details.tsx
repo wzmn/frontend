@@ -60,7 +60,7 @@ const EmployeeDetails = (props: PageProps) => {
 
   return (
     <>
-      <p className={styles.title}>Employee ID: {employee.id}</p>
+      <p className={styles.title}>Employee ID: {employee?.id}</p>
 
       <div className="space-y-16 mb-3">
         <FormSection title="Employee Details">
@@ -69,7 +69,7 @@ const EmployeeDetails = (props: PageProps) => {
               <>
                 <p className={styles.name}>
                   <span className={styles.bold}>Employee name: &nbsp; </span>
-                  {employee.user?.first_name} &nbsp;
+                  {employee?.user?.first_name} &nbsp;
                   <span className={styles.tag}>(Company Owner)</span>
                 </p>
 
@@ -80,7 +80,7 @@ const EmployeeDetails = (props: PageProps) => {
                     </span>
 
                     <span className={styles.contact}>
-                      {employee.user?.email}
+                      {employee?.user?.email}
                     </span>
                   </div>
 
@@ -90,7 +90,7 @@ const EmployeeDetails = (props: PageProps) => {
                     </span>
 
                     <span className={styles.contact}>
-                      {employee.user?.phone}
+                      {employee?.user?.phone}
                     </span>
                   </div>
                 </div>
@@ -103,7 +103,7 @@ const EmployeeDetails = (props: PageProps) => {
                   </span>
                   Superadmin/Jackson &nbsp;
                   <span className={styles.tag2}>
-                    {moment(employee.user?.created_at).format(
+                    {moment(employee?.user?.created_at).format(
                       "DD-MM-yyyy HH:MM a"
                     )}
                   </span>
@@ -117,23 +117,23 @@ const EmployeeDetails = (props: PageProps) => {
                   </p>
 
                   <div className={styles.roles}>
-                    <Radio label="ADMIN" checked={employee.role === "Admin"} />
+                    <Radio label="ADMIN" checked={employee?.role === "Admin"} />
                     <Radio
                       label="MANAGER"
-                      checked={employee.role === "Manager"}
+                      checked={employee?.role === "Manager"}
                     />
                     <Radio
                       label="TEAM LEADER"
-                      checked={employee.role === "Team Lead"}
+                      checked={employee?.role === "Team Lead"}
                     />
-                    <Radio label="AGENT" checked={employee.role === "Agent"} />
+                    <Radio label="AGENT" checked={employee?.role === "Agent"} />
                     <Radio
                       label="FIELDWORKER"
-                      checked={employee.role === "Fieldworker"}
+                      checked={employee?.role === "Fieldworker"}
                     />
                     <Radio
                       label="AUDITOR"
-                      checked={employee.role === "Auditor"}
+                      checked={employee?.role === "Auditor"}
                     />
                   </div>
                 </div>
