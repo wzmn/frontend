@@ -4,7 +4,7 @@ import FormSection from "components/form-sections";
 import FormWraper from "components/form-wrapper";
 import Input from "components/input";
 import Radio from "components/radio";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { ImAttachment } from "react-icons/im";
 import { IoCallOutline } from "react-icons/io5";
@@ -15,16 +15,22 @@ import * as companyStyles from "../company/styles.module.scss";
 import { PageProps } from "gatsby";
 import { EmployeeDataType } from "type/employee";
 import moment from "moment";
+import { EMPLOYEE_LISTING } from "constants/api";
+import { request } from "services/http-request";
 
 const EmployeeDetails = (props: PageProps) => {
   const { location } = props;
-  const employee = location.state as EmployeeDataType;
+  // const employee = location.state as EmployeeDataType;
+  const params = new URLSearchParams(location.search);
+  const employeeId = params.get("employee");
 
   const { control, setValue, handleSubmit } = useForm<any>({
     defaultValues: {
       attachments: [{ file: null }],
     },
   });
+
+  const [employee, setEmployee] = useState<EmployeeDataType>({});
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -33,9 +39,24 @@ const EmployeeDetails = (props: PageProps) => {
 
   const [files, setFiles] = useState<DNDImageFileType[]>([]);
 
+  async function fetchData() {
+    try {
+      const response = await request<EmployeeDataType>({
+        url: EMPLOYEE_LISTING + employeeId,
+      });
+      setEmployee(() => response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   function onSubmit(e: any) {
     console.log(e);
   }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <>

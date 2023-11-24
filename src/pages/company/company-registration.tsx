@@ -152,11 +152,13 @@ const AddEditCompany = () => {
       // console.log(dt);
       // return;
       const response = await request<CompanyDataType>({
-        url: COMPANY_LISTING + "admin_create_company/",
+        url: COMPANY_LISTING,
+        // url: COMPANY_LISTING + "admin_create_company/",
         // url: "http://127.0.0.1:3000/",
         method: "post",
-        data: formData,
-        headers: { "Content-Type": "multipart/form-data" },
+        // data: formData
+        data,
+        // headers: { "Content-Type": "multipart/form-data" },
       });
       console.log(response);
       // if (response.status === 201) {

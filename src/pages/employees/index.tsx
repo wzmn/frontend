@@ -237,10 +237,10 @@ export function List({
   const { card, cardInfo, contactInfo, icon, contact } = commonStyles;
 
   return (
-    <Link
+    <a
       target="_blank"
-      to={`employee-details/?employee=${data.id}`}
-      state={data}
+      href={`employee-details/?employee=${data.id}`}
+      // state={data}
     >
       <div className={card}>
         <div className="absolute right-3 top-1">
@@ -271,7 +271,7 @@ export function List({
           </div>
         </div>
       </div>
-    </Link>
+    </a>
   );
 }
 
