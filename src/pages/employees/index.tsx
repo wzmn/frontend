@@ -131,6 +131,7 @@ const Employees = () => {
 
   const table = useRef<HTMLDivElement>(null);
   const handleScroll = (evt: any) => {
+    console.log(evt.deltaY);
     if (
       evt.target!.classList.contains("drop-container") ||
       evt.target!.classList.contains("drop-title")
@@ -236,7 +237,11 @@ export function List({
   const { card, cardInfo, contactInfo, icon, contact } = commonStyles;
 
   return (
-    <Link to="employee-details" state={data}>
+    <Link
+      target="_blank"
+      to={`employee-details/?employee=${data.id}`}
+      state={data}
+    >
       <div className={card}>
         <div className="absolute right-3 top-1">
           <ImSpinner10 className="animate-spin" />

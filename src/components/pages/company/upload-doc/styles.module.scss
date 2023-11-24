@@ -53,9 +53,14 @@
     }
 
     & .panel {
-      height: 10rem;
+      height: fit-content;
       padding: 1rem;
       margin-bottom: 1rem;
+
+      & .uploader {
+        height: 9.297rem;
+        margin-bottom: 1rem;
+      }
 
       & .preview {
         height: 9.297rem;
@@ -69,8 +74,8 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        margin-bottom: 1rem;
         // width: 2rem;
-
         & > svg {
           color: var(--color-black);
         }

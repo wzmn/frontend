@@ -26,13 +26,35 @@ import {
   COUNTRY_COMPLIANCE,
   OTP_API,
 } from "constants/api";
-import { CountryComplianceType } from "type/global";
-import { useUploadContext } from "providers/upload-doc-provider";
+import { CountryComplianceType, ItemType } from "type/global";
+import { useUploadContext, KeyType } from "providers/upload-doc-provider";
 import InputOtp from "components/otp";
 import { toast } from "react-toastify";
 import { CompanyDataType } from "type/company";
+import { ignore } from "gatsby/dist/schema/infer/inference-metadata";
 
 let countryComplianceData: CountryComplianceType[];
+
+function objectToFormData(
+  obj: Record<any, any>,
+  formData?: FormData,
+  parentKey = ""
+) {
+  formData = formData || new FormData();
+
+  for (let key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      let propName = parentKey ? `${parentKey}[${key}]` : key;
+      if (typeof obj[key] === "object" && !(obj[key] instanceof File)) {
+        objectToFormData(obj[key], formData, propName);
+      } else {
+        formData.append(propName, obj[key]);
+      }
+    }
+  }
+
+  return formData;
+}
 
 const countries = [
   { label: "UK" },
@@ -51,15 +73,33 @@ interface FileProps extends File {
   preview: string;
 }
 
+type ComplianceState = {
+  primary: CountryComplianceType[];
+  secondary: CountryComplianceType[];
+  additional: CountryComplianceType[];
+};
+
+function initialState() {
+  return JSON.parse(
+    JSON.stringify({
+      primary: [],
+      secondary: [],
+      additional: [],
+    })
+  );
+}
+
 const AddEditCompany = () => {
   const [mobileOTP, setMobileOTP] = useState<string>("");
   const [emailOTP, setEmailOTP] = useState<string>("");
 
   const [files, setFiles] = useState<FileProps[]>([]);
 
+  const [compliance, setCompliance] = useState<ComplianceState>(initialState());
+
   const { open, toggle, setElement } = useRightBarContext();
 
-  const { files: primaryDoc } = useUploadContext();
+  const { files: documents } = useUploadContext();
 
   const {
     register,
@@ -89,10 +129,34 @@ const AddEditCompany = () => {
 
   async function onSubmit(data: CompanyRegistrationSchemaType) {
     try {
+      const formData = objectToFormData({
+        company: data,
+      });
+      Object.keys(documents).forEach((item) => {
+        Object.entries(documents[item as KeyType]).forEach((item, index) => {
+          formData.append(
+            `company_compliance[${index}].detail`,
+            item[1].detail as any
+          );
+          item[1].documents.forEach((doc, idx) => {
+            formData.append(
+              `company_compliance[${index}].documents[${idx}]`,
+              doc as any
+            );
+          });
+        });
+      });
+      // formData.append("files", documents.primary[0].documents[0] as any);
+      formData.append("company", data as any);
+
+      // console.log(dt);
+      // return;
       const response = await request<CompanyDataType>({
-        url: COMPANY_LISTING,
+        url: COMPANY_LISTING + "admin_create_company/",
+        // url: "http://127.0.0.1:3000/",
         method: "post",
-        data,
+        data: formData,
+        headers: { "Content-Type": "multipart/form-data" },
       });
       console.log(response);
       // if (response.status === 201) {
@@ -105,7 +169,7 @@ const AddEditCompany = () => {
       //   });
       // }
     } catch (error) {
-      console.log("error");
+      console.log(error);
     }
   }
 
@@ -117,7 +181,12 @@ const AddEditCompany = () => {
           company_country: "UK",
         },
       });
-      countryComplianceData = response.data;
+      const list = initialState();
+      response?.data?.forEach((item) => {
+        list[item.item_type!].push(item);
+      });
+
+      setCompliance(() => list);
     } catch (error) {}
   }
 
@@ -137,6 +206,7 @@ const AddEditCompany = () => {
 
   return (
     <>
+      {/* {JSON.stringify(com)} */}
       <p className={styles.title}>Create Company</p>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-16 mb-3">
@@ -511,7 +581,7 @@ const AddEditCompany = () => {
                 <ButtonGroup
                   onClick={() => {
                     setElement(
-                      <UploadDoc data={countryComplianceData} />,
+                      <UploadDoc data={compliance.primary} />,
                       "Primary Documents"
                     );
                     !open && toggle();
@@ -521,7 +591,10 @@ const AddEditCompany = () => {
                 />
                 <ButtonGroup
                   onClick={() => {
-                    setElement(<>Secondary Documents</>, "Secondary Documents");
+                    setElement(
+                      <UploadDoc data={compliance.secondary} />,
+                      "Secondary Documents"
+                    );
                     !open && toggle();
                   }}
                   title="Secondary Documents"

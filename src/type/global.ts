@@ -7,9 +7,11 @@ export interface CountryComplianceType {
   compliance_country?: string;
   compliance_item?: string;
   compliance_help_text?: string;
-  item_type?: string;
+  item_type?: ItemType;
   allow_multiple_docs?: boolean;
   points?: number;
   is_required?: boolean;
   document_priority?: string;
 }
+
+export type ItemType = "primary" | "secondary" | "additional";

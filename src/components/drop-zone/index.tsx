@@ -1,7 +1,6 @@
-import React, { CSSProperties } from "react";
+import React from "react";
 import { useDrop } from "react-dnd";
 import * as styles from "./styles.module.scss";
-import { Drage } from "./drage";
 
 type Props = {
   // data: any;
@@ -30,11 +29,12 @@ export function Drop({
   }));
 
   return (
-    <div ref={drop} className={`${styles.dropCont}`} style={{ borderColor: titleRingColor }}>
-      <p
-        style={{}}
-        className={`${styles.dropContTitle} drop-title`}
-      >
+    <div
+      ref={drop}
+      className={`${styles.dropCont}`}
+      style={{ borderColor: titleRingColor }}
+    >
+      <p style={{}} className={`${styles.dropContTitle} drop-title`}>
         {title}
       </p>
       <div className={`${styles.content} ${isOver && styles.over}`}>
