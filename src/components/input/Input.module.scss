@@ -1,5 +1,6 @@
 @import "styles/variable.scss";
 .input-cont {
+  z-index: -1;
   & .input-holder {
     position: relative;
 
@@ -20,7 +21,7 @@
       padding: 7px 10px;
       // padding-left: 0.9rem;
       font-size: medium;
-      
+
       position: relative;
       // margin-bottom: 0.2rem;
 
@@ -37,7 +38,7 @@
         // width: $default-width;
         width: 100%;
       }
-      
+
       &.regular {
         width: 100%;
         background-color: var(--color-white80);

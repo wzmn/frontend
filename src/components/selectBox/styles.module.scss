@@ -21,6 +21,13 @@
   background: var(--color-dusty_grey);
 }
 
+.index {
+  z-index: 999;
+}
+
+.rel {
+  position: relative;
+}
 // relative w-full cursor-default rounded-md py-2 pl-3 pr-10 text-left shadow-md focus:outline-none  sm:text-sm
 
 .lst-box-btn {

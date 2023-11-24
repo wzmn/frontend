@@ -24,20 +24,20 @@ const CustomerDetails = (props: PageProps) => {
   const params = new URLSearchParams(location.search);
   const customerId = params.get("customer");
 
-  const { control, setValue, handleSubmit } = useForm<any>({
-    defaultValues: {
-      attachments: [{ file: null }],
-    },
-  });
+  //   const { control, setValue, handleSubmit } = useForm<any>({
+  //     defaultValues: {
+  //       attachments: [{ file: null }],
+  //     },
+  //   });
 
   const [data, setData] = useState<EmployeeDataType>({});
 
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: "attachments",
-  });
+  //   const { fields, append, remove } = useFieldArray({
+  //     control,
+  //     name: "attachments",
+  //   });
 
-  const [files, setFiles] = useState<DNDImageFileType[]>([]);
+  //   const [files, setFiles] = useState<DNDImageFileType[]>([]);
 
   async function fetchData() {
     try {
@@ -60,15 +60,15 @@ const CustomerDetails = (props: PageProps) => {
 
   return (
     <>
-      <p className={styles.title}>Employee ID: {data?.id}</p>
+      <p className={styles.title}>Customer ID: {data?.id}</p>
 
       <div className="space-y-16 mb-3">
-        <FormSection title="Employee Details">
+        <FormSection title="Customer Details">
           <div className="flex-1">
             <FormWraper>
               <>
                 <p className={styles.name}>
-                  <span className={styles.bold}>Employee name: &nbsp; </span>
+                  <span className={styles.bold}>Customer name: &nbsp; </span>
                   {data?.user?.first_name} &nbsp;
                   <span className={styles.tag}>(Company Owner)</span>
                 </p>
@@ -95,7 +95,7 @@ const CustomerDetails = (props: PageProps) => {
 
                 <p className={`${styles.name} ${styles.createBy}`}>
                   <span className={styles.bold}>
-                    Employee Created by: &nbsp;{" "}
+                    Customer Created by: &nbsp;{" "}
                   </span>
                   Superadmin/Jackson &nbsp;
                   <span className={styles.tag2}>
@@ -109,7 +109,7 @@ const CustomerDetails = (props: PageProps) => {
 
                 <div className={styles.userRole}>
                   <p className={styles.name}>
-                    <span className={styles.bold}>Employee Role</span>
+                    <span className={styles.bold}>Customer Role</span>
                   </p>
 
                   <div className={styles.roles}>
@@ -132,7 +132,7 @@ const CustomerDetails = (props: PageProps) => {
           </div>
         </FormSection>
 
-        <FormSection title="Attachments">
+        {/* <FormSection title="Attachments">
           <form className="flex-1" onSubmit={handleSubmit(onSubmit)}>
             <FormWraper>
               <>
@@ -140,7 +140,7 @@ const CustomerDetails = (props: PageProps) => {
                   {fields.map((item, index: number) => {
                     return (
                       <>
-                        {/* <div className={styles.file}> */}
+                        
                         <DNDImage
                           setFiles={(e) => {
                             setValue(`attachments.${index}.file`, e);
@@ -149,7 +149,7 @@ const CustomerDetails = (props: PageProps) => {
                             setFiles(() => list);
                           }}
                         />
-                        {/* </div> */}
+                        
 
                         <aside className={companyStyles.preview}>
                           {files[index] ? (
@@ -204,7 +204,7 @@ const CustomerDetails = (props: PageProps) => {
               </>
             </FormWraper>
           </form>
-        </FormSection>
+        </FormSection> */}
 
         <FormSection title="Comments">
           <div className="flex-1">

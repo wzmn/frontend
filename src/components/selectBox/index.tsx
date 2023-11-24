@@ -47,9 +47,9 @@ export default function SelectBox({
   }
 
   return (
-    <div className="w-full">
+    <div className={`w-full ${styles.rel}`}>
       <Listbox value={selected} onChange={onSelect}>
-        <div className="relative">
+        <div className={`  ${styles.index}`}>
           <Listbox.Button
             className={`${styles.lstBoxBtn} ${varientHandler(color)} border`}
           >
@@ -73,7 +73,7 @@ export default function SelectBox({
             leaveTo="opacity-0"
           >
             <Listbox.Options
-              className={`${styles.selectBoxScrollBar} z-50 absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg  focus:outline-none sm:text-sm`}
+              className={`${styles.selectBoxScrollBar} ${styles.index} absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg  focus:outline-none sm:text-sm`}
             >
               <Listbox.Option
                 className={({ active }) =>

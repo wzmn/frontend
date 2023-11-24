@@ -123,7 +123,7 @@ const Customers = () => {
         <Link to="customer-registration">
           <Button
             width="default"
-            title="Create Employee"
+            title="Create Customer"
             icon={<AiOutlinePlus />}
             className="flex-row-reverse"
           />
@@ -171,7 +171,7 @@ const Customers = () => {
 
 export function List({ data, loading }: { data: DProps; loading: boolean }) {
   return (
-    <a href={`customer-details/?customer=${data.id}`}>
+    <a target="_blank" href={`customer-details/?customer=${data.id}`}>
       <div className={styles.card}>
         <div className="absolute right-3 top-1">
           <ImSpinner10 className="animate-spin" />
