@@ -17,7 +17,11 @@ import React, {
 import { AiOutlinePlus } from "react-icons/ai";
 import { request } from "services/http-request";
 import * as styles from "styles/pages/common.module.scss";
-import { CompanyDataType, CompanyStatus, DProps } from "type/company";
+import {
+  CompanyDataType,
+  CompanyStatus,
+  CompanyExtraDataType,
+} from "type/company";
 import cssVar from "utility/css-var";
 import { debounce } from "utility/debounce";
 import { findMatchingId } from "utility/find-matching-id";
@@ -36,7 +40,9 @@ const dataList = [
 ];
 
 const Company = () => {
-  const [data, setData] = useState<Record<CompanyStatus, DProps[]>>({
+  const [data, setData] = useState<
+    Record<CompanyStatus, CompanyExtraDataType[]>
+  >({
     "upload info": [],
     "document review": [],
     verified: [],
@@ -206,7 +212,7 @@ const Company = () => {
               title={dropName.toLocaleUpperCase()}
             >
               <>
-                {data[dropName].map((dragItem: DProps) => {
+                {data[dropName].map((dragItem: CompanyExtraDataType) => {
                   return (
                     <Fragment key={dragItem.id}>
                       <Drage

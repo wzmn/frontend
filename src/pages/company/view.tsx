@@ -1,7 +1,6 @@
 import React from "react";
 import { Disclosure } from "@headlessui/react";
 import { FaChevronDown } from "react-icons/fa";
-import { CustomerDataExtraType } from ".";
 import * as styles from "styles/pages/view.module.scss";
 import { TfiEmail } from "react-icons/tfi";
 import { IoCallOutline, IoLocationOutline } from "react-icons/io5";
@@ -10,8 +9,9 @@ import moment from "moment";
 import Radio from "components/radio";
 import { LuClipboardList } from "react-icons/lu";
 import { SlBell } from "react-icons/sl";
+import { CompanyExtraDataType } from "type/company";
 
-const View = ({ data }: { data: CustomerDataExtraType }) => {
+const View = ({ data }: { data: CompanyExtraDataType }) => {
   return (
     <div className={styles.view}>
       <Disclosure>
@@ -21,7 +21,7 @@ const View = ({ data }: { data: CustomerDataExtraType }) => {
             <Disclosure.Button className={styles.details}>
               <div className="">
                 <p className="">
-                  <span className={styles.bold}>Customer Name:</span>{" "}
+                  <span className={styles.bold}>Company Name:</span>{" "}
                   <span className={styles.normal}>Jason Stone</span>
                 </p>
                 <p className={styles.tag}>Today at 7.00 am</p>
@@ -37,7 +37,7 @@ const View = ({ data }: { data: CustomerDataExtraType }) => {
                     <TfiEmail className={styles.icon} />
                   </span>
 
-                  <span className={styles.contact}>{data?.user?.email}</span>
+                  <span className={styles.contact}>{data?.company_email}</span>
                 </div>
 
                 <div className="">
@@ -45,7 +45,9 @@ const View = ({ data }: { data: CustomerDataExtraType }) => {
                     <IoCallOutline className={styles.icon} />
                   </span>
 
-                  <span className={styles.contact}>{data?.user?.phone}</span>
+                  <span className={styles.contact}>
+                    {data?.company_mobile_phone}
+                  </span>
                 </div>
 
                 <div className="">
@@ -54,7 +56,7 @@ const View = ({ data }: { data: CustomerDataExtraType }) => {
                   </span>
 
                   <span className={styles.contact}>
-                    {data.user?.groups || "N/A"}
+                    {data?.company_address || "N/A"}
                   </span>
                 </div>
               </div>
@@ -68,7 +70,7 @@ const View = ({ data }: { data: CustomerDataExtraType }) => {
 
       <div className="">
         <p className={styles.additionalInfo}>
-          <span className={styles.title}>Customer Type: &nbsp;</span>Residential
+          <span className={styles.title}>Company Type: &nbsp;</span>Residential
         </p>
 
         <p className={styles.additionalInfo}>
@@ -89,7 +91,7 @@ const View = ({ data }: { data: CustomerDataExtraType }) => {
         <span className={styles.bold}>Company Created by: &nbsp; </span>
         Superadmin/Jackson &nbsp;
         <span className={styles.tag}>
-          {moment(data.user?.created_at).format("DD-MM-yyyy HH:MM a")}
+          {moment(data?.created_at).format("DD-MM-yyyy HH:MM a")}
         </span>
       </p>
       <div className={styles.divider}>
@@ -97,72 +99,9 @@ const View = ({ data }: { data: CustomerDataExtraType }) => {
       </div>
 
       <div className={styles.status}>
-        <p className={styles.bold}>Customer Status</p>
+        <p className={styles.bold}>Company Status</p>
         <Radio label="New" checked={true} />
       </div>
-
-      <Disclosure>
-        {({ open }) => (
-          /* Use the `open` state to conditionally change the direction of an icon. */
-          <>
-            <Disclosure.Button
-              className={`${styles.details} ${open ? "" : "mb-5"}`}
-            >
-              <div className="">
-                <p className={styles.bold}>Jobs(03)</p>
-              </div>
-              <FaChevronDown
-                className={`${open ? "rotate-180 transform" : ""}`}
-              />
-            </Disclosure.Button>
-            <Disclosure.Panel className={`${styles.panel} mb-5`}>
-              {[1, 2, 3].map((item: number) => {
-                return (
-                  <div className={styles.job}>
-                    <p className={styles.jobTitle}>Heat Pump Assessment</p>
-                    <p className="">
-                      Job ID : <span className={styles.tag}>789689</span>
-                    </p>
-                    <LuClipboardList />
-                    <p className={styles.count}>3</p>
-                  </div>
-                );
-              })}
-            </Disclosure.Panel>
-          </>
-        )}
-      </Disclosure>
-
-      <Disclosure>
-        {({ open }) => (
-          /* Use the `open` state to conditionally change the direction of an icon. */
-          <>
-            <Disclosure.Button className={styles.details}>
-              <div className="">
-                <p className={styles.bold}>Reminders(03)</p>
-              </div>
-              <FaChevronDown
-                className={`${open ? "rotate-180 transform" : ""}`}
-              />
-            </Disclosure.Button>
-            <Disclosure.Panel className={styles.panel}>
-              {[1, 2, 3, 4, 5].map((item: number) => {
-                return (
-                  <div className={styles.job}>
-                    <p className={styles.jobTitle}>
-                      Document Validation(Customers)-CALL
-                    </p>
-                    <p className="">
-                      Reminder ID : <span className={styles.tag}>789689</span>
-                    </p>
-                    <SlBell />
-                  </div>
-                );
-              })}
-            </Disclosure.Panel>
-          </>
-        )}
-      </Disclosure>
     </div>
   );
 };

@@ -2,15 +2,40 @@ import moment from "moment";
 import React from "react";
 import { ImSpinner10 } from "react-icons/im";
 import { TfiEmail } from "react-icons/tfi";
-import { IoCallOutline } from "react-icons/io5";
-import { DProps } from "type/company";
+import { IoCallOutline, IoEyeOutline } from "react-icons/io5";
+import { CompanyExtraDataType } from "type/company";
 import * as styles from "styles/pages/common.module.scss";
 import * as companyStyles from "pages/company/styles.module.scss";
 import { Link } from "gatsby";
+import { useRightBarContext } from "providers/right-bar-provider";
+import View from "pages/company/view";
 
-export function List({ data, loading }: { data: DProps; loading: boolean }) {
+export function List({
+  data,
+  loading,
+}: {
+  data: CompanyExtraDataType;
+  loading: boolean;
+}) {
+  // to="company-details"
+  const { setElement, toggle } = useRightBarContext();
   return (
-    <Link to="company-details" state={data}>
+    <div
+      onClick={() => {
+        toggle();
+        setElement(
+          <View data={data} />,
+          `Customer ID: ${data.id}`,
+          <>
+            <IoEyeOutline
+              onClick={() => {
+                window.open(`company-details/?company=${data.id}`, "_blank");
+              }}
+            />
+          </>
+        );
+      }}
+    >
       <div className={styles.card}>
         {/* <p className="">{data.status ? "Loading" : "ll"}</p> */}
         <div className="absolute right-3 top-1">
@@ -45,7 +70,7 @@ export function List({ data, loading }: { data: DProps; loading: boolean }) {
           </div>
         </div>
       </div>
-    </Link>
+    </div>
   );
 }
 

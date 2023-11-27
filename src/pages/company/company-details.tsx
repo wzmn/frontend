@@ -6,7 +6,7 @@ import Input from "components/input";
 import Radio from "components/radio";
 import { PageProps } from "gatsby";
 import moment from "moment";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { ImAttachment } from "react-icons/im";
 import { IoCallOutline, IoLocationOutline } from "react-icons/io5";
@@ -15,10 +15,10 @@ import { TfiEmail } from "react-icons/tfi";
 import * as styles from "styles/pages/common.module.scss";
 import { CompanyDataType } from "type/company";
 import * as companyStyles from "../company/styles.module.scss";
+import { request } from "services/http-request";
+import { COMPANY_LISTING } from "constants/api";
 
 const CompanyDetails = (props: PageProps) => {
-  const { location } = props;
-  const companyData = location.state as CompanyDataType;
   const { control, setValue, handleSubmit } = useForm<any>({
     defaultValues: {
       attachments: [{ file: null }],
@@ -31,14 +31,34 @@ const CompanyDetails = (props: PageProps) => {
   });
 
   const [files, setFiles] = useState<DNDImageFileType[]>([]);
+  const [data, setData] = useState<CompanyDataType>({});
+
+  const { location } = props;
+  const params = new URLSearchParams(location.search);
+  const companyId = params.get("company");
+
+  async function fetchData() {
+    try {
+      const response = await request<CompanyDataType>({
+        url: COMPANY_LISTING + companyId,
+      });
+      setData(() => response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   function onSubmit(e: any) {
     console.log(e);
   }
 
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <>
-      <p className={styles.title}>{companyData.company_name}</p>
+      <p className={styles.title}>{data?.company_name}</p>
 
       <div className="space-y-16 mb-3">
         <FormSection title="Company Details">
@@ -46,7 +66,7 @@ const CompanyDetails = (props: PageProps) => {
             <FormWraper>
               <>
                 <p className={styles.name}>
-                  <span className={styles.bold}>ABN No: {companyData.id}</span>
+                  <span className={styles.bold}>ABN No: {data?.id}</span>
                 </p>
 
                 <div className={styles.contactInfo}>
@@ -56,7 +76,7 @@ const CompanyDetails = (props: PageProps) => {
                     </span>
 
                     <span className={styles.contact}>
-                      {companyData.company_email}
+                      {data?.company_email}
                     </span>
                   </div>
 
@@ -66,7 +86,7 @@ const CompanyDetails = (props: PageProps) => {
                     </span>
 
                     <span className={styles.contact}>
-                      {companyData.company_mobile_phone}
+                      {data?.company_mobile_phone}
                     </span>
                   </div>
 
@@ -76,7 +96,7 @@ const CompanyDetails = (props: PageProps) => {
                     </span>
 
                     <span className={styles.contact}>
-                      {companyData.company_address || "N/A"}
+                      {data?.company_address || "N/A"}
                     </span>
                   </div>
                 </div>
@@ -89,9 +109,7 @@ const CompanyDetails = (props: PageProps) => {
                   </span>
                   Superadmin/Jackson &nbsp;
                   <span className={styles.tag2}>
-                    {moment(companyData.created_at).format(
-                      "DD-MM-yyyy HH:MM a"
-                    )}
+                    {moment(data?.created_at).format("DD-MM-yyyy HH:MM a")}
                   </span>
                 </p>
 
@@ -106,22 +124,22 @@ const CompanyDetails = (props: PageProps) => {
                     <Radio
                       label="DOCUMENT REVIEW"
                       name="status"
-                      checked={companyData.company_status === "document review"}
+                      checked={data?.company_status === "document review"}
                     />
                     <Radio
                       label="OPERATIONAL"
                       name="status"
-                      checked={companyData.company_status === "operational"}
+                      checked={data?.company_status === "operational"}
                     />
                     <Radio
                       label="REJECTED"
                       name="status"
-                      checked={companyData.company_status === "rejected"}
+                      checked={data?.company_status === "rejected"}
                     />
                     <Radio
                       label="UPLOAD INFO"
                       name="status"
-                      checked={companyData.company_status === "upload info"}
+                      checked={data?.company_status === "upload info"}
                     />
                   </div>
                 </div>

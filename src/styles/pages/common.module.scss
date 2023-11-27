@@ -1,7 +1,7 @@
 @import "../media.scss";
 @import "../common.scss";
 @import "../variable.scss";
-
+@import "./additional.module.scss";
 //pages
 .file {
   height: 11.297rem;
@@ -121,62 +121,6 @@
 }
 
 .contact {
-}
-
-.name {
-  font-size: $font-normal;
-
-  & .bold {
-    font-weight: 500;
-  }
-
-  & .tag {
-    color: var(--color-blue_dress);
-  }
-
-  & .tag2 {
-    color: var(--color-cloudy_grey);
-  }
-}
-
-.contact-info {
-  // margin: 2rem 0rem;
-  // & div:nth-child(n) {
-  //   margin-bottom: 0.9rem;
-  // }
-  & div {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-
-    color: var(--color-cloudy_grey);
-
-    & .icon {
-      // width: 1rem;
-      // height: 1rem;
-      & > * {
-        font-size: $font-large;
-        color: var(--color-cloudy_grey);
-      }
-    }
-  }
-}
-
-.create-by {
-  padding: 1rem 0rem;
-}
-
-.user-role {
-  margin-top: 2rem;
-  display: flex;
-  gap: 2rem;
-
-  & .roles {
-    display: flex;
-    flex-wrap: wrap;
-    flex: 1;
-    gap: 2rem;
-  }
 }
 
 .error {
