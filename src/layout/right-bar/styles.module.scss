@@ -40,6 +40,17 @@ $header-height: 3rem;
     margin-bottom: 1rem;
     // background-color: pink;
     height: $header-height;
+
+    & .actions {
+      display: flex;
+      gap: 0.3rem;
+      align-items: center;
+      & svg {
+        font-size: $font-large;
+        cursor: pointer;
+      }
+    }
+
     & .title {
       font-size: $font-large;
       font-weight: 500;

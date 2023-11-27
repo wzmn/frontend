@@ -5,15 +5,16 @@ import { BsThreeDots } from "react-icons/bs";
 import { useRightBarContext } from "providers/right-bar-provider";
 
 const RightBar = () => {
-  const { open, toggle, element, title } = useRightBarContext();
+  const { open, toggle, element, title, actions } = useRightBarContext();
 
   return (
     <div className={`${styles.rightBarCont}  ${open && styles.slideIn}`}>
       <div className={styles.header}>
         <p className={styles.title}>{title}</p>
-        <div className="flex gap-3">
-          <BsThreeDots className="text-xl cursor-pointer" />
-          <AiOutlineClose className="text-xl cursor-pointer" onClick={toggle} />
+        <div className={styles.actions}>
+          {/* <BsThreeDots className=" cursor-pointer" /> */}
+          {actions}
+          <AiOutlineClose className=" cursor-pointer" onClick={toggle} />
         </div>
       </div>
       <div className={`${styles.rightBar}`}>

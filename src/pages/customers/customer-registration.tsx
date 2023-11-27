@@ -16,6 +16,8 @@ import {
 import { request } from "services/http-request";
 import * as styles from "styles/pages/common.module.scss";
 import { States, StreetTypes, UnitTypes } from "../../constants";
+import GoogleMapReact from "google-map-react";
+import { IoLocationSharp } from "react-icons/io5";
 
 const countries = [
   { label: "UK" },
@@ -33,6 +35,12 @@ const type = [{ label: "buyer" }, { label: "seller" }];
 interface FileProps extends File {
   preview: string;
 }
+
+const location = {
+  address: "1600 Amphitheatre Parkway, Mountain View, california.",
+  lat: 37.42216,
+  lng: -122.08427,
+};
 
 const customerRegistration = () => {
   const [OTP, setOTP] = useState<string>("");
@@ -283,8 +291,37 @@ const customerRegistration = () => {
           </div>
         </FormSection>
       </form>
+
+      <Map location={location} zoomLevel={10} />
     </>
   );
 };
+
+const Map = ({ location, zoomLevel }: any) => (
+  <div className="map">
+    <h2 className="map-h2">Come Visit Us At Our Campus</h2>
+
+    <div className="google-map">
+      <GoogleMapReact
+        bootstrapURLKeys={{ key: "" }}
+        defaultCenter={location}
+        defaultZoom={zoomLevel}
+      >
+        <LocationPin
+          // lat={location.lat}
+          // lng={location.lng}
+          text={location.address}
+        />
+      </GoogleMapReact>
+    </div>
+  </div>
+);
+
+const LocationPin = ({ text }: { text: string }) => (
+  <div className="pin">
+    <IoLocationSharp />
+    <p className="pin-text">{text}</p>
+  </div>
+);
 
 export default customerRegistration;

@@ -1,22 +1,23 @@
-import React, { Fragment, useEffect, useRef, useState } from "react";
 import Button from "components/button";
-import { AiOutlinePlus } from "react-icons/ai";
-import Input from "components/input";
-import SelectBox from "components/selectBox";
-import Pagination from "components/pagination";
 import { Drop } from "components/drop-zone";
-import cssVar from "utility/css-var";
-import { demoDndData } from "constants/demo-dnd-data";
-import * as styles from "styles/pages/common.module.scss";
 import { Drage } from "components/drop-zone/drage";
-import { CustomerDataType, CustomerStatus } from "type/customer";
-import { request } from "services/http-request";
+import Input from "components/input";
+import Pagination from "components/pagination";
+import SelectBox from "components/selectBox";
 import { CUSTOMER_LISTING } from "constants/api";
 import { Link } from "gatsby";
-import { ImSpinner10 } from "react-icons/im";
 import moment from "moment";
+import { useRightBarContext } from "providers/right-bar-provider";
+import React, { Fragment, useEffect, useRef, useState } from "react";
+import { AiOutlinePlus } from "react-icons/ai";
+import { ImSpinner10 } from "react-icons/im";
+import { IoCallOutline, IoEyeOutline } from "react-icons/io5";
 import { TfiEmail } from "react-icons/tfi";
-import { IoCallOutline } from "react-icons/io5";
+import { request } from "services/http-request";
+import * as styles from "styles/pages/common.module.scss";
+import { CustomerDataType, CustomerStatus } from "type/customer";
+import cssVar from "utility/css-var";
+import View from "./view";
 const dataList = [
   { label: "Wade Cooper" },
   { label: "Arlene Mccoy" },
@@ -26,12 +27,14 @@ const dataList = [
   { label: "Hellen Schmidt" },
 ];
 
-type DProps = CustomerDataType & {
+export type CustomerDataExtraType = CustomerDataType & {
   status: boolean;
 };
 
 const Customers = () => {
-  const [data, setData] = useState<Record<CustomerStatus, DProps[]>>({
+  const [data, setData] = useState<
+    Record<CustomerStatus, CustomerDataExtraType[]>
+  >({
     NEW: [],
     CONTACTED: [],
     COMPLETED: [],
@@ -169,9 +172,33 @@ const Customers = () => {
   );
 };
 
-export function List({ data, loading }: { data: DProps; loading: boolean }) {
+export function List({
+  data,
+  loading,
+}: {
+  data: CustomerDataExtraType;
+  loading: boolean;
+}) {
+  // target="_blank" href={`customer-details/?customer=${data.id}`}
+  const { setElement, toggle } = useRightBarContext();
+
   return (
-    <a target="_blank" href={`customer-details/?customer=${data.id}`}>
+    <div
+      onClick={() => {
+        toggle();
+        setElement(
+          <View data={data} />,
+          `Customer ID: ${data.id}`,
+          <>
+            <IoEyeOutline
+              onClick={() => {
+                window.open(`customer-details/?customer=${data.id}`, "_blank");
+              }}
+            />
+          </>
+        );
+      }}
+    >
       <div className={styles.card}>
         <div className="absolute right-3 top-1">
           <ImSpinner10 className="animate-spin" />
@@ -201,7 +228,7 @@ export function List({ data, loading }: { data: DProps; loading: boolean }) {
           </div>
         </div>
       </div>
-    </a>
+    </div>
   );
 }
 
