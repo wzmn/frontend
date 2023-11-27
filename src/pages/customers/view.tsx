@@ -22,9 +22,13 @@ const View = ({ data }: { data: CustomerDataExtraType }) => {
               <div className="">
                 <p className="">
                   <span className={styles.bold}>Customer Name:</span>{" "}
-                  <span className={styles.normal}>Jason Stone</span>
+                  <span className={styles.normal}>
+                    {data?.user?.first_name + " " + data?.user?.last_name}
+                  </span>
                 </p>
-                <p className={styles.tag}>Today at 7.00 am</p>
+                <p className={styles.tag}>
+                  {moment(data.user?.created_at).format("DD-MM-yyyy HH:MM a")}
+                </p>
               </div>
               <FaChevronDown
                 className={`${open ? "rotate-180 transform" : ""}`}
@@ -87,7 +91,7 @@ const View = ({ data }: { data: CustomerDataExtraType }) => {
 
       <p className={`${styles.name} ${styles.createBy}`}>
         <span className={styles.bold}>Company Created by: &nbsp; </span>
-        Superadmin/Jackson &nbsp;
+        {data?.created_by?.created_by || "N/A"} &nbsp;
         <span className={styles.tag}>
           {moment(data.user?.created_at).format("DD-MM-yyyy HH:MM a")}
         </span>

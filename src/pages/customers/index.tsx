@@ -180,12 +180,14 @@ export function List({
   loading: boolean;
 }) {
   // target="_blank" href={`customer-details/?customer=${data.id}`}
-  const { setElement, toggle } = useRightBarContext();
+  const { open, setElement, toggle } = useRightBarContext();
 
   return (
     <div
       onClick={() => {
-        toggle();
+        {
+          !open && toggle();
+        }
         setElement(
           <View data={data} />,
           `Customer ID: ${data.id}`,

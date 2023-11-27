@@ -9,10 +9,11 @@ import Pagination from "components/pagination";
 import { EMPLOYEE_LISTING } from "constants/api";
 import { Link } from "gatsby";
 import moment from "moment";
+import { useRightBarContext } from "providers/right-bar-provider";
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { ImSpinner10 } from "react-icons/im";
-import { IoCallOutline } from "react-icons/io5";
+import { IoCallOutline, IoEyeOutline } from "react-icons/io5";
 import { TfiEmail } from "react-icons/tfi";
 import { request } from "services/http-request";
 import * as commonStyles from "styles/pages/common.module.scss";
@@ -23,6 +24,7 @@ import {
 } from "type/employee";
 import cssVar from "utility/css-var";
 import { findMatchingId } from "utility/find-matching-id";
+import View from "./view";
 const dataList = [
   { label: "Wade Cooper" },
   { label: "Arlene Mccoy" },
@@ -235,12 +237,28 @@ export function List({
   loading: boolean;
 }) {
   const { card, cardInfo, contactInfo, icon, contact } = commonStyles;
+  const { open, setElement, toggle } = useRightBarContext();
 
+  // target="_blank"
+  //     href={`employee-details/?employee=${data.id}`}
   return (
-    <a
-      target="_blank"
-      href={`employee-details/?employee=${data.id}`}
-      // state={data}
+    <div
+      onClick={() => {
+        {
+          !open && toggle();
+        }
+        setElement(
+          <View data={data} />,
+          `Customer ID: ${data.id}`,
+          <>
+            <IoEyeOutline
+              onClick={() => {
+                window.open(`employee-details/?employee=${data.id}`, "_blank");
+              }}
+            />
+          </>
+        );
+      }}
     >
       <div className={card}>
         <div className="absolute right-3 top-1">
@@ -271,7 +289,7 @@ export function List({
           </div>
         </div>
       </div>
-    </a>
+    </div>
   );
 }
 
