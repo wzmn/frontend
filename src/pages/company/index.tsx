@@ -39,6 +39,8 @@ const dataList = [
   { label: "Hellen Schmidt" },
 ];
 
+type DropItemType = { id: number; section: CompanyStatus };
+
 const Company = () => {
   const [data, setData] = useState<
     Record<CompanyStatus, CompanyExtraDataType[]>
@@ -63,19 +65,18 @@ const Company = () => {
   }
 
   async function handleDrop(
-    item: any,
+    item: DropItemType,
     section: CompanyStatus,
     make: boolean = true
   ) {
     console.log(item, section);
     if (item.section === section) return;
-    const copyData: any = { ...data };
+    const copyData = { ...data };
     let idx = findMatchingId(data, item.id, item.section);
 
     if (idx !== undefined) {
       const pop = copyData[item.section].splice(idx, 1)[0];
       copyData[section].unshift({ ...pop, status: make });
-
       setData(() => copyData);
 
       updateData(item, section, idx);
@@ -106,7 +107,11 @@ const Company = () => {
     }
   }
 
-  async function updateData(item: DragProps, to: CompanyStatus, index: number) {
+  async function updateData(
+    item: DropItemType,
+    to: CompanyStatus,
+    index: number
+  ) {
     const datap = {
       company_status: to,
     };
@@ -122,6 +127,7 @@ const Company = () => {
 
       if (idx !== undefined) {
         copyData[to][idx].status = false;
+        copyData[to][idx].company_status = to;
         setData(() => copyData);
       }
     } catch (error) {

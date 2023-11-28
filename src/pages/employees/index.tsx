@@ -33,6 +33,7 @@ const dataList = [
   { label: "Tanya Fox" },
   { label: "Hellen Schmidt" },
 ];
+type DropItemType = { id: number; section: EmployeeRole };
 
 const Employees = () => {
   const [data, setData] = useState<
@@ -58,7 +59,7 @@ const Employees = () => {
   }
 
   async function handleDrop(
-    item: any,
+    item: DropItemType,
     section: EmployeeRole,
     make: boolean = true
   ) {
@@ -100,7 +101,11 @@ const Employees = () => {
     }
   }
 
-  async function updateData(item: DragProps, to: EmployeeRole, index: number) {
+  async function updateData(
+    item: DropItemType,
+    to: EmployeeRole,
+    index: number
+  ) {
     const datap = {
       role: to,
     };
@@ -116,6 +121,7 @@ const Employees = () => {
 
       if (idx !== undefined) {
         copyData[to][idx].status = false;
+        copyData[to][idx].role = to;
         setData(() => copyData);
       }
     } catch (error) {

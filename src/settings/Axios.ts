@@ -33,6 +33,10 @@ Axios.interceptors.response.use(
   },
   function (error: AxiosError) {
     if (error.response?.status === 401) {
+      let pathname =
+        typeof window !== "undefined" ? window.location.pathname : "";
+      console.log(pathname);
+      if (pathname === "/login/") return;
       localStorage.setItem("user", "null");
       window.location.replace("/login");
     }
