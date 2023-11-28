@@ -14,7 +14,7 @@ import UploadDocProvider from "providers/upload-doc-provider";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const routeNotToInclude = ["/login/", "/reset-password/", "/forgot-password/"];
+const routeNotToInclude = ["/login/", "/change-password/", "/forgot-password/"];
 
 type Props = {
   children: JSX.Element;

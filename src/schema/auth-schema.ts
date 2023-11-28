@@ -1,5 +1,5 @@
 import { EmailAndUserNameReg } from "constants/regex";
-import { object, string } from "yup";
+import { object, ref, string } from "yup";
 
 export const passwordSchema = object({
   password: string().trim().matches(/.{1,}/, "Password must be min 8 char"),
@@ -10,3 +10,10 @@ export const emailSchema = object({
 });
 
 export const loginSchema = object().concat(emailSchema).concat(passwordSchema);
+
+export const confirmPasswordSchema = object({
+  passwordConfirmation: string().oneOf(
+    [ref("password")],
+    "Passwords must match"
+  ),
+}).concat(passwordSchema);
