@@ -38,7 +38,7 @@ Axios.interceptors.response.use(
       console.log(pathname);
       if (pathname === "/login/") return;
       localStorage.setItem("user", "null");
-      window.location.replace("/login");
+      // window.location.replace("/login");
     }
 
     // Any status codes that falls outside the range of 2xx cause this function to trigger
