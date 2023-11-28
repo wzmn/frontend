@@ -21,7 +21,7 @@ const Pagination = () => {
         <option value="50">50</option>
         <option value="100">100</option>
       </select>{" "}
-      0f 40 pages
+      of 40 pages
     </p>
   );
 };

@@ -10,6 +10,7 @@
   @include sm {
     flex-basis: 100px;
     padding-top: 10px;
+    flex-shrink: 0;
   }
   width: 100%;
   overflow: hidden;

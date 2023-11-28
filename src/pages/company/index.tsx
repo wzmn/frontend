@@ -212,7 +212,7 @@ const Company = () => {
               title={dropName.toLocaleUpperCase()}
             >
               <>
-                {data[dropName].map((dragItem: CompanyExtraDataType) => {
+                {data[dropName].map((dragItem: CompanyExtraDataType, index: number) => {
                   return (
                     <Fragment key={dragItem.id}>
                       <Drage
@@ -223,7 +223,7 @@ const Company = () => {
                         loading={dragItem.status}
                       >
                         <>
-                          <List data={dragItem} loading={dragItem.status} />
+                          <List data={dragItem} loading={dragItem.status} index={index}/>
                         </>
                       </Drage>
                     </Fragment>

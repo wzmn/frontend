@@ -95,6 +95,9 @@ const Sidebar = () => {
         </div>
         <div className={styles.logo}>
           <img src={logo} />
+          <div className="flex justify-center">
+            <a target="_blank" href="/">Learn More</a>
+          </div>
         </div>
       </div>
     </div>

@@ -29,6 +29,7 @@ const dataList = [
 
 export type CustomerDataExtraType = CustomerDataType & {
   status: boolean;
+  index: number;
 };
 
 const Customers = () => {
@@ -147,7 +148,7 @@ const Customers = () => {
               title={dropName.toLocaleUpperCase()}
             >
               <>
-                {data[dropName].map((dragItem) => {
+                {data[dropName].map((dragItem, index) => {
                   return (
                     <Fragment key={dragItem.id}>
                       <Drage
@@ -157,7 +158,7 @@ const Customers = () => {
                         id={dragItem.id as number}
                         loading={dragItem.status}
                       >
-                        <List data={dragItem} loading={dragItem.status} />
+                        <List data={dragItem} loading={dragItem.status} index={index} />
                       </Drage>
                     </Fragment>
                   );
@@ -209,7 +210,7 @@ export function List({
           <p className="title">{data.user?.first_name}</p>
           <span className="">
             {" "}
-            created on: {moment(data.user?.created_at).format("ddd, MM a")}
+            Created on: {moment(data.user?.created_at).format("ddd, MM a")}
           </span>
         </div>
         <div className={styles.contactInfo}>
@@ -227,6 +228,14 @@ export function List({
             </span>
 
             <span className={styles.contact}>{data.user?.phone}</span>
+          </div>
+        </div>
+        <div className={styles.badgeContainer}>
+          <div className={`badge text-white px-2 py-1 text-xs rounded-sm`} style={{backgroundColor: index % 2 == 0 ? colors.buyer : colors.seller}}>
+            {index % 2 == 0 ? "BUYER" : "SELLER"}
+          </div>
+          <div className="badge text-white px-2 py-1 text-xs rounded-sm" style={{backgroundColor: colors.reminder}}>
+            REMINDER: {index++}
           </div>
         </div>
       </div>
