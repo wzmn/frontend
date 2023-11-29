@@ -85,7 +85,7 @@
     & > p {
       letter-spacing: -0.5px;
       font-size: 14px;
-      line-height: 1;
+      line-height: 1.2;
       margin-bottom: 6px;
     }
     & span {
@@ -95,10 +95,11 @@
   }
 
   & .contact-info {
-    // margin-top: 0.8rem;
+    margin-bottom: 10px;
     & div:first-child {
       margin-bottom: 0.2rem;
     }
+
     & div {
       display: flex;
       align-items: center;
@@ -117,6 +118,11 @@
         }
       }
     }
+  }
+
+  & .badge-container {
+    display: flex;
+    justify-content: space-between;
   }
 }
 

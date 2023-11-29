@@ -13,11 +13,18 @@ import View from "pages/company/view";
 export function List({
   data,
   loading,
+  index
 }: {
   data: CompanyExtraDataType;
   loading: boolean;
+  index: number;
 }) {
   // to="company-details"
+  const colors = {
+    buyer : "#3B9DFF",
+    seller : "#97DC21",
+    reminder: "#32D0D1"
+  }
   const { open, setElement, toggle } = useRightBarContext();
   return (
     <div
@@ -40,7 +47,7 @@ export function List({
     >
       <div className={styles.card}>
         {/* <p className="">{data.status ? "Loading" : "ll"}</p> */}
-        <div className="absolute right-3 top-1">
+        <div className="absolute right-3 top-3">
           <ImSpinner10 className="animate-spin" />
         </div>
         <div className={styles.header}>

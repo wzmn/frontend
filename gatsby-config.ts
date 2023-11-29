@@ -18,6 +18,31 @@ const config: GatsbyConfig = {
     "gatsby-plugin-postcss",
     "gatsby-plugin-resolve-src",
     "gatsby-plugin-sass",
+    {
+      resolve: `gatsby-plugin-manifest`,
+      options: {
+        name: `GatsbyJS`,
+        short_name: `GatsbyJS`,
+        description: `The application does cool things and makes your life better.`,
+        lang: `en`,
+        start_url: `/`,
+        background_color: `#f7f0eb`,
+        theme_color: `#a2466c`,
+        display: `standalone`,
+        cache_busting_mode: 'none',
+        icon: `src/images/icon.png`,
+        theme_color_in_head: false,
+      },
+    },
+    {
+      resolve: `gatsby-plugin-offline`,
+      options: {
+        precachePages: [`/dashboard/`, `/settings/`],
+        workboxConfig: {
+          globPatterns: ['**/src/images*']
+       }
+      },
+    },
   ],
 };
 

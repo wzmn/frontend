@@ -38,7 +38,7 @@ const Layout = ({ children }: Props) => {
                         <div className={styles.mainContent}>
                           <Navbar />
                           {children}
-                          <Footer />
+                          {/* <Footer /> */}
                         </div>
                       </div>
                       <RightBar /> {/* has absolute position */}
