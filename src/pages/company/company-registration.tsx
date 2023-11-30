@@ -135,30 +135,32 @@ const AddEditCompany = () => {
       Object.keys(documents).forEach((item) => {
         Object.entries(documents[item as KeyType]).forEach((item, index) => {
           formData.append(
-            `company_compliance[${index}].detail`,
+            `company_compliance[${index}][detail]`,
             item[1].detail as any
           );
           item[1].documents.forEach((doc, idx) => {
             formData.append(
-              `company_compliance[${index}].documents[${idx}]`,
+              `company_compliance[${index}][documents][${idx}]`,
               doc as any
             );
           });
         });
       });
       // formData.append("files", documents.primary[0].documents[0] as any);
-      formData.append("company", data as any);
+      // formData.append("company", data as any);
 
       // console.log(dt);
       // return;
       const response = await request<CompanyDataType>({
-        url: COMPANY_LISTING,
-        // url: COMPANY_LISTING + "admin_create_company/",
+        // url: COMPANY_LISTING,
+        url: COMPANY_LISTING + "admin_create_company/",
         // url: "http://127.0.0.1:3000/",
         method: "post",
-        // data: formData
-        data,
-        // headers: { "Content-Type": "multipart/form-data" },
+        data: formData,
+        // data,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
       console.log(response);
       // if (response.status === 201) {
@@ -185,7 +187,7 @@ const AddEditCompany = () => {
       });
       const list = initialState();
       response?.data?.forEach((item) => {
-        list[item.item_type!].push(item);
+        list[item.item_type?.toLocaleLowerCase()!].push(item);
       });
 
       setCompliance(() => list);
@@ -365,7 +367,7 @@ const AddEditCompany = () => {
 
               <div className="max-w-3xl">
                 <TextField
-                  title="landline Number"
+                  title="Landline Number"
                   asterisk
                   {...register("company_landline")}
                   errorMessage={errors.company_landline?.message}
@@ -443,7 +445,7 @@ const AddEditCompany = () => {
           </FormWraper>
         </FormSection>
 
-        <FormSection title="Address Details">
+        {/* <FormSection title="Address Details">
           <FormWraper>
             <div className={styles.formGrid}>
               <div className="max-w-3xl">
@@ -563,7 +565,7 @@ const AddEditCompany = () => {
               </div>
             </div>
           </FormWraper>
-        </FormSection>
+        </FormSection> */}
 
         <FormSection title=" Upload Documents">
           <FormWraper>
@@ -571,7 +573,7 @@ const AddEditCompany = () => {
               <p className="text-sm mb-10">
                 <span className={companyStyles.note}>Note: &nbsp;</span>
                 You must upload at least ONE Primary document. Foreign documents
-                mustr be accompanied by an official translation.{" "}
+                must be accompanied by an official translation.{" "}
                 <a
                   href="https://www.google.com"
                   className={companyStyles.moreInfo}

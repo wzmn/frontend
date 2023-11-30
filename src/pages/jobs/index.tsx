@@ -4,6 +4,7 @@ import Input from "components/input";
 import Pagination from "components/pagination";
 import SelectBox from "components/selectBox";
 import { demoDndData } from "constants/demo-dnd-data";
+import { Link } from "gatsby-link";
 import React, { useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import * as styles from "styles/pages/common.module.scss";
@@ -50,12 +51,14 @@ const Jobs = () => {
       {/* <pre>{JSON.stringify(data, null, 4)}</pre> */}
       <div className={styles.btnCont}>
         <div className="">
-          <Button
-            width="full"
-            title="Create Job"
-            icon={<AiOutlinePlus />}
-            className="flex-row-reverse"
-          />
+          <Link to="create-job">
+            <Button
+              width="full"
+              title="Create Job"
+              icon={<AiOutlinePlus />}
+              className="flex-row-reverse"
+            />
+          </Link>
         </div>
 
         <div className="">

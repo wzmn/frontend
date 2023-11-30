@@ -43,6 +43,8 @@ const Customers = () => {
     LOST: [],
   });
 
+  const table = useRef<HTMLDivElement>(null);
+
   function getColumnColor(int: number) {
     const colors = [
       cssVar("--color-blue_dress"),
@@ -89,7 +91,7 @@ const Customers = () => {
         (item) => (filterData[item as CustomerStatus].length = 0)
       );
 
-      response.data.forEach((item) => {
+      response.data.forEach((item: any) => {
         filterData["NEW"].push({ ...item, status: false });
       });
 
@@ -99,7 +101,6 @@ const Customers = () => {
     }
   }
 
-  const table = useRef<HTMLDivElement>(null);
   const handleScroll = (evt: any) => {
     if (
       evt.target!.classList.contains("drop-container") ||
@@ -109,6 +110,7 @@ const Customers = () => {
       table.current!.scrollLeft += evt.deltaY;
     }
   };
+
   useEffect(() => {
     table.current!.addEventListener("wheel", handleScroll);
     return () => {
@@ -158,7 +160,11 @@ const Customers = () => {
                         id={dragItem.id as number}
                         loading={dragItem.status}
                       >
-                        <List data={dragItem} loading={dragItem.status} index={index} />
+                        <List
+                          data={dragItem}
+                          loading={dragItem.status}
+                          index={index}
+                        />
                       </Drage>
                     </Fragment>
                   );
@@ -176,9 +182,11 @@ const Customers = () => {
 export function List({
   data,
   loading,
+  index,
 }: {
   data: CustomerDataExtraType;
   loading: boolean;
+  index: number;
 }) {
   // target="_blank" href={`customer-details/?customer=${data.id}`}
   const { open, setElement, toggle } = useRightBarContext();
@@ -231,10 +239,20 @@ export function List({
           </div>
         </div>
         <div className={styles.badgeContainer}>
-          <div className={`badge text-white px-2 py-1 text-xs rounded-sm`} style={{backgroundColor: index % 2 == 0 ? colors.buyer : colors.seller}}>
+          <div
+            className={`badge text-white px-2 py-1 text-xs rounded-sm`}
+            style={
+              {
+                // backgroundColor: index % 2 == 0 ? colors.buyer : colors.seller,
+              }
+            }
+          >
             {index % 2 == 0 ? "BUYER" : "SELLER"}
           </div>
-          <div className="badge text-white px-2 py-1 text-xs rounded-sm" style={{backgroundColor: colors.reminder}}>
+          <div
+            className="badge text-white px-2 py-1 text-xs rounded-sm"
+            // style={{ backgroundColor: colors.reminder }}
+          >
             REMINDER: {index++}
           </div>
         </div>

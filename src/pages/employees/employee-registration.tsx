@@ -156,7 +156,7 @@ const EmployeeRegistration = () => {
                 <p className="text-sm mb-10">
                   <span className="text-red-500 font-bold">Note: &nbsp;</span>
                   You must upload at least ONE Primary document. Foreign
-                  documents mustr be accompanied by an official translation.
+                  documents must be accompanied by an official translation.
                 </p>
                 <div className={styles.formGrid}>
                   <ButtonGroup

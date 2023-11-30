@@ -1,1 +1,41 @@
 @import "styles/variable.scss";
+
+.card-cont {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.card {
+  cursor: pointer;
+  position: relative;
+  border: 0.5px solid var(--color-cloudy_grey);
+  width: 11.563rem;
+  height: 10.25rem;
+
+  & .contact {
+    & .abs-icon {
+      position: absolute;
+      right: 0rem;
+      top: 60%;
+      transform: translateY(-50%);
+      font-size: 2rem;
+    }
+
+    & .count {
+      background-color: var(--color-blue_dress);
+      width: fit-content;
+      width: 1rem;
+      height: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 100%;
+      color: var(--color-white);
+      position: absolute;
+      right: 1rem;
+      top: 70%;
+      transform: translateY(-50%);
+    }
+  }
+}

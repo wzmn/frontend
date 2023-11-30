@@ -11,6 +11,7 @@
   backdrop-filter: blur(50px);
   -webkit-backdrop-filter: blur(50px);
   // background-color: pink;
+  box-shadow: 0px 0px 6px #00000029;
 
   flex: 1;
 
@@ -19,6 +20,6 @@
   }
 
   @include md {
-    padding: 2.053rem 5.093rem;
+    padding: 2.053rem 4.093rem;
   }
 }

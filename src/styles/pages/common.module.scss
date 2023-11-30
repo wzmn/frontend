@@ -61,7 +61,7 @@
 
 .card {
   text-align: left;
-  padding: 17px 13px;
+  padding: 15px 13px;
   position: relative;
   //   background-color: aliceblue;
   & > div > svg {
@@ -103,7 +103,7 @@
     & div {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 0.4rem;
       font-size: $font-small;
       color: var(--color-cloudy_grey);
       & span {

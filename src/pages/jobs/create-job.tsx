@@ -16,9 +16,6 @@ import {
 import { request } from "services/http-request";
 import * as styles from "styles/pages/common.module.scss";
 import { States, StreetTypes, UnitTypes } from "../../constants";
-import GoogleMapReact from "google-map-react";
-import { IoLocationSharp } from "react-icons/io5";
-import { toast } from "react-toastify";
 
 const countries = [
   { label: "UK" },
@@ -43,7 +40,7 @@ const location = {
   lng: -122.08427,
 };
 
-const customerRegistration = () => {
+const CreateJob = () => {
   const [OTP, setOTP] = useState<string>("");
 
   const [files, setFiles] = useState<FileProps[]>([]);
@@ -67,10 +64,8 @@ const customerRegistration = () => {
         data,
       });
       console.log(response);
-      toast("Added Sucessfully");
     } catch (error) {
       console.log("error");
-      toast("Something went wrong");
     }
   }
 
@@ -85,7 +80,7 @@ const customerRegistration = () => {
 
   return (
     <>
-      <p className={styles.title}>Create Customer</p>
+      <p className={styles.title}>Create Job</p>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-16 mb-3">
         <FormSection title="Customer Details">
@@ -294,37 +289,7 @@ const customerRegistration = () => {
           </div>
         </FormSection>
       </form>
-
-      <Map location={location} zoomLevel={10} />
     </>
   );
 };
-
-const Map = ({ location, zoomLevel }: any) => (
-  <div className="map">
-    <h2 className="map-h2">Come Visit Us At Our Campus</h2>
-
-    <div className="google-map">
-      <GoogleMapReact
-        bootstrapURLKeys={{ key: "" }}
-        defaultCenter={location}
-        defaultZoom={zoomLevel}
-      >
-        <LocationPin
-          // lat={location.lat}
-          // lng={location.lng}
-          text={location.address}
-        />
-      </GoogleMapReact>
-    </div>
-  </div>
-);
-
-const LocationPin = ({ text }: { text: string }) => (
-  <div className="pin">
-    <IoLocationSharp />
-    <p className="pin-text">{text}</p>
-  </div>
-);
-
-export default customerRegistration;
+export default CreateJob;

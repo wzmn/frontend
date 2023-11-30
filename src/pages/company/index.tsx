@@ -162,7 +162,7 @@ const Company = () => {
     return () => {
       table.current?.removeEventListener("wheel", handleScroll);
     };
-  }, [table]);
+  }, []);
 
   useEffect(() => {
     fetchData();
@@ -218,23 +218,29 @@ const Company = () => {
               title={dropName.toLocaleUpperCase()}
             >
               <>
-                {data[dropName].map((dragItem: CompanyExtraDataType, index: number) => {
-                  return (
-                    <Fragment key={dragItem.id}>
-                      <Drage
-                        key={dragItem.id} //you can`t use index from map id should be unique
-                        accept={"company"}
-                        section={dropName}
-                        id={dragItem.id as number}
-                        loading={dragItem.status}
-                      >
-                        <>
-                          <List data={dragItem} loading={dragItem.status} index={index}/>
-                        </>
-                      </Drage>
-                    </Fragment>
-                  );
-                })}
+                {data[dropName].map(
+                  (dragItem: CompanyExtraDataType, index: number) => {
+                    return (
+                      <Fragment key={dragItem.id}>
+                        <Drage
+                          key={dragItem.id} //you can`t use index from map id should be unique
+                          accept={"company"}
+                          section={dropName}
+                          id={dragItem.id as number}
+                          loading={dragItem.status}
+                        >
+                          <>
+                            <List
+                              data={dragItem}
+                              loading={dragItem.status}
+                              index={index}
+                            />
+                          </>
+                        </Drage>
+                      </Fragment>
+                    );
+                  }
+                )}
               </>
             </Drop>
           );
