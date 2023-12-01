@@ -5,7 +5,7 @@ import FormWraper from "components/form-wrapper";
 import Input from "components/input";
 import Radio from "components/radio";
 import { CUSTOMER_LISTING } from "constants/api";
-import { PageProps } from "gatsby";
+import { Link, PageProps } from "gatsby";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
@@ -221,7 +221,11 @@ const CustomerDetails = (props: PageProps) => {
           <FormWraper>
             <div className={companyStyles.cardCont}>
               {[1, 2, 3, 4].map((item) => {
-                return <List key={item} data={{}} index={1} loading />;
+                return (
+                  <Link to="/customers/reminder/" key={item}>
+                    <List data={{}} index={1} loading />
+                  </Link>
+                );
               })}
             </div>
           </FormWraper>
