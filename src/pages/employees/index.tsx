@@ -250,9 +250,8 @@ export function List({
   return (
     <div
       onClick={() => {
-        {
-          !open && toggle();
-        }
+        !open && toggle();
+
         setElement(
           <View data={data} />,
           `Customer ID: ${data.id}`,

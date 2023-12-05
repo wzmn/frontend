@@ -7,3 +7,4 @@ export const CONPAMY_UPLOAD_DOCS = "/company/info/?expand=detail";
 export const OTP_API = "/core/otp";
 export const RESET_PASSWORD = "/users/password_reset/";
 export const CONFIRM_PASSWORD = "/users/password_reset/confirm/";
+export const JOB_LISTING = "/jobs/management/";
