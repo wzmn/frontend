@@ -69,7 +69,7 @@ const Button = ({
         width
       )} ${heightHandler(height)} ${colorHandler(color)} ${className}`}
     >
-      <div className={styles.icon}>{icon}</div>
+      {icon && <div className={styles.icon}>{icon}</div>}
       <p className={styles.title}>{title}</p>
       {isLoading && (
         <div className={styles.loader}>

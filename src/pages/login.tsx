@@ -39,7 +39,7 @@ const Login = (props: any) => {
   return (
     <>
       <div className={`${styles.loginCard} bg-white `}>
-        <div className={styles.img} />
+        {/* <div className={styles.img} /> */}
         <form onSubmit={handleSubmit(onSubmit)} className={styles.content}>
           <h2 className={`${styles.h2} `}>Let's get Started </h2>
           <h3 className={`${styles.h3} `}>Sign In to your account</h3>
@@ -56,6 +56,7 @@ const Login = (props: any) => {
               {...register("password")}
               id="password"
               title="Password"
+              type="password"
               errorMessage={errors.password?.message}
             />
           </div>
@@ -66,10 +67,10 @@ const Login = (props: any) => {
             width="full"
             type="submit"
             title="LOGIN"
-            className="mt-10 font-bold"
+            className="mt-6 font-bold"
             name="login-btn"
           />
-          <div className={`${styles.forgotPassword} mt-10 `}>
+          <div className={`${styles.forgotPassword} mt-6 `}>
             <Link to="/forgot-password">Forgot password ?</Link>
           </div>
         </form>

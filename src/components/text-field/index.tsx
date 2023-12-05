@@ -1,5 +1,6 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, useState } from "react";
 import * as styles from "./styles.module.scss";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   //...add your custom types here
@@ -10,7 +11,9 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
 
 const TextField = forwardRef<HTMLInputElement, Omit<Props, "placeholder">>(
   (props, ref) => {
-    const { asterisk, errorMessage = "", title } = props;
+    const { asterisk, errorMessage = "", title, type } = props;
+    const [isVisible, setVisible] = useState(!1);
+    const toggleVisibility = () => setVisible(!isVisible);
     return (
       <div className={styles.textField}>
         <div
@@ -18,7 +21,7 @@ const TextField = forwardRef<HTMLInputElement, Omit<Props, "placeholder">>(
             errorMessage !== "" && styles.error
           }`}
         >
-          <input placeholder="" ref={ref} {...props} />
+          <input placeholder="" ref={ref} {...props} type={!isVisible ? 'text' : 'password'} />
           <span
             onClick={(e) =>
               (
@@ -31,6 +34,7 @@ const TextField = forwardRef<HTMLInputElement, Omit<Props, "placeholder">>(
             {title}
             {asterisk && <span className="text-red-500">*</span>}
           </span>
+         {type === "password" && (!isVisible ? <AiOutlineEyeInvisible onClick={toggleVisibility} /> : <AiOutlineEye onClick={toggleVisibility} />)}
         </div>
         <span className={styles.errorMessage}>{errorMessage}</span>
       </div>

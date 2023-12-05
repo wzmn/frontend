@@ -13,7 +13,9 @@
   font-size: $font-medium;
   /* width */
   & > p {
-    text-align: left;
+    text-align: center;
+    font-weight: normal;
+    letter-spacing: 1px;
   }
   &.width-full {
     width: 100%;

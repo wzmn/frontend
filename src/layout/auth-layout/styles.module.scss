@@ -115,16 +115,20 @@
 
 .login-card {
   //   height: 41.375rem;
-  width: 21.063rem;
+  // width: 21.063rem;
 
   /* background: #ffffff 0% 0% no-repeat padding-box; */
   box-shadow: 20px 20px 40px var(--color-half_black);
   border: 1px solid var(--color-dove_grey);
   border-radius: 12px;
-  padding: 2.792rem 2.3rem;
-
+  padding: 5rem;
+  > form {
+    display: flex;
+    flex-direction: column;
+    width: 21.063rem;
+  }
   @include sm {
-    width: 35.063rem;
+    // width: 35.063rem;
   }
 }
 
@@ -136,15 +140,15 @@
   background-size: contain;
 }
 
-.content {
-  margin-top: 4.063rem;
-  margin-left: 0.93825rem;
+// .content {
+//   margin-top: 4.063rem;
+//   margin-left: 0.93825rem;
 
-  @include sm {
-    width: 22.875rem;
-    margin-left: 2.93825rem;
-  }
-}
+//   @include sm {
+//     width: 22.875rem;
+//     margin-left: 2.93825rem;
+//   }
+// }
 
 .h2 {
   font-weight: 700;
