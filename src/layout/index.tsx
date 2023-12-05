@@ -13,6 +13,9 @@ import AuthProvider from "providers/auth-provider";
 import UploadDocProvider from "providers/upload-doc-provider";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import GoogleMapProvider, {
+  useMapContext,
+} from "providers/google-map-provider";
 
 const routeNotToInclude = ["/login/", "/change-password/", "/forgot-password/"];
 
@@ -23,6 +26,8 @@ type Props = {
 const Layout = ({ children }: Props) => {
   let pathname = typeof window !== "undefined" ? window.location.pathname : "";
   const { ProtectedRoutes, HandleRedirect } = useAuth();
+  // const { isLoaded } = useMapContext();
+
   return (
     <AuthProvider>
       <>
@@ -30,21 +35,23 @@ const Layout = ({ children }: Props) => {
           {!routeNotToInclude.includes(pathname) ? (
             <div className="c-container">
               <ProtectedRoutes>
-                <DndProvider backend={HTML5Backend}>
-                  <SidebarContext>
-                    <div className={`${styles.layout} `}>
-                      <Sidebar />
-                      <div className={styles.children}>
-                        <div className={styles.mainContent}>
-                          <Navbar />
-                          {children}
-                          {/* <Footer /> */}
+                <GoogleMapProvider>
+                  <DndProvider backend={HTML5Backend}>
+                    <SidebarContext>
+                      <div className={`${styles.layout} `}>
+                        <Sidebar />
+                        <div className={styles.children}>
+                          <div className={styles.mainContent}>
+                            <Navbar />
+                            {children}
+                            {/* <Footer /> */}
+                          </div>
                         </div>
+                        <RightBar /> {/* has absolute position */}
                       </div>
-                      <RightBar /> {/* has absolute position */}
-                    </div>
-                  </SidebarContext>
-                </DndProvider>
+                    </SidebarContext>
+                  </DndProvider>
+                </GoogleMapProvider>
               </ProtectedRoutes>
             </div>
           ) : (

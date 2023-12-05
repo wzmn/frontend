@@ -14,3 +14,11 @@ export const wrapPageElement = ({ element, ...restProps }, ...args) => {
     </>
   );
 };
+
+const HeadComponents = [
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBO-6AKRGl3NxAyPB3g4ns9mb_qHdirGq0&libraries=places" />,
+];
+
+export const onRenderBody = ({ setHeadComponents }) => {
+  setHeadComponents(HeadComponents);
+};
