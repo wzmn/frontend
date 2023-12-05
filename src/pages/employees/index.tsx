@@ -245,8 +245,6 @@ export function List({
   const { card, cardInfo, contactInfo, icon, contact } = commonStyles;
   const { open, setElement, toggle } = useRightBarContext();
 
-  // target="_blank"
-  //     href={`employee-details/?employee=${data.id}`}
   return (
     <div
       onClick={() => {

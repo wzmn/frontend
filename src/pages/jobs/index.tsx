@@ -19,6 +19,8 @@ import { IoCallOutline, IoEyeOutline } from "react-icons/io5";
 import moment from "moment";
 import { ImSpinner10 } from "react-icons/im";
 import { findMatchingId } from "utility/find-matching-id";
+import { useRightBarContext } from "providers/right-bar-provider";
+import View from "./view";
 
 type DropItemType = { id: number; section: JobStatusRole };
 
@@ -250,27 +252,24 @@ export function List({
   loading: boolean;
 }) {
   const { card, cardInfo, contactInfo, icon, contact } = commonStyles;
-  // const { open, setElement, toggle } = useRightBarContext();
+  const { open, setElement, toggle } = useRightBarContext();
 
-  // target="_blank"
-  //     href={`employee-details/?employee=${data.id}`}
   return (
     <div
       onClick={() => {
-        {
-          // !open && toggle();
-        }
-        // setElement(
-        //   <View data={data} />,
-        //   `Customer ID: ${data.id}`,
-        //   <>
-        //     <IoEyeOutline
-        //       onClick={() => {
-        //         window.open(`employee-details/?employee=${data.id}`, "_blank");
-        //       }}
-        //     />
-        //   </>
-        // );
+        !open && toggle();
+
+        setElement(
+          <View data={data} />,
+          `Customer ID: ${data.id}`,
+          <>
+            <IoEyeOutline
+              onClick={() => {
+                window.open(`job-details/?job=${data.id}`, "_blank");
+              }}
+            />
+          </>
+        );
       }}
     >
       <div className={card}>
