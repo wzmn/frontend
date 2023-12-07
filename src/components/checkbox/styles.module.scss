@@ -1,0 +1,35 @@
+.checkbox-cont {
+  position: relative;
+  input[type="checkbox"] {
+    display: none;
+  }
+
+  &:has(input[type="checkbox"]:is(:checked)) {
+    & label::before {
+      background-image: url("/assets/icons/tick.svg");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 12px 12px;
+    }
+  }
+
+  & label {
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    &::before {
+      content: " ";
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid var(--color-cloudy_grey);
+      position: absolute;
+      width: 1.125rem;
+      height: 1.125rem;
+      border-radius: 5px;
+    }
+    & > :first-of-type {
+      margin-left: 2rem;
+    }
+  }
+}
