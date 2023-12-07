@@ -1,25 +1,24 @@
 import Button from "components/button";
 import { Drop } from "components/drop-zone";
+import { Drage } from "components/drop-zone/drage";
 import Input from "components/input";
 import Pagination from "components/pagination";
 import SelectBox from "components/selectBox";
-import { demoDndData } from "constants/demo-dnd-data";
+import { JOB_LISTING } from "constants/api";
 import { Link } from "gatsby-link";
+import moment from "moment";
+import { useRightBarContext } from "providers/right-bar-provider";
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
+import { ImSpinner10 } from "react-icons/im";
+import { IoCallOutline, IoEyeOutline } from "react-icons/io5";
+import { TfiEmail } from "react-icons/tfi";
+import { request } from "services/http-request";
+import * as commonStyles from "styles/pages/common.module.scss";
 import * as styles from "styles/pages/common.module.scss";
 import { JobDataStateType, JobDataType, JobStatusRole } from "type/job";
 import cssVar from "utility/css-var";
-import * as commonStyles from "styles/pages/common.module.scss";
-import { Drage } from "components/drop-zone/drage";
-import { request } from "services/http-request";
-import { JOB_LISTING } from "constants/api";
-import { TfiEmail } from "react-icons/tfi";
-import { IoCallOutline, IoEyeOutline } from "react-icons/io5";
-import moment from "moment";
-import { ImSpinner10 } from "react-icons/im";
 import { findMatchingId } from "utility/find-matching-id";
-import { useRightBarContext } from "providers/right-bar-provider";
 import View from "./view";
 
 type DropItemType = { id: number; section: JobStatusRole };
@@ -182,7 +181,6 @@ const Jobs = () => {
 
   return (
     <>
-      {/* <pre>{JSON.stringify(data, null, 4)}</pre> */}
       <div className={styles.btnCont}>
         <div className="">
           <Link to="create-job">

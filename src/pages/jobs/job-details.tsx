@@ -17,6 +17,8 @@ import { request } from "services/http-request";
 import * as styles from "styles/pages/common.module.scss";
 import { JobDataType } from "type/job";
 import * as companyStyles from "../company/styles.module.scss";
+import * as additionalStyles from "styles/pages/additional.module.scss";
+import { LuClipboardList } from "react-icons/lu";
 
 const JobDetails = (props: PageProps) => {
   const { location } = props;
@@ -205,6 +207,16 @@ const JobDetails = (props: PageProps) => {
           </form>
         </FormSection>
 
+        <FormSection title="Jobs with Appts">
+          <FormWraper>
+            <div className={additionalStyles.cardCont}>
+              {[1, 2, 3, 4].map((item) => {
+                return <List key={item} data={{}} index={1} loading />;
+              })}
+            </div>
+          </FormWraper>
+        </FormSection>
+
         <FormSection title="Comments">
           <div className="flex-1">
             <FormWraper>
@@ -227,5 +239,61 @@ const JobDetails = (props: PageProps) => {
     </>
   );
 };
+
+function List({
+  data,
+  loading,
+  index,
+}: {
+  data: any;
+  loading: boolean;
+  index: number;
+}) {
+  // target="_blank" href={`customer-details/?customer=${data.id}`}
+
+  return (
+    <div>
+      <div className={`${styles.card} ${additionalStyles.card}`}>
+        <div className={styles.cardInfo}>
+          <p className="title">
+            {/* {data.user?.first_name} */}
+            Jason Stone
+          </p>
+          <span className="">
+            {" "}
+            {/* Created on: {moment(data.user?.created_at).format("ddd, MM a")} */}
+            created on: Mon,3.40 am
+          </span>
+        </div>
+        <div className={`${styles.contactInfo} ${additionalStyles.contact}`}>
+          <div className="">
+            <span className={styles.icon}>
+              <TfiEmail className={styles.icon} />
+            </span>
+
+            <span className={styles.contact}>
+              {/* {data.user?.email} */}
+              jason@gmail.com
+            </span>
+          </div>
+
+          <div className="">
+            <span className={styles.icon}>
+              <IoCallOutline className={styles.icon} />
+            </span>
+
+            <span className={styles.contact}>
+              {/* {data.user?.phone} */}
+              jason@gmail.com
+            </span>
+          </div>
+
+          <LuClipboardList className={additionalStyles.absIcon} />
+          <p className={additionalStyles.count}>3</p>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default JobDetails;

@@ -16,7 +16,7 @@ import { TfiEmail } from "react-icons/tfi";
 import { request } from "services/http-request";
 import * as styles from "styles/pages/common.module.scss";
 import { EmployeeDataType } from "type/employee";
-import * as companyStyles from "./styles.module.scss";
+import * as additionalStyles from "styles/pages/additional.module.scss";
 import { LuClipboardList } from "react-icons/lu";
 
 const CustomerDetails = (props: PageProps) => {
@@ -152,7 +152,7 @@ const CustomerDetails = (props: PageProps) => {
                         />
                         
 
-                        <aside className={companyStyles.preview}>
+                        <aside className={additionalStyles.preview}>
                           {files[index] ? (
                             <div className="">
                               <img
@@ -207,9 +207,9 @@ const CustomerDetails = (props: PageProps) => {
           </form>
         </FormSection> */}
 
-        <FormSection title="Jobs with Appts">
+        <FormSection title="Appointments">
           <FormWraper>
-            <div className={companyStyles.cardCont}>
+            <div className={additionalStyles.cardCont}>
               {[1, 2, 3, 4].map((item) => {
                 return <List key={item} data={{}} index={1} loading />;
               })}
@@ -219,7 +219,7 @@ const CustomerDetails = (props: PageProps) => {
 
         <FormSection title="Reminders">
           <FormWraper>
-            <div className={companyStyles.cardCont}>
+            <div className={additionalStyles.cardCont}>
               {[1, 2, 3, 4].map((item) => {
                 return (
                   <Link to="/customers/reminder/" key={item}>
@@ -267,7 +267,7 @@ function List({
 
   return (
     <div>
-      <div className={`${styles.card} ${companyStyles.card}`}>
+      <div className={`${styles.card} ${additionalStyles.card}`}>
         <div className={styles.cardInfo}>
           <p className="title">
             {/* {data.user?.first_name} */}
@@ -279,7 +279,7 @@ function List({
             created on: Mon,3.40 am
           </span>
         </div>
-        <div className={`${styles.contactInfo} ${companyStyles.contact}`}>
+        <div className={`${styles.contactInfo} ${additionalStyles.contact}`}>
           <div className="">
             <span className={styles.icon}>
               <TfiEmail className={styles.icon} />
@@ -302,8 +302,8 @@ function List({
             </span>
           </div>
 
-          <LuClipboardList className={companyStyles.absIcon} />
-          <p className={companyStyles.count}>3</p>
+          <LuClipboardList className={additionalStyles.absIcon} />
+          <p className={additionalStyles.count}>3</p>
         </div>
       </div>
     </div>
