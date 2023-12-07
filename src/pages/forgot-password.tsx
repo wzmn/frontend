@@ -39,7 +39,7 @@ const ForgotPassword = () => {
   return (
     <>
       <div className={`${styles.loginCard} bg-white `}>
-        <div className={styles.img} />
+        {/* <div className={styles.img} /> */}
 
         <form onSubmit={handleSubmit(onSubmit)} className={styles.content}>
           <h2 className={`${styles.h2} `}>Forgot Password </h2>
@@ -58,12 +58,12 @@ const ForgotPassword = () => {
             disabled={isSubmitting}
             width="full"
             title="FORGOT PASSWORD"
-            className="mt-10 font-bold"
+            className="mt-6 font-bold"
             name="forgot-btn"
             type="submit"
           />
 
-          <div className={`${styles.forgotPassword} mt-10 `}>
+          <div className={`${styles.forgotPassword} mt-6 `}>
             <span className="text-black">Back to</span>{" "}
             <Link to="/login" replace>
               Login

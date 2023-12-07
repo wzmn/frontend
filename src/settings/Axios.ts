@@ -10,10 +10,11 @@ const Axios: AxiosInstance = axios.create({
 // Add a request interceptor
 Axios.interceptors.request.use(
   function (config) {
-    const user = JSON.parse(localStorage.getItem("user") + "") as LoginResType;
-    config.headers.Authorization = "Bearer " + user?.access;
-    // Do something before request is sent
-
+    if (!(localStorage.getItem("user") === 'undefined')){
+      const user = JSON.parse(localStorage.getItem("user") + "") as LoginResType;
+      config.headers.Authorization = "Bearer " + user?.access;
+      // Do something before request is sent
+    }
     return config;
   },
   function (error) {
@@ -33,11 +34,11 @@ Axios.interceptors.response.use(
   },
   function (error: AxiosError) {
     if (error.response?.status === 401) {
-      let pathname =
-        typeof window !== "undefined" ? window.location.pathname : "";
-      console.log(pathname);
-      if (pathname === "/login/") return;
-      localStorage.setItem("user", "null");
+      // let pathname =
+      //   typeof window !== "undefined" ? window.location.pathname : "";
+      console.log("401");
+      // if (pathname === "/login/") return;
+      // localStorage.setItem("user", "null");
       // window.location.replace("/login");
     }
 

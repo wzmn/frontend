@@ -1,0 +1,56 @@
+.card {
+    background-color: #f3f3f3;
+    border-radius: 5px;
+    border-color: inherit;
+    padding: 10px;
+    text-align: left;
+    padding: 15px 13px;
+    position: relative;
+    border-width: 1px;
+    border-color: inherit;
+}
+
+.title, .created-on, .email, .telephone, .company-name {
+    background-image: linear-gradient(90deg, #ddd 0px, #e8e8e8 40px, #ddd 80px);
+    background-size: 500px;
+    animation-name:  shine-lines;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    border-radius: 20px;
+    width: 100%;
+}
+
+.title {
+    height: 20px;
+    margin-bottom: 10px;
+    animation-duration: 2.5s;
+}
+.company-name {
+    height: 15px;
+    margin-bottom: 15px;
+    animation-duration: 2.4s;
+}
+.created-on {
+    height: 10px;
+    margin-bottom: 15px;
+    animation-duration: 2.4s;
+}
+.email {
+    height: 12px;
+    margin-bottom: 10px;
+    animation-duration: 2.2s;
+}
+.telephone{
+    height: 12px;
+    animation-duration: 2s;
+}
+
+
+@keyframes shine-lines {
+0% {
+    background-position: -50px;
+}
+40%, 100% {
+    background-position: 380px;
+}
+}

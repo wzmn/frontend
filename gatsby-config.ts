@@ -4,7 +4,7 @@ import path from "path";
 const config: GatsbyConfig = {
   siteMetadata: {
     siteUrl: `http://localhost:8000/`,
-    contact: "example@example.com",
+    contact: "support@snippit.com.au",
   },
 
   // More easily incorporate content into your pages through automatic TypeScript type generation and better GraphQL IntelliSense.
@@ -21,14 +21,14 @@ const config: GatsbyConfig = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `GatsbyJS`,
-        short_name: `GatsbyJS`,
-        description: `The application does cool things and makes your life better.`,
+        name: `Snippit`,
+        short_name: `Snippit`,
+        description: `An energy upgrade CRM system streamlines lead management, integrating data sources, automating communications, and visualizing projects while ensuring regulatory compliance and providing analytics for efficient decision-making.`,
         lang: `en`,
         start_url: `/`,
-        background_color: `#f7f0eb`,
-        theme_color: `#a2466c`,
-        display: `standalone`,
+        background_color: `#fafafa`,
+        theme_color: `#0a84ff`,
+        display: `fullscreen`,
         cache_busting_mode: 'none',
         icon: `src/images/icon.png`,
         theme_color_in_head: false,

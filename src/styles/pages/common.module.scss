@@ -48,11 +48,11 @@
 }
 
 .table-cont {
-  margin-bottom: 1.25rem;
+  margin-bottom: 10px;
   display: flex;
   overflow-x: scroll;
   padding-top: 10px;
-  padding-bottom: 10px;
+  // padding-bottom: 10px;
   gap: 1.75rem;
   flex-grow: 1;
   scroll-behavior: smooth;

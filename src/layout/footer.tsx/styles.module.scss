@@ -3,12 +3,12 @@
 
 .footer {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   gap: 0.6rem;
   flex-basis: 0;
   @include sm {
-    flex-basis: 100px;
+    flex-basis: 90px;
     padding-top: 10px;
     flex-shrink: 0;
   }
