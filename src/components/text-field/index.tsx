@@ -12,7 +12,7 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
 const TextField = forwardRef<HTMLInputElement, Omit<Props, "placeholder">>(
   (props, ref) => {
     const { asterisk, errorMessage = "", title, type } = props;
-    const [isVisible, setVisible] = useState(!1);
+    const [isVisible, setVisible] = useState(type === "password");
     const toggleVisibility = () => setVisible(!isVisible);
     return (
       <div className={styles.textField}>
@@ -21,7 +21,7 @@ const TextField = forwardRef<HTMLInputElement, Omit<Props, "placeholder">>(
             errorMessage !== "" && styles.error
           }`}
         >
-          <input placeholder="" ref={ref} {...props} type={!isVisible ? 'text' : 'password'} />
+          <input placeholder="" ref={ref} {...props} type={isVisible ? 'password' : 'text'} />
           <span
             onClick={(e) =>
               (

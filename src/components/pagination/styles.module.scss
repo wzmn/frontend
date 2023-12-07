@@ -9,6 +9,7 @@
   font-size: 14px;
     @include sm {
     font-size: $font-normal;
+    margin-bottom: 10px;
   }
   & .select {
     //   height: 1.3rem;

@@ -25,14 +25,10 @@ import {
 import cssVar from "utility/css-var";
 import { findMatchingId } from "utility/find-matching-id";
 import View from "./view";
-const dataList = [
-  { label: "Wade Cooper" },
-  { label: "Arlene Mccoy" },
-  { label: "Devon Webb" },
-  { label: "Tom Cook" },
-  { label: "Tanya Fox" },
-  { label: "Hellen Schmidt" },
-];
+
+// For skeleton
+import Placeholder from '../../components/skeleton';
+
 type DropItemType = { id: number; section: EmployeeRole };
 
 const Employees = () => {
@@ -45,6 +41,8 @@ const Employees = () => {
     "Field Worker": [],
     Manager: [],
   });
+  // For skeleton
+  const [loading, setLoading] = useState(true);
 
   function getColumnColor(int: number) {
     const colors = [
@@ -156,9 +154,11 @@ const Employees = () => {
   }, [table]);
 
   useEffect(() => {
-    fetchData();
+    // For skeleton
+    fetchData().finally(() => setLoading(false))
   }, []);
 
+  
   const { btnCont, tableCont } = commonStyles;
   return (
     <>
@@ -177,10 +177,6 @@ const Employees = () => {
         <div className="">
           <Input placeholder="Search" />
         </div>
-
-        {/* <div className="w-64">
-          <SelectBox color="full-white" data={dataList} />
-        </div> */}
 
         {/* <div className=""> */}
         <Filterbtn>
@@ -207,23 +203,30 @@ const Employees = () => {
               title={dropName.toLocaleUpperCase()}
             >
               <>
-                {data[dropName].map((dragItem) => {
-                  return (
-                    <Fragment key={dragItem.id}>
-                      <Drage
-                        key={dragItem.id} //you can`t use index from map id should be unique
-                        accept={"company"}
-                        section={dropName}
-                        id={dragItem.id as number}
-                        loading={dragItem.status}
-                      >
-                        <>
-                          <List loading={dragItem.status} data={dragItem} />
-                        </>
-                      </Drage>
-                    </Fragment>
-                  );
-                })}
+                {
+                  !loading ? (
+                    data[dropName].map((dragItem) => {
+                      return (
+                        <Fragment key={dragItem.id}>
+                          <Drage
+                            key={dragItem.id} //you can`t use index from map id should be unique
+                            accept={"company"}
+                            section={dropName}
+                            id={dragItem.id as number}
+                            loading={dragItem.status}
+                          >
+                            <>
+                              <List loading={dragItem.status} data={dragItem} />
+                            </>
+                          </Drage>
+                        </Fragment>
+                      );
+                    })
+                  ) : (
+                    // For skeleton
+                    <Placeholder />
+                  )
+                }
               </>
             </Drop>
           );

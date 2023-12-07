@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import React from "react";
+import React, { useState } from "react";
 import Button from "components/button";
 import TextField from "components/text-field";
 import { Link, PageProps } from "gatsby";
@@ -19,18 +19,20 @@ const Login = (props: any) => {
     resolver: yupResolver(loginSchema),
   });
 
+  const [formError, setFormError] = useState("");
   const { setUserAuth } = useAuthContext();
-
+  
   async function onSubmit(data: any) {
     try {
       const response = await request<LoginResType>({
         url: "/users/login/",
         data,
         method: "post",
+      }).then(s => {
+        setUserAuth(s.data)
+      }).catch(s => {
+        setFormError(s.response.data.detail)
       });
-      // if(AxiosExceptStatueReg.test(String(response.status)) ){
-      setUserAuth(response.data);
-      // }
     } catch (error) {
       console.log(error);
     }
@@ -60,7 +62,7 @@ const Login = (props: any) => {
               errorMessage={errors.password?.message}
             />
           </div>
-
+          {formError && <div className="text-red text-sm mt-2">{formError}</div>}
           <Button
             // icon={<AiFillAlert />}
             isLoading={isSubmitting}
@@ -73,6 +75,7 @@ const Login = (props: any) => {
           <div className={`${styles.forgotPassword} mt-6 `}>
             <Link to="/forgot-password">Forgot password ?</Link>
           </div>
+          
         </form>
       </div>
     </>

@@ -4,7 +4,7 @@ import path from "path";
 const config: GatsbyConfig = {
   siteMetadata: {
     siteUrl: `http://localhost:8000/`,
-    contact: "example@example.com",
+    contact: "support@snippit.com.au",
   },
 
   // More easily incorporate content into your pages through automatic TypeScript type generation and better GraphQL IntelliSense.
