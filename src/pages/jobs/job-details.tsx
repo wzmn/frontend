@@ -5,7 +5,7 @@ import FormWraper from "components/form-wrapper";
 import Input from "components/input";
 import Radio from "components/radio";
 import { JOB_LISTING } from "constants/api";
-import { PageProps } from "gatsby";
+import { PageProps, navigate } from "gatsby";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
@@ -19,6 +19,8 @@ import { JobDataType } from "type/job";
 import * as companyStyles from "../company/styles.module.scss";
 import * as additionalStyles from "styles/pages/additional.module.scss";
 import { LuClipboardList } from "react-icons/lu";
+import TextButton from "components/text-button";
+import { GoPlus } from "react-icons/go";
 
 const JobDetails = (props: PageProps) => {
   const { location } = props;
@@ -207,13 +209,23 @@ const JobDetails = (props: PageProps) => {
           </form>
         </FormSection>
 
-        <FormSection title="Jobs with Appts">
+        <FormSection title="Appointment">
           <FormWraper>
-            <div className={additionalStyles.cardCont}>
-              {[1, 2, 3, 4].map((item) => {
-                return <List key={item} data={{}} index={1} loading />;
-              })}
-            </div>
+            <>
+              <div className={additionalStyles.cardCont}>
+                {[1, 2, 3, 4].map((item) => {
+                  return <List key={item} data={{}} index={1} loading />;
+                })}
+              </div>
+              <TextButton
+                className="mt-5"
+                label="Create Appointment"
+                icon={<GoPlus />}
+                onClick={() => {
+                  navigate("/jobs/create-appointment");
+                }}
+              />
+            </>
           </FormWraper>
         </FormSection>
 

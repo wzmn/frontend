@@ -8,8 +8,8 @@ import * as styles from "./styles.module.scss";
 import { useSidebarContext } from "providers/sidebar-provider";
 import { Link } from "gatsby";
 import { useAuthContext } from "providers/auth-provider";
-import logo from "./logo.png"
-import user from "./user.png"
+import logo from "./logo.png";
+import user from "./user.png";
 
 const sideBarData = [
   {
@@ -51,7 +51,7 @@ const sideBarData = [
 
 const Sidebar = () => {
   const { sidebarFlag, toggle } = useSidebarContext();
-  const { setUserAuth } = useAuthContext();
+  const { setUserAuth, userAuth } = useAuthContext();
 
   return (
     <div className={`${styles.sidebarCont} ${sidebarFlag && styles.slideIn}`}>
@@ -59,22 +59,18 @@ const Sidebar = () => {
         <AiOutlineLeftCircle />
       </span>
       <div className={`${styles.sidebar} `}>
-      <div className={styles.userDetails}>
-        <img
-          className={styles.userImg}
-          src={user}
-          alt="user image"
-        />
-        <div className={styles.userName}>
-          <p>Jason Jackson</p>
-          <div className={styles.userRole}>
-            <p>Superadmin</p>
-            <span className={styles.icon} onClick={() => setUserAuth(null)}>
-              <AiOutlinePoweroff />
-            </span>
+        <div className={styles.userDetails}>
+          <img className={styles.userImg} src={user} alt="user image" />
+          <div className={styles.userName}>
+            <p>Jason Jackson</p>
+            <div className={styles.userRole}>
+              <p>Superadmin</p>
+              <span className={styles.icon} onClick={() => setUserAuth(null)}>
+                <AiOutlinePoweroff />
+              </span>
+            </div>
           </div>
         </div>
-      </div>
         <div className={styles.menu}>
           <div className={styles.sidebarLinks}>
             {sideBarData.map((item) => {
@@ -96,7 +92,9 @@ const Sidebar = () => {
         <div className={styles.logo}>
           <img src={logo} />
           <div className="flex justify-center mt-4">
-            <a target="_blank" href="https://snippit.com.au">Learn More</a>
+            <a target="_blank" href="https://snippit.com.au">
+              Learn More
+            </a>
           </div>
         </div>
       </div>
