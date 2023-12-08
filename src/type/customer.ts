@@ -1,29 +1,25 @@
-export interface CustomerDataType {
+import { PaginationType } from "./global";
+
+export type CustomerDataType = PaginationType<Result[]>;
+
+export interface Result {
   id?: number;
   user?: User;
   company?: Company;
-  created_by?: CreatedBy;
+  assigned_to?: AssignedTo | null;
+  role?: string;
   ref_id?: null;
   is_active?: boolean;
 }
 
-export interface Company {
+export interface AssignedTo {
   id?: number;
-  company_owner?: User;
-  company_address?: null;
-  info?: any[];
+  user?: User;
+  role?: string;
   ref_id?: null;
-  created_at?: Date;
-  updated_at?: Date;
-  is_active?: boolean;
-  company_name?: string;
-  company_email?: string;
-  company_mobile_phone?: string;
-  company_landline?: string;
-  company_country?: string;
-  company_status?: string;
-  company_type?: string;
-  primary?: boolean;
+  license_id?: number;
+  reports_to?: null;
+  created_by?: null;
 }
 
 export interface User {
@@ -46,14 +42,28 @@ export interface User {
   user_permissions?: any[];
 }
 
-export interface CreatedBy {
+export interface Company {
   id?: number;
-  user?: User;
-  role?: string;
+  company_owner?: User;
+  company_address?: null;
+  info?: any[];
   ref_id?: null;
-  license_id?: number;
-  reports_to?: null;
-  created_by?: null;
+  created_at?: Date;
+  updated_at?: Date;
+  is_active?: boolean;
+  company_name?: string;
+  company_email?: string;
+  company_mobile_phone?: string;
+  company_landline?: string;
+  company_country?: string;
+  company_status?: string;
+  company_type?: string;
+  primary?: boolean;
 }
+
+export type CustomerDataExtraType = Result & {
+  status: boolean;
+  index: number;
+};
 
 export type CustomerStatus = "NEW" | "CONTACTED" | "COMPLETED" | "WON" | "LOST";

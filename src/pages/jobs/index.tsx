@@ -20,6 +20,7 @@ import { JobDataStateType, JobDataType, JobStatusRole } from "type/job";
 import cssVar from "utility/css-var";
 import { findMatchingId } from "utility/find-matching-id";
 import View from "./view";
+import Placeholder from "components/skeleton";
 
 type DropItemType = { id: number; section: JobStatusRole };
 
@@ -37,6 +38,15 @@ const Jobs = () => {
     waiting: [],
     open: [],
     close: [],
+  });
+
+  const [loading, setLoading] = useState(false);
+
+  const [pagination, setPagination] = useState({
+    page: 1,
+    offset: 0,
+    limit: 10,
+    totalRecords: 0,
   });
 
   const { btnCont, tableCont } = commonStyles;
@@ -57,17 +67,28 @@ const Jobs = () => {
 
   async function fetchData() {
     try {
-      const response = await request<JobDataType[]>({
+      setLoading(true);
+      const response = await request<JobDataType>({
         url: JOB_LISTING,
+        params: {
+          limit: pagination.limit,
+          offset: pagination.offset,
+        },
       });
 
       const filterData = { ...data };
 
+      //this is to make all record empty before calling this function otherwise it will stack
       Object.keys(data).map(
         (item) => (filterData[item as JobStatusRole].length = 0)
       );
 
-      response?.data?.forEach((item) => {
+      setPagination((prev) => ({
+        ...prev,
+        totalRecords: Number(response?.data?.count),
+      }));
+
+      response?.data.results?.forEach((item) => {
         filterData[item.job_status! as JobStatusRole].push({
           ...item,
           status: false,
@@ -176,8 +197,8 @@ const Jobs = () => {
   }, [table]);
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData().finally(() => setLoading(false));
+  }, [pagination.page, pagination.limit]);
 
   return (
     <>
@@ -215,29 +236,55 @@ const Jobs = () => {
               title={dropName.toLocaleUpperCase()}
             >
               <>
-                {data[dropName].map((dragItem) => {
-                  return (
-                    <Fragment key={dragItem.id}>
-                      <Drage
-                        key={dragItem.id} //you can`t use index from map id should be unique
-                        accept={"job"}
-                        section={dropName}
-                        id={dragItem.id as number}
-                        loading={dragItem.status}
-                      >
-                        <>
-                          <List loading={dragItem.status} data={dragItem} />
-                        </>
-                      </Drage>
-                    </Fragment>
-                  );
-                })}
+                {!loading ? (
+                  data[dropName].map((dragItem) => {
+                    return (
+                      <Fragment key={dragItem.id}>
+                        <Drage
+                          key={dragItem.id} //you can`t use index from map id should be unique
+                          accept={"job"}
+                          section={dropName}
+                          id={dragItem.id as number}
+                          loading={dragItem.status}
+                        >
+                          <>
+                            <List loading={dragItem.status} data={dragItem} />
+                          </>
+                        </Drage>
+                      </Fragment>
+                    );
+                  })
+                ) : (
+                  // For skeleton
+                  <Placeholder />
+                )}
               </>
             </Drop>
           );
         })}
       </div>
-      <Pagination />
+
+      <Pagination
+        totalRecords={pagination.totalRecords}
+        page={pagination.page}
+        limit={pagination.limit}
+        limitHandler={(e) => {
+          setPagination((prev) => ({
+            ...prev,
+            limit: Number(e),
+            page: 1,
+            offset: (1 - 1) * pagination.limit,
+          }));
+        }}
+        pageHandler={(e) => {
+          setPagination((prev) => ({
+            ...prev,
+            page: Number(e),
+            offset: (Number(e) - 1) * pagination.limit,
+          }));
+        }}
+        label="Companies"
+      />
     </>
   );
 };

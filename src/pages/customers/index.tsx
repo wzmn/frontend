@@ -15,9 +15,14 @@ import { IoCallOutline, IoEyeOutline } from "react-icons/io5";
 import { TfiEmail } from "react-icons/tfi";
 import { request } from "services/http-request";
 import * as styles from "styles/pages/common.module.scss";
-import { CustomerDataType, CustomerStatus } from "type/customer";
+import {
+  CustomerDataExtraType,
+  CustomerDataType,
+  CustomerStatus,
+} from "type/customer";
 import cssVar from "utility/css-var";
 import View from "./view";
+import Placeholder from "components/skeleton";
 const dataList = [
   { label: "Wade Cooper" },
   { label: "Arlene Mccoy" },
@@ -26,11 +31,6 @@ const dataList = [
   { label: "Tanya Fox" },
   { label: "Hellen Schmidt" },
 ];
-
-export type CustomerDataExtraType = CustomerDataType & {
-  status: boolean;
-  index: number;
-};
 
 const Customers = () => {
   const [data, setData] = useState<
@@ -41,6 +41,16 @@ const Customers = () => {
     COMPLETED: [],
     WON: [],
     LOST: [],
+  });
+
+  // For skeleton
+  const [loading, setLoading] = useState(false);
+
+  const [pagination, setPagination] = useState({
+    page: 1,
+    offset: 0,
+    limit: 10,
+    totalRecords: 0,
   });
 
   const table = useRef<HTMLDivElement>(null);
@@ -78,20 +88,30 @@ const Customers = () => {
     }
   }
 
-  async function fetchData(params?: Record<any, any>) {
+  async function fetchData() {
     try {
-      const response = await request<CustomerDataType[]>({
+      setLoading(true);
+      const response = await request<CustomerDataType>({
         url: CUSTOMER_LISTING,
-        params,
+        params: {
+          limit: pagination.limit,
+          offset: pagination.offset,
+        },
       });
 
       const filterData = { ...data };
 
+      //this is to make all record empty before calling this function otherwise it will stack
       Object.keys(data).map(
         (item) => (filterData[item as CustomerStatus].length = 0)
       );
 
-      response.data.forEach((item: any) => {
+      setPagination((prev) => ({
+        ...prev,
+        totalRecords: Number(response?.data?.count),
+      }));
+
+      response?.data?.results?.forEach((item: any) => {
         filterData["NEW"].push({ ...item, status: false });
       });
 
@@ -119,8 +139,9 @@ const Customers = () => {
   }, [table]);
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    // For skeleton
+    fetchData().finally(() => setLoading(false));
+  }, [pagination.page, pagination.limit]);
 
   return (
     <>
@@ -150,31 +171,55 @@ const Customers = () => {
               title={dropName.toLocaleUpperCase()}
             >
               <>
-                {data[dropName].map((dragItem, index) => {
-                  return (
-                    <Fragment key={dragItem.id}>
-                      <Drage
-                        key={dragItem.id} //you can`t use index from map id should be unique
-                        accept={"company"}
-                        section={dropName}
-                        id={dragItem.id as number}
-                        loading={dragItem.status}
-                      >
-                        <List
-                          data={dragItem}
+                {!loading ? (
+                  data[dropName].map((dragItem, index) => {
+                    return (
+                      <Fragment key={dragItem.id}>
+                        <Drage
+                          key={dragItem.id} //you can`t use index from map id should be unique
+                          accept={"company"}
+                          section={dropName}
+                          id={dragItem.id as number}
                           loading={dragItem.status}
-                          index={index}
-                        />
-                      </Drage>
-                    </Fragment>
-                  );
-                })}
+                        >
+                          <List
+                            data={dragItem}
+                            loading={dragItem.status}
+                            index={index}
+                          />
+                        </Drage>
+                      </Fragment>
+                    );
+                  })
+                ) : (
+                  <Placeholder />
+                )}
               </>
             </Drop>
           );
         })}
       </div>
-      <Pagination />
+      <Pagination
+        totalRecords={pagination.totalRecords}
+        page={pagination.page}
+        limit={pagination.limit}
+        limitHandler={(e) => {
+          setPagination((prev) => ({
+            ...prev,
+            limit: Number(e),
+            page: 1,
+            offset: (1 - 1) * pagination.limit,
+          }));
+        }}
+        pageHandler={(e) => {
+          setPagination((prev) => ({
+            ...prev,
+            page: Number(e),
+            offset: (Number(e) - 1) * pagination.limit,
+          }));
+        }}
+        label="Companies"
+      />
     </>
   );
 };

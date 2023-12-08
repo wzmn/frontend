@@ -15,3 +15,22 @@ export interface CountryComplianceType {
 }
 
 export type ItemType = "primary" | "secondary" | "additional";
+
+export interface PaginationType<T> {
+  count?: number;
+  next?: null;
+  previous?: null;
+  results?: T;
+}
+
+export type RoleType =
+  | "Snippit Admin"
+  | "Snippit Manger"
+  | "Snippit Auditor"
+  | "Admin"
+  | "Manager"
+  | "Team Leader"
+  | "Auditor"
+  | "Agent"
+  | "Field Worker"
+  | "Customer";

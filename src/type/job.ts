@@ -1,5 +1,10 @@
-export interface JobDataType {
+import { PaginationType, RoleType } from "./global";
+export type JobDataType = PaginationType<Result[]>;
+
+export interface Result {
   id?: number;
+  work_type?: WorkType;
+  job_assigned_to?: AssignedTo | null;
   address?: Address;
   customer?: Customer;
   ref_id?: null;
@@ -8,6 +13,8 @@ export interface JobDataType {
   is_active?: boolean;
   job_status?: string;
   job_type?: string;
+  billing_address?: null;
+  job_created_by?: number | null;
 }
 
 export interface Address {
@@ -37,6 +44,7 @@ export interface Customer {
   user?: User;
   company?: Company;
   assigned_to?: AssignedTo;
+  role?: string;
   ref_id?: null;
   is_active?: boolean;
 }
@@ -44,7 +52,7 @@ export interface Customer {
 export interface AssignedTo {
   id?: number;
   user?: User;
-  role?: string;
+  role?: RoleType;
   ref_id?: null;
   license_id?: number;
   reports_to?: null;
@@ -90,8 +98,19 @@ export interface Company {
   primary?: boolean;
 }
 
+export interface WorkType {
+  id?: number;
+  ref_id?: string;
+  created_at?: Date;
+  updated_at?: Date;
+  is_active?: boolean;
+  title?: string;
+  global_activity?: boolean;
+  auth_companies?: number[];
+}
+
 export type JobStatusRole = "waiting" | "open" | "close";
 
-export type JobDataStateType = JobDataType & {
+export type JobDataStateType = Result & {
   status: boolean;
 };
