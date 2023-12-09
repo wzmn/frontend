@@ -36,12 +36,12 @@ Axios.interceptors.response.use(
   },
   function (error: AxiosError) {
     if (error.response?.status === 401) {
-      // let pathname =
-      //   typeof window !== "undefined" ? window.location.pathname : "";
+      let pathname =
+        typeof window !== "undefined" ? window.location.pathname : "";
       console.log("401");
-      // if (pathname === "/login/") return;
-      // localStorage.setItem("user", "null");
-      // window.location.replace("/login");
+      if (pathname === "/login/") return;
+      localStorage.setItem("user", "null");
+      window.location.replace("/login");
     }
 
     // Any status codes that falls outside the range of 2xx cause this function to trigger
