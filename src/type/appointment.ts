@@ -130,6 +130,17 @@ export type AppointmentExtraDataType = Result & {
   status: boolean;
 };
 
+export type ApptStatues = PaginationType<ApptStatuesResp[]>;
+
+export interface ApptStatuesResp {
+  id?: number;
+  ref_id?: string;
+  created_at?: Date;
+  updated_at?: Date;
+  is_active?: boolean;
+  title: AppointmentStatusType;
+}
+
 export type AppointmentStatusType =
   | "Rescheduled"
   | "Waiting"

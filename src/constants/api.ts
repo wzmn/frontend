@@ -9,3 +9,4 @@ export const RESET_PASSWORD = "/users/password_reset/";
 export const CONFIRM_PASSWORD = "/users/password_reset/confirm/";
 export const JOB_LISTING = "/jobs/management/";
 export const APPOINTMENT_LISTING = "/appointments/management/";
+export const APPT_STATUES = "/appointments/appointment_status/";

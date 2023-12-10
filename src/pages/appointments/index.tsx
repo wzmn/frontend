@@ -5,7 +5,7 @@ import Input from "components/input";
 import Pagination from "components/pagination";
 import SelectBox from "components/selectBox";
 import Placeholder from "components/skeleton";
-import { APPOINTMENT_LISTING } from "constants/api";
+import { APPOINTMENT_LISTING, APPT_STATUES } from "constants/api";
 import { Link } from "gatsby";
 import moment from "moment";
 import View from "pages/company/view";
@@ -21,6 +21,8 @@ import {
   AppointmentDataType,
   AppointmentExtraDataType,
   AppointmentStatusType,
+  ApptStatues,
+  ApptStatuesResp,
 } from "type/appointment";
 import cssVar from "utility/css-var";
 import { findMatchingId } from "utility/find-matching-id";
@@ -35,22 +37,28 @@ const dataList = [
 
 type DropItemType = { id: number; section: AppointmentStatusType };
 
+let apptStatuesResp = [] as ApptStatuesResp[];
+
 const Appintments = () => {
-  const [data, setData] = useState<
-    Record<AppointmentStatusType, AppointmentExtraDataType[]>
-  >({
-    Open: [],
-    Assessed: [],
-    Confirmed: [],
-    Rescheduled: [],
-    Snippit: [],
-    Waiting: [],
-    audited: [],
-    cancelled: [],
-    installed: [],
-    reassessment: [],
-    Rejected: [],
-  });
+  // const [data, setData] = useState<
+  //   Record<AppointmentStatusType, AppointmentExtraDataType[]>
+  // >({
+  //   Open: [],
+  //   Assessed: [],
+  //   Confirmed: [],
+  //   Rescheduled: [],
+  //   Snippit: [],
+  //   Waiting: [],
+  //   audited: [],
+  //   cancelled: [],
+  //   installed: [],
+  //   reassessment: [],
+  //   Rejected: [],
+  // });
+
+  const [data, setData] = useState(
+    {} as Record<AppointmentStatusType, AppointmentExtraDataType[]>
+  );
 
   // For skeleton
   const [loading, setLoading] = useState(false);
@@ -101,6 +109,22 @@ const Appintments = () => {
     }
   }
 
+  async function fetchApptStatues() {
+    try {
+      const response = await request<ApptStatues>({
+        url: APPT_STATUES,
+      });
+
+      let st = {} as Record<AppointmentStatusType, AppointmentExtraDataType[]>;
+      apptStatuesResp = response?.data?.results!;
+      response?.data?.results?.map((item) => {
+        st[item.title] = [];
+      });
+
+      setData(st);
+    } catch (error) {}
+  }
+
   async function fetchData() {
     try {
       setLoading(true);
@@ -112,7 +136,15 @@ const Appintments = () => {
         },
       });
 
-      const filterData = { ...data };
+      let filterData = {} as Record<
+        AppointmentStatusType,
+        AppointmentExtraDataType[]
+      >;
+      setData((prev) => {
+        filterData = { ...prev };
+        return prev;
+      });
+      console.log(filterData);
 
       //this is to make all record empty before calling this function otherwise it will stack
       Object.keys(data).map(
@@ -125,7 +157,9 @@ const Appintments = () => {
       }));
 
       response?.data?.results?.forEach((item) => {
-        console.log(item.appointment_status);
+        console.log(
+          filterData[item.appointment_status!] + item.appointment_status!
+        );
         filterData[item.appointment_status! as AppointmentStatusType].push({
           ...item,
           status: false,
@@ -143,8 +177,12 @@ const Appintments = () => {
     to: AppointmentStatusType,
     index: number
   ) {
+    const statueChangeFrom = apptStatuesResp.filter((item) => {
+      return item.title === to;
+    });
+    console.log(statueChangeFrom, " statueChangeFrom");
     const datap = {
-      appointment_status: to,
+      appointment_status_id: statueChangeFrom[0].id,
     };
     try {
       const response = await request<AppointmentDataType[]>({
@@ -191,10 +229,16 @@ const Appintments = () => {
     };
   }, [table]);
 
+  // useEffect(() => {
+  //   // For skeleton
+  //   fetchData().finally(() => setLoading(false));
+  // }, [pagination.page, pagination.limit]);
+
   useEffect(() => {
-    // For skeleton
-    fetchData().finally(() => setLoading(false));
-  }, [pagination.page, pagination.limit]);
+    fetchApptStatues().finally(() => {
+      fetchData().finally(() => setLoading(false));
+    });
+  }, []);
 
   return (
     <>
