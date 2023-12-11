@@ -1,5 +1,6 @@
 import { EmailReg } from "constants/regex";
 import { object, string, InferType } from "yup";
+import { addressSchema } from "./address-schema";
 
 export const companyRegistrationSchema = object({
   // abnNo: string().trim().required("Required"),
@@ -11,20 +12,6 @@ export const companyRegistrationSchema = object({
   company_type: string().trim().required("Required"),
 
   logoImg: string().trim(),
-  address: object({
-    buildingName: string().trim(),
-    levelNo: string().trim(),
-    unitType: string().trim(),
-    unitNo: string().trim(),
-    lotNo: string().trim(),
-    streetNo: string().trim(),
-    streetName: string().trim(),
-    streetType: string().trim(),
-    suffix: string().trim(),
-    suburb: string().trim(),
-    pincode: string().trim(),
-    lga: string().trim(),
-  }),
 
   company_owner: object({
     first_name: string().trim().required("Required"),
@@ -32,7 +19,7 @@ export const companyRegistrationSchema = object({
     phone: string().trim().required("Required"),
     email: string().trim().matches(EmailReg, "Invalid email"),
   }),
-
+  company_address: addressSchema,
   state: string().trim(),
 
   mobile_otp: string().required("Required"),

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Fragment, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { IoIosArrowDown } from "react-icons/io";
@@ -15,6 +15,7 @@ type Props = {
   color?: color;
   placeholder?: string;
   asterisk?: boolean;
+  value?: string;
   onChange?: (e: DataProp) => void;
 };
 
@@ -37,27 +38,30 @@ export default function SelectBox({
   placeholder = "select",
   asterisk,
   onChange,
+  value = "",
 }: Props) {
   // const renderData = [{ label: placeholder }, ...data];
-  const [selected, setSelected] = useState<DataProp>();
+  const [selected, setSelected] = useState<string | undefined>();
 
   function onSelect(item: DataProp) {
-    setSelected(item);
+    setSelected(item.label);
     onChange && onChange(item);
   }
 
+  useEffect(() => {
+    setSelected(value);
+  }, [value]);
+
   return (
     <div className={`w-full ${styles.rel}`}>
-      <Listbox value={selected} onChange={onSelect}>
+      <Listbox onChange={onSelect}>
         <div className={`  ${styles.index}`}>
           <Listbox.Button
             className={`${styles.lstBoxBtn} ${varientHandler(color)} border`}
           >
             <span className="block truncate text-sm">
-              {selected?.label ?? placeholder}
-              {!selected?.label && asterisk && (
-                <span className="text-red-500">&nbsp;*</span>
-              )}
+              {selected !== "" ? selected : placeholder}
+              {asterisk && <span className="text-red-500">&nbsp;*</span>}
             </span>
             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
               <IoIosArrowDown

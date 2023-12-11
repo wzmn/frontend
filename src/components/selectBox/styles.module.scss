@@ -32,16 +32,18 @@
 
 .lst-box-btn {
   position: relative;
-  width: $default-width;
+  width: 100%;
   cursor: pointer;
   border-radius: 5px;
   padding: 8.5px 11px;
   text-align: left;
   outline: none;
-  border: none;
+  border: 1px solid var(--color-cloudy_grey_lighter2);
+
   &.large {
     background-color: red;
   }
+
   //colors
   &.gray {
     background: var(--color-dusty_grey) 0% 0% no-repeat padding-box;

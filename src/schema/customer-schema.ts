@@ -1,5 +1,6 @@
 import { EmailReg } from "constants/regex";
 import { InferType, object, string } from "yup";
+import { addressSchema } from "./address-schema";
 
 export const customerRegistrationSchema = object({
   user: object({
@@ -8,7 +9,7 @@ export const customerRegistrationSchema = object({
     phone: string().trim().required("Required"),
     email: string().trim().matches(EmailReg, "Invalid email"),
   }),
-  //   role: string().required("required"),
+  address: addressSchema,
 });
 
 export type CustomerRegistrationSchemaType = InferType<

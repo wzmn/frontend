@@ -38,7 +38,7 @@ Axios.interceptors.response.use(
     if (error.response?.status === 401) {
       let pathname =
         typeof window !== "undefined" ? window.location.pathname : "";
-      console.log("401");
+
       if (pathname === "/login/") return;
       localStorage.setItem("user", "null");
       window.location.replace("/login");
