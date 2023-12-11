@@ -9,6 +9,7 @@ import { APPOINTMENT_LISTING, APPT_STATUES } from "constants/api";
 import { Link } from "gatsby";
 import moment from "moment";
 import View from "pages/company/view";
+import { useAppContext } from "providers/app-provider";
 import { useRightBarContext } from "providers/right-bar-provider";
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
@@ -21,6 +22,7 @@ import {
   AppointmentDataType,
   AppointmentExtraDataType,
   AppointmentStatusType,
+  ApptStateStatus,
   ApptStatues,
   ApptStatuesResp,
 } from "type/appointment";
@@ -38,27 +40,17 @@ const dataList = [
 type DropItemType = { id: number; section: AppointmentStatusType };
 
 let apptStatuesResp = [] as ApptStatuesResp[];
+let apptStatusState = {} as Record<
+  AppointmentStatusType,
+  AppointmentExtraDataType[]
+>;
 
 const Appintments = () => {
-  // const [data, setData] = useState<
-  //   Record<AppointmentStatusType, AppointmentExtraDataType[]>
-  // >({
-  //   Open: [],
-  //   Assessed: [],
-  //   Confirmed: [],
-  //   Rescheduled: [],
-  //   Snippit: [],
-  //   Waiting: [],
-  //   audited: [],
-  //   cancelled: [],
-  //   installed: [],
-  //   reassessment: [],
-  //   Rejected: [],
-  // });
+  const {
+    appointment: { status, statusData },
+  } = useAppContext();
 
-  const [data, setData] = useState(
-    {} as Record<AppointmentStatusType, AppointmentExtraDataType[]>
-  );
+  const [data, setData] = useState({} as ApptStateStatus);
 
   // For skeleton
   const [loading, setLoading] = useState(false);
@@ -72,10 +64,6 @@ const Appintments = () => {
 
   const { btnCont, tableCont } = commonStyles;
   const table = useRef<HTMLDivElement>(null);
-
-  const drop1Color = cssVar("--color-blue_dress");
-  const drop2Color = cssVar("--color-candlelight");
-  const drop3Color = cssVar("--color-aqua_blue");
 
   function getColumnColor(int: number) {
     const colors = [
@@ -109,22 +97,6 @@ const Appintments = () => {
     }
   }
 
-  async function fetchApptStatues() {
-    try {
-      const response = await request<ApptStatues>({
-        url: APPT_STATUES,
-      });
-
-      let st = {} as Record<AppointmentStatusType, AppointmentExtraDataType[]>;
-      apptStatuesResp = response?.data?.results!;
-      response?.data?.results?.map((item) => {
-        st[item.title] = [];
-      });
-
-      setData(st);
-    } catch (error) {}
-  }
-
   async function fetchData() {
     try {
       setLoading(true);
@@ -136,20 +108,7 @@ const Appintments = () => {
         },
       });
 
-      let filterData = {} as Record<
-        AppointmentStatusType,
-        AppointmentExtraDataType[]
-      >;
-      setData((prev) => {
-        filterData = { ...prev };
-        return prev;
-      });
-      console.log(filterData);
-
-      //this is to make all record empty before calling this function otherwise it will stack
-      Object.keys(data).map(
-        (item) => (filterData[item as AppointmentStatusType].length = 0)
-      );
+      let filterData = JSON.parse(JSON.stringify(status)) as ApptStateStatus;
 
       setPagination((prev) => ({
         ...prev,
@@ -177,12 +136,12 @@ const Appintments = () => {
     to: AppointmentStatusType,
     index: number
   ) {
-    const statueChangeFrom = apptStatuesResp.filter((item) => {
+    const statueChangeFrom = statusData?.results?.filter((item) => {
       return item.title === to;
     });
     console.log(statueChangeFrom, " statueChangeFrom");
     const datap = {
-      appointment_status_id: statueChangeFrom[0].id,
+      appointment_status_id: statueChangeFrom![0].id,
     };
     try {
       const response = await request<AppointmentDataType[]>({
@@ -229,20 +188,13 @@ const Appintments = () => {
     };
   }, [table]);
 
-  // useEffect(() => {
-  //   // For skeleton
-  //   fetchData().finally(() => setLoading(false));
-  // }, [pagination.page, pagination.limit]);
-
   useEffect(() => {
-    fetchApptStatues().finally(() => {
-      fetchData().finally(() => setLoading(false));
-    });
-  }, []);
+    // For skeleton
+    fetchData().finally(() => setLoading(false));
+  }, [pagination.page, pagination.limit, status]);
 
   return (
     <>
-      {/* <pre>{JSON.stringify(data, null, 4)}</pre> */}
       <div className={btnCont}>
         <div className="">
           <Link to="#">

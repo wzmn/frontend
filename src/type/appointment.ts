@@ -153,3 +153,8 @@ export type AppointmentStatusType =
   | "installed"
   | "cancelled"
   | "Open";
+
+export type ApptStateStatus = Record<
+  AppointmentStatusType,
+  AppointmentExtraDataType[]
+>;

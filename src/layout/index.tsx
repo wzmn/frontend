@@ -16,6 +16,7 @@ import "react-toastify/dist/ReactToastify.css";
 import GoogleMapProvider, {
   useMapContext,
 } from "providers/google-map-provider";
+import AppProvider from "providers/app-provider";
 
 const routeNotToInclude = ["/login/", "/change-password/", "/forgot-password/"];
 
@@ -31,53 +32,56 @@ const Layout = ({ children }: Props) => {
   return (
     <AuthProvider>
       <>
-        <UploadDocProvider>
-          {!routeNotToInclude.includes(pathname) ? (
-            <div className="c-container">
-              <ProtectedRoutes>
-                <GoogleMapProvider>
-                  <DndProvider backend={HTML5Backend}>
-                    <SidebarContext>
-                      <div className={`${styles.layout} `}>
-                        <Sidebar />
-                        <div className={styles.children}>
-                          <div className={styles.mainContent}>
-                            <Navbar />
-                            {children}
-                            {/* <Footer /> */}
+        {!routeNotToInclude.includes(pathname) ? (
+          <div className="c-container">
+            <AppProvider>
+              <UploadDocProvider>
+                <ProtectedRoutes>
+                  <GoogleMapProvider>
+                    <DndProvider backend={HTML5Backend}>
+                      <SidebarContext>
+                        <div className={`${styles.layout} `}>
+                          <Sidebar />
+                          <div className={styles.children}>
+                            <div className={styles.mainContent}>
+                              <Navbar />
+                              {children}
+                              {/* <Footer /> */}
+                            </div>
                           </div>
+                          <RightBar /> {/* has absolute position */}
                         </div>
-                        <RightBar /> {/* has absolute position */}
-                      </div>
-                    </SidebarContext>
-                  </DndProvider>
-                </GoogleMapProvider>
-              </ProtectedRoutes>
-            </div>
-          ) : (
-            <div className="">
-              <HandleRedirect>
-                <AuthLayout>
-                  <div className="flex flex-column">
-                    <div className="items-center flex-1 flex justify-center">
-                      {children}
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                      }}
-                    >
-                      <img style={{ maxWidth: 199 }} src="/assets/logo.png" />
-                      <Footer />
-                    </div>
+                      </SidebarContext>
+                    </DndProvider>
+                  </GoogleMapProvider>
+                </ProtectedRoutes>
+              </UploadDocProvider>
+            </AppProvider>
+          </div>
+        ) : (
+          <div className="">
+            <HandleRedirect>
+              <AuthLayout>
+                <div className="flex flex-column">
+                  <div className="items-center flex-1 flex justify-center">
+                    {children}
                   </div>
-                </AuthLayout>
-              </HandleRedirect>
-            </div>
-          )}
-        </UploadDocProvider>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                    }}
+                  >
+                    <img style={{ maxWidth: 199 }} src="/assets/logo.png" />
+                    <Footer />
+                  </div>
+                </div>
+              </AuthLayout>
+            </HandleRedirect>
+          </div>
+        )}
+
         <ToastContainer />
       </>
     </AuthProvider>
