@@ -5,6 +5,12 @@ module.exports = {
     "./src/pages/**/*.{js,jsx,ts,tsx}",
     "./src/components/**/*.{js,jsx,ts,tsx}",
   ],
+  safelist: [
+    "bg-red-800",
+    "ring-red-300",
+    "bg-red-600",
+    "ring-red-900"
+  ],
   theme: {
     extend: {
       colors: {

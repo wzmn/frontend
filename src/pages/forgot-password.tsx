@@ -1,6 +1,6 @@
 import TextField from "components/text-field";
 import { Link, navigate } from "gatsby";
-import React from "react";
+import React, { useState } from "react";
 import Button from "../components/button";
 import * as styles from "../layout/auth-layout/styles.module.scss";
 import { useForm } from "react-hook-form";
@@ -9,11 +9,12 @@ import { emailSchema } from "schema/auth-schema";
 import { InferType } from "yup";
 import { request } from "services/http-request";
 import { RESET_PASSWORD } from "constants/api";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 //to triger build
 
 type FormType = InferType<typeof emailSchema>;
 const ForgotPassword = () => {
+  const [error, setError] = useState('')
   const {
     register,
     handleSubmit,
@@ -32,8 +33,10 @@ const ForgotPassword = () => {
         },
       });
       console.log(response);
-      toast("Please Check Your Email");
-    } catch (error) {}
+      toast.success("Please Check Your Email");
+    } catch (error: any) {
+      setError(error.response.data.email[0]);
+    }
   };
 
   return (
@@ -53,6 +56,7 @@ const ForgotPassword = () => {
               errorMessage={errors.username?.message}
             />
           </div>
+          {error && <div className="text-red text-sm mt-2">{error}</div>}
           <Button
             isLoading={isSubmitting}
             disabled={isSubmitting}
@@ -70,6 +74,7 @@ const ForgotPassword = () => {
             </Link>
           </div>
         </form>
+        <ToastContainer/>
       </div>
     </>
   );

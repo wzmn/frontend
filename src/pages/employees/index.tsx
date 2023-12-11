@@ -17,6 +17,7 @@ import { IoCallOutline, IoEyeOutline } from "react-icons/io5";
 import { TfiEmail } from "react-icons/tfi";
 import { request } from "services/http-request";
 import * as commonStyles from "styles/pages/common.module.scss";
+import { toast, ToastContainer } from "react-toastify";
 import {
   EmployeeDataStateType,
   EmployeeDataType,
@@ -25,7 +26,6 @@ import {
 import cssVar from "utility/css-var";
 import { findMatchingId } from "utility/find-matching-id";
 import View from "./view";
-
 // For skeleton
 import Placeholder from '../../components/skeleton';
 
@@ -43,6 +43,7 @@ const Employees = () => {
   });
   // For skeleton
   const [loading, setLoading] = useState(true);
+  const [dataIsUpdating, setDataIsUpdating] = useState(false);
 
   function getColumnColor(int: number) {
     const colors = [
@@ -77,6 +78,10 @@ const Employees = () => {
   }
 
   async function fetchData() {
+    if (dataIsUpdating) {
+      return;
+    }
+    setDataIsUpdating(true);
     try {
       const response = await request<EmployeeDataType[]>({
         url: EMPLOYEE_LISTING,
@@ -94,8 +99,9 @@ const Employees = () => {
       });
 
       setData(() => filterData);
-    } catch (error) {
-      console.log(error);
+      setDataIsUpdating(false);
+    } catch (error: any) {
+      toast.error(error.response.data.detail);
     }
   }
 
@@ -232,7 +238,7 @@ const Employees = () => {
           );
         })}
       </div>
-
+      <ToastContainer/>
       <Pagination />
     </>
   );
