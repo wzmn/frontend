@@ -1,0 +1,74 @@
+@import "styles/variable.scss";
+
+.box-input-cont {
+  width: 100%;
+  position: relative;
+  cursor: default;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  border: 0.5px solid #99999959;
+
+  .box-input {
+    position: relative;
+    width: 100%;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 8.5px 11px;
+    text-align: left;
+    outline: none;
+    border: none;
+    line-height: 1.25rem;
+    padding: 0.5rem 0rem;
+    padding-left: 0.75rem;
+    padding-right: 2.5rem;
+    font-size: $font-base;
+
+    &.large {
+      background-color: red;
+    }
+    //colors
+    &.gray {
+      background: var(--color-dusty_grey) 0% 0% no-repeat padding-box;
+    }
+
+    &.white {
+      background: var(--color-white-80) 0% 0% no-repeat padding-box;
+    }
+
+    &.full-white {
+      background: white 0% 0% no-repeat padding-box;
+    }
+
+    &.transparent {
+      background: pink 0% 0% no-repeat padding-box;
+      border: 1px solid gray;
+    }
+  }
+}
+
+.box-options {
+  position: absolute;
+  z-index: 50;
+  margin-top: 0.25rem;
+  max-height: 15rem;
+  width: 100%;
+  overflow: auto;
+  border-radius: 0.375rem;
+  padding: 0.25rem 0rem;
+  font-size: $font-base;
+  box-shadow: 0px 3px 6px #00000029;
+  background-color: var(--color-white);
+
+  & .option {
+    position: relative;
+    cursor: default;
+    user-select: none;
+    padding: 0.5rem 0rem;
+    padding-left: 2.5rem;
+    padding-right: 1rem;
+
+    &.active {
+      background-color: var(--color-cloudy_grey_lighter2);
+    }
+  }
+}
