@@ -27,7 +27,7 @@ import cssVar from "utility/css-var";
 import { findMatchingId } from "utility/find-matching-id";
 import View from "./view";
 // For skeleton
-import Placeholder from '../../components/skeleton';
+import Placeholder from "../../components/skeleton";
 
 type DropItemType = { id: number; section: EmployeeRole };
 
@@ -42,9 +42,14 @@ const Employees = () => {
     Manager: [],
   });
   // For skeleton
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [dataIsUpdating, setDataIsUpdating] = useState(false);
-
+  const [pagination, setPagination] = useState({
+    page: 1,
+    offset: 0,
+    limit: 10,
+    totalRecords: 0,
+  });
   function getColumnColor(int: number) {
     const colors = [
       cssVar("--color-blue_dress"),
@@ -83,17 +88,28 @@ const Employees = () => {
     }
     setDataIsUpdating(true);
     try {
-      const response = await request<EmployeeDataType[]>({
+      setLoading(true);
+      const response = await request<EmployeeDataType>({
         url: EMPLOYEE_LISTING,
+        params: {
+          limit: pagination.limit,
+          offset: pagination.offset,
+        },
       });
 
       const filterData = { ...data };
 
+      //this is to make all record empty before calling this function otherwise it will stack
       Object.keys(data).map(
         (item) => (filterData[item as EmployeeRole].length = 0)
       );
 
-      response.data.forEach((item) => {
+      setPagination((prev) => ({
+        ...prev,
+        totalRecords: Number(response?.data?.count),
+      }));
+
+      response?.data?.results?.forEach((item) => {
         console.log(item.role);
         filterData[item.role! as EmployeeRole].push({ ...item, status: false });
       });
@@ -161,10 +177,9 @@ const Employees = () => {
 
   useEffect(() => {
     // For skeleton
-    fetchData().finally(() => setLoading(false))
-  }, []);
+    fetchData().finally(() => setLoading(false));
+  }, [pagination.page, pagination.limit]);
 
-  
   const { btnCont, tableCont } = commonStyles;
   return (
     <>
@@ -209,37 +224,55 @@ const Employees = () => {
               title={dropName.toLocaleUpperCase()}
             >
               <>
-                {
-                  !loading ? (
-                    data[dropName].map((dragItem) => {
-                      return (
-                        <Fragment key={dragItem.id}>
-                          <Drage
-                            key={dragItem.id} //you can`t use index from map id should be unique
-                            accept={"company"}
-                            section={dropName}
-                            id={dragItem.id as number}
-                            loading={dragItem.status}
-                          >
-                            <>
-                              <List loading={dragItem.status} data={dragItem} />
-                            </>
-                          </Drage>
-                        </Fragment>
-                      );
-                    })
-                  ) : (
-                    // For skeleton
-                    <Placeholder />
-                  )
-                }
+                {!loading ? (
+                  data[dropName].map((dragItem) => {
+                    return (
+                      <Fragment key={dragItem.id}>
+                        <Drage
+                          key={dragItem.id} //you can`t use index from map id should be unique
+                          accept={"company"}
+                          section={dropName}
+                          id={dragItem.id as number}
+                          loading={dragItem.status}
+                        >
+                          <>
+                            <List loading={dragItem.status} data={dragItem} />
+                          </>
+                        </Drage>
+                      </Fragment>
+                    );
+                  })
+                ) : (
+                  // For skeleton
+                  <Placeholder />
+                )}
               </>
             </Drop>
           );
         })}
       </div>
-      <ToastContainer/>
-      <Pagination />
+    <ToastContainer/>
+      <Pagination
+        totalRecords={pagination.totalRecords}
+        page={pagination.page}
+        limit={pagination.limit}
+        limitHandler={(e) => {
+          setPagination((prev) => ({
+            ...prev,
+            limit: Number(e),
+            page: 1,
+            offset: (1 - 1) * pagination.limit,
+          }));
+        }}
+        pageHandler={(e) => {
+          setPagination((prev) => ({
+            ...prev,
+            page: Number(e),
+            offset: (Number(e) - 1) * pagination.limit,
+          }));
+        }}
+        label="Companies"
+      />
     </>
   );
 };
@@ -254,14 +287,11 @@ export function List({
   const { card, cardInfo, contactInfo, icon, contact } = commonStyles;
   const { open, setElement, toggle } = useRightBarContext();
 
-  // target="_blank"
-  //     href={`employee-details/?employee=${data.id}`}
   return (
     <div
       onClick={() => {
-        {
-          !open && toggle();
-        }
+        !open && toggle();
+
         setElement(
           <View data={data} />,
           `Customer ID: ${data.id}`,

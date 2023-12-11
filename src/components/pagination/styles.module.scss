@@ -7,7 +7,7 @@
   justify-content: center;
   // letter-spacing: 0.07rem;
   font-size: 14px;
-    @include sm {
+  @include sm {
     font-size: $font-normal;
     margin-bottom: 10px;
   }
@@ -19,5 +19,25 @@
     font-size: $font-base;
     color: var(--color-blue_dress);
     outline-color: var(--color-blue_dress);
+  }
+
+  & .btns-cont {
+    margin-left: 0.5rem;
+    display: flex;
+    gap: 0.5rem;
+    & .btns {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.5rem;
+      height: 1.5rem;
+      border: 1px solid var(--color-dusty_grey_dark);
+      border-radius: 5px;
+      background-color: #fff;
+      & svg {
+        font-size: $font-large;
+      }
+    }
   }
 }

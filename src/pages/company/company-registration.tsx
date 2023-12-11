@@ -1,37 +1,33 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import Button from "components/button";
 import ButtonGroup from "components/button-group";
-import DNDImage, { DNDImageFileType } from "components/dnd-image";
+import DNDImage from "components/dnd-image";
 import FormSection from "components/form-sections";
 import FormWraper from "components/form-wrapper";
+import Geolocation from "components/google-map";
+import LocationAutocomplete from "components/location-autocomplete";
+import InputOtp from "components/otp";
 import UploadDoc from "components/pages/company/upload-doc/upload-doc";
 import SelectBox from "components/selectBox";
 import TextField from "components/text-field";
+import { COMPANY_LISTING, COUNTRY_COMPLIANCE, OTP_API } from "constants/api";
+import AdditionalDocument from "layout/additional-document";
 import { useRightBarContext } from "providers/right-bar-provider";
+import { KeyType, useUploadContext } from "providers/upload-doc-provider";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { toast } from "react-toastify";
 import {
   CompanyRegistrationSchemaType,
   companyRegistrationSchema,
 } from "schema/company-schema";
+import { request } from "services/http-request";
 import * as styles from "styles/pages/common.module.scss";
+import { CompanyDataType } from "type/company";
+import { CountryComplianceType } from "type/global";
 import { States, StreetTypes, UnitTypes } from "../../constants";
 import * as companyStyles from "./styles.module.scss";
-import AdditionalDocument from "layout/additional-document";
-import { request } from "services/http-request";
-import {
-  COMPANY_LISTING,
-  CONPAMY_UPLOAD_DOCS,
-  COUNTRY_COMPLIANCE,
-  OTP_API,
-} from "constants/api";
-import { CountryComplianceType, ItemType } from "type/global";
-import { useUploadContext, KeyType } from "providers/upload-doc-provider";
-import InputOtp from "components/otp";
-import { toast } from "react-toastify";
-import { CompanyDataType } from "type/company";
-import { ignore } from "gatsby/dist/schema/infer/inference-metadata";
 
 let countryComplianceData: CountryComplianceType[];
 
@@ -89,7 +85,7 @@ function initialState() {
   );
 }
 
-const AddEditCompany = () => {
+const CompanyRegistration = () => {
   const [mobileOTP, setMobileOTP] = useState<string>("");
   const [emailOTP, setEmailOTP] = useState<string>("");
 
@@ -445,127 +441,137 @@ const AddEditCompany = () => {
           </FormWraper>
         </FormSection>
 
-        {/* <FormSection title="Address Details">
+        <FormSection title="Address Details">
           <FormWraper>
-            <div className={styles.formGrid}>
-              <div className="max-w-3xl">
-                <TextField
-                  title="Building Name."
-                  asterisk
-                  {...register("address.buildingName")}
-                  errorMessage={errors.address?.buildingName?.message}
-                />
-              </div>
-              <div className="max-w-3xl">
-                <TextField
-                  title="Level No"
-                  asterisk
-                  {...register("address.levelNo")}
-                  errorMessage={errors.address?.levelNo?.message}
-                />
-              </div>
-              <div className="max-w-3xl">
-                <SelectBox
-                  placeholder="Select Unit Type"
-                  data={UnitTypes}
-                  asterisk
-                  onChange={(e) => {
-                    setValue("address.unitType", e.label);
+            <>
+              <div className="mb-10">
+                <LocationAutocomplete
+                  onFocus={(e) => {
+                    setElement(<Geolocation />, "Map");
+                    !open && toggle();
                   }}
                 />
               </div>
-              <div className="max-w-3xl">
-                <TextField
-                  title="Unit No"
-                  asterisk
-                  {...register("address.unitNo")}
-                  errorMessage={errors.address?.unitNo?.message}
-                />
-              </div>
-
-              <div className="max-w-3xl">
-                <TextField
-                  title="Lot No."
-                  asterisk
-                  {...register("address.lotNo")}
-                  errorMessage={errors.address?.lotNo?.message}
-                />
-              </div>
-              <div className="max-w-3xl">
+              <div className={styles.formGrid}>
+                <div className="max-w-3xl">
+                  <TextField
+                    title="Building Name."
+                    asterisk
+                    {...register("address.buildingName")}
+                    errorMessage={errors.address?.buildingName?.message}
+                  />
+                </div>
+                <div className="max-w-3xl">
+                  <TextField
+                    title="Level No"
+                    asterisk
+                    {...register("address.levelNo")}
+                    errorMessage={errors.address?.levelNo?.message}
+                  />
+                </div>
                 <div className="max-w-3xl">
                   <SelectBox
-                    placeholder="Street No"
-                    data={StreetTypes}
+                    placeholder="Select Unit Type"
+                    data={UnitTypes}
                     asterisk
                     onChange={(e) => {
-                      setValue("address.streetNo", e.label);
+                      setValue("address.unitType", e.label);
                     }}
                   />
                 </div>
-              </div>
-              <div className="max-w-3xl">
-                <TextField
-                  title="Street Name"
-                  asterisk
-                  {...register("address.streetName")}
-                  errorMessage={errors.address?.streetName?.message}
-                />
-              </div>
-              <div className="max-w-3xl">
-                <TextField
-                  title="Street Type"
-                  asterisk
-                  {...register("address.streetType")}
-                  errorMessage={errors.address?.streetType?.message}
-                />
-              </div>
+                <div className="max-w-3xl">
+                  <TextField
+                    title="Unit No"
+                    asterisk
+                    {...register("address.unitNo")}
+                    errorMessage={errors.address?.unitNo?.message}
+                  />
+                </div>
 
-              <div className="max-w-3xl">
-                <TextField
-                  title="Suffix."
-                  asterisk
-                  {...register("address.suffix")}
-                  errorMessage={errors.address?.suffix?.message}
-                />
-              </div>
-              <div className="max-w-3xl">
-                <TextField
-                  title="Suburb"
-                  asterisk
-                  {...register("address.suburb")}
-                  errorMessage={errors.address?.suburb?.message}
-                />
-              </div>
-              <div className="max-w-3xl">
-                <SelectBox
-                  placeholder="State"
-                  data={States}
-                  asterisk
-                  onChange={(e) => {
-                    setValue("state", e.label);
-                  }}
-                />
-              </div>
-              <div className="max-w-3xl">
-                <TextField
-                  title="Pincode"
-                  asterisk
-                  {...register("address.pincode")}
-                  errorMessage={errors.address?.pincode?.message}
-                />
-              </div>
+                <div className="max-w-3xl">
+                  <TextField
+                    title="Lot No."
+                    asterisk
+                    {...register("address.lotNo")}
+                    errorMessage={errors.address?.lotNo?.message}
+                  />
+                </div>
+                <div className="max-w-3xl">
+                  <div className="max-w-3xl">
+                    <SelectBox
+                      placeholder="Street No"
+                      data={StreetTypes}
+                      asterisk
+                      onChange={(e) => {
+                        setValue("address.streetNo", e.label);
+                      }}
+                    />
+                  </div>
+                </div>
+                <div className="max-w-3xl">
+                  <TextField
+                    title="Street Name"
+                    asterisk
+                    {...register("address.streetName")}
+                    errorMessage={errors.address?.streetName?.message}
+                  />
+                </div>
+                <div className="max-w-3xl">
+                  <TextField
+                    title="Street Type"
+                    asterisk
+                    {...register("address.streetType")}
+                    errorMessage={errors.address?.streetType?.message}
+                  />
+                </div>
 
-              <div className="max-w-3xl">
-                <TextField
-                  title="LGA"
-                  asterisk
-                  {...register("address.lga")}
-                  errorMessage={errors.address?.lga?.message}
-                />
+                <div className="max-w-3xl">
+                  <TextField
+                    title="Suffix."
+                    asterisk
+                    {...register("address.suffix")}
+                    errorMessage={errors.address?.suffix?.message}
+                  />
+                </div>
+                <div className="max-w-3xl">
+                  <TextField
+                    title="Suburb"
+                    asterisk
+                    {...register("address.suburb")}
+                    errorMessage={errors.address?.suburb?.message}
+                  />
+                </div>
+                <div className="max-w-3xl">
+                  <SelectBox
+                    placeholder="State"
+                    data={States}
+                    asterisk
+                    onChange={(e) => {
+                      setValue("state", e.label);
+                    }}
+                  />
+                </div>
+                <div className="max-w-3xl">
+                  <TextField
+                    title="Pincode"
+                    asterisk
+                    {...register("address.pincode")}
+                    errorMessage={errors.address?.pincode?.message}
+                  />
+                </div>
+
+                <div className="max-w-3xl">
+                  <TextField
+                    title="LGA"
+                    asterisk
+                    {...register("address.lga")}
+                    errorMessage={errors.address?.lga?.message}
+                  />
+                </div>
               </div>
-            </div>
+            </>
           </FormWraper>
-        </FormSection> */}
+        </FormSection>
 
         <FormSection title=" Upload Documents">
           <FormWraper>
@@ -626,4 +632,4 @@ const AddEditCompany = () => {
   );
 };
 
-export default AddEditCompany;
+export default CompanyRegistration;

@@ -1,4 +1,8 @@
-export interface EmployeeDataType {
+import { PaginationType } from "./global";
+
+export type EmployeeDataType = PaginationType<Result[]>;
+
+export interface Result {
   id?: number;
   user?: User;
   role?: string;
@@ -35,6 +39,6 @@ export type EmployeeRole =
   | "Manager"
   | "Field Worker";
 
-export type EmployeeDataStateType = EmployeeDataType & {
+export type EmployeeDataStateType = Result & {
   status: boolean;
 };

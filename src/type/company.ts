@@ -1,26 +1,31 @@
-export interface CompanyDataType {
+import { PaginationType } from "./global";
+
+export type CompanyDataType = PaginationType<Result[]>;
+
+export interface Result {
   id?: number;
-  company_owner?: CompanyOwner | null;
+  company_owner?: CompanyOwner;
   company_address?: null;
   info?: any[];
   ref_id?: null;
-  created_at?: string;
-  updated_at?: string;
+  created_at?: Date;
+  updated_at?: Date;
   is_active?: boolean;
   company_name?: string;
   company_email?: string;
   company_mobile_phone?: string;
   company_landline?: string;
   company_country?: string;
-  company_status?: CompanyStatus;
+  company_status?: string;
   company_type?: string;
+  primary?: boolean;
 }
 
 export interface CompanyOwner {
   id?: number;
   ref_id?: null;
-  created_at?: string;
-  updated_at?: string;
+  created_at?: Date;
+  updated_at?: Date;
   is_active?: boolean;
   username?: null;
   email?: string;
@@ -31,7 +36,7 @@ export interface CompanyOwner {
   is_staff?: boolean;
   is_verified?: boolean;
   is_password_set?: boolean;
-  last_login?: string;
+  last_login?: Date;
   groups?: any[];
   user_permissions?: any[];
 }
@@ -43,6 +48,6 @@ export type CompanyStatus =
   | "operational"
   | "rejected";
 
-export type CompanyExtraDataType = CompanyDataType & {
+export type CompanyExtraDataType = Result & {
   status: boolean;
 };

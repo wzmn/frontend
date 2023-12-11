@@ -4,7 +4,7 @@ interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   icon?: JSX.Element;
   isLoading?: boolean;
   width?: "full" | "fit" | "inherit" | "default";
-  color?: "red" | "blue";
+  color?: "red" | "blue" | "white";
   height?: "fit";
 }
 
@@ -41,12 +41,14 @@ function heightHandler(size?: string) {
   }
 }
 
-function colorHandler(size?: string) {
-  switch (size) {
+function colorHandler(color?: string) {
+  switch (color) {
     case "blue":
       return styles.colorBlue;
     case "red":
       return styles.colorRed;
+    case "white":
+      return styles.colorWhite;
     default:
       return "";
   }

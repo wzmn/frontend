@@ -4,8 +4,8 @@ import FormSection from "components/form-sections";
 import FormWraper from "components/form-wrapper";
 import Input from "components/input";
 import Radio from "components/radio";
-import { CUSTOMER_LISTING } from "constants/api";
-import { Link, PageProps } from "gatsby";
+import { JOB_LISTING } from "constants/api";
+import { PageProps, navigate } from "gatsby";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
@@ -15,35 +15,38 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { TfiEmail } from "react-icons/tfi";
 import { request } from "services/http-request";
 import * as styles from "styles/pages/common.module.scss";
-import { EmployeeDataType } from "type/employee";
+import { JobDataType } from "type/job";
+import * as companyStyles from "../company/styles.module.scss";
 import * as additionalStyles from "styles/pages/additional.module.scss";
 import { LuClipboardList } from "react-icons/lu";
+import TextButton from "components/text-button";
+import { GoPlus } from "react-icons/go";
 
-const CustomerDetails = (props: PageProps) => {
+const JobDetails = (props: PageProps) => {
   const { location } = props;
   // const employee = location.state as EmployeeDataType;
   const params = new URLSearchParams(location.search);
-  const customerId = params.get("customer");
+  const jobId = params.get("job");
 
-  //   const { control, setValue, handleSubmit } = useForm<any>({
-  //     defaultValues: {
-  //       attachments: [{ file: null }],
-  //     },
-  //   });
+  const { control, setValue, handleSubmit } = useForm<any>({
+    defaultValues: {
+      attachments: [{ file: null }],
+    },
+  });
 
-  const [data, setData] = useState<EmployeeDataType>({});
+  const [data, setData] = useState<JobDataType>({});
 
-  //   const { fields, append, remove } = useFieldArray({
-  //     control,
-  //     name: "attachments",
-  //   });
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "attachments",
+  });
 
-  //   const [files, setFiles] = useState<DNDImageFileType[]>([]);
+  const [files, setFiles] = useState<DNDImageFileType[]>([]);
 
   async function fetchData() {
     try {
-      const response = await request<EmployeeDataType>({
-        url: CUSTOMER_LISTING + customerId,
+      const response = await request<JobDataType>({
+        url: JOB_LISTING + jobId,
       });
       setData(() => response.data);
     } catch (error) {
@@ -61,17 +64,17 @@ const CustomerDetails = (props: PageProps) => {
 
   return (
     <>
-      <p className={styles.title}>Customer ID: {data?.id}</p>
+      <p className={styles.title}>Job ID: {data?.id}</p>
 
       <div className="space-y-16 mb-3">
-        <FormSection title="Customer Details">
+        <FormSection title="Employee Details">
           <div className="flex-1">
             <FormWraper>
               <>
                 <p className={styles.name}>
                   <span className={styles.bold}>Customer name: &nbsp; </span>
-                  {data?.user?.first_name} &nbsp;
-                  <span className={styles.tag}>(Company Owner)</span>
+                  {data?.customer?.user?.first_name} &nbsp;
+                  <span className={styles.tag}></span>
                 </p>
 
                 <div className={styles.contactInfo}>
@@ -80,7 +83,9 @@ const CustomerDetails = (props: PageProps) => {
                       <TfiEmail className={styles.icon} />
                     </span>
 
-                    <span className={styles.contact}>{data?.user?.email}</span>
+                    <span className={styles.contact}>
+                      {data?.customer?.user?.email}
+                    </span>
                   </div>
 
                   <div className="">
@@ -88,19 +93,19 @@ const CustomerDetails = (props: PageProps) => {
                       <IoCallOutline className={styles.icon} />
                     </span>
 
-                    <span className={styles.contact}>{data?.user?.phone}</span>
+                    <span className={styles.contact}>
+                      {data?.customer?.user?.phone}
+                    </span>
                   </div>
                 </div>
 
                 <Divider />
 
                 <p className={`${styles.name} ${styles.createBy}`}>
-                  <span className={styles.bold}>
-                    Customer Created by: &nbsp;{" "}
-                  </span>
+                  <span className={styles.bold}>Job Created by: &nbsp; </span>
                   Superadmin/Jackson &nbsp;
                   <span className={styles.tag2}>
-                    {moment(data?.user?.created_at).format(
+                    {moment(data?.customer?.user?.created_at).format(
                       "DD-MM-yyyy HH:MM a"
                     )}
                   </span>
@@ -110,22 +115,19 @@ const CustomerDetails = (props: PageProps) => {
 
                 <div className={styles.userRole}>
                   <p className={styles.name}>
-                    <span className={styles.bold}>Customer Role</span>
+                    <span className={styles.bold}>Job Status</span>
                   </p>
 
                   <div className={styles.roles}>
-                    <Radio label="ADMIN" checked={data?.role === "Admin"} />
-                    <Radio label="MANAGER" checked={data?.role === "Manager"} />
                     <Radio
-                      label="TEAM LEADER"
-                      checked={data?.role === "Team Lead"}
+                      label="WAITING"
+                      checked={data?.job_status === "waiting"}
                     />
-                    <Radio label="AGENT" checked={data?.role === "Agent"} />
+                    <Radio label="OPEN" checked={data?.job_status === "open"} />
                     <Radio
-                      label="FIELDWORKER"
-                      checked={data?.role === "Fieldworker"}
+                      label="CLOSE"
+                      checked={data?.job_status === "close"}
                     />
-                    <Radio label="AUDITOR" checked={data?.role === "Auditor"} />
                   </div>
                 </div>
               </>
@@ -133,7 +135,7 @@ const CustomerDetails = (props: PageProps) => {
           </div>
         </FormSection>
 
-        {/* <FormSection title="Attachments">
+        <FormSection title="Attachments">
           <form className="flex-1" onSubmit={handleSubmit(onSubmit)}>
             <FormWraper>
               <>
@@ -141,7 +143,7 @@ const CustomerDetails = (props: PageProps) => {
                   {fields.map((item, index: number) => {
                     return (
                       <>
-                        
+                        {/* <div className={styles.file}> */}
                         <DNDImage
                           setFiles={(e) => {
                             setValue(`attachments.${index}.file`, e);
@@ -150,9 +152,9 @@ const CustomerDetails = (props: PageProps) => {
                             setFiles(() => list);
                           }}
                         />
-                        
+                        {/* </div> */}
 
-                        <aside className={additionalStyles.preview}>
+                        <aside className={companyStyles.preview}>
                           {files[index] ? (
                             <div className="">
                               <img
@@ -205,29 +207,25 @@ const CustomerDetails = (props: PageProps) => {
               </>
             </FormWraper>
           </form>
-        </FormSection> */}
-
-        <FormSection title="Appointments">
-          <FormWraper>
-            <div className={additionalStyles.cardCont}>
-              {[1, 2, 3, 4].map((item) => {
-                return <List key={item} data={{}} index={1} loading />;
-              })}
-            </div>
-          </FormWraper>
         </FormSection>
 
-        <FormSection title="Reminders">
+        <FormSection title="Appointment">
           <FormWraper>
-            <div className={additionalStyles.cardCont}>
-              {[1, 2, 3, 4].map((item) => {
-                return (
-                  <Link to="/customers/reminder/" key={item}>
-                    <List data={{}} index={1} loading />
-                  </Link>
-                );
-              })}
-            </div>
+            <>
+              <div className={additionalStyles.cardCont}>
+                {[1, 2, 3, 4].map((item) => {
+                  return <List key={item} data={{}} index={1} loading />;
+                })}
+              </div>
+              <TextButton
+                className="mt-5"
+                label="Create Appointment"
+                icon={<GoPlus />}
+                onClick={() => {
+                  navigate("/jobs/create-appointment");
+                }}
+              />
+            </>
           </FormWraper>
         </FormSection>
 
@@ -310,4 +308,4 @@ function List({
   );
 }
 
-export default CustomerDetails;
+export default JobDetails;

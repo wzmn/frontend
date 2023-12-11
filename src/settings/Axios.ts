@@ -10,8 +10,10 @@ const Axios: AxiosInstance = axios.create({
 // Add a request interceptor
 Axios.interceptors.request.use(
   function (config) {
-    if (!(localStorage.getItem("user") === 'undefined')){
-      const user = JSON.parse(localStorage.getItem("user") + "") as LoginResType;
+    if (!(localStorage.getItem("user") === "undefined")) {
+      const user = JSON.parse(
+        localStorage.getItem("user") + ""
+      ) as LoginResType;
       config.headers.Authorization = "Bearer " + user?.access;
       // Do something before request is sent
     }
@@ -34,12 +36,12 @@ Axios.interceptors.response.use(
   },
   function (error: AxiosError) {
     if (error.response?.status === 401) {
-      // let pathname =
-      //   typeof window !== "undefined" ? window.location.pathname : "";
+      let pathname =
+        typeof window !== "undefined" ? window.location.pathname : "";
       console.log("401");
-      // if (pathname === "/login/") return;
-      // localStorage.setItem("user", "null");
-      // window.location.replace("/login");
+      if (pathname === "/login/") return;
+      localStorage.setItem("user", "null");
+      window.location.replace("/login");
     }
 
     // Any status codes that falls outside the range of 2xx cause this function to trigger
