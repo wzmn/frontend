@@ -17,6 +17,8 @@ import GoogleMapProvider, {
   useMapContext,
 } from "providers/google-map-provider";
 import AppProvider from "providers/app-provider";
+import AddressLabels from "providers/address-labels";
+import RightBarProvider from "providers/right-bar-provider";
 
 const routeNotToInclude = ["/login/", "/change-password/", "/forgot-password/"];
 
@@ -48,27 +50,31 @@ const Layout = ({ children }: Props) => {
         {!routeNotToInclude.includes(pathname) ? (
           <div className="c-container">
             <AppProvider>
-              <UploadDocProvider>
-                <ProtectedRoutes>
-                  <GoogleMapProvider>
-                    <DndProvider backend={HTML5Backend}>
-                      <SidebarContext>
-                        <div className={`${styles.layout} `}>
-                          <Sidebar />
-                          <div className={styles.children}>
-                            <div className={styles.mainContent}>
-                              <Navbar />
-                              {children}
-                              {/* <Footer /> */}
+              <AddressLabels>
+                <UploadDocProvider>
+                  <ProtectedRoutes>
+                    <GoogleMapProvider>
+                      <DndProvider backend={HTML5Backend}>
+                        <RightBarProvider>
+                          <SidebarContext>
+                            <div className={`${styles.layout} `}>
+                              <Sidebar />
+                              <div className={styles.children}>
+                                <div className={styles.mainContent}>
+                                  <Navbar />
+                                  {children}
+                                  {/* <Footer /> */}
+                                </div>
+                              </div>
+                              <RightBar /> {/* has absolute position */}
                             </div>
-                          </div>
-                          <RightBar /> {/* has absolute position */}
-                        </div>
-                      </SidebarContext>
-                    </DndProvider>
-                  </GoogleMapProvider>
-                </ProtectedRoutes>
-              </UploadDocProvider>
+                          </SidebarContext>
+                        </RightBarProvider>
+                      </DndProvider>
+                    </GoogleMapProvider>
+                  </ProtectedRoutes>
+                </UploadDocProvider>
+              </AddressLabels>
             </AppProvider>
           </div>
         ) : (

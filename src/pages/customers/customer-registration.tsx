@@ -28,6 +28,8 @@ import {
 } from "@react-google-maps/api";
 import Geolocation from "components/google-map";
 import LocationAutocomplete from "components/location-autocomplete";
+import Label from "components/label";
+import { useAddressLabelContext } from "providers/address-labels";
 
 const countries = [
   { label: "UK" },
@@ -47,20 +49,21 @@ interface FileProps extends File {
 }
 
 const customerRegistration = () => {
-  const [OTP, setOTP] = useState<string>("");
-
   const [files, setFiles] = useState<FileProps[]>([]);
-
   const { open, toggle, setElement } = useRightBarContext();
+  const { city, district, postcode } = useAddressLabelContext();
 
   const {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { isSubmitting, errors },
   } = useForm({
     resolver: yupResolver(customerRegistrationSchema),
   });
+
+  const address = watch("address");
 
   async function onSubmit(data: CustomerRegistrationSchemaType) {
     try {
@@ -75,10 +78,6 @@ const customerRegistration = () => {
       console.log("error");
       toast.error("Something went wrong");
     }
-  }
-
-  function handleChange(OTP: string) {
-    setOTP(OTP);
   }
 
   useEffect(() => {
@@ -183,6 +182,13 @@ const customerRegistration = () => {
                       // toggle();
                       // console.log("off focused");
                     }}
+                    setFields={(val) => {
+                      console.log(val);
+                      setValue(
+                        "address",
+                        val as CustomerRegistrationSchemaType["address"]
+                      );
+                    }}
                   />
                 </div>
 
@@ -191,25 +197,27 @@ const customerRegistration = () => {
                     <TextField
                       title="Building Name."
                       asterisk
-                      // {...register("address.buildingName")}
-                      // errorMessage={errors.address?.buildingName?.message}
+                      {...register("address.building_number")}
+                      errorMessage={errors.address?.building_number?.message}
                     />
                   </div>
                   <div className="max-w-3xl">
                     <TextField
                       title="Level No"
                       asterisk
-                      // {...register("address.levelNo")}
-                      // errorMessage={errors.address?.levelNo?.message}
+                      {...register("address.level_number")}
+                      errorMessage={errors.address?.level_number?.message}
                     />
                   </div>
                   <div className="max-w-3xl">
                     <SelectBox
+                      color="full-white"
                       placeholder="Select Unit Type"
                       data={UnitTypes}
                       asterisk
+                      value={address?.unit_type}
                       onChange={(e) => {
-                        // setValue("address.unitType", e.label);
+                        setValue("address.unit_type", e.label);
                       }}
                     />
                   </div>
@@ -217,8 +225,8 @@ const customerRegistration = () => {
                     <TextField
                       title="Unit No"
                       asterisk
-                      // {...register("address.unitNo")}
-                      // errorMessage={errors.address?.unitNo?.message}
+                      {...register("address.unit_number")}
+                      errorMessage={errors.address?.unit_number?.message}
                     />
                   </div>
 
@@ -226,18 +234,20 @@ const customerRegistration = () => {
                     <TextField
                       title="Lot No."
                       asterisk
-                      // {...register("address.lotNo")}
-                      // errorMessage={errors.address?.lotNo?.message}
+                      {...register("address.lot_number")}
+                      errorMessage={errors.address?.lot_number?.message}
                     />
                   </div>
                   <div className="max-w-3xl">
                     <div className="max-w-3xl">
                       <SelectBox
+                        color="full-white"
                         placeholder="Street No"
                         data={StreetTypes}
                         asterisk
+                        value={address?.street_number}
                         onChange={(e) => {
-                          // setValue("address.streetNo", e.label);
+                          setValue("address.street_number", e.label);
                         }}
                       />
                     </div>
@@ -246,16 +256,16 @@ const customerRegistration = () => {
                     <TextField
                       title="Street Name"
                       asterisk
-                      // {...register("address.streetName")}
-                      // errorMessage={errors.address?.streetName?.message}
+                      {...register("address.street_name")}
+                      errorMessage={errors.address?.street_name?.message}
                     />
                   </div>
                   <div className="max-w-3xl">
                     <TextField
                       title="Street Type"
                       asterisk
-                      // {...register("address.streetType")}
-                      // errorMessage={errors.address?.streetType?.message}
+                      {...register("address.street_type")}
+                      errorMessage={errors.address?.street_type?.message}
                     />
                   </div>
 
@@ -263,43 +273,47 @@ const customerRegistration = () => {
                     <TextField
                       title="Suffix."
                       asterisk
-                      // {...register("address.suffix")}
-                      // errorMessage={errors.address?.suffix?.message}
+                      {...register("address.suffix")}
+                      errorMessage={errors.address?.suffix?.message}
                     />
                   </div>
                   <div className="max-w-3xl">
                     <TextField
-                      title="Suburb"
+                      title={district()}
                       asterisk
-                      // {...register("address.suburb")}
-                      // errorMessage={errors.address?.suburb?.message}
+                      {...register("address.suburb")}
+                      errorMessage={errors.address?.suburb?.message}
                     />
                   </div>
+
                   <div className="max-w-3xl">
+                    <Label title="State" />
                     <SelectBox
+                      color="full-white"
                       placeholder="State"
                       data={States}
                       asterisk
+                      value={address?.state}
                       onChange={(e) => {
-                        // setValue("state", e.label);
+                        setValue("address.state", e.label);
                       }}
                     />
                   </div>
                   <div className="max-w-3xl">
                     <TextField
-                      title="Pincode"
+                      title={postcode()}
                       asterisk
-                      // {...register("address.pincode")}
-                      // errorMessage={errors.address?.pincode?.message}
+                      {...register("address.pincode")}
+                      errorMessage={errors.address?.pincode?.message}
                     />
                   </div>
 
                   <div className="max-w-3xl">
                     <TextField
-                      title="LGA"
+                      title={city()}
                       asterisk
-                      // {...register("address.lga")}
-                      // errorMessage={errors.address?.lga?.message}
+                      {...register("address.lga")}
+                      errorMessage={errors.address?.lga?.message}
                     />
                   </div>
                 </div>

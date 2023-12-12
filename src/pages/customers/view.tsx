@@ -1,7 +1,6 @@
 import React from "react";
 import { Disclosure } from "@headlessui/react";
 import { FaChevronDown } from "react-icons/fa";
-import { CustomerDataExtraType } from ".";
 import * as styles from "styles/pages/view.module.scss";
 import { TfiEmail } from "react-icons/tfi";
 import { IoCallOutline, IoLocationOutline } from "react-icons/io5";
@@ -11,7 +10,7 @@ import Radio from "components/radio";
 import { LuClipboardList } from "react-icons/lu";
 import { SlBell } from "react-icons/sl";
 
-const View = ({ data }: { data: CustomerDataExtraType }) => {
+const View = ({ data }: { data: any }) => {
   return (
     <div className={styles.view}>
       <Disclosure>
@@ -152,7 +151,7 @@ const View = ({ data }: { data: CustomerDataExtraType }) => {
             <Disclosure.Panel className={styles.panel}>
               {[1, 2, 3, 4, 5].map((item: number) => {
                 return (
-                  <div className={styles.job}>
+                  <div key={item} className={styles.job}>
                     <p className={styles.jobTitle}>
                       Document Validation(Customers)-CALL
                     </p>
