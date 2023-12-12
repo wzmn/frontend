@@ -13,7 +13,7 @@ import { IoCallOutline, IoLocationOutline } from "react-icons/io5";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { TfiEmail } from "react-icons/tfi";
 import * as styles from "styles/pages/common.module.scss";
-import { CompanyDataType } from "type/company";
+import { CompanyDataType, Result } from "type/company";
 import * as companyStyles from "../company/styles.module.scss";
 import { request } from "services/http-request";
 import { COMPANY_LISTING } from "constants/api";
@@ -31,7 +31,7 @@ const CompanyDetails = (props: PageProps) => {
   });
 
   const [files, setFiles] = useState<DNDImageFileType[]>([]);
-  const [data, setData] = useState<CompanyDataType>({});
+  const [data, setData] = useState<Result>({});
 
   const { location } = props;
   const params = new URLSearchParams(location.search);
@@ -39,7 +39,7 @@ const CompanyDetails = (props: PageProps) => {
 
   async function fetchData() {
     try {
-      const response = await request<CompanyDataType>({
+      const response = await request<Result>({
         url: COMPANY_LISTING + companyId,
       });
       setData(() => response.data);

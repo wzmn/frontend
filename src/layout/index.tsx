@@ -18,6 +18,7 @@ import GoogleMapProvider, {
 } from "providers/google-map-provider";
 import AppProvider from "providers/app-provider";
 import AddressLabels from "providers/address-labels";
+import RightBarProvider from "providers/right-bar-provider";
 
 const routeNotToInclude = ["/login/", "/change-password/", "/forgot-password/"];
 
@@ -41,19 +42,21 @@ const Layout = ({ children }: Props) => {
                   <ProtectedRoutes>
                     <GoogleMapProvider>
                       <DndProvider backend={HTML5Backend}>
-                        <SidebarContext>
-                          <div className={`${styles.layout} `}>
-                            <Sidebar />
-                            <div className={styles.children}>
-                              <div className={styles.mainContent}>
-                                <Navbar />
-                                {children}
-                                {/* <Footer /> */}
+                        <RightBarProvider>
+                          <SidebarContext>
+                            <div className={`${styles.layout} `}>
+                              <Sidebar />
+                              <div className={styles.children}>
+                                <div className={styles.mainContent}>
+                                  <Navbar />
+                                  {children}
+                                  {/* <Footer /> */}
+                                </div>
                               </div>
+                              <RightBar /> {/* has absolute position */}
                             </div>
-                            <RightBar /> {/* has absolute position */}
-                          </div>
-                        </SidebarContext>
+                          </SidebarContext>
+                        </RightBarProvider>
                       </DndProvider>
                     </GoogleMapProvider>
                   </ProtectedRoutes>
