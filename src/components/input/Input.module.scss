@@ -21,7 +21,7 @@
       padding: 7px 10px;
       // padding-left: 0.9rem;
       font-size: medium;
-
+      width: 100%;
       position: relative;
       // margin-bottom: 0.2rem;
 
@@ -36,11 +36,9 @@
       &.login {
         background-color: var(--color-white);
         // width: $default-width;
-        width: 100%;
       }
 
       &.regular {
-        width: 100%;
         background-color: var(--color-white80);
       }
 
