@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import RightBar from "layout/right-bar";
 import Sidebar from "layout/sidebar";
 import * as styles from "./styles.module.scss";
@@ -11,7 +11,7 @@ import { DndProvider } from "react-dnd";
 import useAuth from "hook/use-auth";
 import AuthProvider from "providers/auth-provider";
 import UploadDocProvider from "providers/upload-doc-provider";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import GoogleMapProvider, {
   useMapContext,
@@ -26,7 +26,20 @@ type Props = {
   children: JSX.Element;
 };
 
+
+
 const Layout = ({ children }: Props) => {
+  const alertIfOnline = () => toast.success('Connection restored');
+  const alertIfOffline = () => toast.warn('Oops! It seems like you\'re currently offline.');
+  useEffect(()=>{
+    Notification.requestPermission();
+    window.addEventListener('offline', () => alertIfOffline);
+    window.addEventListener('online', () => alertIfOnline);
+    return () => {
+      window.removeEventListener('offline', () => alertIfOffline);
+      window.removeEventListener('online', () => alertIfOnline);
+    }
+  }, [])
   let pathname = typeof window !== "undefined" ? window.location.pathname : "";
   const { ProtectedRoutes, HandleRedirect } = useAuth();
   // const { isLoaded } = useMapContext();

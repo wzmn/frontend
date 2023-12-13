@@ -67,10 +67,10 @@ const customerRegistration = () => {
         data,
       });
       console.log(response);
-      toast("Added Sucessfully");
+      toast.success("Added Sucessfully");
     } catch (error) {
       console.log("error");
-      toast("Something went wrong");
+      toast.error("Something went wrong");
     }
   }
 
