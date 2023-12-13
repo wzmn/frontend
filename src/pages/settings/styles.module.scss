@@ -1,0 +1,44 @@
+@import "styles/variable.scss";
+
+.profile-setting {
+  display: flex;
+  justify-content: space-between;
+
+  & .mt-b:not(:last-child) {
+    margin-bottom: 1.5rem;
+  }
+
+  //   & .cont1 {
+  & .profile-pic {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 100%;
+    overflow: hidden;
+    & img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+
+  & .user-email {
+    font-size: $font-normal;
+    margin-top: 1rem;
+    font-weight: bold;
+  }
+
+  & .other-user {
+    font-size: $font-normal;
+    color: var(--color-cloudy_grey);
+  }
+  //   }
+
+  //   & .cont2 {
+  & .userSettings {
+    cursor: pointer;
+    color: var(--color-blue_dress);
+    font-size: $font-normal;
+    font-weight: 600;
+  }
+  //   }
+}

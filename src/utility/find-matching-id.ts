@@ -6,7 +6,7 @@ export function findMatchingId(
   section: string
 ): number | undefined {
   let index;
-  data[section]?.some((itm: any, key: any) => {
+  data?.[section]?.some((itm: any, key: any) => {
     if (id === itm.id) {
       index = key;
       return true;

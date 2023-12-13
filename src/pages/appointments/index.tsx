@@ -86,6 +86,7 @@ const Appintments = () => {
     if (item.section === section) return;
     const copyData: any = { ...data };
     let idx = findMatchingId(data, item.id, item.section);
+    console.log(idx, " idddx");
 
     if (idx !== undefined) {
       const pop = copyData[item.section].splice(idx, 1)[0];
@@ -150,8 +151,9 @@ const Appintments = () => {
         data: datap,
       });
 
-      const copyData = { ...data };
+      const copyData = { ...data! };
       let idx = findMatchingId(data, item.id, to);
+      console.log(idx, "  idx");
 
       if (idx !== undefined) {
         copyData[to][idx].status = false;
@@ -230,7 +232,7 @@ const Appintments = () => {
               >
                 <>
                   {!loading ? (
-                    data[dropName].map((dragItem) => {
+                    data?.[dropName]?.map((dragItem) => {
                       return (
                         <Fragment key={dragItem.id}>
                           <Drage
