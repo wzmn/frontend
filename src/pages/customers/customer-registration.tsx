@@ -7,8 +7,9 @@ import SelectBox from "components/selectBox";
 import TextField from "components/text-field";
 import { CUSTOMER_LISTING } from "constants/api";
 import { useRightBarContext } from "providers/right-bar-provider";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import {
   CustomerRegistrationSchemaType,
   customerRegistrationSchema,
@@ -16,19 +17,10 @@ import {
 import { request } from "services/http-request";
 import * as styles from "styles/pages/common.module.scss";
 import { States, StreetTypes, UnitTypes } from "../../constants";
-import { IoLocationSharp } from "react-icons/io5";
-import { toast } from "react-toastify";
-import * as customerStyles from "./styles.module.scss";
 // https://visgl.github.io/react-google-map
-import {
-  GoogleMap,
-  useJsApiLoader,
-  Marker,
-  Autocomplete,
-} from "@react-google-maps/api";
 import Geolocation from "components/google-map";
-import LocationAutocomplete from "components/location-autocomplete";
 import Label from "components/label";
+import LocationAutocomplete from "components/location-autocomplete";
 import { useAddressLabelContext } from "providers/address-labels";
 
 const countries = [
@@ -52,6 +44,8 @@ const customerRegistration = () => {
   const [files, setFiles] = useState<FileProps[]>([]);
   const { open, toggle, setElement } = useRightBarContext();
   const { city, district, postcode } = useAddressLabelContext();
+
+  const { formatedComponents, Map } = Geolocation();
 
   const {
     register,
@@ -169,12 +163,13 @@ const customerRegistration = () => {
 
         <FormSection title="Address Details">
           <div className="flex-1">
+            {formatedComponents + "a"}
             <FormWraper>
               <>
                 <div className="mb-10">
                   <LocationAutocomplete
                     onFocus={(e) => {
-                      setElement(<Geolocation />, "Map");
+                      setElement(<Map />, "Map");
                       !open && toggle();
                       console.log("focused");
                     }}
