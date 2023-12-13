@@ -26,7 +26,7 @@ import { request } from "services/http-request";
 import * as styles from "styles/pages/common.module.scss";
 import { CompanyDataType } from "type/company";
 import { CountryComplianceType } from "type/global";
-import { States, StreetTypes, UnitTypes } from "../../constants";
+import { States, UnitTypes } from "../../constants";
 import * as companyStyles from "./styles.module.scss";
 
 let countryComplianceData: CountryComplianceType[];

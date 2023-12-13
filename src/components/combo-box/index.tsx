@@ -3,31 +3,35 @@ import React, { ChangeEvent, Fragment } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import * as styles from "./styles.module.scss";
 
-type Data = {
-  [keyof in string]: any;
-} & {
+export type ComboBoxDataT = {
   label: string;
+} & {
+  [keyof in string]: any;
 };
 
-type ComboBoxT = React.InputHTMLAttributes<HTMLInputElement> & {
-  data: Data[];
-  value: string;
-  handleSelect: (e: any) => void;
-  handleInput: (e: ChangeEvent<HTMLInputElement>) => void;
+type ComboBoxT<T> = React.InputHTMLAttributes<HTMLInputElement> & {
+  data: ComboBoxDataT[];
+  value?: string;
+  handleSelect?: (e: T & ComboBoxDataT) => void;
+  // handleInput: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
-const ComboBox = (props: ComboBoxT) => {
-  const { data, value, handleSelect, handleInput } = props;
+function ComboBox<T>(props: ComboBoxT<T>) {
+  const { data, value, handleSelect } = props;
   return (
     <div className=" z-50 w-full">
-      <Combobox value={value} onChange={handleSelect}>
+      <Combobox
+        value={value}
+        onChange={(e) => {
+          if (handleSelect) handleSelect(e as any);
+        }}
+      >
         <div className="relative mt-1">
           <div className={styles.boxInputCont}>
             <Combobox.Input
               {...props}
               className={styles.boxInput}
-              displayValue={() => value}
-              onChange={handleInput}
+              displayValue={() => value ?? ""}
             />
             <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
               <IoIosArrowDown
@@ -76,6 +80,6 @@ const ComboBox = (props: ComboBoxT) => {
       </Combobox>
     </div>
   );
-};
+}
 
 export default ComboBox;

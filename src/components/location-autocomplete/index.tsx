@@ -49,15 +49,13 @@ const LocationAutocomplete = ({
   let locData = data.map((item) => ({ ...item, label: item.description }));
 
   return (
-    <>
-      <ComboBox
-        data={locData}
-        handleInput={handleInput}
-        handleSelect={handleSelect}
-        {...props}
-        value={value}
-      />
-    </>
+    <ComboBox
+      data={locData}
+      onChange={handleInput}
+      handleSelect={handleSelect}
+      {...props}
+      value={value}
+    />
   );
 };
 

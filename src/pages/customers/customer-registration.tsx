@@ -7,7 +7,7 @@ import SelectBox from "components/selectBox";
 import TextField from "components/text-field";
 import { CUSTOMER_LISTING } from "constants/api";
 import { useRightBarContext } from "providers/right-bar-provider";
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import {
@@ -22,6 +22,10 @@ import Geolocation from "components/google-map";
 import Label from "components/label";
 import LocationAutocomplete from "components/location-autocomplete";
 import { useAddressLabelContext } from "providers/address-labels";
+import ComboBox, { ComboBoxDataT } from "components/combo-box";
+import companyList from "services/company-list";
+import { debounce } from "utility/debounce";
+import { Result } from "type/company";
 
 const countries = [
   { label: "UK" },
@@ -36,6 +40,8 @@ const countries = [
 
 const type = [{ label: "buyer" }, { label: "seller" }];
 
+// let companyListData = [] as ComboBoxDataT[];
+
 interface FileProps extends File {
   preview: string;
 }
@@ -44,6 +50,7 @@ const customerRegistration = () => {
   const [files, setFiles] = useState<FileProps[]>([]);
   const { open, toggle, setElement } = useRightBarContext();
   const { city, district, postcode } = useAddressLabelContext();
+  const [companyListData, setCompanyListData] = useState<ComboBoxDataT[]>([]);
 
   const { formatedComponents, Map } = Geolocation();
 
@@ -58,6 +65,7 @@ const customerRegistration = () => {
   });
 
   const address = watch("address");
+  const company = watch("company");
 
   async function onSubmit(data: CustomerRegistrationSchemaType) {
     try {
@@ -74,6 +82,19 @@ const customerRegistration = () => {
     }
   }
 
+  async function handleCompany(e: ChangeEvent<HTMLInputElement>) {
+    const res = await companyList({
+      search: e.target.value,
+    });
+
+    const companyFilteredList = res.results?.map((item) => ({
+      label: item.company_name,
+      ...item,
+    })) as ComboBoxDataT[];
+
+    setCompanyListData(() => companyFilteredList);
+  }
+
   useEffect(() => {
     // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
     return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
@@ -85,80 +106,96 @@ const customerRegistration = () => {
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-16 mb-3">
         <FormSection title="Customer Details">
-          <FormWraper>
-            <>
-              <div className={`${styles.userRole}  my-10`}>
-                <p className={styles.name}>
-                  <span className={styles.bold}>Customer Type</span>
-                </p>
+          <div className="z-50 grow">
+            <FormWraper>
+              <>
+                <div className={`${styles.userRole}  my-10`}>
+                  <p className={styles.name}>
+                    <span className={styles.bold}>Customer Type</span>
+                  </p>
 
-                <div className={`${styles.roles}`}>
-                  <Radio
-                    label="Business"
-                    name="status"
-                    // checked={companyData.company_status === "document review"}
-                  />
-                  <Radio
-                    label="Residential"
-                    name="status"
-                    // checked={companyData.company_status === "operational"}
-                  />
-                </div>
-              </div>{" "}
-              <div className={styles.formGrid}>
-                <div className="max-w-3xl">
-                  <TextField
-                    title="ABN Number."
-                    asterisk
-                    // {...register("abnNo")}
-                    // errorMessage={errors.abnNo?.message}
-                  />
-                </div>
-                <div className="max-w-3xl">
-                  <TextField
-                    title="Company Name"
-                    asterisk
-                    // {...register("company_name")}
-                    // errorMessage={errors.company_name?.message}
-                  />
-                </div>
-                <div className="max-w-3xl">
-                  <TextField
-                    title="First Name"
-                    asterisk
-                    {...register("user.first_name")}
-                    errorMessage={errors.user?.first_name?.message}
-                  />
-                </div>
+                  <div className={`${styles.roles}`}>
+                    <Radio
+                      label="Business"
+                      name="status"
+                      // checked={companyData.company_status === "document review"}
+                    />
+                    <Radio
+                      label="Residential"
+                      name="status"
+                      // checked={companyData.company_status === "operational"}
+                    />
+                  </div>
+                </div>{" "}
+                <div className={styles.formGrid}>
+                  <div className="max-w-3xl">
+                    <TextField
+                      title="ABN Number."
+                      asterisk
+                      // {...register("abnNo")}
+                      // errorMessage={errors.abnNo?.message}
+                    />
+                  </div>
+                  <div className="max-w-3xl">
+                    <TextField
+                      title="Company Name"
+                      asterisk
+                      // {...register("company_name")}
+                      // errorMessage={errors.company_name?.message}
+                    />
+                  </div>
+                  <div className="max-w-3xl">
+                    <TextField
+                      title="First Name"
+                      asterisk
+                      {...register("user.first_name")}
+                      errorMessage={errors.user?.first_name?.message}
+                    />
+                  </div>
 
-                <div className="max-w-3xl">
-                  <TextField
-                    title="Last Name"
-                    asterisk
-                    {...register("user.last_name")}
-                    errorMessage={errors.user?.last_name?.message}
-                  />
-                </div>
-                <div className="max-w-3xl">
-                  <TextField
-                    title="E-mail ID"
-                    asterisk
-                    {...register("user.email")}
-                    errorMessage={errors.user?.email?.message}
-                  />
-                </div>
+                  <div className="max-w-3xl">
+                    <TextField
+                      title="Last Name"
+                      asterisk
+                      {...register("user.last_name")}
+                      errorMessage={errors.user?.last_name?.message}
+                    />
+                  </div>
+                  <div className="max-w-3xl">
+                    <TextField
+                      title="E-mail ID"
+                      asterisk
+                      {...register("user.email")}
+                      errorMessage={errors.user?.email?.message}
+                    />
+                  </div>
 
-                <div className="max-w-3xl">
-                  <TextField
-                    title="Mobile Number"
-                    asterisk
-                    {...register("user.phone")}
-                    errorMessage={errors.user?.phone?.message}
-                  />
+                  <div className="max-w-3xl">
+                    <TextField
+                      title="Mobile Number"
+                      asterisk
+                      {...register("user.phone")}
+                      errorMessage={errors.user?.phone?.message}
+                    />
+                  </div>
+                  <div className="max-w-3xl">
+                    <Label title="company" />
+                    <ComboBox<Result>
+                      data={companyListData}
+                      handleSelect={(e) => {
+                        setValue("company", e.label);
+                      }}
+                      value={company}
+                      // {...register("company", {
+                      onChange={debounce(handleCompany)}
+                      // })}
+                    />
+                    <p className={styles.error}>{errors.company?.message}</p>
+                  </div>
                 </div>
-              </div>
-            </>
-          </FormWraper>
+              </>
+            </FormWraper>
+          </div>
         </FormSection>
 
         <FormSection title="Address Details">

@@ -1,12 +1,13 @@
 import Button from "components/button";
 import { Drop } from "components/drop-zone";
-import { DragProps, Drage } from "components/drop-zone/drage";
+import { Drage } from "components/drop-zone/drage";
+import Filterbtn from "components/filterBtn";
 import Input from "components/input";
+import Menu from "components/menu";
 import Pagination from "components/pagination";
+import Placeholder from "components/skeleton";
 import { COMPANY_LISTING } from "constants/api";
 import { Link } from "gatsby";
-import Filterbtn from "components/filterBtn";
-import Menu from "components/menu";
 import React, {
   ChangeEvent,
   Fragment,
@@ -19,8 +20,8 @@ import { request } from "services/http-request";
 import * as styles from "styles/pages/common.module.scss";
 import {
   CompanyDataType,
-  CompanyStatus,
   CompanyExtraDataType,
+  CompanyStatus,
 } from "type/company";
 import cssVar from "utility/css-var";
 import { debounce } from "utility/debounce";
@@ -30,7 +31,6 @@ import {
   DateFilter,
   List,
 } from "../../components/pages/company/helper";
-import Placeholder from "components/skeleton";
 const dataList = [
   { label: "Wade Cooper" },
   { label: "Arlene Mccoy" },
