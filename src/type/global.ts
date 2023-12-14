@@ -50,3 +50,17 @@ export type PrimaryAddressFieldsT = {
   pincode?: string;
   lga?: string;
 };
+
+export type WorkTypeRespT = PaginationType<WorkTypeT[]>;
+
+export interface WorkTypeT {
+  id: number;
+  ref_id: null | string;
+  created_at: Date;
+  updated_at: Date;
+  is_active: boolean;
+  title: string;
+  work_type_image: string;
+  global_activity: boolean;
+  auth_companies: number[];
+}

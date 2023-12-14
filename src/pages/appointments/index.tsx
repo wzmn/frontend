@@ -8,7 +8,7 @@ import Placeholder from "components/skeleton";
 import { APPOINTMENT_LISTING, APPT_STATUES } from "constants/api";
 import { Link } from "gatsby";
 import moment from "moment";
-import View from "pages/company/view";
+import View from "./view";
 import { useAppContext } from "providers/app-provider";
 import { useRightBarContext } from "providers/right-bar-provider";
 import React, { Fragment, useEffect, useRef, useState } from "react";
@@ -302,7 +302,7 @@ export function List({
 
         setElement(
           <View data={data} />,
-          `Customer ID: ${data.id}`,
+          `Appt ID: ${data.id}`,
           <>
             <IoEyeOutline
               onClick={() => {

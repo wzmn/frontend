@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { ApptStateStatus } from "type/appointment";
 import { AppProviderType } from "./type";
 import { fetchApptStatus } from "./appt";
+import { fetchWorkTypes } from "./work-types";
 
 const AppContext = createContext({} as AppProviderType);
 
@@ -13,17 +14,27 @@ function AppProvider({ children }: { children: JSX.Element }) {
       statusData: {},
       status: {} as ApptStateStatus,
     },
+    workTypes: [],
   });
 
   async function init() {
-    const { status, statusData } = await fetchApptStatus();
-    setAppState((prev) => ({
-      ...prev,
-      appointment: {
-        status,
-        statusData,
-      },
-    }));
+    // const { status, statusData } = await fetchApptStatus();
+    // const workType = await fetchWorkTypes();
+
+    Promise.all([fetchApptStatus, fetchWorkTypes])
+      .then(async (values) => {
+        const appt = await values[0]();
+        const workTypes = await values[1]();
+
+        setAppState((prev) => ({
+          ...prev,
+          appointment: appt,
+          workTypes,
+        }));
+      })
+      .catch(() => {
+        console.log("error in app provider ");
+      });
   }
 
   useEffect(() => {

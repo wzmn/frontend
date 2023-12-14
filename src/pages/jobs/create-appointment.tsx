@@ -1,62 +1,42 @@
 import Checkbox from "components/checkbox";
 import FormSection from "components/form-sections";
 import FormWraper from "components/form-wrapper";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import * as styles from "styles/pages/common.module.scss";
 import Schedule from "./Schedule";
 import * as jobStyles from "./styles.module.scss";
 import Input from "components/input";
+import { useAppContext } from "providers/app-provider";
 
 const CreateAppointment = () => {
   const { register, watch } = useForm();
 
+  const { workTypes } = useAppContext();
   let workTypeList = watch("workType");
+
+  // useEffect
 
   return (
     <div className="grow">
+      {/* <pre>{JSON.stringify(workTypes, null, 4)}</pre> */}
       <p className={styles.title}>Create Appointment</p>
 
       <div className="space-y-16 mb-3">
         <FormSection title="Customer Details">
           <FormWraper>
             <div className={jobStyles.wtGrid}>
-              <Checkbox
-                id="hws-c"
-                label={<WorkTypeLabel text="HWS Assessment (Commercial)" />}
-                {...register("workType")}
-                value="HWS Assessment (Commercial)"
-              />
-              <Checkbox
-                id="hws-r"
-                label={<WorkTypeLabel text="HWS Assessment (Residential)" />}
-                {...register("workType")}
-                value="HWS Assessment (Residential)"
-              />
-              <Checkbox
-                id="ac-c"
-                label={<WorkTypeLabel text="AC Assessment (Commercial)" />}
-                {...register("workType")}
-                value="AC Assessment (Commercial)"
-              />
-              <Checkbox
-                id="ac-r"
-                label={<WorkTypeLabel text="AC Assessment (Residential)" />}
-                {...register("workType")}
-                value="AC Assessment (Residential)"
-              />
-              <Checkbox
-                id="lg"
-                label={<WorkTypeLabel text="Lighting Upgrade (Commercial)" />}
-                {...register("workType")}
-                value="Lighting Upgrade (Commercial)"
-              />
-              <Checkbox
-                id="her"
-                label={<WorkTypeLabel text="Home Energy Rating Assessment" />}
-                {...register("workType")}
-                value="Home Energy Rating Assessment"
-              />
+              {workTypes?.map((item) => {
+                return (
+                  <Checkbox
+                    key={item.id}
+                    id={item.title}
+                    label={<WorkTypeLabel text={item.title} />}
+                    {...register("workType")}
+                    value={item.title}
+                  />
+                );
+              })}
             </div>
           </FormWraper>
         </FormSection>

@@ -1,4 +1,5 @@
 import { ApptStateStatus, ApptStatues } from "type/appointment";
+import { WorkTypeT } from "type/global";
 
 // export
 
@@ -9,4 +10,5 @@ export type FetchApptStatus = {
 
 export type AppProviderType = {
   appointment: FetchApptStatus;
+  workTypes: WorkTypeT[];
 };
