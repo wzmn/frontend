@@ -51,3 +51,5 @@ export type CompanyStatus =
 export type CompanyExtraDataType = Result & {
   status: boolean;
 };
+
+export type CompanyStateStatus = Record<CompanyStatus, CompanyExtraDataType[]>;

@@ -1,14 +1,11 @@
-import { ApptStateStatus, ApptStatues } from "type/appointment";
 import { WorkTypeT } from "type/global";
-
-// export
-
-export type FetchApptStatus = {
-  statusData?: ApptStatues;
-  status?: ApptStateStatus;
-};
+import { FetchApptStatus } from "./appt";
+import { FetchEmpStatus } from "./emp";
+import { FetchCompanyStatusT } from "./company";
 
 export type AppProviderType = {
   appointment: FetchApptStatus;
   workTypes: WorkTypeT[];
+  emp: FetchEmpStatus;
+  company: FetchCompanyStatusT;
 };

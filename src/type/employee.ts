@@ -34,6 +34,7 @@ export interface User {
 
 export type EmployeeRole =
   | "Admin"
+  | "Super Admin"
   | "Agent"
   | "Auditor"
   | "Manager"
@@ -42,3 +43,16 @@ export type EmployeeRole =
 export type EmployeeDataStateType = Result & {
   status: boolean;
 };
+
+export type EmpStatusRespT = PaginationType<EmpStatusT[]>;
+
+export interface EmpStatusT {
+  id: number;
+  ref_id: string;
+  created_at: Date;
+  updated_at: Date;
+  is_active: boolean;
+  title: EmployeeRole;
+}
+
+export type EmpStateStatus = Record<EmployeeRole, EmployeeDataStateType[]>;

@@ -21,6 +21,7 @@ import * as styles from "styles/pages/common.module.scss";
 import {
   CompanyDataType,
   CompanyExtraDataType,
+  CompanyStateStatus,
   CompanyStatus,
 } from "type/company";
 import cssVar from "utility/css-var";
@@ -31,6 +32,7 @@ import {
   DateFilter,
   List,
 } from "../../components/pages/company/helper";
+import { useAppContext } from "providers/app-provider";
 const dataList = [
   { label: "Wade Cooper" },
   { label: "Arlene Mccoy" },
@@ -43,15 +45,11 @@ const dataList = [
 type DropItemType = { id: number; section: CompanyStatus };
 
 const Company = () => {
-  const [data, setData] = useState<
-    Record<CompanyStatus, CompanyExtraDataType[]>
-  >({
-    "upload info": [],
-    "document review": [],
-    verified: [],
-    operational: [],
-    rejected: [],
-  });
+  const {
+    company: { status },
+  } = useAppContext();
+
+  const [data, setData] = useState({} as CompanyStateStatus);
 
   // For skeleton
   const [loading, setLoading] = useState(false);
@@ -105,7 +103,7 @@ const Company = () => {
         },
       });
 
-      const filterData = { ...data };
+      const filterData = { ...status };
 
       //this is to make all record empty before calling this function otherwise it will stack
       Object.keys(data).map(
@@ -190,8 +188,9 @@ const Company = () => {
 
   useEffect(() => {
     // For skeleton
-    fetchData().finally(() => setLoading(false));
-  }, [pagination.page, pagination.limit]);
+    if (JSON.stringify(status) !== "{}")
+      fetchData().finally(() => setLoading(false));
+  }, [pagination.page, pagination.limit, status]);
 
   return (
     <>

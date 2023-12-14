@@ -1,7 +1,11 @@
 import { APPT_STATUES } from "constants/api";
 import { request } from "services/http-request";
 import { ApptStateStatus, ApptStatues } from "type/appointment";
-import { FetchApptStatus } from "./type";
+
+export type FetchApptStatus = {
+  statusData?: ApptStatues["results"];
+  status?: ApptStateStatus;
+};
 
 export async function fetchApptStatus(): Promise<FetchApptStatus> {
   try {
@@ -15,7 +19,7 @@ export async function fetchApptStatus(): Promise<FetchApptStatus> {
       status[item.title] = [];
     });
 
-    return { statusData: response.data, status };
+    return { statusData: response.data?.results, status };
   } catch (error) {
     return {};
   }

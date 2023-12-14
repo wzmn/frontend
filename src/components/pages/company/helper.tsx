@@ -13,7 +13,7 @@ import View from "pages/company/view";
 export function List({
   data,
   loading,
-  index
+  index,
 }: {
   data: CompanyExtraDataType;
   loading: boolean;
@@ -21,10 +21,10 @@ export function List({
 }) {
   // to="company-details"
   const colors = {
-    buyer : "#3B9DFF",
-    seller : "#97DC21",
-    reminder: "#32D0D1"
-  }
+    buyer: "#3B9DFF",
+    seller: "#97DC21",
+    reminder: "#32D0D1",
+  };
   const { open, setElement, toggle } = useRightBarContext();
   return (
     <div
@@ -34,7 +34,7 @@ export function List({
         }
         setElement(
           <View data={data} />,
-          `Customer ID: ${data.id}`,
+          `Company ID: ${data.id}`,
           <>
             <IoEyeOutline
               onClick={() => {
@@ -66,8 +66,7 @@ export function List({
             <span className={styles.icon}>
               <TfiEmail className={styles.icon} />
             </span>
-
-            <span className={styles.contact}>{data.company_mobile_phone}</span>
+            <span className={styles.contact}>{data.company_email}</span>
           </div>
 
           <div className="">
@@ -75,7 +74,7 @@ export function List({
               <IoCallOutline className={styles.icon} />
             </span>
 
-            <span className={styles.contact}>{data.company_email}</span>
+            <span className={styles.contact}>{data.company_mobile_phone}</span>
           </div>
         </div>
       </div>

@@ -19,6 +19,7 @@ import { request } from "services/http-request";
 import * as commonStyles from "styles/pages/common.module.scss";
 import { toast, ToastContainer } from "react-toastify";
 import {
+  EmpStateStatus,
   EmployeeDataStateType,
   EmployeeDataType,
   EmployeeRole,
@@ -28,22 +29,18 @@ import { findMatchingId } from "utility/find-matching-id";
 import View from "./view";
 // For skeleton
 import Placeholder from "../../components/skeleton";
+import { useAppContext } from "providers/app-provider";
 
 type DropItemType = { id: number; section: EmployeeRole };
 
 const Employees = () => {
-  const [data, setData] = useState<
-    Record<EmployeeRole, EmployeeDataStateType[]>
-  >({
-    Admin: [],
-    Agent: [],
-    Auditor: [],
-    "Field Worker": [],
-    Manager: [],
-  });
+  const {
+    emp: { status },
+  } = useAppContext();
+
+  const [data, setData] = useState({} as EmpStateStatus);
   // For skeleton
   const [loading, setLoading] = useState(false);
-  const [dataIsUpdating, setDataIsUpdating] = useState(false);
   const [pagination, setPagination] = useState({
     page: 1,
     offset: 0,
@@ -83,10 +80,6 @@ const Employees = () => {
   }
 
   async function fetchData() {
-    if (dataIsUpdating) {
-      return;
-    }
-    setDataIsUpdating(true);
     try {
       setLoading(true);
       const response = await request<EmployeeDataType>({
@@ -97,12 +90,12 @@ const Employees = () => {
         },
       });
 
-      const filterData = { ...data };
+      const filterData = JSON.parse(JSON.stringify(status));
 
       //this is to make all record empty before calling this function otherwise it will stack
-      Object.keys(data).map(
-        (item) => (filterData[item as EmployeeRole].length = 0)
-      );
+      // Object?.keys(data).map(
+      //   (item) => (filterData[item as EmployeeRole].length = 0)
+      // );
 
       setPagination((prev) => ({
         ...prev,
@@ -110,14 +103,14 @@ const Employees = () => {
       }));
 
       response?.data?.results?.forEach((item) => {
-        console.log(item.role);
         filterData[item.role! as EmployeeRole].push({ ...item, status: false });
       });
 
+      console.log(filterData);
+
       setData(() => filterData);
-      setDataIsUpdating(false);
     } catch (error: any) {
-      toast.error(error.response.data.detail);
+      toast.error(error.response?.data?.detail);
     }
   }
 
@@ -177,8 +170,9 @@ const Employees = () => {
 
   useEffect(() => {
     // For skeleton
-    fetchData().finally(() => setLoading(false));
-  }, [pagination.page, pagination.limit]);
+    if (JSON.stringify(status) !== "{}")
+      fetchData().finally(() => setLoading(false));
+  }, [pagination.page, pagination.limit, status]);
 
   const { btnCont, tableCont } = commonStyles;
   return (
@@ -212,7 +206,7 @@ const Employees = () => {
       </div>
 
       <div className={`${tableCont} drop-container`} ref={table}>
-        {(Object.keys(data) as EmployeeRole[]).map((dropName, index) => {
+        {(Object?.keys(data) as EmployeeRole[])?.map((dropName, index) => {
           console.log(dropName);
           return (
             <Drop
@@ -225,7 +219,7 @@ const Employees = () => {
             >
               <>
                 {!loading ? (
-                  data[dropName].map((dragItem) => {
+                  data[dropName]?.map((dragItem) => {
                     return (
                       <Fragment key={dragItem.id}>
                         <Drage
@@ -251,7 +245,7 @@ const Employees = () => {
           );
         })}
       </div>
-    <ToastContainer/>
+      <ToastContainer />
       <Pagination
         totalRecords={pagination.totalRecords}
         page={pagination.page}

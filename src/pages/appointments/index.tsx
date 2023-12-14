@@ -117,9 +117,6 @@ const Appintments = () => {
       }));
 
       response?.data?.results?.forEach((item) => {
-        console.log(
-          filterData[item.appointment_status!] + item.appointment_status!
-        );
         filterData[item.appointment_status! as AppointmentStatusType].push({
           ...item,
           status: false,
@@ -137,7 +134,7 @@ const Appintments = () => {
     to: AppointmentStatusType,
     index: number
   ) {
-    const statueChangeFrom = statusData?.results?.filter((item) => {
+    const statueChangeFrom = statusData?.filter((item) => {
       return item.title === to;
     });
     console.log(statueChangeFrom, " statueChangeFrom");
@@ -192,7 +189,8 @@ const Appintments = () => {
 
   useEffect(() => {
     // For skeleton
-    fetchData().finally(() => setLoading(false));
+    if (JSON.stringify(status) !== "{}")
+      fetchData().finally(() => setLoading(false));
   }, [pagination.page, pagination.limit, status]);
 
   return (
