@@ -15,7 +15,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { TfiEmail } from "react-icons/tfi";
 import { request } from "services/http-request";
 import * as styles from "styles/pages/common.module.scss";
-import { EmployeeDataType } from "type/employee";
+import { EmployeeDataType, Result } from "type/employee";
 import * as additionalStyles from "styles/pages/additional.module.scss";
 import { LuClipboardList } from "react-icons/lu";
 
@@ -31,7 +31,7 @@ const CustomerDetails = (props: PageProps) => {
   //     },
   //   });
 
-  const [data, setData] = useState<EmployeeDataType>({});
+  const [data, setData] = useState<Result>({});
 
   //   const { fields, append, remove } = useFieldArray({
   //     control,
@@ -42,7 +42,7 @@ const CustomerDetails = (props: PageProps) => {
 
   async function fetchData() {
     try {
-      const response = await request<EmployeeDataType>({
+      const response = await request<Result>({
         url: CUSTOMER_LISTING + customerId,
       });
       setData(() => response.data);
@@ -266,45 +266,43 @@ function List({
   // target="_blank" href={`customer-details/?customer=${data.id}`}
 
   return (
-    <div>
-      <div className={`${styles.card} ${additionalStyles.card}`}>
-        <div className={styles.cardInfo}>
-          <p className="title">
-            {/* {data.user?.first_name} */}
-            Jason Stone
-          </p>
-          <span className="">
-            {" "}
-            {/* Created on: {moment(data.user?.created_at).format("ddd, MM a")} */}
-            created on: Mon,3.40 am
+    <div className={`${styles.card} ${additionalStyles.card}`}>
+      <div className={styles.cardInfo}>
+        <p className="title">
+          {/* {data.user?.first_name} */}
+          Jason Stone
+        </p>
+        <span className="">
+          {" "}
+          {/* Created on: {moment(data.user?.created_at).format("ddd, MM a")} */}
+          created on: Mon,3.40 am
+        </span>
+      </div>
+      <div className={`${styles.contactInfo} ${additionalStyles.contact}`}>
+        <div className="flex">
+          <span className={styles.icon}>
+            <TfiEmail className={styles.icon} />
+          </span>
+
+          <span className={styles.contact}>
+            {/* {data.user?.email} */}
+            jason@gmail.com
           </span>
         </div>
-        <div className={`${styles.contactInfo} ${additionalStyles.contact}`}>
-          <div className="">
-            <span className={styles.icon}>
-              <TfiEmail className={styles.icon} />
-            </span>
 
-            <span className={styles.contact}>
-              {/* {data.user?.email} */}
-              jason@gmail.com
-            </span>
-          </div>
+        <div className="">
+          <span className={styles.icon}>
+            <IoCallOutline className={styles.icon} />
+          </span>
 
-          <div className="">
-            <span className={styles.icon}>
-              <IoCallOutline className={styles.icon} />
-            </span>
-
-            <span className={styles.contact}>
-              {/* {data.user?.phone} */}
-              jason@gmail.com
-            </span>
-          </div>
-
-          <LuClipboardList className={additionalStyles.absIcon} />
-          <p className={additionalStyles.count}>3</p>
+          <span className={styles.contact}>
+            {/* {data.user?.phone} */}
+            jason@gmail.com
+          </span>
         </div>
+
+        <LuClipboardList className={additionalStyles.absIcon} />
+        <p className={additionalStyles.count}>3</p>
       </div>
     </div>
   );

@@ -96,9 +96,12 @@ const Settings = () => {
               <p className={`${settingtyles.otherUser} ${settingtyles.mtB}`}>
                 View Simplified Transactions
               </p>
-              <p className={`${settingtyles.userSettings} ${settingtyles.mtB}`}>
+              <Link
+                to="transactions"
+                className={`${settingtyles.userSettings} ${settingtyles.mtB}`}
+              >
                 Transactions
-              </p>
+              </Link>
             </div>
           </FormWraper>
         </FormSection>
