@@ -23,6 +23,10 @@ import {
 import cssVar from "utility/css-var";
 import View from "./view";
 import Placeholder from "components/skeleton";
+import { findMatchingId } from "utility/find-matching-id";
+
+type DropItemType = { id: number; section: CustomerStatus };
+
 const dataList = [
   { label: "Wade Cooper" },
   { label: "Arlene Mccoy" },
@@ -36,11 +40,10 @@ const Customers = () => {
   const [data, setData] = useState<
     Record<CustomerStatus, CustomerDataExtraType[]>
   >({
-    NEW: [],
-    CONTACTED: [],
-    COMPLETED: [],
-    WON: [],
-    LOST: [],
+    fresh: [],
+    contacted: [],
+    converted: [],
+    not_interested: [],
   });
 
   // For skeleton
@@ -67,24 +70,59 @@ const Customers = () => {
     return colors[int % colors.length];
   }
 
-  function handleDrop(item: any, section: string) {
+  async function handleDrop(
+    item: DropItemType,
+    section: CustomerStatus,
+    make: boolean = true
+  ) {
+    console.log(item, section);
     if (item.section === section) return;
-
-    const dt: any = { ...data };
-    let idx;
-    dt[item.section].some((itm: any, key: any) => {
-      console.log(item.id, itm.id);
-      if (item.id === itm.id) {
-        idx = key;
-        return true;
-      }
-    });
+    const copyData: any = { ...data };
+    let idx = findMatchingId(data, item.id, item.section);
 
     if (idx !== undefined) {
-      const pop = dt[item.section].splice(idx, 1)[0];
-      dt[section].unshift(pop);
+      const pop = copyData[item.section].splice(idx, 1)[0];
+      copyData[section].unshift({ ...pop, status: make });
 
-      setData(() => dt);
+      setData(() => copyData);
+
+      updateData(item, section, idx);
+    }
+  }
+
+  async function updateData(
+    item: DropItemType,
+    to: CustomerStatus,
+    index: number
+  ) {
+    const datap = {
+      cust_status: to,
+    };
+    try {
+      const response = await request<CustomerDataType>({
+        url: CUSTOMER_LISTING + item.id + "/",
+        method: "patch",
+        data: datap,
+      });
+
+      const copyData = { ...data };
+      let idx = findMatchingId(data, item.id, to);
+
+      if (idx !== undefined) {
+        copyData[to][idx].status = false;
+        copyData[to][idx].cust_status = to;
+        setData(() => copyData);
+      }
+    } catch (error) {
+      const copyData: any = { ...data };
+      let idx = findMatchingId(data, item.id, to);
+
+      if (idx !== undefined) {
+        const pop = copyData[to].splice(idx, 1)[0];
+        copyData[item.section].splice(index, 0, { ...pop, status: false });
+
+        setData(() => copyData);
+      }
     }
   }
 
@@ -99,7 +137,10 @@ const Customers = () => {
         },
       });
 
-      const filterData = { ...data };
+      const filterData = { ...data } as Record<
+        CustomerStatus,
+        CustomerDataExtraType[]
+      >;
 
       //this is to make all record empty before calling this function otherwise it will stack
       Object.keys(data).map(
@@ -111,8 +152,11 @@ const Customers = () => {
         totalRecords: Number(response?.data?.count),
       }));
 
-      response?.data?.results?.forEach((item: any) => {
-        filterData["NEW"].push({ ...item, status: false });
+      response?.data?.results?.forEach((item) => {
+        filterData[item.cust_status].push({
+          ...item,
+          status: false,
+        } as CustomerDataExtraType);
       });
 
       setData(() => filterData);

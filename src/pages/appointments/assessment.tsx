@@ -144,7 +144,7 @@ const Assessment = () => {
             <div className={apptStyle.btns}>
               <Button title="Audited" className={apptStyle.audited} />
               <Button title="Reassessment" className={apptStyle.reassessment} />
-              <Button title="Cancle" className={apptStyle.cancel} />
+              <Button title="Cancel" className={apptStyle.cancel} />
             </div>
           </div>
         </FormSection>

@@ -16,6 +16,10 @@ import {
 import { request } from "services/http-request";
 import * as styles from "styles/pages/common.module.scss";
 import { States, StreetTypes, UnitTypes } from "../../constants";
+import Label from "components/label";
+import LocationAutocomplete from "components/location-autocomplete";
+import Geolocation from "components/google-map";
+import { useAddressLabelContext } from "providers/address-labels";
 
 const countries = [
   { label: "UK" },
@@ -46,15 +50,20 @@ const CreateJob = () => {
   const [files, setFiles] = useState<FileProps[]>([]);
 
   const { open, toggle, setElement } = useRightBarContext();
+  const { formatedComponents, Map } = Geolocation();
+  const { city, district, postcode } = useAddressLabelContext();
 
   const {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { isSubmitting, errors },
   } = useForm({
     resolver: yupResolver(customerRegistrationSchema),
   });
+
+  const address = watch("address");
 
   async function onSubmit(data: CustomerRegistrationSchemaType) {
     try {
@@ -163,123 +172,154 @@ const CreateJob = () => {
         <FormSection title="Address Details">
           <div className="flex-1">
             <FormWraper>
-              <div className={styles.formGrid}>
-                <div className="max-w-3xl">
-                  <TextField
-                    title="Building Name."
-                    asterisk
-                    // {...register("address.buildingName")}
-                    // errorMessage={errors.address?.buildingName?.message}
-                  />
-                </div>
-                <div className="max-w-3xl">
-                  <TextField
-                    title="Level No"
-                    asterisk
-                    // {...register("address.levelNo")}
-                    // errorMessage={errors.address?.levelNo?.message}
-                  />
-                </div>
-                <div className="max-w-3xl">
-                  <SelectBox
-                    placeholder="Select Unit Type"
-                    data={UnitTypes}
-                    asterisk
-                    onChange={(e) => {
-                      // setValue("address.unitType", e.label);
+              <>
+                <div className="mb-10">
+                  <LocationAutocomplete
+                    onFocus={(e) => {
+                      setElement(<Map />, "Map");
+                      !open && toggle();
+                      console.log("focused");
+                    }}
+                    onBlur={(e) => {
+                      // toggle();
+                      // console.log("off focused");
+                    }}
+                    setFields={(val) => {
+                      console.log(val);
+                      setValue(
+                        "address",
+                        val as CustomerRegistrationSchemaType["address"]
+                      );
                     }}
                   />
                 </div>
-                <div className="max-w-3xl">
-                  <TextField
-                    title="Unit No"
-                    asterisk
-                    // {...register("address.unitNo")}
-                    // errorMessage={errors.address?.unitNo?.message}
-                  />
-                </div>
 
-                <div className="max-w-3xl">
-                  <TextField
-                    title="Lot No."
-                    asterisk
-                    // {...register("address.lotNo")}
-                    // errorMessage={errors.address?.lotNo?.message}
-                  />
-                </div>
-                <div className="max-w-3xl">
+                <div className={styles.formGrid}>
+                  <div className="max-w-3xl">
+                    <TextField
+                      title="Building Name."
+                      asterisk
+                      {...register("address.building_number")}
+                      errorMessage={errors.address?.building_number?.message}
+                    />
+                  </div>
+                  <div className="max-w-3xl">
+                    <TextField
+                      title="Level No"
+                      asterisk
+                      {...register("address.level_number")}
+                      errorMessage={errors.address?.level_number?.message}
+                    />
+                  </div>
                   <div className="max-w-3xl">
                     <SelectBox
-                      placeholder="Street No"
-                      data={StreetTypes}
+                      color="full-white"
+                      placeholder="Select Unit Type"
+                      data={UnitTypes}
                       asterisk
+                      value={address?.unit_type}
                       onChange={(e) => {
-                        // setValue("address.streetNo", e.label);
+                        setValue("address.unit_type", e.label);
                       }}
                     />
                   </div>
-                </div>
-                <div className="max-w-3xl">
-                  <TextField
-                    title="Street Name"
-                    asterisk
-                    // {...register("address.streetName")}
-                    // errorMessage={errors.address?.streetName?.message}
-                  />
-                </div>
-                <div className="max-w-3xl">
-                  <TextField
-                    title="Street Type"
-                    asterisk
-                    // {...register("address.streetType")}
-                    // errorMessage={errors.address?.streetType?.message}
-                  />
-                </div>
+                  <div className="max-w-3xl">
+                    <TextField
+                      title="Unit No"
+                      asterisk
+                      {...register("address.unit_number")}
+                      errorMessage={errors.address?.unit_number?.message}
+                    />
+                  </div>
 
-                <div className="max-w-3xl">
-                  <TextField
-                    title="Suffix."
-                    asterisk
-                    // {...register("address.suffix")}
-                    // errorMessage={errors.address?.suffix?.message}
-                  />
-                </div>
-                <div className="max-w-3xl">
-                  <TextField
-                    title="Suburb"
-                    asterisk
-                    // {...register("address.suburb")}
-                    // errorMessage={errors.address?.suburb?.message}
-                  />
-                </div>
-                <div className="max-w-3xl">
-                  <SelectBox
-                    placeholder="State"
-                    data={States}
-                    asterisk
-                    onChange={(e) => {
-                      // setValue("state", e.label);
-                    }}
-                  />
-                </div>
-                <div className="max-w-3xl">
-                  <TextField
-                    title="Pincode"
-                    asterisk
-                    // {...register("address.pincode")}
-                    // errorMessage={errors.address?.pincode?.message}
-                  />
-                </div>
+                  <div className="max-w-3xl">
+                    <TextField
+                      title="Lot No."
+                      asterisk
+                      {...register("address.lot_number")}
+                      errorMessage={errors.address?.lot_number?.message}
+                    />
+                  </div>
+                  <div className="max-w-3xl">
+                    <div className="max-w-3xl">
+                      <SelectBox
+                        color="full-white"
+                        placeholder="Street No"
+                        data={StreetTypes}
+                        asterisk
+                        value={address?.street_number}
+                        onChange={(e) => {
+                          setValue("address.street_number", e.label);
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div className="max-w-3xl">
+                    <TextField
+                      title="Street Name"
+                      asterisk
+                      {...register("address.street_name")}
+                      errorMessage={errors.address?.street_name?.message}
+                    />
+                  </div>
+                  <div className="max-w-3xl">
+                    <TextField
+                      title="Street Type"
+                      asterisk
+                      {...register("address.street_type")}
+                      errorMessage={errors.address?.street_type?.message}
+                    />
+                  </div>
 
-                <div className="max-w-3xl">
-                  <TextField
-                    title="LGA"
-                    asterisk
-                    // {...register("address.lga")}
-                    // errorMessage={errors.address?.lga?.message}
-                  />
+                  <div className="max-w-3xl">
+                    <TextField
+                      title="Suffix."
+                      asterisk
+                      {...register("address.suffix")}
+                      errorMessage={errors.address?.suffix?.message}
+                    />
+                  </div>
+                  <div className="max-w-3xl">
+                    <TextField
+                      title={district()}
+                      asterisk
+                      {...register("address.suburb")}
+                      errorMessage={errors.address?.suburb?.message}
+                    />
+                  </div>
+
+                  <div className="max-w-3xl">
+                    <Label title="State" />
+                    <SelectBox
+                      color="full-white"
+                      placeholder="State"
+                      data={States}
+                      asterisk
+                      value={address?.state}
+                      onChange={(e) => {
+                        setValue("address.state", e.label);
+                      }}
+                    />
+                  </div>
+                  <div className="max-w-3xl">
+                    <TextField
+                      title={postcode()}
+                      asterisk
+                      {...register("address.pincode")}
+                      errorMessage={errors.address?.pincode?.message}
+                    />
+                  </div>
+
+                  <div className="max-w-3xl">
+                    <TextField
+                      title={city()}
+                      asterisk
+                      {...register("address.lga")}
+                      errorMessage={errors.address?.lga?.message}
+                    />
+                  </div>
                 </div>
-              </div>
+              </>
             </FormWraper>
             <div className="flex justify-center gap-36 mt-10">
               <Button title="Submit" type="submit" isLoading={isSubmitting} />

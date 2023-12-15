@@ -65,7 +65,7 @@ const customerRegistration = () => {
   });
 
   const address = watch("address");
-  const company = watch("company");
+  // const company = watch("company");
 
   async function onSubmit(data: CustomerRegistrationSchemaType) {
     try {
@@ -178,7 +178,7 @@ const customerRegistration = () => {
                       errorMessage={errors.user?.phone?.message}
                     />
                   </div>
-                  <div className="max-w-3xl">
+                  {/* <div className="max-w-3xl">
                     <Label title="company" />
                     <ComboBox<Result>
                       data={companyListData}
@@ -191,7 +191,7 @@ const customerRegistration = () => {
                       // })}
                     />
                     <p className={styles.error}>{errors.company?.message}</p>
-                  </div>
+                  </div> */}
                 </div>
               </>
             </FormWraper>
@@ -200,7 +200,6 @@ const customerRegistration = () => {
 
         <FormSection title="Address Details">
           <div className="flex-1">
-            {formatedComponents + "a"}
             <FormWraper>
               <>
                 <div className="mb-10">

@@ -9,7 +9,7 @@ export const customerRegistrationSchema = object({
     phone: string().trim().required("Required"),
     email: string().trim().matches(EmailReg, "Invalid email"),
   }),
-  company: string().trim().required("Required"),
+  // company: string().trim().required("Required"),
   address: addressSchema,
 });
 
