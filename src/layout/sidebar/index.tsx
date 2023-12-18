@@ -10,6 +10,7 @@ import { Link } from "gatsby";
 import { useAuthContext } from "providers/auth-provider";
 import logo from "./logo.png";
 import user from "./user.png";
+import UserIdentifyer from "services/user-identifyer";
 
 const sideBarData = [
   {
@@ -62,9 +63,9 @@ const Sidebar = () => {
         <div className={styles.userDetails}>
           <img className={styles.userImg} src={user} alt="user image" />
           <div className={styles.userName}>
-            <p>Jason Jackson</p>
+            <p>{`${userAuth.first_name} ${userAuth.last_name}`}</p>
             <div className={styles.userRole}>
-              <p>Superadmin</p>
+              <p>{UserIdentifyer()}</p>
               <span className={styles.icon} onClick={() => setUserAuth(null)}>
                 <AiOutlinePoweroff />
               </span>

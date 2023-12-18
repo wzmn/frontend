@@ -19,6 +19,8 @@ import GoogleMapProvider, {
 import AppProvider from "providers/app-provider";
 import AddressLabels from "providers/address-labels";
 import RightBarProvider from "providers/right-bar-provider";
+import CompanyProvider from "providers/company-provider";
+import UserIdentifyer from "services/user-identifyer";
 
 const routeNotToInclude = ["/login/", "/change-password/", "/forgot-password/"];
 
@@ -26,20 +28,19 @@ type Props = {
   children: JSX.Element;
 };
 
-
-
 const Layout = ({ children }: Props) => {
-  const alertIfOnline = () => toast.success('Connection restored');
-  const alertIfOffline = () => toast.warn('Oops! It seems like you\'re currently offline.');
-  useEffect(()=>{
+  const alertIfOnline = () => toast.success("Connection restored");
+  const alertIfOffline = () =>
+    toast.warn("Oops! It seems like you're currently offline.");
+  useEffect(() => {
     Notification.requestPermission();
-    window.addEventListener('offline', () => alertIfOffline);
-    window.addEventListener('online', () => alertIfOnline);
+    window.addEventListener("offline", () => alertIfOffline);
+    window.addEventListener("online", () => alertIfOnline);
     return () => {
-      window.removeEventListener('offline', () => alertIfOffline);
-      window.removeEventListener('online', () => alertIfOnline);
-    }
-  }, [])
+      window.removeEventListener("offline", () => alertIfOffline);
+      window.removeEventListener("online", () => alertIfOnline);
+    };
+  }, []);
   let pathname = typeof window !== "undefined" ? window.location.pathname : "";
   const { ProtectedRoutes, HandleRedirect } = useAuth();
   // const { isLoaded } = useMapContext();
@@ -50,31 +51,33 @@ const Layout = ({ children }: Props) => {
         {!routeNotToInclude.includes(pathname) ? (
           <div className="c-container">
             <AppProvider>
-              <AddressLabels>
-                <UploadDocProvider>
-                  <ProtectedRoutes>
-                    <GoogleMapProvider>
-                      <DndProvider backend={HTML5Backend}>
-                        <RightBarProvider>
-                          <SidebarContext>
-                            <div className={`${styles.layout} `}>
-                              <Sidebar />
-                              <div className={styles.children}>
-                                <div className={styles.mainContent}>
-                                  <Navbar />
-                                  {children}
-                                  {/* <Footer /> */}
+              <CompanyProvider>
+                <AddressLabels>
+                  <UploadDocProvider>
+                    <ProtectedRoutes>
+                      <GoogleMapProvider>
+                        <DndProvider backend={HTML5Backend}>
+                          <RightBarProvider>
+                            <SidebarContext>
+                              <div className={`${styles.layout} `}>
+                                <Sidebar />
+                                <div className={styles.children}>
+                                  <div className={styles.mainContent}>
+                                    <Navbar />
+                                    {children}
+                                    {/* <Footer /> */}
+                                  </div>
                                 </div>
+                                <RightBar /> {/* has absolute position */}
                               </div>
-                              <RightBar /> {/* has absolute position */}
-                            </div>
-                          </SidebarContext>
-                        </RightBarProvider>
-                      </DndProvider>
-                    </GoogleMapProvider>
-                  </ProtectedRoutes>
-                </UploadDocProvider>
-              </AddressLabels>
+                            </SidebarContext>
+                          </RightBarProvider>
+                        </DndProvider>
+                      </GoogleMapProvider>
+                    </ProtectedRoutes>
+                  </UploadDocProvider>
+                </AddressLabels>
+              </CompanyProvider>
             </AppProvider>
           </div>
         ) : (

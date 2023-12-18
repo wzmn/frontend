@@ -23,7 +23,7 @@ const CreateAppointment = () => {
       <p className={styles.title}>Create Appointment</p>
 
       <div className="space-y-16 mb-3">
-        <FormSection title="Customer Details">
+        <FormSection title="Work Types">
           <FormWraper>
             <div className={jobStyles.wtGrid}>
               {workTypes?.map((item) => {
@@ -68,7 +68,7 @@ const CreateAppointment = () => {
   );
 };
 
-function WorkTypeLabel({ text }: { text: string }) {
+export function WorkTypeLabel({ text }: { text: string }) {
   return <p className={jobStyles.wt}>{text}</p>;
 }
 

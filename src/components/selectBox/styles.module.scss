@@ -21,12 +21,23 @@
   background: var(--color-dusty_grey);
 }
 
-.index {
-  z-index: 999;
-}
-
 .rel {
   position: relative;
+
+  & .index {
+    z-index: 999;
+  }
+
+  &:has(.index:is(:empty)) {
+    & .placeholder {
+      color: pink;
+    }
+  }
+
+  // & .placeholder {
+  //   top: -1rem;
+  //   position: absolute;
+  // }
 }
 // relative w-full cursor-default rounded-md py-2 pl-3 pr-10 text-left shadow-md focus:outline-none  sm:text-sm
 

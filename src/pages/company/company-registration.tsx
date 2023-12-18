@@ -4,8 +4,6 @@ import ButtonGroup from "components/button-group";
 import DNDImage from "components/dnd-image";
 import FormSection from "components/form-sections";
 import FormWraper from "components/form-wrapper";
-import Geolocation from "components/google-map";
-import LocationAutocomplete from "components/location-autocomplete";
 import InputOtp from "components/otp";
 import UploadDoc from "components/pages/company/upload-doc/upload-doc";
 import SelectBox from "components/selectBox";
@@ -15,18 +13,18 @@ import AdditionalDocument from "layout/additional-document";
 import { useRightBarContext } from "providers/right-bar-provider";
 import { KeyType, useUploadContext } from "providers/upload-doc-provider";
 import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { toast } from "react-toastify";
 import {
   CompanyRegistrationSchemaType,
   companyRegistrationSchema,
 } from "schema/company-schema";
+import Address from "services/address";
 import { request } from "services/http-request";
 import * as styles from "styles/pages/common.module.scss";
 import { CompanyDataType } from "type/company";
 import { CountryComplianceType } from "type/global";
-import { States, UnitTypes } from "../../constants";
 import * as companyStyles from "./styles.module.scss";
 
 let countryComplianceData: CountryComplianceType[];
@@ -97,6 +95,14 @@ const CompanyRegistration = () => {
 
   const { files: documents } = useUploadContext();
 
+  const methods = useForm<
+    CompanyRegistrationSchemaType & {
+      address: any;
+    }
+  >({
+    // resolver: yupResolver(companyRegistrationSchema),
+  });
+
   const {
     register,
     handleSubmit,
@@ -104,11 +110,7 @@ const CompanyRegistration = () => {
     trigger,
     getValues,
     formState: { isSubmitting, errors },
-  } = useForm({
-    resolver: yupResolver(companyRegistrationSchema),
-  });
-
-  const { formatedComponents, Map } = Geolocation();
+  } = methods;
 
   async function sendOtp(value: string) {
     try {
@@ -125,10 +127,21 @@ const CompanyRegistration = () => {
     }
   }
 
-  async function onSubmit(data: CompanyRegistrationSchemaType) {
+  async function onSubmit(
+    data: CompanyRegistrationSchemaType & {
+      address: any;
+    }
+  ) {
+    const dt = {
+      ...data,
+      company_address: { ...data.address, lat: 0, long: 0 },
+    };
+    delete dt["address"];
+    // console.log(dt);
+
     try {
       const formData = objectToFormData({
-        company: data,
+        company: dt,
       });
       Object.keys(documents).forEach((item) => {
         Object.entries(documents[item as KeyType]).forEach((item, index) => {
@@ -144,6 +157,7 @@ const CompanyRegistration = () => {
           });
         });
       });
+      formData.append("company[company_logo]", files[0]);
       // formData.append("files", documents.primary[0].documents[0] as any);
       // formData.append("company", data as any);
 
@@ -161,6 +175,8 @@ const CompanyRegistration = () => {
         },
       });
       console.log(response);
+      toast.success("Added Sucessfully");
+
       // if (response.status === 201) {
       //   const uploadDoc = await request({
       //     url: CONPAMY_UPLOAD_DOCS,
@@ -172,6 +188,7 @@ const CompanyRegistration = () => {
       // }
     } catch (error) {
       console.log(error);
+      toast.error("Something went wrong");
     }
   }
 
@@ -210,30 +227,205 @@ const CompanyRegistration = () => {
     <>
       {/* {JSON.stringify(com)} */}
       <p className={styles.title}>Create Company</p>
+      <FormProvider {...methods}>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-16 mb-3">
+          <FormSection title="Owner Details">
+            <div className="flex-1">
+              <FormWraper>
+                <div className={styles.formGrid}>
+                  <div className="max-w-3xl">
+                    <TextField
+                      title="First Name"
+                      asterisk
+                      {...register("company_owner.first_name")}
+                      errorMessage={errors.company_owner?.first_name?.message}
+                    />
+                  </div>
+                  <div className="max-w-3xl">
+                    <TextField
+                      title="Last Name"
+                      asterisk
+                      {...register("company_owner.last_name")}
+                      errorMessage={errors.company_owner?.last_name?.message}
+                    />
+                  </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-16 mb-3">
-        <FormSection title="Owner Details">
-          <div className="flex-1">
+                  <label htmlFor="">Upload Profile Photo</label>
+                  <label htmlFor="">Preview</label>
+                  <div className={styles.file}>
+                    <DNDImage setFiles={setFiles} />
+                  </div>
+
+                  <aside className={companyStyles.preview}>
+                    {files?.[0]?.preview ? (
+                      <div className="">
+                        <img
+                          src={files?.[0]?.preview}
+                          alt="/assets/images/picture.svg"
+                          // Revoke data uri after image is loaded
+                          onLoad={() => {
+                            URL.revokeObjectURL(files?.[0]?.preview);
+                          }}
+                        />
+                        <RiDeleteBin6Line
+                          className="w-5 h-5 cursor-pointer absolute top-1 right-4"
+                          onClick={() => {
+                            setFiles(() => []);
+                          }}
+                        />
+                      </div>
+                    ) : (
+                      <div className="">
+                        <img
+                          src="/assets/images/picture.svg"
+
+                          // alt="/assets/images/picture.svg"
+                          // Revoke data uri after image is loaded
+                        />
+                      </div>
+                    )}
+                  </aside>
+
+                  <div className="max-w-3xl flex gap-2">
+                    <TextField
+                      title="Mobile Number"
+                      asterisk
+                      {...register("company_owner.phone")}
+                      errorMessage={errors.company_owner?.phone?.message}
+                    />
+
+                    <Button
+                      type="button"
+                      title="Send"
+                      height="fit"
+                      onClick={async () => {
+                        const ifValidated = await trigger(
+                          "company_owner.phone"
+                        );
+                        if (!ifValidated) return;
+                        const value = getValues("company_owner.phone");
+                        sendOtp(value);
+                      }}
+                    />
+                  </div>
+                  <div className="max-w-3xl">
+                    <InputOtp
+                      numInputs={6}
+                      error={!!errors.mobile_otp}
+                      value={mobileOTP}
+                      onChange={setMobileOTP}
+                    />
+                    <span>
+                      <span className="blue">0:27</span> to resend the code
+                    </span>
+                  </div>
+                  <div className="max-w-3xl flex gap-2">
+                    <TextField
+                      title="E-mail ID"
+                      asterisk
+                      {...register("company_owner.email")}
+                      errorMessage={errors.company_owner?.email?.message}
+                    />
+                    <Button
+                      type="button"
+                      title="Send"
+                      height="fit"
+                      onClick={async () => {
+                        const ifValidated = await trigger(
+                          "company_owner.email"
+                        );
+                        if (!ifValidated) return;
+                        const value = getValues("company_owner.email");
+                        sendOtp(value!);
+                      }}
+                    />
+                  </div>
+                  <div className="max-w-3xl">
+                    <InputOtp
+                      numInputs={6}
+                      error={!!errors.email_otp}
+                      onChange={setEmailOTP}
+                      value={emailOTP}
+                    />
+                    <span>
+                      <span className="blue">0:27</span> to resend the code
+                    </span>
+                  </div>
+                </div>
+              </FormWraper>
+            </div>
+          </FormSection>
+
+          <FormSection title="Company Details">
             <FormWraper>
               <div className={styles.formGrid}>
+                {/* <div className="max-w-3xl">
+                <TextField
+                  title="ABN No."
+                  asterisk
+                  {...register("abnNo")}
+                  errorMessage={errors.abnNo?.message}
+                />
+              </div> */}
                 <div className="max-w-3xl">
                   <TextField
-                    title="First Name"
+                    title="Company Name"
                     asterisk
-                    {...register("company_owner.first_name")}
-                    errorMessage={errors.company_owner?.first_name?.message}
+                    {...register("company_name")}
+                    errorMessage={errors.company_name?.message}
                   />
                 </div>
                 <div className="max-w-3xl">
                   <TextField
-                    title="Last Name"
+                    title="Mobile Number"
                     asterisk
-                    {...register("company_owner.last_name")}
-                    errorMessage={errors.company_owner?.last_name?.message}
+                    {...register("company_mobile_phone")}
+                    errorMessage={errors.company_mobile_phone?.message}
                   />
                 </div>
 
-                <label htmlFor="">Upload Profile Photo</label>
+                <div className="max-w-3xl">
+                  <TextField
+                    title="Landline Number"
+                    asterisk
+                    {...register("company_landline")}
+                    errorMessage={errors.company_landline?.message}
+                  />
+                </div>
+                <div className="max-w-3xl">
+                  <TextField
+                    title="Company E-mail ID"
+                    asterisk
+                    {...register("company_email")}
+                    errorMessage={errors.company_email?.message}
+                  />
+                </div>
+                <div className="max-w-3xl">
+                  <SelectBox
+                    placeholder="Company Country"
+                    data={countries}
+                    asterisk
+                    onChange={(e) => {
+                      setValue("company_country", e.label);
+                    }}
+                  />
+                  <p className={styles.error}>
+                    {errors.company_country?.message}
+                  </p>
+                </div>
+
+                <div className="max-w-3xl">
+                  <SelectBox
+                    placeholder="Company Type"
+                    data={type}
+                    asterisk
+                    onChange={(e) => {
+                      setValue("company_type", e.label);
+                    }}
+                  />
+                  <p className={styles.error}>{errors.company_type?.message}</p>
+                </div>
+                <label htmlFor="">Upload Logo</label>
                 <label htmlFor="">Preview</label>
                 <div className={styles.file}>
                   <DNDImage setFiles={setFiles} />
@@ -268,355 +460,81 @@ const CompanyRegistration = () => {
                     </div>
                   )}
                 </aside>
+              </div>
+            </FormWraper>
+          </FormSection>
 
-                <div className="max-w-3xl flex gap-2">
-                  <TextField
-                    title="Mobile Number"
-                    asterisk
-                    {...register("company_owner.phone")}
-                    errorMessage={errors.company_owner?.phone?.message}
+          <FormSection title="Address Details">
+            <FormWraper>
+              <>
+                <Address />
+              </>
+            </FormWraper>
+          </FormSection>
+
+          <FormSection title=" Upload Documents">
+            <FormWraper>
+              <div className="flex-1">
+                <p className="text-sm mb-10">
+                  <span className={companyStyles.note}>Note: &nbsp;</span>
+                  You must upload at least ONE Primary document. Foreign
+                  documents must be accompanied by an official translation.{" "}
+                  <a
+                    href="https://www.google.com"
+                    className={companyStyles.moreInfo}
+                  >
+                    Click for more info
+                  </a>
+                </p>
+                <div className={styles.formGrid}>
+                  <ButtonGroup
+                    onClick={() => {
+                      setElement(
+                        <UploadDoc data={compliance.primary} />,
+                        "Primary Documents"
+                      );
+                      !open && toggle();
+                    }}
+                    title="Primary Documents"
+                    groupTitle="Upload"
+                  />
+                  <ButtonGroup
+                    onClick={() => {
+                      setElement(
+                        <UploadDoc data={compliance.secondary} />,
+                        "Secondary Documents"
+                      );
+                      !open && toggle();
+                    }}
+                    title="Secondary Documents"
+                    groupTitle="Upload"
+                  />
+                  <ButtonGroup
+                    onClick={() => {
+                      setElement(
+                        <AdditionalDocument />,
+                        "Additional Documents"
+                      );
+                      !open && toggle();
+                    }}
+                    title="Additional Documents"
+                    groupTitle="Upload"
+                  />
+                </div>
+                <div className="flex justify-center gap-36 mt-10">
+                  <Button
+                    title="Submit"
+                    type="submit"
+                    isLoading={isSubmitting}
                   />
 
-                  <Button
-                    type="button"
-                    title="Send"
-                    height="fit"
-                    onClick={async () => {
-                      const ifValidated = await trigger("company_owner.phone");
-                      if (!ifValidated) return;
-                      const value = getValues("company_owner.phone");
-                      sendOtp(value);
-                    }}
-                  />
-                </div>
-                <div className="max-w-3xl">
-                  <InputOtp
-                    numInputs={6}
-                    error={!!errors.mobile_otp}
-                    value={mobileOTP}
-                    onChange={setMobileOTP}
-                  />
-                  <span>
-                    <span className="blue">0:27</span> to resend the code
-                  </span>
-                </div>
-                <div className="max-w-3xl flex gap-2">
-                  <TextField
-                    title="E-mail ID"
-                    asterisk
-                    {...register("company_owner.email")}
-                    errorMessage={errors.company_owner?.email?.message}
-                  />
-                  <Button
-                    type="button"
-                    title="Send"
-                    height="fit"
-                    onClick={async () => {
-                      const ifValidated = await trigger("company_owner.email");
-                      if (!ifValidated) return;
-                      const value = getValues("company_owner.email");
-                      sendOtp(value!);
-                    }}
-                  />
-                </div>
-                <div className="max-w-3xl">
-                  <InputOtp
-                    numInputs={6}
-                    error={!!errors.email_otp}
-                    onChange={setEmailOTP}
-                    value={emailOTP}
-                  />
-                  <span>
-                    <span className="blue">0:27</span> to resend the code
-                  </span>
+                  <Button title="Cancel" color="red" className="py-10" />
                 </div>
               </div>
             </FormWraper>
-          </div>
-        </FormSection>
-
-        <FormSection title="Company Details">
-          <FormWraper>
-            <div className={styles.formGrid}>
-              {/* <div className="max-w-3xl">
-                <TextField
-                  title="ABN No."
-                  asterisk
-                  {...register("abnNo")}
-                  errorMessage={errors.abnNo?.message}
-                />
-              </div> */}
-              <div className="max-w-3xl">
-                <TextField
-                  title="Company Name"
-                  asterisk
-                  {...register("company_name")}
-                  errorMessage={errors.company_name?.message}
-                />
-              </div>
-              <div className="max-w-3xl">
-                <TextField
-                  title="Mobile Number"
-                  asterisk
-                  {...register("company_mobile_phone")}
-                  errorMessage={errors.company_mobile_phone?.message}
-                />
-              </div>
-
-              <div className="max-w-3xl">
-                <TextField
-                  title="Landline Number"
-                  asterisk
-                  {...register("company_landline")}
-                  errorMessage={errors.company_landline?.message}
-                />
-              </div>
-              <div className="max-w-3xl">
-                <TextField
-                  title="Company E-mail ID"
-                  asterisk
-                  {...register("company_email")}
-                  errorMessage={errors.company_email?.message}
-                />
-              </div>
-              <div className="max-w-3xl">
-                <SelectBox
-                  placeholder="Company Country"
-                  data={countries}
-                  asterisk
-                  onChange={(e) => {
-                    setValue("company_country", e.label);
-                  }}
-                />
-                <p className={styles.error}>
-                  {errors.company_country?.message}
-                </p>
-              </div>
-
-              <div className="max-w-3xl">
-                <SelectBox
-                  placeholder="Company Type"
-                  data={type}
-                  asterisk
-                  onChange={(e) => {
-                    setValue("company_type", e.label);
-                  }}
-                />
-                <p className={styles.error}>{errors.company_type?.message}</p>
-              </div>
-              <label htmlFor="">Upload Logo</label>
-              <label htmlFor="">Preview</label>
-              <div className={styles.file}>
-                <DNDImage setFiles={setFiles} />
-              </div>
-
-              <aside className={companyStyles.preview}>
-                {files?.[0]?.preview ? (
-                  <div className="">
-                    <img
-                      src={files?.[0]?.preview}
-                      alt="/assets/images/picture.svg"
-                      // Revoke data uri after image is loaded
-                      onLoad={() => {
-                        URL.revokeObjectURL(files?.[0]?.preview);
-                      }}
-                    />
-                    <RiDeleteBin6Line
-                      className="w-5 h-5 cursor-pointer absolute top-1 right-4"
-                      onClick={() => {
-                        setFiles(() => []);
-                      }}
-                    />
-                  </div>
-                ) : (
-                  <div className="">
-                    <img
-                      src="/assets/images/picture.svg"
-
-                      // alt="/assets/images/picture.svg"
-                      // Revoke data uri after image is loaded
-                    />
-                  </div>
-                )}
-              </aside>
-            </div>
-          </FormWraper>
-        </FormSection>
-
-        <FormSection title="Address Details">
-          <FormWraper>
-            <>
-              <div className="mb-10">
-                <LocationAutocomplete
-                  placeholder="Location"
-                  onFocus={(e) => {
-                    setElement(<Map />, "Map");
-                    !open && toggle();
-                  }}
-                />
-              </div>
-              <div className={styles.formGrid}>
-                <div className="max-w-3xl">
-                  <TextField
-                    title="Building Name."
-                    {...register("company_address.building_number")}
-                    errorMessage={
-                      errors.company_address?.building_number?.message
-                    }
-                  />
-                </div>
-                <div className="max-w-3xl">
-                  <TextField
-                    title="Level No"
-                    {...register("company_address.level_number")}
-                    errorMessage={errors.company_address?.level_number?.message}
-                  />
-                </div>
-                <div className="max-w-3xl">
-                  <SelectBox
-                    placeholder="Select Unit Type"
-                    data={UnitTypes}
-                    onChange={(e) => {
-                      setValue("company_address.unit_type", e.label);
-                    }}
-                  />
-                </div>
-
-                <div className="max-w-3xl">
-                  <TextField
-                    title="Lot No."
-                    {...register("company_address.lot_number")}
-                    errorMessage={errors.company_address?.lot_number?.message}
-                  />
-                </div>
-
-                <div className="max-w-3xl">
-                  <TextField
-                    title="Street No."
-                    {...register("company_address.street_number")}
-                    errorMessage={
-                      errors.company_address?.street_number?.message
-                    }
-                  />
-                </div>
-
-                <div className="max-w-3xl">
-                  <TextField
-                    title="Street Name"
-                    asterisk
-                    {...register("company_address.street_name")}
-                    errorMessage={errors.company_address?.street_name?.message}
-                  />
-                </div>
-                <div className="max-w-3xl">
-                  <TextField
-                    title="Street Type"
-                    {...register("company_address.street_type")}
-                    errorMessage={errors.company_address?.street_type?.message}
-                  />
-                </div>
-
-                <div className="max-w-3xl">
-                  <TextField
-                    title="Suffix."
-                    {...register("company_address.suffix")}
-                    errorMessage={errors.company_address?.suffix?.message}
-                  />
-                </div>
-                <div className="max-w-3xl">
-                  <TextField
-                    title="Suburb"
-                    asterisk
-                    {...register("company_address.suburb")}
-                    errorMessage={errors.company_address?.suburb?.message}
-                  />
-                </div>
-                <div className="max-w-3xl">
-                  <SelectBox
-                    placeholder="State"
-                    data={States}
-                    onChange={(e) => {
-                      setValue("state", e.label);
-                    }}
-                  />
-                </div>
-                <div className="max-w-3xl">
-                  <TextField
-                    title="Pincode"
-                    asterisk
-                    {...register("company_address.pincode")}
-                    errorMessage={errors.company_address?.pincode?.message}
-                  />
-                </div>
-
-                <div className="max-w-3xl">
-                  <TextField
-                    title="LGA"
-                    asterisk
-                    {...register("company_address.lga")}
-                    errorMessage={errors.company_address?.lga?.message}
-                  />
-                </div>
-              </div>
-            </>
-          </FormWraper>
-        </FormSection>
-
-        <FormSection title=" Upload Documents">
-          <FormWraper>
-            <div className="flex-1">
-              <p className="text-sm mb-10">
-                <span className={companyStyles.note}>Note: &nbsp;</span>
-                You must upload at least ONE Primary document. Foreign documents
-                must be accompanied by an official translation.{" "}
-                <a
-                  href="https://www.google.com"
-                  className={companyStyles.moreInfo}
-                >
-                  Click for more info
-                </a>
-              </p>
-              <div className={styles.formGrid}>
-                <ButtonGroup
-                  onClick={() => {
-                    setElement(
-                      <UploadDoc data={compliance.primary} />,
-                      "Primary Documents"
-                    );
-                    !open && toggle();
-                  }}
-                  title="Primary Documents"
-                  groupTitle="Upload"
-                />
-                <ButtonGroup
-                  onClick={() => {
-                    setElement(
-                      <UploadDoc data={compliance.secondary} />,
-                      "Secondary Documents"
-                    );
-                    !open && toggle();
-                  }}
-                  title="Secondary Documents"
-                  groupTitle="Upload"
-                />
-                <ButtonGroup
-                  onClick={() => {
-                    setElement(<AdditionalDocument />, "Additional Documents");
-                    !open && toggle();
-                  }}
-                  title="Additional Documents"
-                  groupTitle="Upload"
-                />
-              </div>
-              <div className="flex justify-center gap-36 mt-10">
-                <Button title="Submit" type="submit" isLoading={isSubmitting} />
-
-                <Button title="Cancel" color="red" className="py-10" />
-              </div>
-            </div>
-          </FormWraper>
-        </FormSection>
-      </form>
+          </FormSection>
+        </form>
+      </FormProvider>
     </>
   );
 };

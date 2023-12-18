@@ -197,9 +197,9 @@ const Appintments = () => {
     <>
       <div className={btnCont}>
         <div className="">
-          <Link to="#">
+          <Link to="/jobs/create-job/">
             <Button
-              title="Create Appointment"
+              title="Create Job"
               icon={<AiOutlinePlus />}
               className="flex-row-reverse"
             />

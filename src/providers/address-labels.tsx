@@ -43,11 +43,11 @@ const AddressLabels = ({ children }: { children: JSX.Element }) => {
       userAuth.emp_license_info?.company?.company_country?.toLocaleLowerCase()
     ) {
       case "united states":
-        return "Zipcodes";
+        return "Zipcode";
       case "australian":
-        return "Postcodes";
+        return "Postcode";
       default:
-        return "Postcodes";
+        return "Postcode";
     }
   }
 

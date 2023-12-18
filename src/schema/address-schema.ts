@@ -1,37 +1,37 @@
-import { ObjectSchema, object, string } from "yup";
+import { AnyObject, ObjectSchema, object, string } from "yup";
 
 export type AddressSchemaT = {
-  building_number: string;
-  level_number: string;
-  unit_type: string;
-  unit_number: string;
-  lot_number: string;
-  street_number: string;
+  building_number: string | null;
+  level_number: string | null;
+  unit_type: string | null;
+  unit_number: string | null;
+  lot_number: string | null;
+  street_number: string | null;
   street_name: string;
-  street_type: string;
-  suffix: string;
+  street_type: string | null;
+  suffix: string | null;
   suburb: string;
   state: string;
-  lat: string;
-  long: string;
+  lat: string | null;
+  long: string | null;
   lga: string;
   pincode: string;
 };
 
-export const addressSchema: ObjectSchema<AddressSchemaT> = object({
-  building_number: string().trim().defined(),
-  level_number: string().trim().defined(),
-  unit_number: string().trim().defined(),
-  unit_type: string().trim().defined(),
-  lot_number: string().trim().defined(),
-  street_number: string().trim().defined(),
-  street_name: string().trim().defined().required("Required"),
-  street_type: string().trim().defined(),
-  suffix: string().trim().defined(),
-  suburb: string().trim().defined().required("Required"),
-  state: string().trim().defined().required("Required"),
-  lat: string().trim().defined(),
-  long: string().trim().defined(),
-  lga: string().trim().defined().required("Required"),
-  pincode: string().trim().defined().required("Required"),
-});
+export const addressSchema = object({
+  building_number: string().trim().nullable(),
+  level_number: string().trim().nullable(),
+  unit_number: string().trim().nullable(),
+  unit_type: string().trim().nullable(),
+  lot_number: string().trim().nullable(),
+  street_number: string().trim().nullable(),
+  street_name: string().trim().required("Required"),
+  street_type: string().trim(),
+  suffix: string().trim().nullable(),
+  suburb: string().trim().required("Required"),
+  state: string().trim().required("Required"),
+  lat: string().trim().nullable(),
+  long: string().trim().nullable(),
+  lga: string().trim().required("Required"),
+  pincode: string().trim().required("Required"),
+}) as ObjectSchema<AddressSchemaT>;

@@ -20,7 +20,6 @@ export const companyRegistrationSchema = object({
     email: string().trim().matches(EmailReg, "Invalid email"),
   }),
   company_address: addressSchema,
-  state: string().trim(),
 
   mobile_otp: string().required("Required"),
   email_otp: string().required("Required"),

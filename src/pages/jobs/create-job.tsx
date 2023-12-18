@@ -1,57 +1,49 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import Button from "components/button";
+import ComboBox, { ComboBoxDataT } from "components/combo-box";
 import FormSection from "components/form-sections";
 import FormWraper from "components/form-wrapper";
+import Label from "components/label";
 import Radio from "components/radio";
-import SelectBox from "components/selectBox";
 import TextField from "components/text-field";
-import { CUSTOMER_LISTING } from "constants/api";
-import { useRightBarContext } from "providers/right-bar-provider";
-import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { CUSTOMER_LISTING, JOB_LISTING } from "constants/api";
+import { useAuthContext } from "providers/auth-provider";
+import { useCompanyContext } from "providers/company-provider";
+import React, { ChangeEvent, useEffect, useState } from "react";
+import { FormProvider, useForm } from "react-hook-form";
 import {
   CustomerRegistrationSchemaType,
   customerRegistrationSchema,
 } from "schema/customer-schema";
+import {
+  JobRegistrationSchemaType,
+  jobRegistrationSchema,
+} from "schema/job-schema";
+import Address from "services/address";
+import employeeList from "services/employee-list";
 import { request } from "services/http-request";
+import UserIdentifyer from "services/user-identifyer";
 import * as styles from "styles/pages/common.module.scss";
-import { States, StreetTypes, UnitTypes } from "../../constants";
-import Label from "components/label";
-import LocationAutocomplete from "components/location-autocomplete";
-import Geolocation from "components/google-map";
-import { useAddressLabelContext } from "providers/address-labels";
-
-const countries = [
-  { label: "UK" },
-  { label: "USA" },
-  { label: "IND" },
-  { label: "CAD" },
-  { label: "RUS" },
-  { label: "JAP" },
-  { label: "AUS" },
-  { label: "NZL" },
-];
-
-const type = [{ label: "buyer" }, { label: "seller" }];
-
-interface FileProps extends File {
-  preview: string;
-}
-
-const location = {
-  address: "1600 Amphitheatre Parkway, Mountain View, california.",
-  lat: 37.42216,
-  lng: -122.08427,
-};
+import * as jobStyles from "./styles.module.scss";
+import { Result } from "type/employee";
+import { debounce } from "utility/debounce";
+import { useAppContext } from "providers/app-provider";
+import Checkbox from "components/checkbox";
+import { WorkTypeLabel } from "./create-appointment";
+import { assert } from "console";
+import { toast } from "react-toastify";
 
 const CreateJob = () => {
   const [OTP, setOTP] = useState<string>("");
+  const [empListData, setEmpListData] = useState<ComboBoxDataT[]>([]);
+  const { company } = useCompanyContext();
+  const { userAuth } = useAuthContext();
+  const userRole = UserIdentifyer();
+  const { workTypes } = useAppContext();
 
-  const [files, setFiles] = useState<FileProps[]>([]);
-
-  const { open, toggle, setElement } = useRightBarContext();
-  const { formatedComponents, Map } = Geolocation();
-  const { city, district, postcode } = useAddressLabelContext();
+  const methods = useForm({
+    resolver: yupResolver(jobRegistrationSchema),
+  });
 
   const {
     register,
@@ -59,22 +51,31 @@ const CreateJob = () => {
     setValue,
     watch,
     formState: { isSubmitting, errors },
-  } = useForm({
-    resolver: yupResolver(customerRegistrationSchema),
-  });
+  } = methods;
 
-  const address = watch("address");
-
-  async function onSubmit(data: CustomerRegistrationSchemaType) {
+  async function onSubmit(data: JobRegistrationSchemaType) {
     try {
+      const id = companyIdFetcher(userRole);
+
       const response = await request({
-        url: CUSTOMER_LISTING,
+        url: JOB_LISTING,
         method: "post",
-        data,
+        data: {
+          customer: {
+            user: data.customer.user,
+            company: id,
+            assigned_to: data.job_assigned_to_id,
+            customer_type: data.customer.customer_type,
+          },
+          address: data.address,
+          job_assigned_to_id: data.job_assigned_to_id,
+          work_type_id: data.workType[0],
+        },
       });
-      console.log(response);
+      toast.success("Added Sucessfully");
     } catch (error) {
       console.log("error");
+      toast.error("Something went wrong");
     }
   }
 
@@ -82,253 +83,163 @@ const CreateJob = () => {
     setOTP(OTP);
   }
 
+  function companyIdFetcher(role: string) {
+    switch (role) {
+      case "superadmin":
+        if (JSON.stringify(company) === "{}") {
+          alert("please select the company");
+          return null;
+        }
+        return company.id;
+      case "admin":
+        return userAuth.emp_license_info.company.id;
+      default:
+        return userAuth.emp_license_info.company.id;
+    }
+  }
+
+  async function handleEmployeeList(e: ChangeEvent<HTMLInputElement>) {
+    try {
+      const id = companyIdFetcher(userRole);
+      if (id === null) return;
+      const res = await employeeList({
+        search: e?.target?.value,
+        company: id,
+      });
+
+      const empFilteredList = res.results?.map((item) => ({
+        label: item.user?.first_name + " " + item.user?.last_name,
+        ...item,
+      })) as ComboBoxDataT[];
+
+      setEmpListData(() => empFilteredList);
+    } catch (error) {}
+  }
+
   useEffect(() => {
     // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
-    return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
+    // return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
   }, []);
 
   return (
     <>
+      {/* {JSON.stringify(errors)} */}
       <p className={styles.title}>Create Job</p>
+      <FormProvider {...methods}>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-16 mb-3">
+          <FormSection title="Customer Details">
+            <div className="z-10 grow">
+              <FormWraper>
+                <>
+                  <div className={`${styles.userRole}  my-10`}>
+                    <p className={styles.name}>
+                      <span className={styles.bold}>Customer Type</span>
+                    </p>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-16 mb-3">
-        <FormSection title="Customer Details">
-          <FormWraper>
-            <>
-              <div className={`${styles.userRole}  my-10`}>
-                <p className={styles.name}>
-                  <span className={styles.bold}>Customer Type</span>
-                </p>
-
-                <div className={`${styles.roles}`}>
-                  <Radio
-                    label="Business"
-                    name="status"
-                    // checked={companyData.company_status === "document review"}
-                  />
-                  <Radio
-                    label="Residential"
-                    name="status"
-                    // checked={companyData.company_status === "operational"}
-                  />
-                </div>
-              </div>{" "}
-              <div className={styles.formGrid}>
-                <div className="max-w-3xl">
-                  <TextField
-                    title="ABN Number."
-                    asterisk
-                    // {...register("abnNo")}
-                    // errorMessage={errors.abnNo?.message}
-                  />
-                </div>
-                <div className="max-w-3xl">
-                  <TextField
-                    title="Company Name"
-                    asterisk
-                    // {...register("company_name")}
-                    // errorMessage={errors.company_name?.message}
-                  />
-                </div>
-                <div className="max-w-3xl">
-                  <TextField
-                    title="First Name"
-                    asterisk
-                    {...register("user.first_name")}
-                    errorMessage={errors.user?.first_name?.message}
-                  />
-                </div>
-
-                <div className="max-w-3xl">
-                  <TextField
-                    title="Last Name"
-                    asterisk
-                    {...register("user.last_name")}
-                    errorMessage={errors.user?.last_name?.message}
-                  />
-                </div>
-                <div className="max-w-3xl">
-                  <TextField
-                    title="E-mail ID"
-                    asterisk
-                    {...register("user.email")}
-                    errorMessage={errors.user?.email?.message}
-                  />
-                </div>
-
-                <div className="max-w-3xl">
-                  <TextField
-                    title="Mobile Number"
-                    asterisk
-                    {...register("user.phone")}
-                    errorMessage={errors.user?.phone?.message}
-                  />
-                </div>
-              </div>
-            </>
-          </FormWraper>
-        </FormSection>
-
-        <FormSection title="Address Details">
-          <div className="flex-1">
-            <FormWraper>
-              <>
-                <div className="mb-10">
-                  <LocationAutocomplete
-                    onFocus={(e) => {
-                      setElement(<Map />, "Map");
-                      !open && toggle();
-                      console.log("focused");
-                    }}
-                    onBlur={(e) => {
-                      // toggle();
-                      // console.log("off focused");
-                    }}
-                    setFields={(val) => {
-                      console.log(val);
-                      setValue(
-                        "address",
-                        val as CustomerRegistrationSchemaType["address"]
-                      );
-                    }}
-                  />
-                </div>
-
-                <div className={styles.formGrid}>
-                  <div className="max-w-3xl">
-                    <TextField
-                      title="Building Name."
-                      asterisk
-                      {...register("address.building_number")}
-                      errorMessage={errors.address?.building_number?.message}
-                    />
-                  </div>
-                  <div className="max-w-3xl">
-                    <TextField
-                      title="Level No"
-                      asterisk
-                      {...register("address.level_number")}
-                      errorMessage={errors.address?.level_number?.message}
-                    />
-                  </div>
-                  <div className="max-w-3xl">
-                    <SelectBox
-                      color="full-white"
-                      placeholder="Select Unit Type"
-                      data={UnitTypes}
-                      asterisk
-                      value={address?.unit_type}
-                      onChange={(e) => {
-                        setValue("address.unit_type", e.label);
-                      }}
-                    />
-                  </div>
-                  <div className="max-w-3xl">
-                    <TextField
-                      title="Unit No"
-                      asterisk
-                      {...register("address.unit_number")}
-                      errorMessage={errors.address?.unit_number?.message}
-                    />
-                  </div>
-
-                  <div className="max-w-3xl">
-                    <TextField
-                      title="Lot No."
-                      asterisk
-                      {...register("address.lot_number")}
-                      errorMessage={errors.address?.lot_number?.message}
-                    />
-                  </div>
-                  <div className="max-w-3xl">
-                    <div className="max-w-3xl">
-                      <SelectBox
-                        color="full-white"
-                        placeholder="Street No"
-                        data={StreetTypes}
-                        asterisk
-                        value={address?.street_number}
-                        onChange={(e) => {
-                          setValue("address.street_number", e.label);
-                        }}
+                    <div className={`${styles.roles}`}>
+                      <Radio
+                        value="residential"
+                        label="Residential"
+                        {...register("customer.customer_type")}
+                      />
+                      <Radio
+                        value="commercial"
+                        label="Commercial"
+                        {...register("customer.customer_type")}
                       />
                     </div>
-                  </div>
-                  <div className="max-w-3xl">
-                    <TextField
-                      title="Street Name"
-                      asterisk
-                      {...register("address.street_name")}
-                      errorMessage={errors.address?.street_name?.message}
-                    />
-                  </div>
-                  <div className="max-w-3xl">
-                    <TextField
-                      title="Street Type"
-                      asterisk
-                      {...register("address.street_type")}
-                      errorMessage={errors.address?.street_type?.message}
-                    />
-                  </div>
+                  </div>{" "}
+                  <div className={styles.formGrid}>
+                    <div className="max-w-3xl">
+                      <TextField
+                        title="First Name"
+                        asterisk
+                        {...register("customer.user.first_name")}
+                        errorMessage={
+                          errors.customer?.user?.first_name?.message
+                        }
+                      />
+                    </div>
 
-                  <div className="max-w-3xl">
-                    <TextField
-                      title="Suffix."
-                      asterisk
-                      {...register("address.suffix")}
-                      errorMessage={errors.address?.suffix?.message}
-                    />
-                  </div>
-                  <div className="max-w-3xl">
-                    <TextField
-                      title={district()}
-                      asterisk
-                      {...register("address.suburb")}
-                      errorMessage={errors.address?.suburb?.message}
-                    />
-                  </div>
+                    <div className="max-w-3xl">
+                      <TextField
+                        title="Last Name"
+                        asterisk
+                        {...register("customer.user.last_name")}
+                        errorMessage={errors.customer?.user?.last_name?.message}
+                      />
+                    </div>
+                    <div className="max-w-3xl">
+                      <TextField
+                        title="E-mail ID"
+                        asterisk
+                        {...register("customer.user.email")}
+                        errorMessage={errors.customer?.user?.email?.message}
+                      />
+                    </div>
 
-                  <div className="max-w-3xl">
-                    <Label title="State" />
-                    <SelectBox
-                      color="full-white"
-                      placeholder="State"
-                      data={States}
-                      asterisk
-                      value={address?.state}
-                      onChange={(e) => {
-                        setValue("address.state", e.label);
-                      }}
-                    />
-                  </div>
-                  <div className="max-w-3xl">
-                    <TextField
-                      title={postcode()}
-                      asterisk
-                      {...register("address.pincode")}
-                      errorMessage={errors.address?.pincode?.message}
-                    />
-                  </div>
+                    <div className="max-w-3xl">
+                      <TextField
+                        title="Mobile Number"
+                        asterisk
+                        {...register("customer.user.phone")}
+                        errorMessage={errors.customer?.user?.phone?.message}
+                      />
+                    </div>
 
-                  <div className="max-w-3xl">
-                    <TextField
-                      title={city()}
-                      asterisk
-                      {...register("address.lga")}
-                      errorMessage={errors.address?.lga?.message}
-                    />
+                    <div className="max-w-3xl">
+                      <Label title="Employee" />
+                      <ComboBox<Result>
+                        data={empListData}
+                        handleSelect={(e) => {
+                          setValue("job_assigned_to_id", String(e?.id!));
+                        }}
+                        onChange={debounce(handleEmployeeList)}
+                      />
+                      <p className={styles.error}>
+                        {errors.job_assigned_to_id?.message}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </>
-            </FormWraper>
-            <div className="flex justify-center gap-36 mt-10">
-              <Button title="Submit" type="submit" isLoading={isSubmitting} />
-
-              <Button title="Cancel" color="red" className="py-10" />
+                </>
+              </FormWraper>
             </div>
-          </div>
-        </FormSection>
-      </form>
+          </FormSection>
+
+          <FormSection title="Work Types">
+            <FormWraper>
+              <div className={jobStyles.wtGrid}>
+                {workTypes?.map((item) => {
+                  return (
+                    <Checkbox
+                      key={item.id}
+                      id={item.title}
+                      label={<WorkTypeLabel text={item.title} />}
+                      {...register("workType")}
+                      value={item.id}
+                    />
+                  );
+                })}
+              </div>
+            </FormWraper>
+          </FormSection>
+
+          <FormSection title="Address Details">
+            <div className="flex-1">
+              <FormWraper>
+                <>
+                  <Address />
+                </>
+              </FormWraper>
+              <div className="flex justify-center gap-36 mt-10">
+                <Button title="Submit" type="submit" isLoading={isSubmitting} />
+
+                <Button title="Cancel" color="red" className="py-10" />
+              </div>
+            </div>
+          </FormSection>
+        </form>
+      </FormProvider>
     </>
   );
 };

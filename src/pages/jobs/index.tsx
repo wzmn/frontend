@@ -21,6 +21,7 @@ import cssVar from "utility/css-var";
 import { findMatchingId } from "utility/find-matching-id";
 import View from "./view";
 import Placeholder from "components/skeleton";
+import UserIdentifyer from "services/user-identifyer";
 
 type DropItemType = { id: number; section: JobStatusRole };
 
@@ -306,7 +307,7 @@ export function List({
 
         setElement(
           <View data={data} />,
-          `Customer ID: ${data.id}`,
+          `Job ID: ${data.id}`,
           <>
             <IoEyeOutline
               onClick={() => {
