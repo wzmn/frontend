@@ -117,7 +117,7 @@ const customerRegistration = () => {
                     title="ABN Number."
                     asterisk
                     // {...register("abnNo")}
-                    // errorMessage={errors.abnNo?.message}
+                    // errormessage={errors.abnNo?.message}
                   />
                 </div>
                 <div className="max-w-3xl">
@@ -125,7 +125,7 @@ const customerRegistration = () => {
                     title="Company Name"
                     asterisk
                     // {...register("company_name")}
-                    // errorMessage={errors.company_name?.message}
+                    // errormessage={errors.company_name?.message}
                   />
                 </div>
                 <div className="max-w-3xl">
@@ -133,7 +133,7 @@ const customerRegistration = () => {
                     title="First Name"
                     asterisk
                     {...register("user.first_name")}
-                    errorMessage={errors.user?.first_name?.message}
+                    errormessage={errors.user?.first_name?.message}
                   />
                 </div>
 
@@ -142,7 +142,7 @@ const customerRegistration = () => {
                     title="Last Name"
                     asterisk
                     {...register("user.last_name")}
-                    errorMessage={errors.user?.last_name?.message}
+                    errormessage={errors.user?.last_name?.message}
                   />
                 </div>
                 <div className="max-w-3xl">
@@ -150,7 +150,7 @@ const customerRegistration = () => {
                     title="E-mail ID"
                     asterisk
                     {...register("user.email")}
-                    errorMessage={errors.user?.email?.message}
+                    errormessage={errors.user?.email?.message}
                   />
                 </div>
 
@@ -159,7 +159,7 @@ const customerRegistration = () => {
                     title="Mobile Number"
                     asterisk
                     {...register("user.phone")}
-                    errorMessage={errors.user?.phone?.message}
+                    errormessage={errors.user?.phone?.message}
                   />
                 </div>
               </div>
@@ -198,7 +198,7 @@ const customerRegistration = () => {
                       title="Building Name."
                       asterisk
                       {...register("address.building_number")}
-                      errorMessage={errors.address?.building_number?.message}
+                      errormessage={errors.address?.building_number?.message}
                     />
                   </div>
                   <div className="max-w-3xl">
@@ -206,7 +206,7 @@ const customerRegistration = () => {
                       title="Level No"
                       asterisk
                       {...register("address.level_number")}
-                      errorMessage={errors.address?.level_number?.message}
+                      errormessage={errors.address?.level_number?.message}
                     />
                   </div>
                   <div className="max-w-3xl">
@@ -226,7 +226,7 @@ const customerRegistration = () => {
                       title="Unit No"
                       asterisk
                       {...register("address.unit_number")}
-                      errorMessage={errors.address?.unit_number?.message}
+                      errormessage={errors.address?.unit_number?.message}
                     />
                   </div>
 
@@ -235,7 +235,7 @@ const customerRegistration = () => {
                       title="Lot No."
                       asterisk
                       {...register("address.lot_number")}
-                      errorMessage={errors.address?.lot_number?.message}
+                      errormessage={errors.address?.lot_number?.message}
                     />
                   </div>
                   <div className="max-w-3xl">
@@ -257,7 +257,7 @@ const customerRegistration = () => {
                       title="Street Name"
                       asterisk
                       {...register("address.street_name")}
-                      errorMessage={errors.address?.street_name?.message}
+                      errormessage={errors.address?.street_name?.message}
                     />
                   </div>
                   <div className="max-w-3xl">
@@ -265,7 +265,7 @@ const customerRegistration = () => {
                       title="Street Type"
                       asterisk
                       {...register("address.street_type")}
-                      errorMessage={errors.address?.street_type?.message}
+                      errormessage={errors.address?.street_type?.message}
                     />
                   </div>
 
@@ -274,7 +274,7 @@ const customerRegistration = () => {
                       title="Suffix."
                       asterisk
                       {...register("address.suffix")}
-                      errorMessage={errors.address?.suffix?.message}
+                      errormessage={errors.address?.suffix?.message}
                     />
                   </div>
                   <div className="max-w-3xl">
@@ -282,7 +282,7 @@ const customerRegistration = () => {
                       title={district()}
                       asterisk
                       {...register("address.suburb")}
-                      errorMessage={errors.address?.suburb?.message}
+                      errormessage={errors.address?.suburb?.message}
                     />
                   </div>
 
@@ -304,7 +304,7 @@ const customerRegistration = () => {
                       title={postcode()}
                       asterisk
                       {...register("address.pincode")}
-                      errorMessage={errors.address?.pincode?.message}
+                      errormessage={errors.address?.pincode?.message}
                     />
                   </div>
 
@@ -313,7 +313,7 @@ const customerRegistration = () => {
                       title={city()}
                       asterisk
                       {...register("address.lga")}
-                      errorMessage={errors.address?.lga?.message}
+                      errormessage={errors.address?.lga?.message}
                     />
                   </div>
                 </div>

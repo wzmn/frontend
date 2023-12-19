@@ -1,42 +1,71 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import type { HeadFC, PageProps } from "gatsby";
 import Filterbtn from "components/filterBtn";
 import Menu from "components/menu";
 import Modal from "components/modal";
 
+import { initializeApp } from 'firebase/app'
+import { getAnalytics } from "firebase/analytics";
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCtp1-uBttn4YQXCE95xjxADTeCU4MV4Tk",
+  authDomain: "snippit-266be.firebaseapp.com",
+  projectId: "snippit-266be",
+  storageBucket: "snippit-266be.appspot.com",
+  messagingSenderId: "676256783802",
+  appId: "1:676256783802:web:a427fe71963a278e995183",
+  measurementId: "G-SGBDKJR7PV"
+};
+
 function showNotification() {
   Notification.requestPermission().then((result) => {
     if (result === 'granted') {
-      console.log("service permission granted")
-      navigator.serviceWorker.ready.then(registration => {
-        console.log("service worker ready")
-        registration.showNotification('Update', {
-          body: 'New content is available!',
-          icon: 'link-to-your-icon',
-          vibrate: [200, 100, 200, 100, 200, 100, 400],
-          tag: 'request',
-          actions: [ // you can customize these actions as you like
-            {
-              action: () => { alert("update") }, // you should define this
-              title: 'update'
-            },
-            {
-              action: () => { alert("asdasd") }, // you should define this
-              title: 'ignore'
-            }
-          ]
-        })
-      })
+      new Notification('This is a local notification', {body: 'Something is about to happen'})
     }
   });
 }
 
-//test commit
 const IndexPage: React.FC<PageProps> = ({ path }) => {
   const [visible, setVisible] = useState(false);
   const toggleModal = () => {
     setVisible(!visible);
   }
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const messaging = getMessaging(app);
+
+  const onMessageListener = () =>
+    new Promise((resolve) => {
+      onMessage(messaging, (payload) => {
+        console.log("payload", payload)
+        resolve(payload);
+      });
+  });
+
+  useEffect(()=>{
+    getToken(messaging, {vapidKey: process.env.VAPID}).then((currentToken) => {
+      // Send token to backend
+      console.log("TOKEN: ", currentToken)
+      // currentToken
+    }).catch((err) => {
+      console.log('An error occurred while retrieving token. ', err);
+      // ...
+    });
+    Notification.requestPermission().then((result) => {
+      if (result === 'granted') {
+        onMessageListener()
+        .then((payload: any) => {
+          console.table(payload)
+          new Notification(payload?.notification?.title, {body: payload?.notification?.body, image: payload?.notification?.image, title: payload?.notification?.title});     
+        })
+        .catch((err) => console.log('Notification failed: ', err));
+      }
+    });
+    
+  }, [])
+
+
   return <main className="flex items-center justify-center grow">
 
     <Modal options={{
@@ -46,12 +75,12 @@ const IndexPage: React.FC<PageProps> = ({ path }) => {
         {
           type: 'info',
           title: 'Accept',
-          action: () => { console.log('info'); toggleModal(); }
+          action: () => { console.log('Accept clicked'); toggleModal(); }
         },
         {
           type: 'normal',
           title: 'Decline',
-          action: () => { console.log('error'); toggleModal(); }
+          action: () => { console.log('Decline clicked'); toggleModal(); }
         },
       ],
       onClose: () => { console.log('modal closed') }

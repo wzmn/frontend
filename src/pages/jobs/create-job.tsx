@@ -110,7 +110,7 @@ const CreateJob = () => {
                     title="ABN Number."
                     asterisk
                     // {...register("abnNo")}
-                    // errorMessage={errors.abnNo?.message}
+                    // errormessage={errors.abnNo?.message}
                   />
                 </div>
                 <div className="max-w-3xl">
@@ -118,7 +118,7 @@ const CreateJob = () => {
                     title="Company Name"
                     asterisk
                     // {...register("company_name")}
-                    // errorMessage={errors.company_name?.message}
+                    // errormessage={errors.company_name?.message}
                   />
                 </div>
                 <div className="max-w-3xl">
@@ -126,7 +126,7 @@ const CreateJob = () => {
                     title="First Name"
                     asterisk
                     {...register("user.first_name")}
-                    errorMessage={errors.user?.first_name?.message}
+                    errormessage={errors.user?.first_name?.message}
                   />
                 </div>
 
@@ -135,7 +135,7 @@ const CreateJob = () => {
                     title="Last Name"
                     asterisk
                     {...register("user.last_name")}
-                    errorMessage={errors.user?.last_name?.message}
+                    errormessage={errors.user?.last_name?.message}
                   />
                 </div>
                 <div className="max-w-3xl">
@@ -143,7 +143,7 @@ const CreateJob = () => {
                     title="E-mail ID"
                     asterisk
                     {...register("user.email")}
-                    errorMessage={errors.user?.email?.message}
+                    errormessage={errors.user?.email?.message}
                   />
                 </div>
 
@@ -152,7 +152,7 @@ const CreateJob = () => {
                     title="Mobile Number"
                     asterisk
                     {...register("user.phone")}
-                    errorMessage={errors.user?.phone?.message}
+                    errormessage={errors.user?.phone?.message}
                   />
                 </div>
               </div>
@@ -169,7 +169,7 @@ const CreateJob = () => {
                     title="Building Name."
                     asterisk
                     // {...register("address.buildingName")}
-                    // errorMessage={errors.address?.buildingName?.message}
+                    // errormessage={errors.address?.buildingName?.message}
                   />
                 </div>
                 <div className="max-w-3xl">
@@ -177,7 +177,7 @@ const CreateJob = () => {
                     title="Level No"
                     asterisk
                     // {...register("address.levelNo")}
-                    // errorMessage={errors.address?.levelNo?.message}
+                    // errormessage={errors.address?.levelNo?.message}
                   />
                 </div>
                 <div className="max-w-3xl">
@@ -195,7 +195,7 @@ const CreateJob = () => {
                     title="Unit No"
                     asterisk
                     // {...register("address.unitNo")}
-                    // errorMessage={errors.address?.unitNo?.message}
+                    // errormessage={errors.address?.unitNo?.message}
                   />
                 </div>
 
@@ -204,7 +204,7 @@ const CreateJob = () => {
                     title="Lot No."
                     asterisk
                     // {...register("address.lotNo")}
-                    // errorMessage={errors.address?.lotNo?.message}
+                    // errormessage={errors.address?.lotNo?.message}
                   />
                 </div>
                 <div className="max-w-3xl">
@@ -224,7 +224,7 @@ const CreateJob = () => {
                     title="Street Name"
                     asterisk
                     // {...register("address.streetName")}
-                    // errorMessage={errors.address?.streetName?.message}
+                    // errormessage={errors.address?.streetName?.message}
                   />
                 </div>
                 <div className="max-w-3xl">
@@ -232,7 +232,7 @@ const CreateJob = () => {
                     title="Street Type"
                     asterisk
                     // {...register("address.streetType")}
-                    // errorMessage={errors.address?.streetType?.message}
+                    // errormessage={errors.address?.streetType?.message}
                   />
                 </div>
 
@@ -241,7 +241,7 @@ const CreateJob = () => {
                     title="Suffix."
                     asterisk
                     // {...register("address.suffix")}
-                    // errorMessage={errors.address?.suffix?.message}
+                    // errormessage={errors.address?.suffix?.message}
                   />
                 </div>
                 <div className="max-w-3xl">
@@ -249,7 +249,7 @@ const CreateJob = () => {
                     title="Suburb"
                     asterisk
                     // {...register("address.suburb")}
-                    // errorMessage={errors.address?.suburb?.message}
+                    // errormessage={errors.address?.suburb?.message}
                   />
                 </div>
                 <div className="max-w-3xl">
@@ -267,7 +267,7 @@ const CreateJob = () => {
                     title="Pincode"
                     asterisk
                     // {...register("address.pincode")}
-                    // errorMessage={errors.address?.pincode?.message}
+                    // errormessage={errors.address?.pincode?.message}
                   />
                 </div>
 
@@ -276,7 +276,7 @@ const CreateJob = () => {
                     title="LGA"
                     asterisk
                     // {...register("address.lga")}
-                    // errorMessage={errors.address?.lga?.message}
+                    // errormessage={errors.address?.lga?.message}
                   />
                 </div>
               </div>
