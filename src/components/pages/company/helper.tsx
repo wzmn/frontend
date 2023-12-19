@@ -29,9 +29,8 @@ export function List({
   return (
     <div
       onClick={() => {
-        {
-          !open && toggle();
-        }
+        !open && toggle();
+
         setElement(
           <View data={data} />,
           `Company ID: ${data.id}`,

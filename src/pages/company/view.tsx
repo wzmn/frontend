@@ -57,9 +57,9 @@ const View = ({ data }: { data: CompanyExtraDataType }) => {
                     <IoLocationOutline className={styles.icon} />
                   </span>
 
-                  <span className={styles.contact}>
+                  {/* <span className={styles.contact}>
                     {data?.company_address || "N/A"}
-                  </span>
+                  </span> */}
                 </div>
               </div>
             </Disclosure.Panel>
@@ -76,10 +76,10 @@ const View = ({ data }: { data: CompanyExtraDataType }) => {
           {data?.company_type}
         </p>
 
-        <p className={styles.additionalInfo}>
+        {/* <p className={styles.additionalInfo}>
           <span className={styles.title}>State: &nbsp;</span>{" "}
           {data?.company_address || "N/A"}
-        </p>
+        </p> */}
 
         <p className={styles.additionalInfo}>
           <span className={styles.title}>LGA: &nbsp;</span> City of Swan
