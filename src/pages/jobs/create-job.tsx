@@ -32,6 +32,7 @@ import Checkbox from "components/checkbox";
 import { WorkTypeLabel } from "./create-appointment";
 import { assert } from "console";
 import { toast } from "react-toastify";
+import { navigate } from "gatsby";
 
 const CreateJob = () => {
   const [OTP, setOTP] = useState<string>("");
@@ -73,6 +74,7 @@ const CreateJob = () => {
         },
       });
       toast.success("Added Sucessfully");
+      navigate(-1);
     } catch (error) {
       console.log("error");
       toast.error("Something went wrong");

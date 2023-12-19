@@ -103,7 +103,7 @@ const Company = () => {
         },
       });
 
-      const filterData = { ...status };
+      const filterData = JSON.parse(JSON.stringify(status));
 
       //this is to make all record empty before calling this function otherwise it will stack
       Object.keys(data).map(

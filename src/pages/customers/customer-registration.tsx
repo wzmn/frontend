@@ -27,6 +27,7 @@ import { request } from "services/http-request";
 import UserIdentifyer from "services/user-identifyer";
 import { Result } from "type/company";
 import { debounce } from "utility/debounce";
+import { navigate } from "gatsby";
 
 const countries = [
   { label: "ADMIN" },
@@ -103,6 +104,7 @@ const customerRegistration = () => {
         data: dt,
       });
       toast.success("Added Sucessfully");
+      navigate(-1);
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");

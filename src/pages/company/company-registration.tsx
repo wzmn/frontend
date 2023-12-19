@@ -26,6 +26,7 @@ import * as styles from "styles/pages/common.module.scss";
 import { CompanyDataType } from "type/company";
 import { CountryComplianceType } from "type/global";
 import * as companyStyles from "./styles.module.scss";
+import { navigate } from "gatsby";
 
 let countryComplianceData: CountryComplianceType[];
 
@@ -176,6 +177,7 @@ const CompanyRegistration = () => {
       });
       console.log(response);
       toast.success("Added Sucessfully");
+      navigate(-1);
 
       // if (response.status === 201) {
       //   const uploadDoc = await request({
