@@ -4,11 +4,32 @@ import * as styles from "./styles.module.scss";
 interface Props extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   //...add your custom types here
   asterisk?: boolean;
-  errorMessage?: string;
+  errormessage?: string;
+}
+
+function handleSize(str?: string) {
+  switch (str) {
+    case "small":
+      return ` ${styles.small} `;
+    default:
+      return "";
+  }
+}
+
+function handleVarient(str: string) {
+  switch (str) {
+    case "auth":
+      return styles.login;
+
+    case "regular":
+      return styles.regular;
+    default:
+      styles.login;
+  }
 }
 
 const Textarea = forwardRef<HTMLTextAreaElement, Props>((props, ref) => {
-  const { placeholder, errorMessage } = props;
+  const { placeholder, errormessage } = props;
 
   return (
     <div className={styles.tAreaCont}>
@@ -20,7 +41,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, Props>((props, ref) => {
         ></textarea>
       </div>
 
-      <p className={styles.errorMessage}>{errorMessage}</p>
+      <p className={styles.errormessage}>{errormessage}</p>
     </div>
   );
 });

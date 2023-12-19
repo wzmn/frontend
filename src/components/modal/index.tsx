@@ -53,9 +53,9 @@ const Modal = ({ options, children }: any) => {
                         <div className="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
                             {options.buttons && options.buttons.map((btn: any) => {
                                 return (
-                                    <><button onClick={()=>{
+                                    <button onClick={()=>{
                                         btn.action()
-                                    }} key={btn.title} type="button" className={`${classes[btn.type as keyof Object]}`}>{btn.title}</button></>
+                                    }} key={btn.title} type="button" className={`${classes[btn.type as keyof Object]}`}>{btn.title}</button>
                                 )
                             })}
                         </div>

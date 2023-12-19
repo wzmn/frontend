@@ -5,20 +5,20 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   //...add your custom types here
   asterisk?: boolean;
-  errorMessage?: string;
+  errormessage?: string;
   title: string;
 }
 
 const TextField = forwardRef<HTMLInputElement, Omit<Props, "placeholder">>(
   (props, ref) => {
-    const { asterisk, errorMessage = "", title, type } = props;
+    const { asterisk, errormessage = "", title, type } = props;
     const [isVisible, setVisible] = useState(type === "password");
     const toggleVisibility = () => setVisible(!isVisible);
     return (
       <div className={styles.textField}>
         <div
           className={`${styles.inputCont} ${
-            errorMessage !== "" && styles.error
+            errormessage !== "" && styles.error
           }`}
         >
           <input placeholder="" ref={ref} {...props} type={isVisible ? 'password' : 'text'} />
@@ -36,7 +36,7 @@ const TextField = forwardRef<HTMLInputElement, Omit<Props, "placeholder">>(
           </span>
          {type === "password" && (!isVisible ? <AiOutlineEyeInvisible onClick={toggleVisibility} /> : <AiOutlineEye onClick={toggleVisibility} />)}
         </div>
-        <span className={styles.errorMessage}>{errorMessage}</span>
+        <span className={styles.errormessage}>{errormessage}</span>
       </div>
     );
   }

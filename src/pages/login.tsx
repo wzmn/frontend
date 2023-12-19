@@ -51,7 +51,7 @@ const Login = (props: any) => {
               {...register("username")}
               id="username"
               title="Username"
-              errorMessage={errors.username?.message}
+              errormessage={errors.username?.message}
             />
 
             <TextField
@@ -59,7 +59,7 @@ const Login = (props: any) => {
               id="password"
               title="Password"
               type="password"
-              errorMessage={errors.password?.message}
+              errormessage={errors.password?.message}
             />
           </div>
           {formError && <div className="text-red text-sm mt-2">{formError}</div>}

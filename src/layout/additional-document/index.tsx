@@ -76,7 +76,7 @@ const AdditionalDocument = () => {
                 type="date"
                 placeholder="Type the name"
                 varient="regular"
-                // errorMessage={!errors.name + ""}
+                // errormessage={!errors.name + ""}
               />
             </td>
           </tr>

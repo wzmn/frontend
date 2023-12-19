@@ -240,7 +240,7 @@ const CompanyRegistration = () => {
                       title="First Name"
                       asterisk
                       {...register("company_owner.first_name")}
-                      errorMessage={errors.company_owner?.first_name?.message}
+                      errormessage={errors.company_owner?.first_name?.message}
                     />
                   </div>
                   <div className="max-w-3xl">
@@ -248,7 +248,7 @@ const CompanyRegistration = () => {
                       title="Last Name"
                       asterisk
                       {...register("company_owner.last_name")}
-                      errorMessage={errors.company_owner?.last_name?.message}
+                      errormessage={errors.company_owner?.last_name?.message}
                     />
                   </div>
 
@@ -293,7 +293,7 @@ const CompanyRegistration = () => {
                       title="Mobile Number"
                       asterisk
                       {...register("company_owner.phone")}
-                      errorMessage={errors.company_owner?.phone?.message}
+                      errormessage={errors.company_owner?.phone?.message}
                     />
 
                     <Button
@@ -326,7 +326,7 @@ const CompanyRegistration = () => {
                       title="E-mail ID"
                       asterisk
                       {...register("company_owner.email")}
-                      errorMessage={errors.company_owner?.email?.message}
+                      errormessage={errors.company_owner?.email?.message}
                     />
                     <Button
                       type="button"
@@ -373,16 +373,16 @@ const CompanyRegistration = () => {
                   <TextField
                     title="Company Name"
                     asterisk
-                    {...register("company_name")}
-                    errorMessage={errors.company_name?.message}
+                    {...register("company_owner.first_name")}
+                    errormessage={errors.company_owner?.first_name?.message}
                   />
                 </div>
                 <div className="max-w-3xl">
                   <TextField
                     title="Mobile Number"
                     asterisk
-                    {...register("company_mobile_phone")}
-                    errorMessage={errors.company_mobile_phone?.message}
+                    {...register("company_owner.last_name")}
+                    errormessage={errors.company_owner?.last_name?.message}
                   />
                 </div>
 
@@ -391,7 +391,7 @@ const CompanyRegistration = () => {
                     title="Landline Number"
                     asterisk
                     {...register("company_landline")}
-                    errorMessage={errors.company_landline?.message}
+                    errormessage={errors.company_landline?.message}
                   />
                 </div>
                 <div className="max-w-3xl">
@@ -399,7 +399,7 @@ const CompanyRegistration = () => {
                     title="Company E-mail ID"
                     asterisk
                     {...register("company_email")}
-                    errorMessage={errors.company_email?.message}
+                    errormessage={errors.company_email?.message}
                   />
                 </div>
                 <div className="max-w-3xl">

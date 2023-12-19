@@ -175,7 +175,7 @@ const customerRegistration = () => {
                         title="First Name"
                         asterisk
                         {...register("user.first_name")}
-                        errorMessage={errors.user?.first_name?.message}
+                        errormessage={errors.user?.first_name?.message}
                       />
                     </div>
 
@@ -184,7 +184,7 @@ const customerRegistration = () => {
                         title="Last Name"
                         asterisk
                         {...register("user.last_name")}
-                        errorMessage={errors.user?.last_name?.message}
+                        errormessage={errors.user?.last_name?.message}
                       />
                     </div>
                     <div className="max-w-3xl">
@@ -192,7 +192,7 @@ const customerRegistration = () => {
                         title="E-mail ID"
                         asterisk
                         {...register("user.email")}
-                        errorMessage={errors.user?.email?.message}
+                        errormessage={errors.user?.email?.message}
                       />
                     </div>
 
@@ -201,7 +201,7 @@ const customerRegistration = () => {
                         title="Mobile Number"
                         asterisk
                         {...register("user.phone")}
-                        errorMessage={errors.user?.phone?.message}
+                        errormessage={errors.user?.phone?.message}
                       />
                     </div>
 

@@ -64,13 +64,13 @@ const ChangePassword = () => {
             <TextField
               {...register("password")}
               title="New Password"
-              errorMessage={errors.password?.message}
+              errormessage={errors.password?.message}
             />
 
             <TextField
               {...register("passwordConfirmation")}
               title="Confirm New Password"
-              errorMessage={errors.passwordConfirmation?.message}
+              errormessage={errors.passwordConfirmation?.message}
             />
           </div>
           <Button

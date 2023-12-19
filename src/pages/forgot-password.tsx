@@ -53,7 +53,7 @@ const ForgotPassword = () => {
             <TextField
               {...register("username")}
               title="E-mail ID"
-              errorMessage={errors.username?.message}
+              errormessage={errors.username?.message}
             />
           </div>
           {error && <div className="text-red text-sm mt-2">{error}</div>}

@@ -157,7 +157,7 @@ const CreateJob = () => {
                         title="First Name"
                         asterisk
                         {...register("customer.user.first_name")}
-                        errorMessage={
+                        errormessage={
                           errors.customer?.user?.first_name?.message
                         }
                       />
@@ -168,7 +168,7 @@ const CreateJob = () => {
                         title="Last Name"
                         asterisk
                         {...register("customer.user.last_name")}
-                        errorMessage={errors.customer?.user?.last_name?.message}
+                        errormessage={errors.customer?.user?.last_name?.message}
                       />
                     </div>
                     <div className="max-w-3xl">
@@ -176,7 +176,7 @@ const CreateJob = () => {
                         title="E-mail ID"
                         asterisk
                         {...register("customer.user.email")}
-                        errorMessage={errors.customer?.user?.email?.message}
+                        errormessage={errors.customer?.user?.email?.message}
                       />
                     </div>
 
@@ -185,7 +185,7 @@ const CreateJob = () => {
                         title="Mobile Number"
                         asterisk
                         {...register("customer.user.phone")}
-                        errorMessage={errors.customer?.user?.phone?.message}
+                        errormessage={errors.customer?.user?.phone?.message}
                       />
                     </div>
 

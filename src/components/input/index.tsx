@@ -7,7 +7,7 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   //...add your custom types here
   varient?: Varient;
   asterisk?: boolean;
-  errorMessage?: string;
+  errormessage?: string;
   sizeVarient?: SizeVarient;
 }
 
@@ -33,7 +33,7 @@ function handleVarient(str: string) {
 }
 
 const Input = forwardRef<HTMLInputElement, Props>((props, ref) => {
-  const { placeholder, varient = "auth", errorMessage, sizeVarient } = props;
+  const { placeholder, varient = "auth", errormessage, sizeVarient } = props;
 
   return (
     <div className={styles.inputCont}>
@@ -60,7 +60,7 @@ const Input = forwardRef<HTMLInputElement, Props>((props, ref) => {
         </span>
       </div>
 
-      <p className={styles.errorMessage}>{errorMessage}</p>
+      <p className={styles.errormessage}>{errormessage}</p>
     </div>
   );
 });
