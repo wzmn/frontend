@@ -32,7 +32,7 @@ const setupFCM = (userID: number) => {
         // Send token to backend
         console.log("TOKEN: ", currentToken)
         const response = await request({
-            url: `/users/management/${userID}/`,
+            url: `/users/management/${userID}`,
             method: "patch",
             data: {
                 fcm_token: currentToken,
