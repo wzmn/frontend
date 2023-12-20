@@ -30,10 +30,8 @@ type Props = {
 
 const Layout = ({ children }: Props) => {
   const alertIfOnline = () => toast.success("Connection restored");
-  const alertIfOffline = () =>
-    toast.warn("Oops! It seems like you're currently offline.");
+  const alertIfOffline = () => toast.warn("Oops! It seems like you're currently offline.");
   useEffect(() => {
-    Notification.requestPermission();
     window.addEventListener("offline", () => alertIfOffline);
     window.addEventListener("online", () => alertIfOnline);
     return () => {
@@ -65,7 +63,6 @@ const Layout = ({ children }: Props) => {
                                   <div className={styles.mainContent}>
                                     <Navbar />
                                     {children}
-                                    {/* <Footer /> */}
                                   </div>
                                 </div>
                                 <RightBar /> {/* has absolute position */}
