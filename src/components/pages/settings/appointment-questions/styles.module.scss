@@ -1,0 +1,38 @@
+@import "styles/variable.scss";
+
+.title {
+  font-size: $font-large;
+  color: var(--color-blue_dress);
+  margin: 4rem 0rem 2rem 0rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.plus {
+  position: absolute;
+  right: 0rem;
+  width: 1.8rem;
+  height: 1.8rem;
+  border: 1px solid var(--color-cloudy_grey);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.question-grid {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 40% 40% 20%;
+  gap: 1rem;
+
+  &:not(:first-child) {
+    margin-top: 1.5rem;
+  }
+
+  & .svg {
+    font-size: $font-large;
+    color: var(--color-blue_dress);
+  }
+}

@@ -1,10 +1,12 @@
 .checkbox-cont {
   position: relative;
-  input[type="checkbox"] {
+  & input[type="checkbox"],
+  input[type="radio"] {
     display: none;
   }
 
-  &:has(input[type="checkbox"]:is(:checked)) {
+  &:has(input[type="checkbox"]:is(:checked)),
+  &:has(input[type="radio"]:is(:checked)) {
     & label::before {
       background-image: url("/assets/icons/tick.svg");
       background-repeat: no-repeat;

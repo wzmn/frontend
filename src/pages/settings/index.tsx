@@ -63,9 +63,12 @@ const Settings = () => {
               <p className={`${settingtyles.otherUser} ${settingtyles.mtB}`}>
                 View the most recently updated Questions
               </p>
-              <p className={`${settingtyles.userSettings} ${settingtyles.mtB}`}>
+              <Link
+                to="appointment-questions"
+                className={`${settingtyles.userSettings} ${settingtyles.mtB}`}
+              >
                 Questions
-              </p>
+              </Link>
             </div>
           </FormWraper>
         </FormSection>

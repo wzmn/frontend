@@ -20,3 +20,4 @@ export const WORK_TYPE = "/jobs/work_types/";
 //APPT
 export const APPOINTMENT_LISTING = "/appointments/management/";
 export const APPT_STATUES = "/appointments/appointment_status/";
+export const APPT_Q = "/appointments/questions/";

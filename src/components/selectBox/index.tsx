@@ -6,6 +6,8 @@ import * as styles from "./styles.module.scss";
 
 type DataProp = {
   label: string;
+} & {
+  [keyof in string]: any;
 };
 
 type color = "gray" | "white" | "transparent1" | "full-white";
@@ -53,7 +55,7 @@ export default function SelectBox({
   }, [value]);
 
   return (
-    <div className={`w-full ${styles.rel}`}>
+    <div className={`w-full ${styles.rel} z-50`}>
       <Listbox onChange={onSelect}>
         <div className={`  ${styles.index}`}>
           <Listbox.Button

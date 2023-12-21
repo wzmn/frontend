@@ -64,3 +64,17 @@ export interface WorkTypeT {
   global_activity: boolean;
   auth_companies: number[];
 }
+
+export type WorkTypeRespQuestionT = PaginationType<WorkTypeQuestionT[]>;
+
+export interface WorkTypeQuestionT {
+  id: number;
+  ref_id: null;
+  created_at: Date;
+  updated_at: Date;
+  is_active: boolean;
+  content: string;
+  question_type: string;
+  company: number;
+  work_type: number;
+}
