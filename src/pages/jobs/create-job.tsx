@@ -1,46 +1,40 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import Button from "components/button";
+import Checkbox from "components/checkbox";
 import ComboBox, { ComboBoxDataT } from "components/combo-box";
 import FormSection from "components/form-sections";
 import FormWraper from "components/form-wrapper";
 import Label from "components/label";
 import Radio from "components/radio";
 import TextField from "components/text-field";
-import { CUSTOMER_LISTING, JOB_LISTING } from "constants/api";
-import { useAuthContext } from "providers/auth-provider";
-import { useCompanyContext } from "providers/company-provider";
+import { APPOINTMENT_LISTING } from "constants/api";
+import { navigate } from "gatsby";
+import { useAppContext } from "providers/app-provider";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import {
-  CustomerRegistrationSchemaType,
-  customerRegistrationSchema,
-} from "schema/customer-schema";
+import { toast } from "react-toastify";
 import {
   JobRegistrationSchemaType,
   jobRegistrationSchema,
 } from "schema/job-schema";
 import Address from "services/address";
+import companyIdFetcher from "services/company-id-fetcher";
 import employeeList from "services/employee-list";
 import { request } from "services/http-request";
 import UserIdentifyer from "services/user-identifyer";
 import * as styles from "styles/pages/common.module.scss";
-import * as jobStyles from "./styles.module.scss";
 import { Result } from "type/employee";
 import { debounce } from "utility/debounce";
-import { useAppContext } from "providers/app-provider";
-import Checkbox from "components/checkbox";
 import { WorkTypeLabel } from "./create-appointment";
-import { assert } from "console";
-import { toast } from "react-toastify";
-import { navigate } from "gatsby";
+import * as jobStyles from "./styles.module.scss";
 
 const CreateJob = () => {
   const [OTP, setOTP] = useState<string>("");
   const [empListData, setEmpListData] = useState<ComboBoxDataT[]>([]);
-  const { company } = useCompanyContext();
-  const { userAuth } = useAuthContext();
   const userRole = UserIdentifyer();
   const { workTypes } = useAppContext();
+
+  const id = companyIdFetcher(userRole);
 
   const methods = useForm({
     resolver: yupResolver(jobRegistrationSchema),
@@ -56,21 +50,26 @@ const CreateJob = () => {
 
   async function onSubmit(data: JobRegistrationSchemaType) {
     try {
-      const id = companyIdFetcher(userRole);
-
+      if (!id) {
+        alert("Please Select Country");
+        return;
+      }
       const response = await request({
-        url: JOB_LISTING,
+        url: APPOINTMENT_LISTING,
         method: "post",
         data: {
-          customer: {
-            user: data.customer.user,
-            company: id,
-            assigned_to: data.job_assigned_to_id,
-            customer_type: data.customer.customer_type,
+          job: {
+            customer: {
+              user: data.customer.user,
+              company: id,
+              assigned_to: data.job_assigned_to_id,
+              customer_type: data.customer.customer_type,
+            },
+            address: data.address,
+            job_assigned_to_id: data.job_assigned_to_id,
+            work_type_id: data.workType[0],
           },
-          address: data.address,
-          job_assigned_to_id: data.job_assigned_to_id,
-          work_type_id: data.workType[0],
+          appointment_status: "Waiting",
         },
       });
       toast.success("Added Sucessfully");
@@ -83,21 +82,6 @@ const CreateJob = () => {
 
   function handleChange(OTP: string) {
     setOTP(OTP);
-  }
-
-  function companyIdFetcher(role: string) {
-    switch (role) {
-      case "superadmin":
-        if (JSON.stringify(company) === "{}") {
-          alert("please select the company");
-          return null;
-        }
-        return company.id;
-      case "admin":
-        return userAuth.emp_license_info.company.id;
-      default:
-        return userAuth.emp_license_info.company.id;
-    }
   }
 
   async function handleEmployeeList(e: ChangeEvent<HTMLInputElement>) {

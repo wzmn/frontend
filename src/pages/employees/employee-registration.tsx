@@ -6,8 +6,6 @@ import FormWraper from "components/form-wrapper";
 import Radio from "components/radio";
 import TextField from "components/text-field";
 import { EMPLOYEE_LISTING } from "constants/api";
-import { useAuthContext } from "providers/auth-provider";
-import { useCompanyContext } from "providers/company-provider";
 import { useRightBarContext } from "providers/right-bar-provider";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -16,20 +14,10 @@ import {
   EmployeeRegistrationSchemaType,
   employeeRegistrationSchema,
 } from "schema/employee-schema";
+import companyIdFetcher from "services/company-id-fetcher";
 import { request } from "services/http-request";
 import UserIdentifyer from "services/user-identifyer";
 import * as styles from "styles/pages/common.module.scss";
-
-const pg = [
-  { label: "100" },
-  { label: "1" },
-  { label: "1" },
-  { label: "1" },
-  { label: "1" },
-  { label: "1" },
-  { label: "1" },
-  { label: "1" },
-];
 
 interface FileProps extends File {
   preview: string;
@@ -37,13 +25,11 @@ interface FileProps extends File {
 
 const EmployeeRegistration = () => {
   const [OTP, setOTP] = useState<string>("");
-
   const [files, setFiles] = useState<FileProps[]>([]);
-
   const { toggle } = useRightBarContext();
-  const { company } = useCompanyContext();
-  const { userAuth } = useAuthContext();
   const userRole = UserIdentifyer();
+
+  const id = companyIdFetcher(userRole);
 
   const {
     register,
@@ -54,24 +40,12 @@ const EmployeeRegistration = () => {
     resolver: yupResolver(employeeRegistrationSchema),
   });
 
-  function companyIdFetcher(role: string) {
-    switch (role) {
-      case "superadmin":
-        if (JSON.stringify(company) === "{}") {
-          alert("please select the company");
-          return null;
-        }
-        return company.id;
-      case "admin":
-        return userAuth.emp_license_info.company.id;
-      default:
-        return userAuth.emp_license_info.company.id;
-    }
-  }
-
   async function onSubmit(data: EmployeeRegistrationSchemaType) {
-    const id = companyIdFetcher(userRole);
     try {
+      if (!id) {
+        alert("Please Select Country");
+        return;
+      }
       const response = await request({
         url: EMPLOYEE_LISTING,
         method: "post",

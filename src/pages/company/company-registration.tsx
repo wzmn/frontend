@@ -252,7 +252,7 @@ const CompanyRegistration = () => {
                     />
                   </div>
 
-                  <label htmlFor="">Upload Profile Photo</label>
+                  {/* <label htmlFor="">Upload Profile Photo</label>
                   <label htmlFor="">Preview</label>
                   <div className={styles.file}>
                     <DNDImage setFiles={setFiles} />
@@ -286,7 +286,7 @@ const CompanyRegistration = () => {
                         />
                       </div>
                     )}
-                  </aside>
+                  </aside> */}
 
                   <div className="max-w-3xl flex gap-2">
                     <TextField

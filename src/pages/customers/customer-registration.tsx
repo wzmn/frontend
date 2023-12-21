@@ -18,16 +18,15 @@ import ComboBox, { ComboBoxDataT } from "components/combo-box";
 import Label from "components/label";
 import SelectBox from "components/selectBox";
 import { CUSTOMER_LISTING } from "constants/api";
-import { useAuthContext } from "providers/auth-provider";
-import { useCompanyContext } from "providers/company-provider";
+import { navigate } from "gatsby";
 import { toast } from "react-toastify";
 import Address from "services/address";
+import companyIdFetcher from "services/company-id-fetcher";
 import employeeList from "services/employee-list";
 import { request } from "services/http-request";
 import UserIdentifyer from "services/user-identifyer";
 import { Result } from "type/company";
 import { debounce } from "utility/debounce";
-import { navigate } from "gatsby";
 
 const countries = [
   { label: "ADMIN" },
@@ -55,10 +54,8 @@ function dynamicSchema(role: string) {
 const customerRegistration = () => {
   const [files, setFiles] = useState<FileProps[]>([]);
   const [empListData, setEmpListData] = useState<ComboBoxDataT[]>([]);
-  const { company } = useCompanyContext();
-  const { userAuth } = useAuthContext();
   const userRole = UserIdentifyer();
-  const [empInput, setEmpInput] = useState("");
+  const id = companyIdFetcher(userRole);
   const methods = useForm<CustomerRegistrationSchemaType>({
     resolver: yupResolver(dynamicSchema(userRole)),
   });
@@ -73,25 +70,13 @@ const customerRegistration = () => {
     formState: { errors, isSubmitting },
   } = methods;
 
-  function companyIdFetcher(role: string) {
-    switch (role) {
-      case "superadmin":
-        if (JSON.stringify(company) === "{}") {
-          alert("please select the company");
-          return null;
-        }
-        return company.id;
-      case "admin":
-        return userAuth.emp_license_info.company.id;
-      default:
-        return userAuth.emp_license_info.company.id;
-    }
-  }
-
   async function onSubmit(data: CustomerRegistrationSchemaType) {
     try {
-      const id = companyIdFetcher(userRole);
-      if (id === null) return;
+      if (!id) {
+        alert("Please Select Country");
+        return;
+      }
+
       const dt = {
         user: data.user,
         assigned_to: data.assigned_to,

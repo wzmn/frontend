@@ -4,6 +4,7 @@ import { Drage } from "components/drop-zone/drage";
 import Input from "components/input";
 import Pagination from "components/pagination";
 import SelectBox from "components/selectBox";
+import Placeholder from "components/skeleton";
 import { JOB_LISTING } from "constants/api";
 import { Link } from "gatsby-link";
 import moment from "moment";
@@ -20,8 +21,6 @@ import { JobDataStateType, JobDataType, JobStatusRole } from "type/job";
 import cssVar from "utility/css-var";
 import { findMatchingId } from "utility/find-matching-id";
 import View from "./view";
-import Placeholder from "components/skeleton";
-import UserIdentifyer from "services/user-identifyer";
 
 type DropItemType = { id: number; section: JobStatusRole };
 
@@ -157,27 +156,6 @@ const Jobs = () => {
       updateData(item, section, idx);
     }
   }
-
-  // function handleDrop(item: any, section: string) {
-  //   if (item.section === section) return;
-
-  //   const dt: any = { ...data };
-  //   let idx;
-  //   dt[item.section].some((itm: any, key: any) => {
-  //     console.log(item.id, itm.id);
-  //     if (item.id === itm.id) {
-  //       idx = key;
-  //       return true;
-  //     }
-  //   });
-
-  //   if (idx !== undefined) {
-  //     const pop = dt[item.section].splice(idx, 1)[0];
-  //     dt[section].unshift(pop);
-
-  //     setData(() => dt);
-  //   }
-  // }
 
   const handleScroll = (evt: any) => {
     console.log(evt.deltaY);
