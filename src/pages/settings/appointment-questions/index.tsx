@@ -19,6 +19,7 @@ import {
 
 const AppointmentQuestions = () => {
   const [qData, setQData] = useState<WorkTypeQuestionT[]>([]);
+  const [selectedWT, setSelectedWT] = useState<WorkTypeT>();
 
   const { workTypes } = useAppContext();
 
@@ -59,11 +60,14 @@ const AppointmentQuestions = () => {
                 <Checkbox<WorkTypeT>
                   key={item.id}
                   id={item.title}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
                   label={<WorkTypeLabel text={item.title} />}
                   {...register("workType")}
                   storeData={item}
                   getStoredData={(data) => {
-                    console.log(data, " datat");
+                    setSelectedWT(data);
                   }}
                   type="radio"
                   value={item.id}
@@ -74,7 +78,7 @@ const AppointmentQuestions = () => {
         </FormWraper>
       </FormSection>
 
-      <QuestionsType qAData={qData} />
+      <QuestionsType title={selectedWT?.title} qAData={qData} />
     </div>
   );
 };

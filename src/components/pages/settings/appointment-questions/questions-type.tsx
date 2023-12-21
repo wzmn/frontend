@@ -2,7 +2,7 @@ import FormSection from "components/form-sections";
 import FormWraper from "components/form-wrapper";
 import Input from "components/input";
 import SelectBox from "components/selectBox";
-import React from "react";
+import React, { useEffect } from "react";
 import * as styles from "styles/pages/common.module.scss";
 import * as settingStyles from "./styles.module.scss";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -21,23 +21,33 @@ const questions = [
   { label: "Multi choice ms", value: "multi_choice_ms" },
 ];
 
-const QuestionsType = ({ qAData }: { qAData: WorkTypeQuestionT[] }) => {
-  const { control, register } = useForm<{
+const QuestionsType = ({
+  qAData,
+  title,
+}: {
+  qAData: WorkTypeQuestionT[];
+  title?: string;
+}) => {
+  const { control, register, setValue } = useForm<{
     questions: Partial<WorkTypeQuestionT>[];
   }>({
-    defaultValues: {
-      questions: qAData,
-    },
+    // defaultValues: {
+    //   questions: qAData,
+    // },
   });
   const { fields, append, remove } = useFieldArray({
     control, // control props comes from useForm (optional: if you are using FormContext)
     name: "questions", // unique name for your Field Array
   });
 
+  useEffect(() => {
+    setValue("questions", qAData);
+  }, [qAData]);
+
   return (
     <div>
       <p className={settingStyles.title}>
-        Settings/Appointment Questions
+        {title}
         <TextButton
           label="Add Question"
           icon={<FaPlus />}
@@ -50,7 +60,7 @@ const QuestionsType = ({ qAData }: { qAData: WorkTypeQuestionT[] }) => {
         />
       </p>
       <div className="space-y-16 mb-3">
-        {qAData?.map((item, index, array) => {
+        {fields?.map((item, index, array) => {
           return (
             <FormSection
               title="Input Questions"
@@ -69,7 +79,12 @@ const QuestionsType = ({ qAData }: { qAData: WorkTypeQuestionT[] }) => {
                         placeholder={item?.content || "Type in your Question"}
                       />
                       <SelectBox data={questions} />
-                      <RiDeleteBin6Line className={settingStyles.svg} />
+                      <RiDeleteBin6Line
+                        className={settingStyles.svg}
+                        onClick={() => {
+                          remove(index);
+                        }}
+                      />
                     </div>
                   </div>
                 </FormWraper>
