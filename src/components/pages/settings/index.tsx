@@ -23,7 +23,7 @@ const ChangeEmail = () => {
   async function onSubmit(data: ChangeEmailFormT) {
     try {
       const response = await request({
-        method: "post",
+        method: "patch",
         url: CHANGE_EMAIL + userAuth.user_id,
         data,
       });
@@ -53,7 +53,7 @@ const ChangePhone = () => {
     if (data.phone === "") return;
     try {
       const response = await request({
-        method: "post",
+        method: "patch",
         url: CHANGE_EMAIL + userAuth.user_id,
         data: {
           ...data,

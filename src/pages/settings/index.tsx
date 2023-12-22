@@ -7,10 +7,13 @@ import * as styles from "styles/pages/common.module.scss";
 import { Link } from "gatsby-link";
 import Input from "components/input";
 import { ChangeEmail, ChangePhone } from "components/pages/settings";
+import { useAuthContext } from "providers/auth-provider";
 
 const Settings = () => {
   const [chageEmail, setChangeEmail] = useState(false);
   const [chagePhone, setChangePhone] = useState(false);
+
+  const { userAuth } = useAuthContext();
 
   return (
     <div className="grow">
@@ -31,7 +34,7 @@ const Settings = () => {
                   <p
                     className={`${settingtyles.userEmail} ${settingtyles.mtB}`}
                   >
-                    jasonjackson@snippit.com
+                    {userAuth.email}
                   </p>
                 )}
                 <p className={`${settingtyles.otherUser} ${settingtyles.mtB}`}>
@@ -40,7 +43,7 @@ const Settings = () => {
                       <ChangePhone />
                     </div>
                   ) : (
-                    "Phone: +61 8975695896"
+                    <>{`Phone:  ${userAuth.phone}`}</>
                   )}
                 </p>
               </div>
