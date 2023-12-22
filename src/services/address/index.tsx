@@ -64,7 +64,7 @@ const Address = () => {
             title="Building Name"
             // asterisk
             {...register("address.building_number")}
-            errorMessage={errors.address?.building_number?.message}
+            errormessage={errors.address?.building_number?.message}
           />
         </div>
         <div className="max-w-3xl">
@@ -72,7 +72,7 @@ const Address = () => {
             title="Level No"
             // asterisk
             {...register("address.level_number")}
-            errorMessage={errors.address?.level_number?.message}
+            errormessage={errors.address?.level_number?.message}
           />
         </div>
         <div className="max-w-3xl">
@@ -92,7 +92,7 @@ const Address = () => {
             title="Unit No"
             asterisk
             {...register("address.unit_number")}
-            errorMessage={errors.address?.unit_number?.message}
+            errormessage={errors.address?.unit_number?.message}
           />
         </div>
 
@@ -101,7 +101,7 @@ const Address = () => {
             title="Lot No."
             // asterisk
             {...register("address.lot_number")}
-            errorMessage={errors.address?.lot_number?.message}
+            errormessage={errors.address?.lot_number?.message}
           />
         </div>
 
@@ -110,7 +110,7 @@ const Address = () => {
             title="Street No"
             // asterisk
             {...register("address.street_number")}
-            errorMessage={errors.address?.street_number?.message}
+            errormessage={errors.address?.street_number?.message}
           />
         </div>
 
@@ -119,7 +119,7 @@ const Address = () => {
             title="Street Name"
             asterisk
             {...register("address.street_name")}
-            errorMessage={errors.address?.street_name?.message}
+            errormessage={errors.address?.street_name?.message}
           />
         </div>
 
@@ -141,7 +141,7 @@ const Address = () => {
             title="Suffix."
             // asterisk
             {...register("address.suffix")}
-            errorMessage={errors.address?.suffix?.message}
+            errormessage={errors.address?.suffix?.message}
           />
         </div>
         <div className="max-w-3xl">
@@ -149,7 +149,7 @@ const Address = () => {
             title={district()}
             asterisk
             {...register("address.suburb")}
-            errorMessage={errors.address?.suburb?.message}
+            errormessage={errors.address?.suburb?.message}
           />
         </div>
 
@@ -174,7 +174,7 @@ const Address = () => {
             title={postcode()}
             asterisk
             {...register("address.pincode")}
-            errorMessage={errors.address?.pincode?.message}
+            errormessage={errors.address?.pincode?.message}
           />
         </div>
 
@@ -183,7 +183,7 @@ const Address = () => {
             title={city()}
             asterisk
             {...register("address.lga")}
-            errorMessage={errors.address?.lga?.message}
+            errormessage={errors.address?.lga?.message}
           />
         </div>
       </div>
