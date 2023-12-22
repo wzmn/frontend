@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+import { getAnalytics, logEvent } from "firebase/analytics";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import Modal from "../modal";
 import { request } from "services/http-request";
 import { useAuthContext } from "providers/auth-provider";
-import { toast, ToastContainer } from "react-toastify";
-import { ignore } from "gatsby/dist/schema/infer/inference-metadata";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCtp1-uBttn4YQXCE95xjxADTeCU4MV4Tk",
@@ -18,7 +16,7 @@ const firebaseConfig = {
   measurementId: "G-SGBDKJR7PV",
 };
 const app = initializeApp(firebaseConfig);
-let analytics;
+let analytics: any;
 let messaging: any;
 
 if (typeof window !== "undefined") {
@@ -38,10 +36,10 @@ const setupFCM = (userID: number) => {
   if (typeof window !== "undefined")
     getToken(messaging, { vapidKey: process.env.VAPID })
       .then(async (currentToken) => {
-        // Send token to backend
+        // Send token to backend  
         console.log("TOKEN: ", currentToken);
         const response = await request({
-          url: `/users/management/${userID}/`,
+          url: `/users/management/${userID}`,
           method: "patch",
           data: {
             fcm_token: currentToken,
@@ -56,10 +54,11 @@ const setupFCM = (userID: number) => {
       });
   onMessageListener()
     .then((payload: any) => {
+
+    logEvent(analytics, 'notification_received');
       new Notification(payload?.notification?.title, {
         body: payload?.notification?.body,
         image: payload?.notification?.image,
-        title: payload?.notification?.title,
       });
     })
     .catch((err) => console.log("Notification failed: ", err));
@@ -75,14 +74,9 @@ async function showNotification(userID: number) {
 
 const Notifications = ({ children }: any) => {
   const [visible, setVisible] = useState(false);
-  const [visibleErr, setVisibleErr] = useState(false);
-  const [status, setStatus] = useState("");
 
   const toggleModal = () => {
     setVisible(!visible);
-  };
-  const toggleModalErr = () => {
-    setVisibleErr(!visibleErr);
   };
 
   const { userAuth } = useAuthContext();
@@ -97,22 +91,14 @@ const Notifications = ({ children }: any) => {
     if (Notification.permission == "denied") {
       // show denied message
       setTimeout(() => {
-        toggleModalErr();
+        toggleModal();
+        // toggleModalErr();
       }, 1000);
     }
     if (Notification.permission == "granted") {
       // show granted message
-      //   showNotification(userAuth.user_id);
+      showNotification(userAuth.user_id);
     }
-    setStatus(Notification.permission);
-    console.log("userID:", userAuth.user_id);
-    return () => {
-      // if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
-      //     window.navigator.serviceWorker.getRegistrations().then(registrations => {
-      //         registrations.forEach(r => r.unregister())
-      //     })
-      // }
-    };
   }, []);
   return Notification.permission !== "denied" ? (
     <>
@@ -144,9 +130,9 @@ const Notifications = ({ children }: any) => {
               type: "info",
               title: "Yes",
               action: () => {
-                // showNotification(userAuth.user_id).then(() => {
-                //   toggleModal();
-                // });
+                showNotification(userAuth.user_id).then(() => {
+                  toggleModal();
+                });
               },
             },
             {
@@ -158,7 +144,7 @@ const Notifications = ({ children }: any) => {
             },
           ],
           onClose: () => {
-            console.log("modal closed");
+            // console.log("modal closed");
           },
         }}
       >
@@ -192,22 +178,22 @@ const Notifications = ({ children }: any) => {
               </svg>
             );
           },
-          toggle: [visibleErr, setVisibleErr],
+          toggle: [visible, setVisible],
           buttons: [
             {
               type: "normal",
               title: "Okay",
               action: () => {
-                toggleModalErr();
+                toggleModal();
               },
             },
           ],
           onClose: () => {
-            console.log("modal closed");
+            // console.log("modal closed");
           },
         }}
       >
-        <p>
+        <div>
           Notifications have been blocked, to fix this:
           <ul className="mt-5">
             <li>
@@ -217,7 +203,7 @@ const Notifications = ({ children }: any) => {
             <li>Click Site settings.</li>
             <li>Change a permission setting.</li>
           </ul>
-        </p>
+        </div>
       </Modal>
     </>
   );

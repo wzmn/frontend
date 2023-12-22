@@ -366,7 +366,7 @@ const CompanyRegistration = () => {
                   title="ABN No."
                   asterisk
                   {...register("abnNo")}
-                  errorMessage={errors.abnNo?.message}
+                  errormessage={errors.abnNo?.message}
                 />
               </div> */}
                 <div className="max-w-3xl">
