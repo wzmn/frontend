@@ -1,12 +1,17 @@
 import FormSection from "components/form-sections";
 import FormWraper from "components/form-wrapper";
-import React from "react";
+import React, { useState } from "react";
 
 import * as settingtyles from "./styles.module.scss";
 import * as styles from "styles/pages/common.module.scss";
 import { Link } from "gatsby-link";
+import Input from "components/input";
+import { ChangeEmail, ChangePhone } from "components/pages/settings";
 
 const Settings = () => {
+  const [chageEmail, setChangeEmail] = useState(false);
+  const [chagePhone, setChangePhone] = useState(false);
+
   return (
     <div className="grow">
       <div className="space-y-16 mb-3">
@@ -17,11 +22,26 @@ const Settings = () => {
                 <div className={settingtyles.profilePic}>
                   <img src="/assets/images/user.png" alt="" />
                 </div>
-                <p className={`${settingtyles.userEmail} ${settingtyles.mtB}`}>
-                  jasonjackson@snippit.com
-                </p>
+
+                {chageEmail ? (
+                  <div className="my-3">
+                    <ChangeEmail />
+                  </div>
+                ) : (
+                  <p
+                    className={`${settingtyles.userEmail} ${settingtyles.mtB}`}
+                  >
+                    jasonjackson@snippit.com
+                  </p>
+                )}
                 <p className={`${settingtyles.otherUser} ${settingtyles.mtB}`}>
-                  Phone: +61 8975695896
+                  {chagePhone ? (
+                    <div className="my-3">
+                      <ChangePhone />
+                    </div>
+                  ) : (
+                    "Phone: +61 8975695896"
+                  )}
                 </p>
               </div>
               <div className={settingtyles.cont2}>
@@ -32,6 +52,7 @@ const Settings = () => {
                 </p>
                 <p
                   className={`${settingtyles.userSettings} ${settingtyles.mtB}`}
+                  onClick={() => setChangeEmail((prev) => !prev)}
                 >
                   Change E-mail
                 </p>
@@ -42,6 +63,7 @@ const Settings = () => {
                 </p>
                 <p
                   className={`${settingtyles.userSettings} ${settingtyles.mtB}`}
+                  onClick={() => setChangePhone((prev) => !prev)}
                 >
                   Change Phone number
                 </p>

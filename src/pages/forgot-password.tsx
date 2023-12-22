@@ -5,22 +5,22 @@ import Button from "../components/button";
 import * as styles from "../layout/auth-layout/styles.module.scss";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { emailSchema } from "schema/auth-schema";
+import { usernameSchema } from "schema/auth-schema";
 import { InferType } from "yup";
 import { request } from "services/http-request";
 import { RESET_PASSWORD } from "constants/api";
 import { toast, ToastContainer } from "react-toastify";
 //to triger build
 
-type FormType = InferType<typeof emailSchema>;
+type FormType = InferType<typeof usernameSchema>;
 const ForgotPassword = () => {
-  const [error, setError] = useState('')
+  const [error, setError] = useState("");
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<FormType>({
-    resolver: yupResolver(emailSchema),
+    resolver: yupResolver(usernameSchema),
   });
 
   const onSubmit = async (data: FormType) => {
@@ -74,7 +74,7 @@ const ForgotPassword = () => {
             </Link>
           </div>
         </form>
-        <ToastContainer/>
+        <ToastContainer />
       </div>
     </>
   );

@@ -98,7 +98,10 @@ const customerRegistration = () => {
 
   async function handleEmployeeList(e: ChangeEvent<HTMLInputElement>) {
     try {
-      const id = companyIdFetcher(userRole);
+      if (!id) {
+        alert("Please Select Country");
+        return;
+      }
       if (id === null) return;
       const res = await employeeList({
         search: e?.target?.value,
@@ -127,7 +130,7 @@ const customerRegistration = () => {
       <p className={styles.title}>Create Customer</p>
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-16 mb-3">
-          <FormSection title="Customer Details">
+          <FormSection title="Customer Details" style={{ zIndex: 3 }}>
             <div className="z-10 grow">
               <FormWraper>
                 <>
