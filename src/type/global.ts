@@ -69,6 +69,7 @@ export type WorkTypeRespQuestionT = PaginationType<WorkTypeQuestionT[]>;
 
 export interface WorkTypeQuestionT {
   id: number;
+  options: Option[];
   ref_id: null;
   created_at: Date;
   updated_at: Date;
@@ -77,4 +78,11 @@ export interface WorkTypeQuestionT {
   question_type: string;
   company: number;
   work_type: number;
+}
+
+export interface Option {
+  id: number;
+  next_question: null | number;
+  option_text: string;
+  question: number;
 }

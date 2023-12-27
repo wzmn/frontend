@@ -78,7 +78,11 @@ const AppointmentQuestions = () => {
         </FormWraper>
       </FormSection>
 
-      <QuestionsType title={selectedWT?.title} qAData={qData} />
+      <QuestionsType
+        workType={selectedWT?.id}
+        title={selectedWT?.title}
+        qAData={qData}
+      />
     </div>
   );
 };

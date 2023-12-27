@@ -21,5 +21,6 @@ export const WORK_TYPE = "/jobs/work_types/";
 export const APPOINTMENT_LISTING = "/appointments/management/";
 export const APPT_STATUES = "/appointments/appointment_status/";
 export const APPT_Q = "/appointments/questions/";
+export const APPT_Q_OPT = "/appointments/options/";
 //PROFILE / USER
 export const CHANGE_EMAIL = "/users/management/";

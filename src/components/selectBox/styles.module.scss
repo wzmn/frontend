@@ -25,7 +25,7 @@
   position: relative;
 
   & .index {
-    z-index: 999;
+    z-index: 10;
   }
 
   &:has(.index:is(:empty)) {

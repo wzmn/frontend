@@ -55,7 +55,7 @@ export default function SelectBox({
   }, [value]);
 
   return (
-    <div className={`w-full ${styles.rel} z-50`}>
+    <div className={`w-full ${styles.rel}`}>
       <Listbox onChange={onSelect}>
         <div className={`  ${styles.index}`}>
           <Listbox.Button
