@@ -1,26 +1,25 @@
-import React, { useEffect } from "react";
+import useAuth from "hook/use-auth";
+import Navbar from "layout/navbar";
 import RightBar from "layout/right-bar";
 import Sidebar from "layout/sidebar";
-import * as styles from "./styles.module.scss";
-import Navbar from "layout/navbar";
-import Footer from "./footer.tsx";
-import AuthLayout from "./auth-layout";
-import SidebarContext from "providers/sidebar-provider";
-import { HTML5Backend } from "react-dnd-html5-backend";
-import { DndProvider } from "react-dnd";
-import useAuth from "hook/use-auth";
+import AddressLabels from "providers/address-labels";
+import AppProvider from "providers/app-provider";
 import AuthProvider from "providers/auth-provider";
+import CompanyProvider from "providers/company-provider";
+import GoogleMapProvider from "providers/google-map-provider";
+import RightBarProvider from "providers/right-bar-provider";
+import SidebarContext from "providers/sidebar-provider";
 import UploadDocProvider from "providers/upload-doc-provider";
+import React, { useEffect } from "react";
+import "react-date-range/dist/styles.css"; // main style file
+import "react-date-range/dist/theme/default.css"; // theme css file
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import GoogleMapProvider, {
-  useMapContext,
-} from "providers/google-map-provider";
-import AppProvider from "providers/app-provider";
-import AddressLabels from "providers/address-labels";
-import RightBarProvider from "providers/right-bar-provider";
-import CompanyProvider from "providers/company-provider";
-import UserIdentifyer from "services/user-identifyer";
+import AuthLayout from "./auth-layout";
+import Footer from "./footer.tsx";
+import * as styles from "./styles.module.scss";
 
 const routeNotToInclude = ["/login/", "/change-password/", "/forgot-password/"];
 
@@ -30,7 +29,8 @@ type Props = {
 
 const Layout = ({ children }: Props) => {
   const alertIfOnline = () => toast.success("Connection restored");
-  const alertIfOffline = () => toast.warn("Oops! It seems like you're currently offline.");
+  const alertIfOffline = () =>
+    toast.warn("Oops! It seems like you're currently offline.");
   useEffect(() => {
     window.addEventListener("offline", () => alertIfOffline);
     window.addEventListener("online", () => alertIfOnline);

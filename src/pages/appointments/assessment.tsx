@@ -70,7 +70,7 @@ const vidData = [
 const Assessment = () => {
   return (
     <div className="grow">
-      <p className={styles.title}>Assessmnet</p>
+      <p className={styles.title}>assessment</p>
 
       <div className="space-y-16 mb-3">
         <FormSection title="Questionnaire">

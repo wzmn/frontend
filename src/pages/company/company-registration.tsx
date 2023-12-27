@@ -27,6 +27,7 @@ import { CompanyDataType } from "type/company";
 import { CountryComplianceType } from "type/global";
 import * as companyStyles from "./styles.module.scss";
 import { navigate } from "gatsby";
+import { AddressSchemaT } from "schema/address-schema";
 
 let countryComplianceData: CountryComplianceType[];
 
@@ -98,10 +99,10 @@ const CompanyRegistration = () => {
 
   const methods = useForm<
     CompanyRegistrationSchemaType & {
-      address: any;
+      address?: AddressSchemaT;
     }
   >({
-    // resolver: yupResolver(companyRegistrationSchema),
+    resolver: yupResolver(companyRegistrationSchema),
   });
 
   const {
@@ -130,7 +131,7 @@ const CompanyRegistration = () => {
 
   async function onSubmit(
     data: CompanyRegistrationSchemaType & {
-      address: any;
+      address?: AddressSchemaT;
     }
   ) {
     const dt = {
@@ -530,7 +531,12 @@ const CompanyRegistration = () => {
                     isLoading={isSubmitting}
                   />
 
-                  <Button title="Cancel" color="red" className="py-10" />
+                  <Button
+                    type="button"
+                    title="Cancel"
+                    color="red"
+                    className="py-10"
+                  />
                 </div>
               </div>
             </FormWraper>

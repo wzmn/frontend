@@ -17,6 +17,7 @@ import companyIdFetcher from "services/company-id-fetcher";
 import UserIdentifyer from "services/user-identifyer";
 import { toast } from "react-toastify";
 import { ImSpinner10 } from "react-icons/im";
+import { IoIosSend, IoMdAdd } from "react-icons/io";
 
 const questions = [
   { label: "Image", value: "image" },
@@ -125,6 +126,8 @@ function Question({
     name: "options", // unique name for your Field Array
   });
 
+  const [deleteLoad, setDeleteLoad] = useState(false);
+
   const uderRole = UserIdentifyer();
 
   const id = companyIdFetcher(uderRole);
@@ -147,6 +150,22 @@ function Question({
       toast.success("added");
     } catch (error) {
       toast.error("failed adding question");
+    }
+  }
+
+  async function deleteQuestion() {
+    try {
+      setDeleteLoad((prev) => !prev);
+      const response = await request({
+        url: APPT_Q + item.id,
+        method: "delete",
+      });
+      toast.success("deleted sucessfully");
+      remove(index);
+    } catch (error) {
+      toast.error("failed adding question");
+    } finally {
+      setDeleteLoad((prev) => !prev);
     }
   }
 
@@ -173,17 +192,13 @@ function Question({
                 removeField(index);
               }}
             />
+            <button type="submit">
+              <IoIosSend className={`${settingStyles.svg}`} />
+            </button>
 
-            <Button
-              title="send"
-              type="submit"
-              className={settingStyles.button}
-            />
             {item.options?.length! > 0 && (
-              <TextButton
-                label="add"
-                type="button"
-                className={settingStyles.button}
+              <IoMdAdd
+                className={`${settingStyles.svg}`}
                 onClick={() => {
                   append({
                     option_text: "",
@@ -283,21 +298,23 @@ function Options({
             }}
           />
         </div>
+        {option.id + ""}
         {!deleteLoad ? (
           <RiDeleteBin6Line
             className={settingStyles.svg}
             onClick={() => {
-              if (!option.id) remove(index);
-
-              deleteOption();
+              if (!!option.id) {
+                deleteOption();
+                return;
+              }
+              remove(index);
             }}
           />
         ) : (
           <ImSpinner10 className={`animate-spin ${settingStyles.svg}`} />
         )}
-        <span>
-          <Button title="send" className={settingStyles.button} />
-        </span>
+
+        <IoIosSend className={`${settingStyles.svg}`} />
       </div>
     </form>
   );

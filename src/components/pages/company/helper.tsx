@@ -9,6 +9,7 @@ import * as companyStyles from "pages/company/styles.module.scss";
 import { Link } from "gatsby";
 import { useRightBarContext } from "providers/right-bar-provider";
 import View from "pages/company/view";
+import { Calendar, DateRangePicker } from "react-date-range";
 
 export function List({
   data,
@@ -26,11 +27,11 @@ export function List({
     reminder: "#32D0D1",
   };
   const { open, setElement, toggle } = useRightBarContext();
+
   return (
     <div
       onClick={() => {
         !open && toggle();
-
         setElement(
           <View data={data} />,
           `Company ID: ${data.id}`,
@@ -89,13 +90,17 @@ const datesFilters = [
   "This Month",
   "This Year",
 ] as const;
-
+const selectionRange = {
+  startDate: new Date(),
+  endDate: new Date(),
+  key: "selection",
+};
 const companyType = ["All", "Buyer", "Seller"];
 
 export function DateFilter() {
   return (
     <div className={companyStyles.filterCont}>
-      {datesFilters.map((item) => {
+      {/* {datesFilters.map((item) => {
         return (
           <div key={item} className={companyStyles.filter}>
             <label className=" ">
@@ -104,7 +109,20 @@ export function DateFilter() {
             </label>
           </div>
         );
-      })}
+        
+      })} */}
+      {/* <Calendar
+        date={new Date()}
+        onChange={(e) => {
+          console.log(e);
+        }}
+      /> */}
+      {/* <DateRangePicker
+        ranges={[selectionRange]}
+        onChange={(e) => {
+          console.log(e);
+        }}
+      /> */}
     </div>
   );
 }

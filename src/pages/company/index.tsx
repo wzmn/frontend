@@ -33,6 +33,9 @@ import {
   List,
 } from "../../components/pages/company/helper";
 import { useAppContext } from "providers/app-provider";
+import Modal from "components/modal";
+import { DateRangePicker, RangeKeyDict } from "react-date-range";
+import * as menuStyle from "components/menu/styles.module.scss";
 const dataList = [
   { label: "Wade Cooper" },
   { label: "Arlene Mccoy" },
@@ -42,6 +45,12 @@ const dataList = [
   { label: "Hellen Schmidt" },
 ];
 
+const selectionRangeInit = {
+  startDate: new Date(),
+  endDate: new Date(),
+  key: "selection",
+};
+
 type DropItemType = { id: number; section: CompanyStatus };
 
 const Company = () => {
@@ -50,9 +59,11 @@ const Company = () => {
   } = useAppContext();
 
   const [data, setData] = useState({} as CompanyStateStatus);
+  const [selectionRange, setSelectionRange] = useState(selectionRangeInit);
 
   // For skeleton
   const [loading, setLoading] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   const [pagination, setPagination] = useState({
     page: 1,
@@ -219,9 +230,14 @@ const Company = () => {
           <SelectBox color="full-white" data={dataList} />
         </div> */}
         <Filterbtn>
-          <Menu title="Date">
-            <DateFilter />
-          </Menu>
+          <div
+            onClick={() => {
+              setVisible((prev) => !prev);
+            }}
+            className={menuStyle.menu}
+          >
+            <button>Date</button>
+          </div>
           <Menu title="Company Type">
             <CompanyFilter />
           </Menu>
@@ -294,6 +310,27 @@ const Company = () => {
         }}
         label="Companies"
       />
+      <Modal
+        options={{
+          title: "Date Picker",
+          toggle: [visible, setVisible],
+        }}
+      >
+        <DateRangePicker
+          ranges={[selectionRange]}
+          onChange={(e: any) => {
+            // console.log({
+            //   startDate: e.selection.startDate,
+            //   endDate: e.selection.endDate,
+            // });
+            setSelectionRange((prev) => ({
+              ...prev,
+              startDate: e.selection.startDate,
+              endDate: e.selection.endDate,
+            }));
+          }}
+        />
+      </Modal>
     </>
   );
 };
