@@ -12,7 +12,7 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
 const TextField = forwardRef<HTMLInputElement, Omit<Props, "placeholder">>(
   (props, ref) => {
     const { asterisk, errormessage = "", title, type } = props;
-    const [isVisible, setVisible] = useState(type === "password");
+    const [isVisible, setVisible] = useState(true);
     const toggleVisibility = () => setVisible(!isVisible);
     return (
       <div className={styles.textField}>
@@ -21,7 +21,12 @@ const TextField = forwardRef<HTMLInputElement, Omit<Props, "placeholder">>(
             errormessage !== "" && styles.error
           }`}
         >
-          <input placeholder="" ref={ref} {...props} type={isVisible ? 'password' : 'text'} />
+          <input
+            placeholder=""
+            ref={ref}
+            {...props}
+            type={isVisible ? type : "text"}
+          />
           <span
             onClick={(e) =>
               (
@@ -34,9 +39,14 @@ const TextField = forwardRef<HTMLInputElement, Omit<Props, "placeholder">>(
             {title}
             {asterisk && <span className="text-red-500">*</span>}
           </span>
-         {type === "password" && (!isVisible ? <AiOutlineEyeInvisible onClick={toggleVisibility} /> : <AiOutlineEye onClick={toggleVisibility} />)}
+          {type === "password" &&
+            (!isVisible ? (
+              <AiOutlineEyeInvisible onClick={toggleVisibility} />
+            ) : (
+              <AiOutlineEye onClick={toggleVisibility} />
+            ))}
         </div>
-        <span className={styles.errormessage}>{errormessage}</span>
+        <span className={styles.errorMessage}>{errormessage}</span>
       </div>
     );
   }

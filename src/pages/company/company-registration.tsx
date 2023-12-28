@@ -28,6 +28,7 @@ import { CountryComplianceType } from "type/global";
 import * as companyStyles from "./styles.module.scss";
 import { navigate } from "gatsby";
 import { AddressSchemaT } from "schema/address-schema";
+import Label from "components/label";
 
 let countryComplianceData: CountryComplianceType[];
 
@@ -99,7 +100,7 @@ const CompanyRegistration = () => {
 
   const methods = useForm<
     CompanyRegistrationSchemaType & {
-      address?: AddressSchemaT;
+      address: AddressSchemaT;
     }
   >({
     resolver: yupResolver(companyRegistrationSchema),
@@ -131,13 +132,14 @@ const CompanyRegistration = () => {
 
   async function onSubmit(
     data: CompanyRegistrationSchemaType & {
-      address?: AddressSchemaT;
+      address: AddressSchemaT;
     }
   ) {
-    const dt = {
+    const dt: any = {
       ...data,
       company_address: { ...data.address, lat: 0, long: 0 },
     };
+
     delete dt["address"];
     // console.log(dt);
 
@@ -293,6 +295,7 @@ const CompanyRegistration = () => {
                     <TextField
                       title="Mobile Number"
                       asterisk
+                      type="number"
                       {...register("company_owner.phone")}
                       errormessage={errors.company_owner?.phone?.message}
                     />
@@ -318,9 +321,9 @@ const CompanyRegistration = () => {
                       value={mobileOTP}
                       onChange={setMobileOTP}
                     />
-                    <span>
+                    {/* <span>
                       <span className="blue">0:27</span> to resend the code
-                    </span>
+                    </span> */}
                   </div>
                   <div className="max-w-3xl flex gap-2">
                     <TextField
@@ -350,9 +353,9 @@ const CompanyRegistration = () => {
                       onChange={setEmailOTP}
                       value={emailOTP}
                     />
-                    <span>
+                    {/* <span>
                       <span className="blue">0:27</span> to resend the code
-                    </span>
+                    </span> */}
                   </div>
                 </div>
               </FormWraper>
@@ -412,7 +415,7 @@ const CompanyRegistration = () => {
                       setValue("company_country", e.label);
                     }}
                   />
-                  <p className={styles.error}>
+                  <p className={styles.error + " text-xs"}>
                     {errors.company_country?.message}
                   </p>
                 </div>
@@ -426,10 +429,21 @@ const CompanyRegistration = () => {
                       setValue("company_type", e.label);
                     }}
                   />
-                  <p className={styles.error}>{errors.company_type?.message}</p>
+                  <p className={styles.error + " text-xs"}>
+                    {errors.company_type?.message}
+                  </p>
                 </div>
-                <label htmlFor="">Upload Logo</label>
-                <label htmlFor="">Preview</label>
+                <div className="">
+                  <Label title="Upload Logo" htmlFor="" />
+                  &nbsp;
+                  <Label
+                    title="(specifying the required image range 300-400 pixels)"
+                    htmlFor=""
+                    className={styles.error}
+                  />
+                </div>
+                <Label title="Preview" htmlFor="" />
+
                 <div className={styles.file}>
                   <DNDImage setFiles={setFiles} />
                 </div>

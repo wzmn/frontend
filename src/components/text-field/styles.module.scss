@@ -1,5 +1,14 @@
 @import "styles/variable.scss";
 .text-field {
+  & input::-webkit-outer-spin-button,
+  & input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  & input[type="number"] {
+    -moz-appearance: textfield;
+  }
   // width: fit-content;
   // background-color: rgba(169, 160, 160, 0.292);
   // height: 4rem;

@@ -16,10 +16,14 @@ export const companyRegistrationSchema = object({
   company_owner: object({
     first_name: string().trim().required("Required"),
     last_name: string().trim().required("Required"),
-    phone: string().trim().required("Required"),
+    phone: string()
+      .trim()
+      .min(8, "No. should min 8")
+      .max(16, "No. should max 16")
+      .required("Required"),
     email: string().trim().matches(EmailReg, "Invalid email"),
   }),
-  company_address: addressSchema,
+  address: addressSchema,
 
   mobile_otp: string().required("Required"),
   email_otp: string().required("Required"),
