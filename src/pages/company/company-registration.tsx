@@ -508,33 +508,33 @@ const CompanyRegistration = () => {
                     onClick={() => {
                       setElement(
                         <UploadDoc data={compliance.primary} />,
-                        "Primary Documents"
+                        "Upload Primary Documents"
                       );
                       !open && toggle();
                     }}
-                    title="Primary Documents"
+                    title="Upload Primary Documents"
                     groupTitle="Upload"
                   />
                   <ButtonGroup
                     onClick={() => {
                       setElement(
                         <UploadDoc data={compliance.secondary} />,
-                        "Secondary Documents"
+                        "Upload Secondary Documents"
                       );
                       !open && toggle();
                     }}
-                    title="Secondary Documents"
+                    title="Upload Secondary Documents"
                     groupTitle="Upload"
                   />
                   <ButtonGroup
                     onClick={() => {
                       setElement(
                         <AdditionalDocument />,
-                        "Additional Documents"
+                        "Upload Additional Documents"
                       );
                       !open && toggle();
                     }}
-                    title="Additional Documents"
+                    title="Upload Additional Documents"
                     groupTitle="Upload"
                   />
                 </div>

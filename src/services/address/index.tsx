@@ -10,6 +10,8 @@ import { useFormContext } from "react-hook-form";
 import { AddressSchemaT } from "schema/address-schema";
 import * as styles from "styles/pages/common.module.scss";
 import { States, StreetTypes, UnitTypes } from "../../constants";
+import TextButton from "components/text-button";
+import * as localStyle from "./styles.module.scss";
 
 const countries = [
   { label: "UK" },
@@ -40,13 +42,12 @@ const Address = () => {
 
   return (
     <>
-      <div className="mb-10">
+      <div className={localStyle.searchGrid}>
         <LocationAutocomplete
           placeholder="Search Place..."
-          onFocus={(e) => {
-            !open && setElement(<Map />, "Map");
-            !open && toggle();
-          }}
+          // onFocus={(e) => {
+
+          // }}
           onBlur={(e) => {
             // toggle();
             // console.log("off focused");
@@ -54,6 +55,15 @@ const Address = () => {
           setFields={(val) => {
             console.log(val);
             setValue("address", val as AddressSchemaT);
+          }}
+        />
+        <TextButton
+          type="button"
+          className={localStyle.viewInMapBtn}
+          label="View in Map"
+          onClick={() => {
+            !open && setElement(<Map />, "Map");
+            !open && toggle();
           }}
         />
       </div>
