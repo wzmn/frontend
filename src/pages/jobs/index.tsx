@@ -1,15 +1,26 @@
 import Button from "components/button";
 import { Drop } from "components/drop-zone";
 import { Drage } from "components/drop-zone/drage";
+import Filterbtn from "components/filterBtn";
 import Input from "components/input";
+import Menu from "components/menu";
+import * as menuStyle from "components/menu/styles.module.scss";
+import Modal from "components/modal";
+import { CompanyFilter } from "components/pages/company/helper";
 import Pagination from "components/pagination";
-import SelectBox from "components/selectBox";
 import Placeholder from "components/skeleton";
 import { JOB_LISTING } from "constants/api";
 import { Link } from "gatsby-link";
 import moment from "moment";
 import { useRightBarContext } from "providers/right-bar-provider";
-import React, { Fragment, useEffect, useRef, useState } from "react";
+import React, {
+  ChangeEvent,
+  Fragment,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { DateRangePicker } from "react-date-range";
 import { AiOutlinePlus } from "react-icons/ai";
 import { ImSpinner10 } from "react-icons/im";
 import { IoCallOutline, IoEyeOutline } from "react-icons/io5";
@@ -19,19 +30,17 @@ import * as commonStyles from "styles/pages/common.module.scss";
 import * as styles from "styles/pages/common.module.scss";
 import { JobDataStateType, JobDataType, JobStatusRole } from "type/job";
 import cssVar from "utility/css-var";
+import { debounce } from "utility/debounce";
 import { findMatchingId } from "utility/find-matching-id";
 import View from "./view";
 
 type DropItemType = { id: number; section: JobStatusRole };
 
-const dataList = [
-  { label: "Wade Cooper" },
-  { label: "Arlene Mccoy" },
-  { label: "Devon Webb" },
-  { label: "Tom Cook" },
-  { label: "Tanya Fox" },
-  { label: "Hellen Schmidt" },
-];
+const selectionRangeInit = {
+  startDate: new Date(),
+  endDate: new Date(),
+  key: "selection",
+};
 
 const Jobs = () => {
   const [data, setData] = useState<Record<JobStatusRole, JobDataStateType[]>>({
@@ -41,6 +50,8 @@ const Jobs = () => {
   });
 
   const [loading, setLoading] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const [selectionRange, setSelectionRange] = useState(selectionRangeInit);
 
   const [pagination, setPagination] = useState({
     page: 1,
@@ -65,7 +76,7 @@ const Jobs = () => {
     return colors[int % colors.length];
   }
 
-  async function fetchData() {
+  async function fetchData(params?: Record<any, any>) {
     try {
       setLoading(true);
       const response = await request<JobDataType>({
@@ -73,6 +84,7 @@ const Jobs = () => {
         params: {
           limit: pagination.limit,
           offset: pagination.offset,
+          ...params,
         },
       });
 
@@ -157,6 +169,10 @@ const Jobs = () => {
     }
   }
 
+  const handleSearch = debounce((e: ChangeEvent<HTMLInputElement>) => {
+    fetchData({ search: e.target.value });
+  });
+
   const handleScroll = (evt: any) => {
     console.log(evt.deltaY);
     if (
@@ -194,12 +210,29 @@ const Jobs = () => {
         </div>
 
         <div className="">
-          <Input placeholder="Search" />
+          <Input
+            name="company-search"
+            placeholder="Search"
+            onChange={handleSearch}
+          />
         </div>
 
-        <div className="">
+        {/* <div className="w-64">
           <SelectBox color="full-white" data={dataList} />
-        </div>
+        </div> */}
+        <Filterbtn>
+          <div
+            onClick={() => {
+              setVisible((prev) => !prev);
+            }}
+            className={menuStyle.menu}
+          >
+            <button>Date</button>
+          </div>
+          <Menu title="Company Type">
+            <CompanyFilter />
+          </Menu>
+        </Filterbtn>
       </div>
 
       <div className={`${tableCont} drop-container`} ref={table}>
@@ -264,6 +297,28 @@ const Jobs = () => {
         }}
         label="Companies"
       />
+
+      <Modal
+        options={{
+          title: "Date Picker",
+          toggle: [visible, setVisible],
+        }}
+      >
+        <DateRangePicker
+          ranges={[selectionRange]}
+          onChange={(e: any) => {
+            // console.log({
+            //   startDate: e.selection.startDate,
+            //   endDate: e.selection.endDate,
+            // });
+            setSelectionRange((prev) => ({
+              ...prev,
+              startDate: e.selection.startDate,
+              endDate: e.selection.endDate,
+            }));
+          }}
+        />
+      </Modal>
     </>
   );
 };

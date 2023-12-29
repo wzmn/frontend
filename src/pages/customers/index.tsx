@@ -8,7 +8,13 @@ import { CUSTOMER_LISTING } from "constants/api";
 import { Link } from "gatsby";
 import moment from "moment";
 import { useRightBarContext } from "providers/right-bar-provider";
-import React, { Fragment, useEffect, useRef, useState } from "react";
+import React, {
+  ChangeEvent,
+  Fragment,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { ImSpinner10 } from "react-icons/im";
 import { IoCallOutline, IoEyeOutline } from "react-icons/io5";
@@ -24,17 +30,21 @@ import cssVar from "utility/css-var";
 import View from "./view";
 import Placeholder from "components/skeleton";
 import { findMatchingId } from "utility/find-matching-id";
+import Filterbtn from "components/filterBtn";
+import Menu from "components/menu";
+import { CompanyFilter } from "components/pages/company/helper";
+import * as menuStyle from "components/menu/styles.module.scss";
+import { debounce } from "utility/debounce";
+import Modal from "components/modal";
+import { DateRangePicker } from "react-date-range";
 
 type DropItemType = { id: number; section: CustomerStatus };
 
-const dataList = [
-  { label: "Wade Cooper" },
-  { label: "Arlene Mccoy" },
-  { label: "Devon Webb" },
-  { label: "Tom Cook" },
-  { label: "Tanya Fox" },
-  { label: "Hellen Schmidt" },
-];
+const selectionRangeInit = {
+  startDate: new Date(),
+  endDate: new Date(),
+  key: "selection",
+};
 
 const Customers = () => {
   const [data, setData] = useState<
@@ -48,6 +58,8 @@ const Customers = () => {
 
   // For skeleton
   const [loading, setLoading] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const [selectionRange, setSelectionRange] = useState(selectionRangeInit);
 
   const [pagination, setPagination] = useState({
     page: 1,
@@ -126,7 +138,7 @@ const Customers = () => {
     }
   }
 
-  async function fetchData() {
+  async function fetchData(params?: Record<any, any>) {
     try {
       setLoading(true);
       const response = await request<CustomerDataType>({
@@ -134,6 +146,7 @@ const Customers = () => {
         params: {
           limit: pagination.limit,
           offset: pagination.offset,
+          ...params,
         },
       });
 
@@ -164,6 +177,10 @@ const Customers = () => {
       console.log(error);
     }
   }
+
+  const handleSearch = debounce((e: ChangeEvent<HTMLInputElement>) => {
+    fetchData({ search: e.target.value });
+  });
 
   const handleScroll = (evt: any) => {
     if (
@@ -199,8 +216,30 @@ const Customers = () => {
             className="flex-row-reverse"
           />
         </Link>
-        <Input placeholder="Search" />
-        <SelectBox color="full-white" data={dataList} />
+        <div className="">
+          <Input
+            name="company-search"
+            placeholder="Search"
+            onChange={handleSearch}
+          />
+        </div>
+
+        {/* <div className="w-64">
+          <SelectBox color="full-white" data={dataList} />
+        </div> */}
+        <Filterbtn>
+          <div
+            onClick={() => {
+              setVisible((prev) => !prev);
+            }}
+            className={menuStyle.menu}
+          >
+            <button>Date</button>
+          </div>
+          <Menu title="Company Type">
+            <CompanyFilter />
+          </Menu>
+        </Filterbtn>
       </div>
       <div className={`${styles.tableCont} drop-container`} ref={table}>
         {(Object.keys(data) as CustomerStatus[]).map((dropName, index) => {
@@ -264,6 +303,28 @@ const Customers = () => {
         }}
         label="Companies"
       />
+
+      <Modal
+        options={{
+          title: "Date Picker",
+          toggle: [visible, setVisible],
+        }}
+      >
+        <DateRangePicker
+          ranges={[selectionRange]}
+          onChange={(e: any) => {
+            // console.log({
+            //   startDate: e.selection.startDate,
+            //   endDate: e.selection.endDate,
+            // });
+            setSelectionRange((prev) => ({
+              ...prev,
+              startDate: e.selection.startDate,
+              endDate: e.selection.endDate,
+            }));
+          }}
+        />
+      </Modal>
     </>
   );
 };

@@ -4,11 +4,13 @@ import ButtonGroup from "components/button-group";
 import DNDImage from "components/dnd-image";
 import FormSection from "components/form-sections";
 import FormWraper from "components/form-wrapper";
+import Label from "components/label";
 import InputOtp from "components/otp";
 import UploadDoc from "components/pages/company/upload-doc/upload-doc";
 import SelectBox from "components/selectBox";
 import TextField from "components/text-field";
 import { COMPANY_LISTING, COUNTRY_COMPLIANCE, OTP_API } from "constants/api";
+import { navigate } from "gatsby";
 import AdditionalDocument from "layout/additional-document";
 import { useRightBarContext } from "providers/right-bar-provider";
 import { KeyType, useUploadContext } from "providers/upload-doc-provider";
@@ -16,6 +18,7 @@ import React, { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { toast } from "react-toastify";
+import { AddressSchemaT } from "schema/address-schema";
 import {
   CompanyRegistrationSchemaType,
   companyRegistrationSchema,
@@ -26,9 +29,6 @@ import * as styles from "styles/pages/common.module.scss";
 import { CompanyDataType } from "type/company";
 import { CountryComplianceType } from "type/global";
 import * as companyStyles from "./styles.module.scss";
-import { navigate } from "gatsby";
-import { AddressSchemaT } from "schema/address-schema";
-import Label from "components/label";
 
 let countryComplianceData: CountryComplianceType[];
 

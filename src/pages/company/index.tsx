@@ -4,10 +4,13 @@ import { Drage } from "components/drop-zone/drage";
 import Filterbtn from "components/filterBtn";
 import Input from "components/input";
 import Menu from "components/menu";
+import * as menuStyle from "components/menu/styles.module.scss";
+import Modal from "components/modal";
 import Pagination from "components/pagination";
 import Placeholder from "components/skeleton";
 import { COMPANY_LISTING } from "constants/api";
 import { Link } from "gatsby";
+import { useAppContext } from "providers/app-provider";
 import React, {
   ChangeEvent,
   Fragment,
@@ -15,6 +18,7 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { DateRangePicker } from "react-date-range";
 import { AiOutlinePlus } from "react-icons/ai";
 import { request } from "services/http-request";
 import * as styles from "styles/pages/common.module.scss";
@@ -27,15 +31,7 @@ import {
 import cssVar from "utility/css-var";
 import { debounce } from "utility/debounce";
 import { findMatchingId } from "utility/find-matching-id";
-import {
-  CompanyFilter,
-  DateFilter,
-  List,
-} from "../../components/pages/company/helper";
-import { useAppContext } from "providers/app-provider";
-import Modal from "components/modal";
-import { DateRangePicker, RangeKeyDict } from "react-date-range";
-import * as menuStyle from "components/menu/styles.module.scss";
+import { CompanyFilter, List } from "../../components/pages/company/helper";
 const dataList = [
   { label: "Wade Cooper" },
   { label: "Arlene Mccoy" },
@@ -111,6 +107,7 @@ const Company = () => {
         params: {
           limit: pagination.limit,
           offset: pagination.offset,
+          ...params,
         },
       });
 

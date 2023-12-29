@@ -11,7 +11,13 @@ import moment from "moment";
 import View from "./view";
 import { useAppContext } from "providers/app-provider";
 import { useRightBarContext } from "providers/right-bar-provider";
-import React, { Fragment, useEffect, useRef, useState } from "react";
+import React, {
+  ChangeEvent,
+  Fragment,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { ImSpinner10 } from "react-icons/im";
 import { IoCallOutline, IoEyeOutline } from "react-icons/io5";
@@ -28,14 +34,19 @@ import {
 } from "type/appointment";
 import cssVar from "utility/css-var";
 import { findMatchingId } from "utility/find-matching-id";
-const dataList = [
-  { label: "Wade Cooper" },
-  { label: "Arlene Mccoy" },
-  { label: "Devon Webb" },
-  { label: "Tom Cook" },
-  { label: "Tanya Fox" },
-  { label: "Hellen Schmidt" },
-];
+import * as menuStyle from "components/menu/styles.module.scss";
+import { debounce } from "utility/debounce";
+import Filterbtn from "components/filterBtn";
+import Menu from "components/menu";
+import { CompanyFilter } from "components/pages/company/helper";
+import Modal from "components/modal";
+import { DateRangePicker } from "react-date-range";
+
+const selectionRangeInit = {
+  startDate: new Date(),
+  endDate: new Date(),
+  key: "selection",
+};
 
 type DropItemType = { id: number; section: AppointmentStatusType };
 
@@ -54,6 +65,8 @@ const Appintments = () => {
 
   // For skeleton
   const [loading, setLoading] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const [selectionRange, setSelectionRange] = useState(selectionRangeInit);
 
   const [pagination, setPagination] = useState({
     page: 1,
@@ -98,7 +111,7 @@ const Appintments = () => {
     }
   }
 
-  async function fetchData() {
+  async function fetchData(params?: Record<any, any>) {
     try {
       setLoading(true);
       const response = await request<AppointmentDataType>({
@@ -106,6 +119,7 @@ const Appintments = () => {
         params: {
           limit: pagination.limit,
           offset: pagination.offset,
+          ...params,
         },
       });
 
@@ -170,6 +184,10 @@ const Appintments = () => {
     }
   }
 
+  const handleSearch = debounce((e: ChangeEvent<HTMLInputElement>) => {
+    fetchData({ search: e.target.value });
+  });
+
   const handleScroll = (evt: any) => {
     console.log(evt.deltaY);
     if (
@@ -207,12 +225,29 @@ const Appintments = () => {
         </div>
 
         <div className="">
-          <Input placeholder="Search" />
+          <Input
+            name="company-search"
+            placeholder="Search"
+            onChange={handleSearch}
+          />
         </div>
 
-        <div className="">
+        {/* <div className="w-64">
           <SelectBox color="full-white" data={dataList} />
-        </div>
+        </div> */}
+        <Filterbtn>
+          <div
+            onClick={() => {
+              setVisible((prev) => !prev);
+            }}
+            className={menuStyle.menu}
+          >
+            <button>Date</button>
+          </div>
+          <Menu title="Company Type">
+            <CompanyFilter />
+          </Menu>
+        </Filterbtn>
       </div>
 
       <div className={`${tableCont} drop-container`} ref={table}>
@@ -279,6 +314,28 @@ const Appintments = () => {
         }}
         label="Companies"
       />
+
+      <Modal
+        options={{
+          title: "Date Picker",
+          toggle: [visible, setVisible],
+        }}
+      >
+        <DateRangePicker
+          ranges={[selectionRange]}
+          onChange={(e: any) => {
+            // console.log({
+            //   startDate: e.selection.startDate,
+            //   endDate: e.selection.endDate,
+            // });
+            setSelectionRange((prev) => ({
+              ...prev,
+              startDate: e.selection.startDate,
+              endDate: e.selection.endDate,
+            }));
+          }}
+        />
+      </Modal>
     </>
   );
 };

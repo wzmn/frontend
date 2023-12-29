@@ -30,9 +30,16 @@ import View from "./view";
 // For skeleton
 import Placeholder from "../../components/skeleton";
 import { useAppContext } from "providers/app-provider";
+import Modal from "components/modal";
+import { DateRangePicker } from "react-date-range";
+import * as menuStyle from "components/menu/styles.module.scss";
 
 type DropItemType = { id: number; section: EmployeeRole };
-
+const selectionRangeInit = {
+  startDate: new Date(),
+  endDate: new Date(),
+  key: "selection",
+};
 const Employees = () => {
   const {
     emp: { status },
@@ -41,6 +48,9 @@ const Employees = () => {
   const [data, setData] = useState({} as EmpStateStatus);
   // For skeleton
   const [loading, setLoading] = useState(false);
+  const [selectionRange, setSelectionRange] = useState(selectionRangeInit);
+  const [visible, setVisible] = useState(false);
+
   const [pagination, setPagination] = useState({
     page: 1,
     offset: 0,
@@ -195,9 +205,14 @@ const Employees = () => {
 
         {/* <div className=""> */}
         <Filterbtn>
-          <Menu title="Date">
-            <DateFilter />
-          </Menu>
+          <div
+            onClick={() => {
+              setVisible((prev) => !prev);
+            }}
+            className={menuStyle.menu}
+          >
+            <button>Date</button>
+          </div>
           <Menu title="Manager">
             <CompanyFilter />
           </Menu>
@@ -267,6 +282,27 @@ const Employees = () => {
         }}
         label="Companies"
       />
+      <Modal
+        options={{
+          title: "Date Picker",
+          toggle: [visible, setVisible],
+        }}
+      >
+        <DateRangePicker
+          ranges={[selectionRange]}
+          onChange={(e: any) => {
+            // console.log({
+            //   startDate: e.selection.startDate,
+            //   endDate: e.selection.endDate,
+            // });
+            setSelectionRange((prev) => ({
+              ...prev,
+              startDate: e.selection.startDate,
+              endDate: e.selection.endDate,
+            }));
+          }}
+        />
+      </Modal>
     </>
   );
 };
