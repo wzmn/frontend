@@ -8,15 +8,16 @@ import { useForm } from "react-hook-form";
 import * as styles from "styles/pages/common.module.scss";
 import * as jobStyles from "./styles.module.scss";
 import moment from "moment";
+import { WorkType } from "type/job";
 
 type Props = {
-  label: string;
+  item: WorkType;
 };
 
-const Schedule = ({ label }: Props) => {
+const Schedule = ({ item }: Props) => {
   const { register, handleSubmit, watch } = useForm();
 
-  const startDate = watch(`${label}.startDate`);
+  const startDate = watch(`${item.title}.startDate`);
 
   function onSubmit(data: any) {
     console.log(data);
@@ -28,7 +29,7 @@ const Schedule = ({ label }: Props) => {
         <div className="flex-1 z-10">
           <FormWraper>
             <>
-              <p className="mb-6">{label}</p>
+              <p className="mb-6">{item.title}</p>
               <div className="flex items-center justify-between">
                 <div className="w-72">
                   <Input
@@ -36,7 +37,7 @@ const Schedule = ({ label }: Props) => {
                     className={styles.input}
                     varient="regular"
                     placeholder="Subject"
-                    {...register(`${label}.startDate`)}
+                    {...register(`${item.title}.startDate`)}
                     min={moment(new Date()).format("yyyy-MM-DD") + "T00:00"}
                   />
                 </div>
@@ -47,7 +48,7 @@ const Schedule = ({ label }: Props) => {
                     className={styles.input}
                     varient="regular"
                     placeholder="Subject"
-                    {...register(`${label}.endDate`)}
+                    {...register(`${item.title}.endDate`)}
                     min={startDate}
                   />
                 </div>
@@ -61,12 +62,12 @@ const Schedule = ({ label }: Props) => {
                   <div className={`${styles.roles}`}>
                     <Radio
                       label="Fieldworker"
-                      {...register(`${label}.assessmentby`)}
+                      {...register(`${item.title}.assessmentby`)}
                       value="Fieldworker"
                     />
                     <Radio
                       label="Customer"
-                      {...register(`${label}.assessmentby`)}
+                      {...register(`${item.title}.assessmentby`)}
                       value="Customer"
                     />
                   </div>

@@ -11,6 +11,7 @@ import { useAuthContext } from "providers/auth-provider";
 import logo from "./logo.png";
 import user from "./user.png";
 import UserIdentifyer from "services/user-identifyer";
+import { userAccessRouter } from "providers/auth-provider/user-page-permissions";
 
 const sideBarData = [
   {
@@ -54,6 +55,8 @@ const Sidebar = () => {
   const { sidebarFlag, toggle } = useSidebarContext();
   const { setUserAuth, userAuth } = useAuthContext();
 
+  const routeAccess = userAccessRouter();
+
   return (
     <div className={`${styles.sidebarCont} ${sidebarFlag && styles.slideIn}`}>
       <span className={styles.backArrow} onClick={toggle}>
@@ -75,6 +78,7 @@ const Sidebar = () => {
         <div className={styles.menu}>
           <div className={styles.sidebarLinks}>
             {sideBarData.map((item) => {
+              if (!routeAccess.includes(item.link)) return null;
               return (
                 <Link
                   partiallyActive={item.link !== "/" ? true : false}

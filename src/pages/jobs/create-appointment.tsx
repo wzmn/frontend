@@ -8,22 +8,25 @@ import Schedule from "./Schedule";
 import * as jobStyles from "./styles.module.scss";
 import Input from "components/input";
 import { useAppContext } from "providers/app-provider";
+import { useLocation } from "@reach/router";
+import { WorkType } from "type/job";
 
 const CreateAppointment = () => {
   const { register, watch } = useForm();
 
   const { workTypes } = useAppContext();
   let workTypeList = watch("workType");
+  const location = useLocation().state as WorkType;
 
   // useEffect
 
   return (
     <div className="grow">
-      {/* <pre>{JSON.stringify(workTypes, null, 4)}</pre> */}
+      {/* <pre>{JSON.stringify(location, null, 4)}</pre> */}
       <p className={styles.title}>Create Appointment</p>
 
       <div className="space-y-16 mb-3">
-        <FormSection title="Work Types">
+        {/* <FormSection title="Work Types">
           <FormWraper>
             <div className={jobStyles.wtGrid}>
               {workTypes?.map((item) => {
@@ -39,11 +42,11 @@ const CreateAppointment = () => {
               })}
             </div>
           </FormWraper>
-        </FormSection>
+        </FormSection> */}
 
-        {workTypeList?.map((_: any, key: number) => (
-          <Schedule key={key} label={_} />
-        ))}
+        {/* {workTypeList?.map((_: any, key: number) => ( */}
+        <Schedule item={location} />
+        {/* ))} */}
 
         <FormSection title="Comments">
           <div className="flex-1">

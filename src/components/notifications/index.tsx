@@ -36,7 +36,7 @@ const setupFCM = (userID: number) => {
   if (typeof window !== "undefined")
     getToken(messaging, { vapidKey: process.env.VAPID })
       .then(async (currentToken) => {
-        // Send token to backend  
+        // Send token to backend
         console.log("TOKEN: ", currentToken);
         const response = await request({
           url: `/users/management/${userID}`,
@@ -54,8 +54,7 @@ const setupFCM = (userID: number) => {
       });
   onMessageListener()
     .then((payload: any) => {
-
-    logEvent(analytics, 'notification_received');
+      logEvent(analytics, "notification_received");
       new Notification(payload?.notification?.title, {
         body: payload?.notification?.body,
         image: payload?.notification?.image,

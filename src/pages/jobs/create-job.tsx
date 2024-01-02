@@ -7,7 +7,7 @@ import FormWraper from "components/form-wrapper";
 import Label from "components/label";
 import Radio from "components/radio";
 import TextField from "components/text-field";
-import { APPOINTMENT_LISTING } from "constants/api";
+import { APPOINTMENT_LISTING, JOB_LISTING } from "constants/api";
 import { navigate } from "gatsby";
 import { useAppContext } from "providers/app-provider";
 import React, { ChangeEvent, useEffect, useState } from "react";
@@ -55,21 +55,18 @@ const CreateJob = () => {
         return;
       }
       const response = await request({
-        url: APPOINTMENT_LISTING,
+        url: JOB_LISTING,
         method: "post",
         data: {
-          job: {
-            customer: {
-              user: data.customer.user,
-              company: id,
-              assigned_to: data.job_assigned_to_id,
-              customer_type: data.customer.customer_type,
-            },
-            address: data.address,
-            job_assigned_to_id: data.job_assigned_to_id,
-            work_type_id: data.workType[0],
+          customer: {
+            user: data.customer.user,
+            company: id,
+            assigned_to: data.job_assigned_to_id,
+            customer_type: data.customer.customer_type,
           },
-          appointment_status: "Waiting",
+          address: data.address,
+          job_assigned_to_id: data.job_assigned_to_id,
+          work_type_id: data.workType[0],
         },
       });
       toast.success("Added Sucessfully");

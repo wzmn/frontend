@@ -18,7 +18,7 @@ const Settings = () => {
   return (
     <div className="grow">
       <div className="space-y-16 mb-3">
-        <FormSection title="Questionnaire">
+        <FormSection title="Profile">
           <FormWraper>
             <div className={settingtyles.profileSetting}>
               <div className={settingtyles.cont1}>

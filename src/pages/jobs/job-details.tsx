@@ -15,7 +15,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { TfiEmail } from "react-icons/tfi";
 import { request } from "services/http-request";
 import * as styles from "styles/pages/common.module.scss";
-import { JobDataType } from "type/job";
+import { JobDataType, Result } from "type/job";
 import * as companyStyles from "../company/styles.module.scss";
 import * as additionalStyles from "styles/pages/additional.module.scss";
 import { LuClipboardList } from "react-icons/lu";
@@ -34,7 +34,7 @@ const JobDetails = (props: PageProps) => {
     },
   });
 
-  const [data, setData] = useState<JobDataType>({});
+  const [data, setData] = useState<Result>({});
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -45,7 +45,7 @@ const JobDetails = (props: PageProps) => {
 
   async function fetchData() {
     try {
-      const response = await request<JobDataType>({
+      const response = await request<Result>({
         url: JOB_LISTING + jobId,
       });
       setData(() => response.data);
@@ -222,7 +222,9 @@ const JobDetails = (props: PageProps) => {
                 label="Create Appointment"
                 icon={<GoPlus />}
                 onClick={() => {
-                  navigate("/jobs/create-appointment");
+                  navigate("/jobs/create-appointment", {
+                    state: data.work_type,
+                  });
                 }}
               />
             </>
