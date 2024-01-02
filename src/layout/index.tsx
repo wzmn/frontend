@@ -64,8 +64,9 @@ const Layout = ({ children }: Props) => {
                                     <Navbar />
                                     {children}
                                   </div>
+                                  <RightBar /> {/* has absolute position */}
                                 </div>
-                                <RightBar /> {/* has absolute position */}
+                                {/* <ConfirmDialog /> */}
                               </div>
                             </SidebarContext>
                           </RightBarProvider>
