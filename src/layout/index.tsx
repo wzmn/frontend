@@ -57,17 +57,20 @@ const Layout = ({ children }: Props) => {
                         <DndProvider backend={HTML5Backend}>
                           <RightBarProvider>
                             <SidebarContext>
-                              <div className={`${styles.layout} `}>
-                                <Sidebar />
-                                <div className={styles.children}>
-                                  <div className={styles.mainContent}>
-                                    <Navbar />
-                                    {children}
+                              <>
+                                <div className={`${styles.layout} `}>
+                                  <Sidebar />
+                                  <div className={styles.children}>
+                                    <div className={styles.mainContent}>
+                                      <Navbar />
+                                      {children}
+                                      {/* <Footer /> */}
+                                    </div>
                                   </div>
                                   <RightBar /> {/* has absolute position */}
                                 </div>
                                 {/* <ConfirmDialog /> */}
-                              </div>
+                              </>
                             </SidebarContext>
                           </RightBarProvider>
                         </DndProvider>
