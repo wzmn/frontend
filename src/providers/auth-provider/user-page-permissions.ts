@@ -41,6 +41,7 @@ const superAdmin = [
   "/employees",
   "/company",
   "/settings",
+  "/publish",
 ];
 
 export function userAccessRouter(): string[] {

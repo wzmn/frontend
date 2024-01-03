@@ -103,7 +103,7 @@ const AppointmentDetails = (props: PageProps) => {
           </div>
         </FormSection>
 
-        <FormSection title="Employee Details">
+        <FormSection title="Job Details">
           <div className="flex-1">
             <FormWraper>
               <>
