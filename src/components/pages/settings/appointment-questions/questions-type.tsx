@@ -32,6 +32,8 @@ const questions = [
   { label: "Multi choice ms", value: "multi_choice_ms" },
 ];
 
+const notToInclude = ["image", "video", "signature", "file"];
+
 const QuestionsType = ({
   qAData,
   title,
@@ -272,7 +274,9 @@ function Options({
 }) {
   const { questions: QList } = useAppContext();
 
-  const filteredQlist = QList.questions?.filter((item) => item.id !== qId);
+  const filteredQlist = QList.questions?.filter(
+    (item) => item.id !== qId && !notToInclude.includes(item?.question_type!)
+  );
 
   const { control, register, handleSubmit, setValue } = useForm<{
     option_text: string;
