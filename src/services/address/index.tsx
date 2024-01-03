@@ -87,6 +87,7 @@ const Address = () => {
         </div>
         <div className="max-w-3xl">
           <SelectBox
+            name="Select_Unit_Type"
             color="full-white"
             placeholder="Select Unit Type"
             data={UnitTypes}
@@ -136,6 +137,7 @@ const Address = () => {
         <div className="max-w-3xl">
           <SelectBox
             color="full-white"
+            name="Street_Type"
             placeholder="Street Type"
             data={StreetTypes}
             // asterisk
@@ -166,6 +168,7 @@ const Address = () => {
         <div className="max-w-3xl">
           <Label title="State" />
           <SelectBox
+            name="State"
             color="full-white"
             placeholder="State"
             data={States}

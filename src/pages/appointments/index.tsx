@@ -361,7 +361,10 @@ export function List({
           <>
             <IoEyeOutline
               onClick={() => {
-                window.open(`employee-details/?employee=${data.id}`, "_blank");
+                window.open(
+                  `appointment-details/?appointment=${data.id}`,
+                  "_blank"
+                );
               }}
             />
           </>

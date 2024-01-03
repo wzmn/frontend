@@ -18,6 +18,7 @@ type Props = {
   placeholder?: string;
   asterisk?: boolean;
   value?: string;
+  name?: string;
   onChange?: (e: DataProp) => void;
 };
 
@@ -41,6 +42,7 @@ export default function SelectBox({
   asterisk,
   onChange,
   value = "",
+  name = "",
 }: Props) {
   // const renderData = [{ label: placeholder }, ...data];
   const [selected, setSelected] = useState<string | undefined>();
@@ -56,7 +58,7 @@ export default function SelectBox({
 
   return (
     <div className={`w-full ${styles.rel}`}>
-      <Listbox onChange={onSelect}>
+      <Listbox date-name={name} onChange={onSelect}>
         <div className={`  ${styles.index}`}>
           <Listbox.Button
             className={`${styles.lstBoxBtn} ${varientHandler(color)} border`}

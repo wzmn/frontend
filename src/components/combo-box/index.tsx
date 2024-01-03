@@ -31,6 +31,9 @@ const ComboBox = forwardRef(
   ) => {
     const { data, label, handleSelect } = props;
     const [inputLabel, setInputLabel] = useState<string>();
+
+    const filterProps = JSON.parse(JSON.stringify(props));
+    delete filterProps["data"];
     return (
       <div className="z-50 w-full">
         <Combobox
@@ -45,7 +48,7 @@ const ComboBox = forwardRef(
             <div className={styles.boxInputCont}>
               <Combobox.Button className="w-full">
                 <Combobox.Input
-                  {...props}
+                  {...filterProps}
                   ref={ref}
                   autoComplete="off"
                   className={styles.boxInput}

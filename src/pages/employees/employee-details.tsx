@@ -13,7 +13,7 @@ import { TfiEmail } from "react-icons/tfi";
 import * as styles from "styles/pages/common.module.scss";
 import * as companyStyles from "../company/styles.module.scss";
 import { PageProps } from "gatsby";
-import { EmployeeDataType } from "type/employee";
+import { EmployeeDataType, Result } from "type/employee";
 import moment from "moment";
 import { EMPLOYEE_LISTING } from "constants/api";
 import { request } from "services/http-request";
@@ -30,7 +30,7 @@ const EmployeeDetails = (props: PageProps) => {
     },
   });
 
-  const [data, setData] = useState<EmployeeDataType>({});
+  const [data, setData] = useState<Result>({});
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -41,7 +41,7 @@ const EmployeeDetails = (props: PageProps) => {
 
   async function fetchData() {
     try {
-      const response = await request<EmployeeDataType>({
+      const response = await request<Result>({
         url: EMPLOYEE_LISTING + employeeId,
       });
       setData(() => response.data);
