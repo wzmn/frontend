@@ -4,7 +4,7 @@ import { ApptStateStatus, ApptStatues } from "type/appointment";
 
 export type FetchApptStatus = {
   statusData?: ApptStatues["results"];
-  status?: ApptStateStatus;
+  status?: Partial<ApptStateStatus>;
 };
 
 export async function fetchApptStatus(): Promise<FetchApptStatus> {

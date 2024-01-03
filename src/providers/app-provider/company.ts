@@ -1,14 +1,13 @@
-import { COMPANY_STATUS, EMPLOYEE_STATUS } from "constants/api";
+import { COMPANY_STATUS } from "constants/api";
 import { request } from "services/http-request";
 import { CompanyStateStatus, CompanyStatus } from "type/company";
-import { EmpStateStatus, EmpStatusRespT, EmpStatusT } from "type/employee";
 
 export type FetchCompanyStatusRespT = {
   statuses?: CompanyStatus[];
 };
 
 export type FetchCompanyStatusT = {
-  status: CompanyStateStatus;
+  status: Partial<CompanyStateStatus>;
 };
 
 export async function fetchCompanyStatus(): Promise<FetchCompanyStatusT> {
@@ -17,7 +16,7 @@ export async function fetchCompanyStatus(): Promise<FetchCompanyStatusT> {
       url: COMPANY_STATUS,
     });
 
-    const status = {} as CompanyStateStatus;
+    const status: Partial<CompanyStateStatus> = {};
 
     response.data?.statuses?.map((item) => {
       status[item] = [];

@@ -4,7 +4,7 @@ import { EmpStateStatus, EmpStatusRespT, EmpStatusT } from "type/employee";
 
 export type FetchEmpStatus = {
   statusData?: EmpStatusRespT["results"];
-  status?: EmpStateStatus;
+  status?: Partial<EmpStateStatus>;
 };
 
 export async function fetchEmpStatus(): Promise<FetchEmpStatus> {

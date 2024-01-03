@@ -9,11 +9,13 @@ import React, {
 import { IoIosArrowDown } from "react-icons/io";
 import * as styles from "./styles.module.scss";
 
-export type ComboBoxDataT = {
-  label: string;
-} & {
-  [keyof in string]: any;
-};
+export type ComboBoxDataT = Partial<
+  {
+    label: string;
+  } & {
+    [keyof in string]: any;
+  }
+>;
 
 type ComboBoxT<T> = React.InputHTMLAttributes<HTMLInputElement> & {
   data: ComboBoxDataT[];
