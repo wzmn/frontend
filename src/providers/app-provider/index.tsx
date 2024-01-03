@@ -7,6 +7,7 @@ import { fetchEmpStatus } from "./emp";
 import { EmpStateStatus } from "type/employee";
 import { FetchCompanyStatusT, fetchCompanyStatus } from "./company";
 import { CompanyStateStatus } from "type/company";
+import { fetchQuestionsList } from "./questions";
 
 const AppContext = createContext({} as AppProviderType);
 
@@ -16,16 +17,17 @@ function AppProvider({ children }: { children: JSX.Element }) {
   const [appState, setAppState] = useState<AppProviderType>({
     appointment: {
       statusData: [],
-      status: {} as ApptStateStatus,
+      status: {},
     },
     workTypes: [],
     emp: {
-      status: {} as EmpStateStatus,
+      status: {},
       statusData: [],
     },
     company: {
-      status: {} as CompanyStateStatus,
+      status: {},
     },
+    questions: {},
   });
 
   async function init() {
@@ -37,12 +39,14 @@ function AppProvider({ children }: { children: JSX.Element }) {
       fetchWorkTypes,
       fetchEmpStatus,
       fetchCompanyStatus,
+      fetchQuestionsList,
     ])
       .then(async (values) => {
         const appt = await values[0]();
         const workTypes = await values[1]();
         const emp = await values[2]();
         const company = await values[3]();
+        const questions = await values[4]();
 
         setAppState((prev) => ({
           ...prev,
@@ -50,6 +54,7 @@ function AppProvider({ children }: { children: JSX.Element }) {
           workTypes,
           emp,
           company,
+          questions,
         }));
       })
       .catch(() => {

@@ -18,6 +18,9 @@ import UserIdentifyer from "services/user-identifyer";
 import { toast } from "react-toastify";
 import { ImSpinner10 } from "react-icons/im";
 import { IoIosSend, IoMdAdd } from "react-icons/io";
+import { useAppContext } from "providers/app-provider";
+import ComboBox, { ComboBoxDataT } from "components/combo-box";
+import { Questions, QuestionsT } from "providers/app-provider/questions";
 
 const questions = [
   { label: "Image", value: "image" },
@@ -98,12 +101,14 @@ function Question({
   removeField: any;
   index: number;
 }) {
+  const [question, setQuestion] = useState<Partial<WorkTypeQuestionT>>(item);
+
   const { handleSubmit, register, watch, setValue } = useForm<{
     content: string;
     question_type: string;
   }>({
     defaultValues: {
-      content: item?.content,
+      content: question?.content,
     },
   });
 
@@ -112,11 +117,12 @@ function Question({
     handleSubmit: handleOptionsSubmit,
     register: registerOptions,
     watch: watchOptions,
+    setValue: setOptValue,
   } = useForm<{
     options: Option[];
   }>({
     defaultValues: {
-      options: item.options,
+      options: question.options,
     },
   });
 
@@ -132,21 +138,32 @@ function Question({
 
   const id = companyIdFetcher(uderRole);
 
+  const fetchOtps = async () => {
+    try {
+      const res = await request<WorkTypeQuestionT>({
+        url: APPT_Q + question.id,
+      });
+      setOptValue("options", res.data.options);
+      res.data;
+    } catch (error) {}
+  };
+
   async function onSubmit(data: any) {
     try {
       if (!id) {
         alert("Please Select Country");
         return;
       }
-      const response = await request({
-        url: APPT_Q,
-        method: "post",
+      const response = await request<WorkTypeQuestionT>({
+        url: APPT_Q + (question.id ? question.id + "/" : ""),
+        method: question.id ? "patch" : "post",
         data: {
           ...data,
           company: id,
-          work_type: item.work_type,
+          work_type: question.work_type,
         },
       });
+      setQuestion(() => response.data);
       toast.success("added");
     } catch (error) {
       toast.error("failed adding question");
@@ -157,11 +174,12 @@ function Question({
     try {
       setDeleteLoad((prev) => !prev);
       const response = await request({
-        url: APPT_Q + item.id,
+        url: APPT_Q + question.id,
         method: "delete",
       });
       toast.success("deleted sucessfully");
-      remove(index);
+      removeField(index);
+      console.log(index);
     } catch (error) {
       toast.error("failed adding question");
     } finally {
@@ -180,23 +198,31 @@ function Question({
             <div className="w-52">
               <SelectBox
                 data={questions}
-                placeholder={item?.question_type}
+                placeholder={question?.question_type}
                 onChange={(e) => {
                   setValue("question_type", e.value);
                 }}
               />
             </div>
-            <RiDeleteBin6Line
-              className={settingStyles.svg}
-              onClick={() => {
-                removeField(index);
-              }}
-            />
+            {!deleteLoad ? (
+              <RiDeleteBin6Line
+                className={settingStyles.svg}
+                onClick={() => {
+                  if (!!item.id) {
+                    deleteQuestion();
+                    return;
+                  }
+                  removeField(index);
+                }}
+              />
+            ) : (
+              <ImSpinner10 className={`animate-spin ${settingStyles.svg}`} />
+            )}
             <button type="submit">
               <IoIosSend className={`${settingStyles.svg}`} />
             </button>
 
-            {item.options?.length! > 0 && (
+            {question.question_type === "multi_choice_ss" && (
               <IoMdAdd
                 className={`${settingStyles.svg}`}
                 onClick={() => {
@@ -210,12 +236,13 @@ function Question({
         </form>
 
         <div className="mt-5 ml-3">
-          {item.question_type?.includes("multi")
+          {question.question_type?.includes("multi")
             ? fields?.map((optionItem, index, array) => {
                 return (
                   <>
                     <Options
-                      qId={item.id!}
+                      fetchOtps={fetchOtps}
+                      qId={question.id!}
                       option={optionItem}
                       index={index}
                       remove={remove}
@@ -231,19 +258,25 @@ function Question({
 }
 
 function Options({
+  fetchOtps,
   option,
   index,
   remove,
   qId,
 }: {
+  fetchOtps: () => Promise<void>;
   option: Option;
   index: number;
   remove: any;
   qId: number;
 }) {
+  const { questions: QList } = useAppContext();
+
+  const filteredQlist = QList.questions?.filter((item) => item.id !== qId);
+
   const { control, register, handleSubmit, setValue } = useForm<{
     option_text: string;
-    question_type: string;
+    next_question_id: string;
   }>({
     defaultValues: {
       option_text: option?.option_text,
@@ -270,14 +303,17 @@ function Options({
 
   async function onSubmit(data: any) {
     try {
+      console.log(data);
+      // return;
       const response = await request({
-        url: APPT_Q_OPT,
-        method: "post",
+        url: APPT_Q_OPT + `${option.id ? String(option.id) + "/" : ""}`,
+        method: option.id ? "patch" : "post",
         data: {
           ...data,
           question: qId,
         },
       });
+      await fetchOtps();
       toast.success("added");
     } catch (error) {
       toast.error("failed adding question");
@@ -291,14 +327,21 @@ function Options({
           <Input {...register(`option_text`)} className="text-sm" />
         </div>
         <div className="w-52">
-          <SelectBox
-            data={questions}
-            onChange={(e) => {
-              setValue("question_type", e.value);
+          <ComboBox<Questions>
+            placeholder={
+              filteredQlist?.find(
+                (item) => item.id === Number(option?.next_question?.id)
+              )?.content
+            }
+            data={filteredQlist!}
+            handleSelect={(e) => {
+              console.log(e.id);
+
+              setValue("next_question_id", String(e.id));
             }}
+            // onChange={debounce(handleEmployeeList)}
           />
         </div>
-        {option.id + ""}
         {!deleteLoad ? (
           <RiDeleteBin6Line
             className={settingStyles.svg}
@@ -314,7 +357,9 @@ function Options({
           <ImSpinner10 className={`animate-spin ${settingStyles.svg}`} />
         )}
 
-        <IoIosSend className={`${settingStyles.svg}`} />
+        <button type="submit">
+          <IoIosSend className={`${settingStyles.svg}`} />
+        </button>
       </div>
     </form>
   );

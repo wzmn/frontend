@@ -211,7 +211,7 @@ const customerRegistration = () => {
                         </div>
 
                         <div className="max-w-3xl">
-                          <Label title="Employee" />
+                          <Label title="Assign To" />
                           <ComboBox<Result>
                             data={empListData}
                             handleSelect={(e) => {

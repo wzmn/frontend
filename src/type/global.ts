@@ -82,7 +82,7 @@ export interface WorkTypeQuestionT {
 
 export interface Option {
   id: number;
-  next_question: null | number;
+  next_question: WorkTypeQuestionT;
   option_text: string;
   question: number;
 }
