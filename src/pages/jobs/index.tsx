@@ -33,6 +33,9 @@ import cssVar from "utility/css-var";
 import { debounce } from "utility/debounce";
 import { findMatchingId } from "utility/find-matching-id";
 import View from "./view";
+import { WorkTypeFilter } from "services/filters";
+import { useForm } from "react-hook-form";
+import { FilterT } from "type/filters";
 
 type DropItemType = { id: number; section: JobStatusRole };
 
@@ -63,6 +66,14 @@ const Jobs = () => {
   const { btnCont, tableCont } = commonStyles;
 
   const table = useRef<HTMLDivElement>(null);
+
+  const {
+    register: registerFilters,
+    watch: watchFilters,
+    setValue: setValueFilters,
+  } = useForm<FilterT>();
+
+  const workType = watchFilters("workType");
 
   function getColumnColor(int: number) {
     const colors = [
@@ -221,6 +232,9 @@ const Jobs = () => {
           <SelectBox color="full-white" data={dataList} />
         </div> */}
         <Filterbtn>
+          <Menu title="Work Type">
+            <WorkTypeFilter register={registerFilters as any} />
+          </Menu>
           <div
             onClick={() => {
               setVisible((prev) => !prev);
@@ -229,9 +243,6 @@ const Jobs = () => {
           >
             <button>Date</button>
           </div>
-          <Menu title="Company Type">
-            <CompanyFilter />
-          </Menu>
         </Filterbtn>
       </div>
 

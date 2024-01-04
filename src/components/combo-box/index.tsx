@@ -26,14 +26,14 @@ type ComboBoxT<T> = React.InputHTMLAttributes<HTMLInputElement> & {
 
 const ComboBox = forwardRef(
   <T extends unknown>(
-    props: ComboBoxT<T>,
+    { data, label, handleSelect, ...props }: ComboBoxT<T>,
     ref: ForwardedRef<HTMLInputElement>
   ) => {
-    const { data, label, handleSelect } = props;
+    // const { data, label, handleSelect } = props;
     const [inputLabel, setInputLabel] = useState<string>();
 
-    const filterProps = JSON.parse(JSON.stringify(props));
-    delete filterProps["data"];
+    // const filterProps = JSON.parse(JSON.stringify(props));
+    // delete filterProps["data"];
     return (
       <div className="z-50 w-full">
         <Combobox
@@ -48,7 +48,7 @@ const ComboBox = forwardRef(
             <div className={styles.boxInputCont}>
               <Combobox.Button className="w-full">
                 <Combobox.Input
-                  {...filterProps}
+                  {...props}
                   ref={ref}
                   autoComplete="off"
                   className={styles.boxInput}

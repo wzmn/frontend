@@ -1,0 +1,11 @@
+.wt-filters-cont {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+
+  & .wt-filters {
+    cursor: pointer;
+  }
+}
