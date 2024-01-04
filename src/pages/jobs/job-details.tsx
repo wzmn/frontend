@@ -223,7 +223,7 @@ const JobDetails = (props: PageProps) => {
                 icon={<GoPlus />}
                 onClick={() => {
                   navigate("/jobs/create-appointment", {
-                    state: data.work_type,
+                    state: data,
                   });
                 }}
               />

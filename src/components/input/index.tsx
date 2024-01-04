@@ -60,7 +60,7 @@ const Input = forwardRef<HTMLInputElement, Props>((props, ref) => {
         </span>
       </div>
 
-      <p className={styles.errormessage}>{errormessage}</p>
+      <p className={styles.errorMessage}>{errormessage}</p>
     </div>
   );
 });

@@ -75,10 +75,19 @@ export interface WorkTypeQuestionT {
   updated_at: Date;
   is_active: boolean;
   content: string;
-  question_type: string;
+  question_type: Question_type | "";
   company: number;
   work_type: number;
 }
+
+export type Question_type =
+  | "image"
+  | "text"
+  | "video"
+  | "signature"
+  | "file"
+  | "multi_choice_ss"
+  | "multi_choice_ms";
 
 export interface Option {
   id: number;

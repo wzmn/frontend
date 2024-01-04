@@ -66,7 +66,7 @@ const CreateJob = () => {
           },
           address: data.address,
           job_assigned_to_id: data.job_assigned_to_id,
-          work_type_id: data.workType[0],
+          work_type_id: data.workType,
         },
       });
       toast.success("Added Sucessfully");

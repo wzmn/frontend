@@ -2,10 +2,16 @@ import FormSection from "components/form-sections";
 import FormWraper from "components/form-wrapper";
 import Radio from "components/radio";
 import Textarea from "components/textarea";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import * as styles from "styles/pages/common.module.scss";
 import * as apptStyle from "./styles.module.scss";
 import Button from "components/button";
+import { request } from "services/http-request";
+import { APPT_Q } from "constants/api";
+import { toast } from "react-toastify";
+import { WorkTypeQuestionT, WorkTypeRespQuestionT } from "type/global";
+import { PageProps } from "gatsby";
+import { set } from "date-fns";
 
 const txtData = [
   {
@@ -67,9 +73,35 @@ const vidData = [
   },
 ];
 
-const Assessment = () => {
+type LocState = {
+  wtId: string;
+};
+
+const Assessment = (props: PageProps) => {
+  const [data, setData] = useState<WorkTypeQuestionT[]>();
+
+  async function fetchQuestions() {
+    try {
+      const response = await request<WorkTypeRespQuestionT>({
+        url: APPT_Q,
+        params: {
+          work_type__id: (props.location.state as LocState).wtId,
+        },
+      });
+
+      setData(response.data.results);
+    } catch (error) {
+      toast("Problem fetching questions");
+    }
+  }
+
+  useEffect(() => {
+    fetchQuestions();
+  }, []);
+
   return (
     <div className="grow">
+      <pre>{JSON.stringify(data, null, 4)}</pre>
       <p className={styles.title}>assessment</p>
 
       <div className="space-y-16 mb-3">

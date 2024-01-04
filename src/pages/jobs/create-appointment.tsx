@@ -9,14 +9,14 @@ import * as jobStyles from "./styles.module.scss";
 import Input from "components/input";
 import { useAppContext } from "providers/app-provider";
 import { useLocation } from "@reach/router";
-import { WorkType } from "type/job";
+import { Result, WorkType } from "type/job";
 
 const CreateAppointment = () => {
   const { register, watch } = useForm();
 
   const { workTypes } = useAppContext();
   let workTypeList = watch("workType");
-  const location = useLocation().state as WorkType;
+  const location = useLocation().state as Result;
 
   // useEffect
 

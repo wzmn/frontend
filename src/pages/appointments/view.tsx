@@ -112,7 +112,13 @@ const View = ({ data }: { data: Result }) => {
         <Radio label={data?.appointment_status ?? ""} checked={true} />
       </div>
 
-      <Link to="assessment" className="flex justify-center mt-10">
+      <Link
+        to="assessment"
+        state={{
+          wtId: data?.job?.work_type?.id,
+        }}
+        className="flex justify-center mt-10"
+      >
         <Button title="View Assessment" />
       </Link>
     </div>
