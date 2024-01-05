@@ -136,17 +136,17 @@ const Schedule = ({ item }: Props) => {
                 <div className={`${styles.userRole} `}>
                   {/* <p className={styles.name}>
                     <span className={styles.bold}>Assessment by</span>
-                  </p> */}
+                  </p>
 
-                  {/* <div className={`${styles.roles}`}>
+                  <div className={`${styles.roles}`}>
                     <Radio
                       label="Fieldworker"
-                      {...register(`assessmentby`)}
+                      {...register(`self_assessment`)}
                       value="Fieldworker"
                     />
                     <Radio
                       label="Customer"
-                      {...register(`assessmentby`)}
+                      {...register(`self_assessment`)}
                       value="Customer"
                     />
                   </div> */}

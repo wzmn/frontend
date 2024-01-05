@@ -101,7 +101,7 @@ const Assessment = (props: PageProps) => {
 
   return (
     <div className="grow">
-      <pre>{JSON.stringify(data, null, 4)}</pre>
+      {/* <pre>{JSON.stringify(data, null, 4)}</pre> */}
       <p className={styles.title}>assessment</p>
 
       <div className="space-y-16 mb-3">
