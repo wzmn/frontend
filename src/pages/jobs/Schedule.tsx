@@ -20,6 +20,7 @@ import { request } from "services/http-request";
 import { APPOINTMENT_LISTING } from "constants/api";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { object, string } from "yup";
+import { toast } from "react-toastify";
 
 type Props = {
   item: Result;
@@ -56,7 +57,10 @@ const Schedule = ({ item }: Props) => {
         method: "post",
         data: { ...data, job_id: item.id },
       });
-    } catch (error) {}
+      toast.success("Appt is created");
+    } catch (error) {
+      toast.error("could`t create appt try later");
+    }
   }
   async function handleEmployeeList(e: ChangeEvent<HTMLInputElement>) {
     try {
@@ -128,11 +132,11 @@ const Schedule = ({ item }: Props) => {
                 </div> */}
               </div>
 
-              <div className="flex items-end gap-6">
+              <div className="">
                 <div className={`${styles.userRole} `}>
-                  <p className={styles.name}>
+                  {/* <p className={styles.name}>
                     <span className={styles.bold}>Assessment by</span>
-                  </p>
+                  </p> */}
 
                   {/* <div className={`${styles.roles}`}>
                     <Radio
@@ -148,6 +152,8 @@ const Schedule = ({ item }: Props) => {
                   </div> */}
                 </div>{" "}
                 <Button
+                  isLoading={isSubmitting}
+                  disabled={isSubmitting}
                   className={`${jobStyles.borderRing}`}
                   color="white"
                   title="Schedule"

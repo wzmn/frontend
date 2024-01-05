@@ -6,7 +6,7 @@ type Props = {
   // data: any;
   title: string;
   section: string;
-  accept: string;
+  accept: string | string[];
   titleRingColor?: string;
   handleDrop: (item: any, section: any) => void;
   children: JSX.Element;

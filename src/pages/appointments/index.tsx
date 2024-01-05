@@ -253,29 +253,32 @@ const Appintments = () => {
       <div className={`${tableCont} drop-container`} ref={table}>
         {(Object.keys(data) as AppointmentStatusType[]).map(
           (dropName, index) => {
-            console.log(dropName);
             return (
               <Drop
                 key={dropName}
                 titleRingColor={getColumnColor(index)}
-                accept="company"
+                accept={"all"}
                 handleDrop={handleDrop}
                 section={dropName}
                 title={dropName.toLocaleUpperCase()}
               >
                 <>
+                  {/* {JSON.stringify(
+                    index > 0 ? Object.keys(data)[index - 1] : ""
+                  )} */}
                   {!loading ? (
                     data?.[dropName]?.map((dragItem) => {
                       return (
                         <Fragment key={dragItem.id}>
                           <Drage
                             key={dragItem.id} //you can`t use index from map id should be unique
-                            accept={"company"}
+                            accept={"all"}
                             section={dropName}
                             id={dragItem.id as number}
                             loading={dragItem.status}
                           >
                             <>
+                              {/* {JSON.stringify(dropName)} */}
                               <List loading={dragItem.status} data={dragItem} />
                             </>
                           </Drage>
