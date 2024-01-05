@@ -19,8 +19,8 @@ import * as styles from "styles/pages/common.module.scss";
 import { JobDataStateType, JobDataType, JobStatusRole } from "type/job";
 import cssVar from "utility/css-var";
 import { findMatchingId } from "utility/find-matching-id";
-import View from "pages/jobs/view";
 import Placeholder from "components/skeleton";
+import ViewJob from "components/pages/job/view-job";
 
 type DropItemType = { id: number; section: JobStatusRole };
 
@@ -286,7 +286,7 @@ export function List({
         !open && toggle();
 
         setElement(
-          <View data={data} />,
+          <ViewJob data={data} />,
           `Customer ID: ${data.id}`,
           <>
             <IoEyeOutline

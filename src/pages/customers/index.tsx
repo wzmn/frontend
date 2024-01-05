@@ -1,13 +1,17 @@
 import Button from "components/button";
 import { Drop } from "components/drop-zone";
 import { Drage } from "components/drop-zone/drage";
+import Filterbtn from "components/filterBtn";
 import Input from "components/input";
+import Menu from "components/menu";
+import * as menuStyle from "components/menu/styles.module.scss";
+import Modal from "components/modal";
+import { CompanyFilter } from "components/pages/company/helper";
+import CustList from "components/pages/customer/cust-card";
 import Pagination from "components/pagination";
-import SelectBox from "components/selectBox";
+import Placeholder from "components/skeleton";
 import { CUSTOMER_LISTING } from "constants/api";
 import { Link } from "gatsby";
-import moment from "moment";
-import { useRightBarContext } from "providers/right-bar-provider";
 import React, {
   ChangeEvent,
   Fragment,
@@ -15,10 +19,8 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { DateRangePicker } from "react-date-range";
 import { AiOutlinePlus } from "react-icons/ai";
-import { ImSpinner10 } from "react-icons/im";
-import { IoCallOutline, IoEyeOutline } from "react-icons/io5";
-import { TfiEmail } from "react-icons/tfi";
 import { request } from "services/http-request";
 import * as styles from "styles/pages/common.module.scss";
 import {
@@ -27,16 +29,8 @@ import {
   CustomerStatus,
 } from "type/customer";
 import cssVar from "utility/css-var";
-import Placeholder from "components/skeleton";
-import { findMatchingId } from "utility/find-matching-id";
-import Filterbtn from "components/filterBtn";
-import Menu from "components/menu";
-import { CompanyFilter } from "components/pages/company/helper";
-import * as menuStyle from "components/menu/styles.module.scss";
 import { debounce } from "utility/debounce";
-import Modal from "components/modal";
-import { DateRangePicker } from "react-date-range";
-import ViewCustomer from "components/pages/customer/view-customer";
+import { findMatchingId } from "utility/find-matching-id";
 
 type DropItemType = { id: number; section: CustomerStatus };
 
@@ -265,7 +259,7 @@ const Customers = () => {
                           id={dragItem.id as number}
                           loading={dragItem.status}
                         >
-                          <List
+                          <CustList
                             data={dragItem}
                             loading={dragItem.status}
                             index={index}
@@ -301,7 +295,7 @@ const Customers = () => {
             offset: (Number(e) - 1) * pagination.limit,
           }));
         }}
-        label="Companies"
+        label="Customers"
       />
 
       <Modal
@@ -328,87 +322,5 @@ const Customers = () => {
     </>
   );
 };
-
-export function List({
-  data,
-  loading,
-  index,
-}: {
-  data: CustomerDataExtraType;
-  loading: boolean;
-  index: number;
-}) {
-  // target="_blank" href={`customer-details/?customer=${data.id}`}
-  const { open, setElement, toggle } = useRightBarContext();
-
-  return (
-    <div
-      onClick={() => {
-        {
-          !open && toggle();
-        }
-        setElement(
-          <ViewCustomer data={data} />,
-          `Customer ID: ${data.id}`,
-          <>
-            <IoEyeOutline
-              onClick={() => {
-                window.open(`customer-details/?customer=${data.id}`, "_blank");
-              }}
-            />
-          </>
-        );
-      }}
-    >
-      <div className={styles.card}>
-        <div className="absolute right-3 top-1">
-          <ImSpinner10 className="animate-spin" />
-        </div>
-        <div className={styles.cardInfo}>
-          <p className="title">{data.user?.first_name}</p>
-          <span className="">
-            {" "}
-            Created on: {moment(data.user?.created_at).format("ddd, MM a")}
-          </span>
-        </div>
-        <div className={styles.contactInfo}>
-          <div className="">
-            <span className={styles.icon}>
-              <TfiEmail className={styles.icon} />
-            </span>
-
-            <span className={styles.contact}>{data.user?.email}</span>
-          </div>
-
-          <div className="">
-            <span className={styles.icon}>
-              <IoCallOutline className={styles.icon} />
-            </span>
-
-            <span className={styles.contact}>{data.user?.phone}</span>
-          </div>
-        </div>
-        <div className={styles.badgeContainer}>
-          <div
-            className={`badge text-white px-2 py-1 text-xs rounded-sm`}
-            style={
-              {
-                // backgroundColor: index % 2 == 0 ? colors.buyer : colors.seller,
-              }
-            }
-          >
-            {index % 2 == 0 ? "BUYER" : "SELLER"}
-          </div>
-          <div
-            className="badge text-white px-2 py-1 text-xs rounded-sm"
-            // style={{ backgroundColor: colors.reminder }}
-          >
-            REMINDER: {index++}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 export default Customers;

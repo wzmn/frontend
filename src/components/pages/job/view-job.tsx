@@ -7,9 +7,9 @@ import { FaChevronDown } from "react-icons/fa";
 import { IoCallOutline, IoLocationOutline } from "react-icons/io5";
 import { TfiEmail } from "react-icons/tfi";
 import * as styles from "styles/pages/view.module.scss";
-import { JobDataStateType } from "type/job";
+import { JobDataStateType, Result } from "type/job";
 
-const View = ({ data }: { data: JobDataStateType }) => {
+const ViewJob = ({ data }: { data: Result }) => {
   return (
     <div className={styles.view}>
       <Disclosure>
@@ -72,44 +72,24 @@ const View = ({ data }: { data: JobDataStateType }) => {
           </>
         )}
       </Disclosure>
-      <div className={styles.divider}>
-        <Divider />
-      </div>
-
-      <div className="">
-        <p className={styles.additionalInfo}>
-          <span className={styles.title}>Job Type: &nbsp;</span>
-          {data?.job_status}
-        </p>
-
-        <p className={styles.additionalInfo}>
-          <span className={styles.title}>State: &nbsp;</span>State: New South
-          Wales (NSW)
-        </p>
-
-        <p className={styles.additionalInfo}>
-          <span className={styles.title}>LGA: &nbsp;</span> City of Swan
-        </p>
-      </div>
 
       <div className={styles.divider}>
         <Divider />
       </div>
 
-      {/* <p className={`${styles.name} ${styles.createBy}`}>
+      <p className={`${styles.name} ${styles.createBy}`}>
         <span className={styles.bold}>Job Created by: &nbsp; </span>
-        {data?.customer?.user?.username} &nbsp;
-        <span className={styles.tag}>
+        {data?.job_created_by} &nbsp;
+        <p className={styles.tag}>
           {moment(data?.customer?.user?.created_at).format(
             "DD-MM-yyyy HH:MM a"
           )}
-        </span>
-      </p> */}
-      <div className={styles.divider}>
-        <Divider />
-      </div>
+        </p>
+      </p>
 
-      <div className={styles.status}>
+      <Divider />
+
+      <div className={`${styles.status} mt-5`}>
         <p className={styles.bold}>Job Status</p>
         <Radio label={String(data?.job_status)} checked={true} />
       </div>
@@ -117,4 +97,4 @@ const View = ({ data }: { data: JobDataStateType }) => {
   );
 };
 
-export default View;
+export default ViewJob;
