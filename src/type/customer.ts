@@ -9,9 +9,9 @@ export interface Result {
   assigned_to: AssignedTo | null;
   role: string;
   ref_id: null;
-  created_at: Date;
-  updated_at: Date;
-  customer_type: null;
+  created_at: string;
+  updated_at: string;
+  customer_type: null | string;
   cust_status: CustomerStatus;
   is_active: boolean;
   company_name: null;

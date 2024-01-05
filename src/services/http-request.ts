@@ -2,9 +2,11 @@ import { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 // import { AxiosExceptStatueReg } from "constants/regex";
 import Axios from "settings/Axios";
 
-type Config = Omit<AxiosRequestConfig, "baseURL">;
+export type AxiosInstanceConfig = Omit<AxiosRequestConfig, "baseURL">;
 
-export const request = async <T>(config: Config): Promise<AxiosResponse<T>> => {
+export const request = async <T>(
+  config: AxiosInstanceConfig
+): Promise<AxiosResponse<T>> => {
   let response: AxiosResponse;
 
   try {

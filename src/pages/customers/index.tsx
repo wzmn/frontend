@@ -27,7 +27,6 @@ import {
   CustomerStatus,
 } from "type/customer";
 import cssVar from "utility/css-var";
-import View from "./view";
 import Placeholder from "components/skeleton";
 import { findMatchingId } from "utility/find-matching-id";
 import Filterbtn from "components/filterBtn";
@@ -37,6 +36,7 @@ import * as menuStyle from "components/menu/styles.module.scss";
 import { debounce } from "utility/debounce";
 import Modal from "components/modal";
 import { DateRangePicker } from "react-date-range";
+import ViewCustomer from "components/pages/customer/view-customer";
 
 type DropItemType = { id: number; section: CustomerStatus };
 
@@ -348,7 +348,7 @@ export function List({
           !open && toggle();
         }
         setElement(
-          <View data={data} />,
+          <ViewCustomer data={data} />,
           `Customer ID: ${data.id}`,
           <>
             <IoEyeOutline

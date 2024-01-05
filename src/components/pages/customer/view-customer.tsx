@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Disclosure } from "@headlessui/react";
 import { FaChevronDown } from "react-icons/fa";
 import * as styles from "styles/pages/view.module.scss";
@@ -9,8 +9,30 @@ import moment from "moment";
 import Radio from "components/radio";
 import { LuClipboardList } from "react-icons/lu";
 import { SlBell } from "react-icons/sl";
+import { Result as CustomerResult } from "type/customer";
+import useQuickFetch from "hook/quick-fetch";
+import { JOB_LISTING } from "constants/api";
+import { JobDataType } from "type/job";
 
-const View = ({ data }: { data: any }) => {
+const ViewCustomer = ({ data }: { data: CustomerResult }) => {
+  const {
+    response: jobResp,
+    error: jobErr,
+    lodaing: jobLoading,
+  } = useQuickFetch<JobDataType>(
+    {
+      url: JOB_LISTING,
+      params: {
+        search: data?.user?.email,
+      },
+    },
+    [JSON.stringify(data)]
+  );
+
+  useEffect(() => {
+    console.log("jo");
+  }, []);
+
   return (
     <div className={styles.view}>
       <Disclosure>
@@ -71,7 +93,8 @@ const View = ({ data }: { data: any }) => {
 
       <div className="">
         <p className={styles.additionalInfo}>
-          <span className={styles.title}>Customer Type: &nbsp;</span>Residential
+          <span className={styles.title}>Customer Type: &nbsp;</span>
+          {data.customer_type}
         </p>
 
         <p className={styles.additionalInfo}>
@@ -89,8 +112,8 @@ const View = ({ data }: { data: any }) => {
       </div>
 
       <p className={`${styles.name} ${styles.createBy}`}>
-        <span className={styles.bold}>Company Created by: &nbsp; </span>
-        {data?.created_by?.created_by || "N/A"} &nbsp;
+        <span className={styles.bold}>Customer Created by: &nbsp; </span>
+        {data?.created_at || "N/A"} &nbsp;
         <span className={styles.tag}>
           {moment(data.user?.created_at).format("DD-MM-yyyy HH:MM a")}
         </span>
@@ -112,19 +135,19 @@ const View = ({ data }: { data: any }) => {
               className={`${styles.details} ${open ? "" : "mb-5"}`}
             >
               <div className="">
-                <p className={styles.bold}>Jobs(03)</p>
+                <p className={styles.bold}>Jobs({jobResp?.results?.length})</p>
               </div>
               <FaChevronDown
                 className={`${open ? "rotate-180 transform" : ""}`}
               />
             </Disclosure.Button>
             <Disclosure.Panel className={`${styles.panel} mb-5`}>
-              {[1, 2, 3].map((item: number) => {
+              {jobResp.results?.map((item, idx, array) => {
                 return (
                   <div className={styles.job}>
-                    <p className={styles.jobTitle}>Heat Pump Assessment</p>
+                    <p className={styles.jobTitle}>{item.work_type?.title}</p>
                     <p className="">
-                      Job ID : <span className={styles.tag}>789689</span>
+                      Job ID : <span className={styles.tag}>{item.id}</span>
                     </p>
                     <LuClipboardList />
                     <p className={styles.count}>3</p>
@@ -170,4 +193,4 @@ const View = ({ data }: { data: any }) => {
   );
 };
 
-export default View;
+export default ViewCustomer;
