@@ -1,0 +1,45 @@
+@import "styles/variable.scss";
+
+.list-header {
+  font-size: $font-medium;
+}
+
+.dates {
+  font-size: $font-xsmall;
+  color: var(--color-cloudy_grey);
+}
+
+.badge {
+  color: var(--color-white);
+  display: inline-block;
+}
+
+.price-badge {
+  background-color: var(--color-blue_dress);
+}
+.appt-badge {
+  background-color: var(--color-candlelight);
+}
+
+.bid-badge {
+  background-color: var(--color-hummingbird_green);
+}
+
+.price-view-btn {
+  & > button {
+    width: 10rem !important;
+    pointer-events: none;
+  }
+}
+
+.state {
+  font-weight: 500;
+  font-size: $font-small;
+  & span {
+    font-weight: 300;
+  }
+}
+
+.card {
+  border: 0.5px solid gray;
+}

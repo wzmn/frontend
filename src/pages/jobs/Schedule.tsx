@@ -19,17 +19,16 @@ import { debounce } from "utility/debounce";
 import { request } from "services/http-request";
 import { APPOINTMENT_LISTING } from "constants/api";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { object, string } from "yup";
+import { InferType, boolean, object, string } from "yup";
 import { toast } from "react-toastify";
+import {
+  CreateApptSchemaT,
+  createApptSchema,
+} from "schema/create-schedule-appt";
 
 type Props = {
   item: Result;
 };
-
-const schema = object({
-  assessment_scheduled_on: string().required("required"),
-  assessment_assigned_to: string().required("required"),
-});
 
 const Schedule = ({ item }: Props) => {
   const {
@@ -38,8 +37,8 @@ const Schedule = ({ item }: Props) => {
     watch,
     setValue,
     formState: { errors, isSubmitting },
-  } = useForm({
-    resolver: yupResolver(schema),
+  } = useForm<CreateApptSchemaT>({
+    resolver: yupResolver(createApptSchema),
   });
   const [empListData, setEmpListData] = useState<ComboBoxDataT[]>([]);
 
@@ -49,8 +48,9 @@ const Schedule = ({ item }: Props) => {
 
   // const startDate = watch(`startDate`);
 
-  async function onSubmit(data: any) {
+  async function onSubmit(data: CreateApptSchemaT) {
     console.log(data);
+    return;
     try {
       const response = await request({
         url: APPOINTMENT_LISTING,
@@ -134,27 +134,32 @@ const Schedule = ({ item }: Props) => {
 
               <div className="">
                 <div className={`${styles.userRole} `}>
-                  {/* <p className={styles.name}>
+                  <p className={styles.name}>
                     <span className={styles.bold}>Assessment by</span>
                   </p>
 
-                  <div className={`${styles.roles}`}>
-                    <Radio
-                      label="Fieldworker"
-                      {...register(`self_assessment`)}
-                      value="Fieldworker"
-                    />
-                    <Radio
-                      label="Customer"
-                      {...register(`self_assessment`)}
-                      value="Customer"
-                    />
-                  </div> */}
+                  <div className="">
+                    <div className={`${styles.roles}`}>
+                      <Radio
+                        label="Fieldworker"
+                        {...register(`self_assessment`)}
+                        value="false"
+                      />
+                      <Radio
+                        label="Customer"
+                        {...register(`self_assessment`)}
+                        value="true"
+                      />
+                    </div>
+                    <p className={styles.error + " text-xs"}>
+                      {errors.self_assessment?.message as string}
+                    </p>
+                  </div>
                 </div>{" "}
                 <Button
                   isLoading={isSubmitting}
                   disabled={isSubmitting}
-                  className={`${jobStyles.borderRing}`}
+                  className={`${jobStyles.borderRing} mt-5`}
                   color="white"
                   title="Schedule"
                   type="submit"

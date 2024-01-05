@@ -21,6 +21,7 @@ import cssVar from "utility/css-var";
 import { findMatchingId } from "utility/find-matching-id";
 import View from "pages/jobs/view";
 import Placeholder from "components/skeleton";
+import { PublishList } from "components/pages/publish";
 
 type DropItemType = { id: number; section: JobStatusRole };
 
@@ -205,44 +206,78 @@ const Publish = () => {
       {/* <p className={styles.title}>Settings/EFT Orders</p> */}
 
       <div className={`${tableCont} drop-container`} ref={table}>
-        {(Object.keys(data) as JobStatusRole[]).map((dropName, index) => {
+        {/* {(Object.keys(data) as JobStatusRole[]).map((dropName, index) => {
           console.log(dropName);
-          return (
-            <Drop
-              key={dropName}
-              titleRingColor={getColumnColor(index)}
-              accept="job"
-              handleDrop={handleDrop}
-              section={dropName}
-              title={dropName.toLocaleUpperCase()}
-            >
-              <>
-                {!loading ? (
-                  data[dropName].map((dragItem) => {
-                    return (
-                      <Fragment key={dragItem.id}>
-                        <Drage
-                          key={dragItem.id} //you can`t use index from map id should be unique
-                          accept={"job"}
-                          section={dropName}
-                          id={dragItem.id as number}
-                          loading={dragItem.status}
-                        >
-                          <>
-                            <List loading={dragItem.status} data={dragItem} />
-                          </>
-                        </Drage>
-                      </Fragment>
-                    );
-                  })
-                ) : (
+          return ( */}
+        <Drop
+          // key={dropName}
+          titleRingColor={getColumnColor(1)}
+          accept="job"
+          handleDrop={handleDrop}
+          section={"up"}
+          title={"up".toLocaleUpperCase()}
+        >
+          <>
+            {/* {!loading ? ( */}
+            {/* data[dropName].map((dragItem) => { */}
+            {/* return ( */}
+            <Fragment key={"dragItem.id"}>
+              <Drage
+                key={"dragItem.id"} //you can`t use index from map id should be unique
+                accept={"job"}
+                section={"up"}
+                id={1}
+                loading={false}
+              >
+                <>
+                  <PublishList loading={false} data={{} as any} />
+                </>
+              </Drage>
+            </Fragment>
+            {/* ); */}
+            {/* }) */}
+            {/* ) : (
                   // For skeleton
                   <Placeholder />
-                )}
-              </>
-            </Drop>
-          );
-        })}
+                )} */}
+          </>
+        </Drop>
+
+        <Drop
+          // key={dropName}
+          titleRingColor={getColumnColor(5)}
+          accept="job"
+          handleDrop={handleDrop}
+          section={"down"}
+          title={"down".toLocaleUpperCase()}
+        >
+          <>
+            {/* {!loading ? ( */}
+            {/* data[dropName].map((dragItem) => { */}
+            {/* return ( */}
+            <Fragment key={"dragItem.id"}>
+              <Drage
+                key={"dragItem.id"} //you can`t use index from map id should be unique
+                accept={"job"}
+                section={"down"}
+                id={1}
+                loading={false}
+              >
+                <>
+                  <PublishList loading={false} data={{} as any} />
+                </>
+              </Drage>
+            </Fragment>
+            {/* ); */}
+            {/* }) */}
+            {/* ) : (
+                  // For skeleton
+                  <Placeholder />
+                )} */}
+          </>
+        </Drop>
+        {/* );
+        })} */}
       </div>
 
       <Pagination
@@ -269,67 +304,5 @@ const Publish = () => {
     </>
   );
 };
-
-export function List({
-  data,
-  loading,
-}: {
-  data: JobDataStateType;
-  loading: boolean;
-}) {
-  const { card, cardInfo, contactInfo, icon, contact } = commonStyles;
-  const { open, setElement, toggle } = useRightBarContext();
-
-  return (
-    <div
-      onClick={() => {
-        !open && toggle();
-
-        setElement(
-          <View data={data} />,
-          `Customer ID: ${data.id}`,
-          <>
-            <IoEyeOutline
-              onClick={() => {
-                window.open(`job-details/?job=${data.id}`, "_blank");
-              }}
-            />
-          </>
-        );
-      }}
-    >
-      <div className={card}>
-        <div className="absolute right-3 top-1">
-          <ImSpinner10 className="animate-spin" />
-        </div>
-        <div className={cardInfo}>
-          <p className="title">{data?.customer?.user?.first_name}</p>
-          <span className="">
-            {" "}
-            created on:{" "}
-            {moment(data?.customer?.user?.created_at).format("ddd, MM a")}
-          </span>
-        </div>
-        <div className={contactInfo}>
-          <div className="">
-            <span className={icon}>
-              <TfiEmail className={icon} />
-            </span>
-
-            <span className={contact}>{data?.customer?.user?.email}</span>
-          </div>
-
-          <div className="">
-            <span className={icon}>
-              <IoCallOutline className={icon} />
-            </span>
-
-            <span className={contact}>{data?.customer?.user?.phone}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 export default Publish;
