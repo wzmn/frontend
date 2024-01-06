@@ -35,6 +35,7 @@ const ViewCustomer = ({ data }: { data: CustomerResult }) => {
 
   return (
     <div className={styles.view}>
+      {/* {JSON.stringify(data)} */}
       <Disclosure>
         {({ open }) => (
           /* Use the `open` state to conditionally change the direction of an icon. */
@@ -44,7 +45,7 @@ const ViewCustomer = ({ data }: { data: CustomerResult }) => {
                 <p className="mb-1">
                   <span className={styles.bold}>Customer Name:</span>{" "}
                   <span className={styles.normal}>
-                    Jason Stone
+                    {data?.user.last_name} &nbsp; {data?.user.last_name}
                     {/* {data?.user?.first_name + " " + data?.user?.last_name} */}
                   </span>
                 </p>
@@ -122,36 +123,12 @@ const ViewCustomer = ({ data }: { data: CustomerResult }) => {
       <div className="my-3">
         <Divider />
       </div>
-      <Disclosure>
-        {({ open }) => (
-          /* Use the `open` state to conditionally change the direction of an icon. */
-          <>
-            <Disclosure.Button
-              className={`${styles.details} ${open ? "" : "mb-1"}`}
-            >
-              <p className={styles.bold}>Customer Status</p>
-              <Radio label="New" checked={true} />
-              <FaChevronDown
-                className={`${open ? "rotate-180 transform" : ""}`}
-              />
-            </Disclosure.Button>
-            <Disclosure.Panel className={`${styles.panel} mb-5`}>
-              {[1, 2, 3].map((item: number) => {
-                return (
-                  <div className={styles.job}>
-                    <p className={styles.jobTitle}>Heat Pump Assessment</p>
-                    <p className="">
-                      Job ID : <span className={styles.tag}>789689</span>
-                    </p>
-                    <LuClipboardList />
-                    <p className={styles.count}>3</p>
-                  </div>
-                );
-              })}
-            </Disclosure.Panel>
-          </>
-        )}
-      </Disclosure>
+
+      <div className="flex justify-between">
+        <p className={styles.bold}>Customer Status</p>
+        <Radio label="New" checked={true} />
+      </div>
+
       <div className="my-3">
         <Divider />
       </div>

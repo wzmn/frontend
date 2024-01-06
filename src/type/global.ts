@@ -75,9 +75,17 @@ export interface WorkTypeQuestionT {
   updated_at: Date;
   is_active: boolean;
   content: string;
-  question_type: Question_type | "";
+  question_type: Question_type;
+  has_sub_question: boolean;
+  is_sub_question: boolean;
   company: number;
   work_type: number;
+}
+
+export interface Option {
+  id: number;
+  option_text: string;
+  question: number;
 }
 
 export type Question_type =
@@ -89,9 +97,11 @@ export type Question_type =
   | "multi_choice_ss"
   | "multi_choice_ms";
 
-export interface Option {
+export type SubQuestionRespT = PaginationType<SubQuestionT[]>;
+
+export interface SubQuestionT {
   id: number;
-  next_question: WorkTypeQuestionT;
-  option_text: string;
+  next_subquestions: WorkTypeQuestionT[];
+  answer: string;
   question: number;
 }

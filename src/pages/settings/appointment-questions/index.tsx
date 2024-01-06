@@ -16,6 +16,7 @@ import {
   WorkTypeRespQuestionT,
   WorkTypeT,
 } from "type/global";
+import Question from "components/pages/settings/new-appointment-questions/question";
 
 const AppointmentQuestions = () => {
   const [qData, setQData] = useState<WorkTypeQuestionT[]>([]);
@@ -78,11 +79,25 @@ const AppointmentQuestions = () => {
         </FormWraper>
       </FormSection>
 
-      <QuestionsType
+      <div className="mt-10">
+        {qData.map((item) => {
+          return (
+            <FormSection key={item.id} title="Input Questions">
+              <FormWraper>
+                <>
+                  <Question data={item} />
+                </>
+              </FormWraper>
+            </FormSection>
+          );
+        })}
+      </div>
+
+      {/* <QuestionsType
         workType={selectedWT?.id}
         title={selectedWT?.title}
         qAData={qData}
-      />
+      /> */}
     </div>
   );
 };
