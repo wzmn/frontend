@@ -9,9 +9,10 @@ type Props = {
 const useAuth = () => {
   const ProtectedRoutes = ({ children }: Props) => {
     const { userAuth } = useAuthContext();
-
     if (!userAuth) {
-      typeof window !== "undefined" && navigate("/login", { replace: true });
+      if (!location.pathname.match(/login/)) {
+        typeof window !== "undefined" && navigate(`/login?redirect=${encodeURIComponent(location.pathname + location.search)}`, { replace: true });
+      }
       return null;
     }
     return <>{children}</>;
@@ -21,8 +22,12 @@ const useAuth = () => {
     const { userAuth } = useAuthContext();
 
     if (!!userAuth) {
-      typeof window !== "undefined" && navigate("/", { replace: true });
-      console.log("login", userAuth);
+      // If user is logged in then redirect to dashboard or navigate to a redirect from login
+      if (location.search.match(/\?redirect\=(.*)/)) {
+        navigate(decodeURIComponent(location?.search.match(/\?redirect\=(.*)/)[1]))
+      } else {
+        typeof window !== "undefined" && navigate("/");
+      }
       return null;
     }
     return <>{children}</>;

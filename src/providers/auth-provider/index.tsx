@@ -39,7 +39,6 @@ function Loading() {
 
 const AuthProvider = ({ children }: Props) => {
   const [userAuth, setUserAuth] = useLocalStorage<LoginResType>("user");
-
   return (
     <AuthContext.Provider value={{ userAuth, setUserAuth }}>
       {typeof window !== "undefined" ? children : <Loading />}
