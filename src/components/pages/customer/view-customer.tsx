@@ -33,10 +33,6 @@ const ViewCustomer = ({ data }: { data: CustomerResult }) => {
     [JSON.stringify(data)]
   );
 
-  useEffect(() => {
-    console.log("jo");
-  }, []);
-
   return (
     <div className={styles.view}>
       <Disclosure>
@@ -92,7 +88,7 @@ const ViewCustomer = ({ data }: { data: CustomerResult }) => {
           </>
         )}
       </Disclosure>
-      <div className={styles.divider}>
+      <div className="my-3">
         <Divider />
       </div>
 
@@ -112,7 +108,7 @@ const ViewCustomer = ({ data }: { data: CustomerResult }) => {
         </p>
       </div>
 
-      <div className={styles.divider}>
+      <div className="my-3">
         <Divider />
       </div>
 
@@ -123,7 +119,7 @@ const ViewCustomer = ({ data }: { data: CustomerResult }) => {
           {moment(data.user?.created_at).format("DD-MM-yyyy HH:MM a")}
         </span>
       </p>
-      <div className={styles.divider}>
+      <div className="my-3">
         <Divider />
       </div>
       <Disclosure>
@@ -156,7 +152,7 @@ const ViewCustomer = ({ data }: { data: CustomerResult }) => {
           </>
         )}
       </Disclosure>
-      <div className={styles.divider}>
+      <div className="my-3">
         <Divider />
       </div>
       <Disclosure>

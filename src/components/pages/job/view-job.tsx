@@ -1,15 +1,36 @@
 import { Disclosure } from "@headlessui/react";
+import Button from "components/button";
 import Divider from "components/divider";
 import Radio from "components/radio";
+import { APPOINTMENT_LISTING } from "constants/api";
+import { Link } from "gatsby-link";
+import useQuickFetch from "hook/quick-fetch";
 import moment from "moment";
 import React from "react";
+import { AiOutlinePlus } from "react-icons/ai";
 import { FaChevronDown } from "react-icons/fa";
 import { IoCallOutline, IoLocationOutline } from "react-icons/io5";
+import { LuClipboardList } from "react-icons/lu";
 import { TfiEmail } from "react-icons/tfi";
 import * as styles from "styles/pages/view.module.scss";
-import { JobDataStateType, Result } from "type/job";
+import { AppointmentDataType } from "type/appointment";
+import { Result as JobResultT } from "type/job";
 
-const ViewJob = ({ data }: { data: Result }) => {
+const ViewJob = ({ data }: { data: JobResultT }) => {
+  const {
+    response: apptResp,
+    error: apptErr,
+    lodaing: apptLoading,
+  } = useQuickFetch<AppointmentDataType>(
+    {
+      url: APPOINTMENT_LISTING,
+      params: {
+        job__in: data.id,
+      },
+    },
+    [JSON.stringify(data)]
+  );
+
   return (
     <div className={styles.view}>
       <Disclosure>
@@ -73,7 +94,7 @@ const ViewJob = ({ data }: { data: Result }) => {
         )}
       </Disclosure>
 
-      <div className={styles.divider}>
+      <div className="my-3">
         <Divider />
       </div>
 
@@ -93,6 +114,53 @@ const ViewJob = ({ data }: { data: Result }) => {
         <p className={styles.bold}>Job Status</p>
         <Radio label={String(data?.job_status)} checked={true} />
       </div>
+
+      <div className="my-3">
+        <Divider />
+      </div>
+      <Disclosure>
+        {({ open }) => (
+          /* Use the `open` state to conditionally change the direction of an icon. */
+          <>
+            <Disclosure.Button
+              className={`${styles.details} ${open ? "" : "mb-1"}`}
+            >
+              <div className="">
+                <p className={styles.bold}>
+                  Appointments({apptResp?.results?.length})
+                </p>
+              </div>
+              <FaChevronDown
+                className={`${open ? "rotate-180 transform" : ""}`}
+              />
+            </Disclosure.Button>
+            <Disclosure.Panel className={`${styles.panel} mb-5`}>
+              {apptResp.results?.map((item, idx, array) => {
+                return (
+                  <div className={styles.job}>
+                    <p className={styles.jobTitle}>
+                      {item?.job?.work_type?.title}
+                    </p>
+                    <p className="">
+                      Appt ID : <span className={styles.tag}>{item.id}</span>
+                    </p>
+                    <LuClipboardList />
+                  </div>
+                );
+              })}
+            </Disclosure.Panel>
+          </>
+        )}
+      </Disclosure>
+
+      <Link to="create-appointment" state={data}>
+        <Button
+          width="full"
+          title="Create Appointment"
+          icon={<AiOutlinePlus />}
+          className="flex-row-reverse justify-between  mt-5"
+        />
+      </Link>
     </div>
   );
 };

@@ -7,9 +7,9 @@ import { FaChevronDown } from "react-icons/fa";
 import { IoCallOutline, IoLocationOutline } from "react-icons/io5";
 import { TfiEmail } from "react-icons/tfi";
 import * as styles from "styles/pages/view.module.scss";
-import { EmployeeDataStateType } from "type/employee";
+import { Result } from "type/employee";
 
-const View = ({ data }: { data: EmployeeDataStateType }) => {
+const ViewEmp = ({ data }: { data: Result }) => {
   return (
     <div className={styles.view}>
       <Disclosure>
@@ -49,53 +49,23 @@ const View = ({ data }: { data: EmployeeDataStateType }) => {
 
                   <span className={styles.contact}>{data?.user?.phone}</span>
                 </div>
-
-                <div className="">
-                  <span className={styles.icon}>
-                    <IoLocationOutline className={styles.icon} />
-                  </span>
-
-                  <span className={styles.contact}>
-                    {data?.user?.groups || "N/A"}
-                  </span>
-                </div>
               </div>
             </Disclosure.Panel>
           </>
         )}
       </Disclosure>
-      <div className={styles.divider}>
-        <Divider />
-      </div>
-
-      <div className="">
-        <p className={styles.additionalInfo}>
-          <span className={styles.title}>Employee Type: &nbsp;</span>
-          {data?.role}
-        </p>
-
-        <p className={styles.additionalInfo}>
-          <span className={styles.title}>State: &nbsp;</span>State: New South
-          Wales (NSW)
-        </p>
-
-        <p className={styles.additionalInfo}>
-          <span className={styles.title}>LGA: &nbsp;</span> City of Swan
-        </p>
-      </div>
-
-      <div className={styles.divider}>
+      <div className="mt-3">
         <Divider />
       </div>
 
       <p className={`${styles.name} ${styles.createBy}`}>
         <span className={styles.bold}>Employee Created by: &nbsp; </span>
         {data?.created_by} &nbsp;
-        <span className={styles.tag}>
+        <p className={styles.tag}>
           {moment(data?.user?.created_at).format("DD-MM-yyyy HH:MM a")}
-        </span>
+        </p>
       </p>
-      <div className={styles.divider}>
+      <div className="mt-3">
         <Divider />
       </div>
 
@@ -107,4 +77,4 @@ const View = ({ data }: { data: EmployeeDataStateType }) => {
   );
 };
 
-export default View;
+export default ViewEmp;

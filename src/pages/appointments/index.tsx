@@ -8,7 +8,6 @@ import Placeholder from "components/skeleton";
 import { APPOINTMENT_LISTING, APPT_STATUES } from "constants/api";
 import { Link } from "gatsby";
 import moment from "moment";
-import View from "./view";
 import { useAppContext } from "providers/app-provider";
 import { useRightBarContext } from "providers/right-bar-provider";
 import React, {
@@ -41,6 +40,7 @@ import Menu from "components/menu";
 import { CompanyFilter } from "components/pages/company/helper";
 import Modal from "components/modal";
 import { DateRangePicker } from "react-date-range";
+import ViewAppt from "components/pages/appointment/view-appt";
 
 const selectionRangeInit = {
   startDate: new Date(),
@@ -359,7 +359,7 @@ export function List({
         !open && toggle();
 
         setElement(
-          <View data={data} />,
+          <ViewAppt data={data} />,
           `Appt ID: ${data.id}`,
           <>
             <IoEyeOutline

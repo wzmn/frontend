@@ -26,13 +26,13 @@ import {
 } from "type/employee";
 import cssVar from "utility/css-var";
 import { findMatchingId } from "utility/find-matching-id";
-import View from "./view";
 // For skeleton
 import Placeholder from "../../components/skeleton";
 import { useAppContext } from "providers/app-provider";
 import Modal from "components/modal";
 import { DateRangePicker } from "react-date-range";
 import * as menuStyle from "components/menu/styles.module.scss";
+import ViewEmp from "components/pages/employee/view-emp";
 
 type DropItemType = { id: number; section: EmployeeRole };
 const selectionRangeInit = {
@@ -323,8 +323,8 @@ export function List({
         !open && toggle();
 
         setElement(
-          <View data={data} />,
-          `Customer ID: ${data.id}`,
+          <ViewEmp data={data} />,
+          `Employee ID: ${data.id}`,
           <>
             <IoEyeOutline
               onClick={() => {

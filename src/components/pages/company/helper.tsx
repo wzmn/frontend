@@ -1,15 +1,13 @@
 import moment from "moment";
+import * as companyStyles from "pages/company/styles.module.scss";
+import { useRightBarContext } from "providers/right-bar-provider";
 import React from "react";
 import { ImSpinner10 } from "react-icons/im";
-import { TfiEmail } from "react-icons/tfi";
 import { IoCallOutline, IoEyeOutline } from "react-icons/io5";
-import { CompanyExtraDataType } from "type/company";
+import { TfiEmail } from "react-icons/tfi";
 import * as styles from "styles/pages/common.module.scss";
-import * as companyStyles from "pages/company/styles.module.scss";
-import { Link } from "gatsby";
-import { useRightBarContext } from "providers/right-bar-provider";
-import View from "pages/company/view";
-import { Calendar, DateRangePicker } from "react-date-range";
+import { CompanyExtraDataType } from "type/company";
+import ViewCompany from "./view-company";
 
 export function List({
   data,
@@ -33,7 +31,7 @@ export function List({
       onClick={() => {
         !open && toggle();
         setElement(
-          <View data={data} />,
+          <ViewCompany data={data} />,
           `Company ID: ${data.id}`,
           <>
             <IoEyeOutline
