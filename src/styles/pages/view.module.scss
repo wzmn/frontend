@@ -4,6 +4,7 @@
 .view {
   & .divider {
     padding: 1rem 0rem;
+    margin-bottom: 10px;
   }
   & .panel {
     padding-top: 0.5rem;
@@ -21,6 +22,7 @@
   & .details {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     width: 100%;
   }
 
@@ -29,10 +31,11 @@
     & .title {
       font-weight: 500;
     }
+    margin-bottom: 15px;
 
-    &:not(:first-child):not(:last-child) {
-      padding: 1rem 0rem;
-    }
+    // &:not(:first-child):not(:last-child) {
+    //   padding: 1rem 0rem;
+    // }
   }
 
   & .status {

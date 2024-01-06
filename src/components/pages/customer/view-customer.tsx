@@ -14,6 +14,10 @@ import useQuickFetch from "hook/quick-fetch";
 import { JOB_LISTING } from "constants/api";
 import { JobDataType } from "type/job";
 
+import { Link } from "gatsby";
+import Button from "components/button";
+import { AiOutlinePlus } from "react-icons/ai";
+
 const ViewCustomer = ({ data }: { data: CustomerResult }) => {
   const {
     response: jobResp,
@@ -41,10 +45,11 @@ const ViewCustomer = ({ data }: { data: CustomerResult }) => {
           <>
             <Disclosure.Button className={styles.details}>
               <div className="">
-                <p className="">
+                <p className="mb-1">
                   <span className={styles.bold}>Customer Name:</span>{" "}
                   <span className={styles.normal}>
-                    {data?.user?.first_name + " " + data?.user?.last_name}
+                    Jason Stone
+                    {/* {data?.user?.first_name + " " + data?.user?.last_name} */}
                   </span>
                 </p>
                 <p className={styles.tag}>
@@ -121,18 +126,45 @@ const ViewCustomer = ({ data }: { data: CustomerResult }) => {
       <div className={styles.divider}>
         <Divider />
       </div>
-
-      <div className={styles.status}>
-        <p className={styles.bold}>Customer Status</p>
-        <Radio label="New" checked={true} />
-      </div>
-
       <Disclosure>
         {({ open }) => (
           /* Use the `open` state to conditionally change the direction of an icon. */
           <>
             <Disclosure.Button
-              className={`${styles.details} ${open ? "" : "mb-5"}`}
+              className={`${styles.details} ${open ? "" : "mb-1"}`}
+            >
+              <p className={styles.bold}>Customer Status</p>
+              <Radio label="New" checked={true} />
+              <FaChevronDown
+                className={`${open ? "rotate-180 transform" : ""}`}
+              />
+            </Disclosure.Button>
+            <Disclosure.Panel className={`${styles.panel} mb-5`}>
+              {[1, 2, 3].map((item: number) => {
+                return (
+                  <div className={styles.job}>
+                    <p className={styles.jobTitle}>Heat Pump Assessment</p>
+                    <p className="">
+                      Job ID : <span className={styles.tag}>789689</span>
+                    </p>
+                    <LuClipboardList />
+                    <p className={styles.count}>3</p>
+                  </div>
+                );
+              })}
+            </Disclosure.Panel>
+          </>
+        )}
+      </Disclosure>
+      <div className={styles.divider}>
+        <Divider />
+      </div>
+      <Disclosure>
+        {({ open }) => (
+          /* Use the `open` state to conditionally change the direction of an icon. */
+          <>
+            <Disclosure.Button
+              className={`${styles.details} ${open ? "" : "mb-1"}`}
             >
               <div className="">
                 <p className={styles.bold}>Jobs({jobResp?.results?.length})</p>
@@ -158,17 +190,21 @@ const ViewCustomer = ({ data }: { data: CustomerResult }) => {
           </>
         )}
       </Disclosure>
-
+      <div className={styles.divider}>
+        <Divider />
+      </div>
       <Disclosure>
         {({ open }) => (
           /* Use the `open` state to conditionally change the direction of an icon. */
           <>
-            <Disclosure.Button className={styles.details}>
+            <Disclosure.Button
+              className={`${styles.details} ${open ? "" : "mb-5"}`}
+            >
               <div className="">
                 <p className={styles.bold}>Reminders(03)</p>
               </div>
               <FaChevronDown
-                className={`${open ? "rotate-180 transform" : ""}`}
+                className={`${open ? "rotate-180 transform" : ""} font-light`}
               />
             </Disclosure.Button>
             <Disclosure.Panel className={styles.panel}>
@@ -189,6 +225,14 @@ const ViewCustomer = ({ data }: { data: CustomerResult }) => {
           </>
         )}
       </Disclosure>
+      <Link to="customer-registration">
+        <Button
+          width="full"
+          title="Create Reminder"
+          icon={<AiOutlinePlus />}
+          className="flex-row-reverse justify-between"
+        />
+      </Link>
     </div>
   );
 };

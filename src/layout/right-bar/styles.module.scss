@@ -13,11 +13,12 @@ $header-height: 3rem;
   overflow: hidden;
 
   height: 100%;
-  border-radius: 0.6rem;
+  border-radius: 5px;
   position: absolute;
   top: 0%;
   right: 0%;
-  padding: 1rem 0.7rem;
+  padding: 32px;
+  // padding: 1rem 0.7rem;
 
   // box-sizing: border-box;
   transform: translate($right-bar-width, 0%);
@@ -36,18 +37,18 @@ $header-height: 3rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    top: 0;
+    // top: 0;
     width: 100%;
-    margin-bottom: 1rem;
+    margin-bottom: 38px;
     // background-color: pink;
-    height: $header-height;
+    // height: $header-height;
 
     & .actions {
       display: flex;
-      gap: 0.3rem;
+      gap: 2rem;
       align-items: center;
       & svg {
-        font-size: $font-large;
+        font-size: $font-larger;
         cursor: pointer;
       }
     }
@@ -61,10 +62,10 @@ $header-height: 3rem;
 
     & .title::after {
       content: "";
-      width: 14rem;
-      height: 0.2rem;
+      width: 110%;
+      height: 2px;
       position: absolute;
-      bottom: -5px;
+      bottom: -7px;
       left: 0px;
       border-radius: 2rem;
       background-color: var(--color-blue_dress);
@@ -76,11 +77,11 @@ $header-height: 3rem;
     height: calc(100% - $header-height);
     // overflow: hidden;
     // position: relative;
-    padding-bottom: 1rem;
+    // padding-bottom: 1rem;
 
     & .bar-body {
       overflow: hidden;
-      overflow-y: scroll;
+      overflow-y: auto;
       @include scrollBarStyle;
 
       height: 100%;
