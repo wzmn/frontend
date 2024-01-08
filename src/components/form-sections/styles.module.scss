@@ -10,8 +10,9 @@
     color: var(--color-black);
     position: relative;
     flex-basis: 16rem;
-    margin-top: 4.937rem;
+    // margin-top: 4.937rem;
     font-weight: 500;
+    align-self: center;
     // background-color: pink;
 
     &::after {
@@ -22,8 +23,8 @@
       bottom: -5px;
       left: 0px;
       border-radius: 2rem;
-      border-bottom: 0.1rem solid var(--color-blue_dress);
-      background-color: var(--color-blue_dress);
+      border-bottom: 2px solid var(--color-blue_dress);
+      // background-color: var(--color-blue_dress);
     }
     & .note {
       color: var(--color-red-dark);
