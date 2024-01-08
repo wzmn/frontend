@@ -140,6 +140,8 @@ const Appintments = () => {
       setData(() => filterData);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -207,8 +209,7 @@ const Appintments = () => {
 
   useEffect(() => {
     // For skeleton
-    if (JSON.stringify(status) !== "{}")
-      fetchData().finally(() => setLoading(false));
+    if (JSON.stringify(status) !== "{}") fetchData();
   }, [pagination.page, pagination.limit, status]);
 
   return (
@@ -315,7 +316,7 @@ const Appintments = () => {
             offset: (Number(e) - 1) * pagination.limit,
           }));
         }}
-        label="Companies"
+        label="Appointments"
       />
 
       <Modal

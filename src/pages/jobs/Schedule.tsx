@@ -49,8 +49,6 @@ const Schedule = ({ item }: Props) => {
   // const startDate = watch(`startDate`);
 
   async function onSubmit(data: CreateApptSchemaT) {
-    console.log(data);
-    return;
     try {
       const response = await request({
         url: APPOINTMENT_LISTING,
@@ -143,12 +141,12 @@ const Schedule = ({ item }: Props) => {
                       <Radio
                         label="Fieldworker"
                         {...register(`self_assessment`)}
-                        value="false"
+                        value="False"
                       />
                       <Radio
                         label="Customer"
                         {...register(`self_assessment`)}
-                        value="true"
+                        value="True"
                       />
                     </div>
                     <p className={styles.error + " text-xs"}>
@@ -160,7 +158,7 @@ const Schedule = ({ item }: Props) => {
                   isLoading={isSubmitting}
                   disabled={isSubmitting}
                   className={`${jobStyles.borderRing} mt-5`}
-                  color="white"
+                  color={isSubmitting ? "gray" : "white"}
                   title="Schedule"
                   type="submit"
                 />

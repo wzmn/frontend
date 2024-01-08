@@ -71,6 +71,7 @@ const customerRegistration = () => {
   } = methods;
 
   async function onSubmit(data: CustomerRegistrationSchemaType) {
+    // return;
     try {
       if (!id) {
         alert("Please Select Country");
@@ -78,10 +79,14 @@ const customerRegistration = () => {
       }
 
       const dt = {
+        ...data,
         user: data.user,
         assigned_to: data.assigned_to,
         company: id,
       };
+
+      delete dt["emp_role"];
+      console.log(data);
 
       const response = await request({
         url: CUSTOMER_LISTING,
@@ -89,7 +94,7 @@ const customerRegistration = () => {
         data: dt,
       });
       toast.success("Added Sucessfully");
-      navigate(-1);
+      // navigate(-1);
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");

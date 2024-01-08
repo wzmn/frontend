@@ -10,7 +10,13 @@ import { EMPLOYEE_LISTING } from "constants/api";
 import { Link } from "gatsby";
 import moment from "moment";
 import { useRightBarContext } from "providers/right-bar-provider";
-import React, { Fragment, useEffect, useRef, useState } from "react";
+import React, {
+  ChangeEvent,
+  Fragment,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { ImSpinner10 } from "react-icons/im";
 import { IoCallOutline, IoEyeOutline } from "react-icons/io5";
@@ -33,6 +39,7 @@ import Modal from "components/modal";
 import { DateRangePicker } from "react-date-range";
 import * as menuStyle from "components/menu/styles.module.scss";
 import ViewEmp from "components/pages/employee/view-emp";
+import { debounce } from "utility/debounce";
 
 type DropItemType = { id: number; section: EmployeeRole };
 const selectionRangeInit = {
@@ -89,7 +96,7 @@ const Employees = () => {
     }
   }
 
-  async function fetchData() {
+  async function fetchData(params?: Record<any, any>) {
     try {
       setLoading(true);
       const response = await request<EmployeeDataType>({
@@ -97,6 +104,7 @@ const Employees = () => {
         params: {
           limit: pagination.limit,
           offset: pagination.offset,
+          ...params,
         },
       });
 
@@ -121,6 +129,8 @@ const Employees = () => {
       setData(() => filterData);
     } catch (error: any) {
       toast.error(error.response?.data?.detail);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -171,6 +181,11 @@ const Employees = () => {
       table.current!.scrollLeft += evt.deltaY;
     }
   };
+
+  const handleSearch = debounce((e: ChangeEvent<HTMLInputElement>) => {
+    fetchData({ search: e.target.value });
+  });
+
   useEffect(() => {
     table.current!.addEventListener("wheel", handleScroll);
     return () => {
@@ -180,8 +195,7 @@ const Employees = () => {
 
   useEffect(() => {
     // For skeleton
-    if (JSON.stringify(status) !== "{}")
-      fetchData().finally(() => setLoading(false));
+    if (JSON.stringify(status) !== "{}") fetchData();
   }, [pagination.page, pagination.limit, status]);
 
   const { btnCont, tableCont } = commonStyles;
@@ -200,7 +214,7 @@ const Employees = () => {
         </div>
 
         <div className="">
-          <Input placeholder="Search" />
+          <Input placeholder="Search" onChange={handleSearch} />
         </div>
 
         {/* <div className=""> */}
@@ -280,7 +294,7 @@ const Employees = () => {
             offset: (Number(e) - 1) * pagination.limit,
           }));
         }}
-        label="Companies"
+        label="Employees"
       />
       <Modal
         options={{

@@ -264,7 +264,7 @@ const Jobs = () => {
             offset: (Number(e) - 1) * pagination.limit,
           }));
         }}
-        label="Companies"
+        label="Eft"
       />
     </>
   );

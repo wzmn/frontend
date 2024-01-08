@@ -134,6 +134,8 @@ const Company = () => {
       setData(() => filterData);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -196,8 +198,7 @@ const Company = () => {
 
   useEffect(() => {
     // For skeleton
-    if (JSON.stringify(status) !== "{}")
-      fetchData().finally(() => setLoading(false));
+    if (JSON.stringify(status) !== "{}") fetchData();
   }, [pagination.page, pagination.limit, status]);
 
   return (

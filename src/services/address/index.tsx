@@ -85,19 +85,7 @@ const Address = () => {
             errormessage={errors.address?.level_number?.message}
           />
         </div>
-        <div className="max-w-3xl">
-          <SelectBox
-            name="Select_Unit_Type"
-            color="full-white"
-            placeholder="Select Unit Type"
-            data={UnitTypes}
-            asterisk
-            value={address?.unit_type!}
-            onChange={(e) => {
-              setValue("address.unit_type", e.label);
-            }}
-          />
-        </div>
+
         <div className="max-w-3xl">
           <TextField
             title="Unit No"
@@ -135,20 +123,6 @@ const Address = () => {
         </div>
 
         <div className="max-w-3xl">
-          <SelectBox
-            color="full-white"
-            name="Street_Type"
-            placeholder="Street Type"
-            data={StreetTypes}
-            // asterisk
-            value={address?.street_type!}
-            onChange={(e) => {
-              setValue("address.street_type", e.label);
-            }}
-          />
-        </div>
-
-        <div className="max-w-3xl">
           <TextField
             title="Suffix."
             // asterisk
@@ -162,6 +136,24 @@ const Address = () => {
             asterisk
             {...register("address.suburb")}
             errormessage={errors.address?.suburb?.message}
+          />
+        </div>
+
+        <div className="max-w-3xl">
+          <TextField
+            title={postcode()}
+            asterisk
+            {...register("address.pincode")}
+            errormessage={errors.address?.pincode?.message}
+          />
+        </div>
+
+        <div className="max-w-3xl">
+          <TextField
+            title={city()}
+            asterisk
+            {...register("address.lga")}
+            errormessage={errors.address?.lga?.message}
           />
         </div>
 
@@ -182,21 +174,36 @@ const Address = () => {
             {errors.address?.state?.message}
           </p>
         </div>
+
         <div className="max-w-3xl">
-          <TextField
-            title={postcode()}
+          <Label title="Select Unit Type" />
+
+          <SelectBox
+            name="Select_Unit_Type"
+            color="full-white"
+            placeholder="Select Unit Type"
+            data={UnitTypes}
             asterisk
-            {...register("address.pincode")}
-            errormessage={errors.address?.pincode?.message}
+            value={address?.unit_type!}
+            onChange={(e) => {
+              setValue("address.unit_type", e.label);
+            }}
           />
         </div>
 
         <div className="max-w-3xl">
-          <TextField
-            title={city()}
-            asterisk
-            {...register("address.lga")}
-            errormessage={errors.address?.lga?.message}
+          <Label title="Street Type" />
+
+          <SelectBox
+            color="full-white"
+            name="Street_Type"
+            placeholder="Street Type"
+            data={StreetTypes}
+            // asterisk
+            value={address?.street_type!}
+            onChange={(e) => {
+              setValue("address.street_type", e.label);
+            }}
           />
         </div>
       </div>

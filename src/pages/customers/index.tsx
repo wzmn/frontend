@@ -237,7 +237,6 @@ const Customers = () => {
       </div>
       <div className={`${styles.tableCont} drop-container`} ref={table}>
         {(Object.keys(data) as CustomerStatus[]).map((dropName, index) => {
-          console.log(dropName);
           return (
             <Drop
               key={dropName}
@@ -245,7 +244,7 @@ const Customers = () => {
               accept="company"
               handleDrop={handleDrop}
               section={dropName}
-              title={dropName.toLocaleUpperCase()}
+              title={dropName?.toLocaleUpperCase()?.replace("_", " ")}
             >
               <>
                 {!loading ? (

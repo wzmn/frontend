@@ -230,8 +230,8 @@ const CompanyRegistration = () => {
 
   return (
     <>
-      {/* {JSON.stringify(com)} */}
       <p className={styles.title}>Create Company</p>
+
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-16 mb-3">
           <FormSection title="Owner Details">
@@ -377,16 +377,16 @@ const CompanyRegistration = () => {
                   <TextField
                     title="Company Name"
                     asterisk
-                    {...register("company_owner.first_name")}
-                    errormessage={errors.company_owner?.first_name?.message}
+                    {...register("company_name")}
+                    errormessage={errors.company_name?.message}
                   />
                 </div>
                 <div className="max-w-3xl">
                   <TextField
                     title="Mobile Number"
                     asterisk
-                    {...register("company_owner.last_name")}
-                    errormessage={errors.company_owner?.last_name?.message}
+                    {...register("company_mobile_phone")}
+                    errormessage={errors.company_mobile_phone?.message}
                   />
                 </div>
 
