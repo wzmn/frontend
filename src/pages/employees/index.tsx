@@ -208,6 +208,7 @@ const Employees = () => {
   const { btnCont, tableCont } = commonStyles;
   return (
     <>
+      {JSON.stringify(data)}
       <div className={btnCont}>
         <div className="">
           <Link to="employee-registration">
@@ -240,7 +241,6 @@ const Employees = () => {
         </Filterbtn>
         {/* </div> */}
       </div>
-
       <div className={`${tableCont} drop-container`} ref={table}>
         {(Object?.keys(data) as EmployeeRole[])?.map((dropName, index) => {
           console.log(dropName);

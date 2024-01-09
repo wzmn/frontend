@@ -172,7 +172,7 @@ const CreateJob = () => {
                       />
                     </div>
 
-                    <div className="max-w-3xl">
+                    {/* <div className="max-w-3xl">
                       <Label title="Employee" />
                       <ComboBox<Result>
                         data={empListData}
@@ -184,7 +184,7 @@ const CreateJob = () => {
                       <p className={styles.error}>
                         {errors.job_assigned_to_id?.message}
                       </p>
-                    </div>
+                    </div> */}
                   </div>
                 </>
               </FormWraper>
