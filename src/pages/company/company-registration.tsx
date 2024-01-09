@@ -550,6 +550,9 @@ const CompanyRegistration = () => {
                     title="Cancel"
                     color="red"
                     className="py-10"
+                    onClick={() => {
+                      navigate(-1);
+                    }}
                   />
                 </div>
               </div>

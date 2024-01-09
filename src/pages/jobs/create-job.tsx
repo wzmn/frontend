@@ -219,7 +219,15 @@ const CreateJob = () => {
               <div className="flex justify-center gap-36 mt-10">
                 <Button title="Submit" type="submit" isLoading={isSubmitting} />
 
-                <Button title="Cancel" color="red" className="py-10" />
+                <Button
+                  title="Cancel"
+                  type="button"
+                  color="red"
+                  className="py-10"
+                  onClick={() => {
+                    navigate(-1);
+                  }}
+                />
               </div>
             </div>
           </FormSection>

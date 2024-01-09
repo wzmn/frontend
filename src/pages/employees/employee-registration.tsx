@@ -6,6 +6,7 @@ import FormWraper from "components/form-wrapper";
 import Radio from "components/radio";
 import TextField from "components/text-field";
 import { EMPLOYEE_LISTING } from "constants/api";
+import { navigate } from "gatsby";
 import { useRightBarContext } from "providers/right-bar-provider";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -176,7 +177,15 @@ const EmployeeRegistration = () => {
             <div className="flex justify-center gap-36 mt-10">
               <Button title="Submit" type="submit" isLoading={isSubmitting} />
 
-              <Button title="Cancel" color="red" className="py-10" />
+              <Button
+                title="Cancel"
+                type="button"
+                color="red"
+                className="py-10"
+                onClick={() => {
+                  navigate(-1);
+                }}
+              />
             </div>
           </div>
         </FormSection>
