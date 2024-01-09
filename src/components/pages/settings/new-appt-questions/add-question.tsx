@@ -44,7 +44,7 @@ const AddQuestion = ({
   const {} = useArray;
 
   const qOptions = watch(`questions.${index}.options`);
-  const qType = watch("questions.0.question_type");
+  const qType = watch(`questions.${index}.question_type`);
 
   function deleteOptions(idx: number) {
     const list = [...qOptions];
@@ -57,6 +57,7 @@ const AddQuestion = ({
 
   return (
     <div>
+      {index + " in"}
       <div className="flex gap-3">
         <div className="w-80">
           <Input
@@ -94,7 +95,7 @@ const AddQuestion = ({
         <div className="mt-2">
           {qOptions?.map((item, idx: number) => {
             return (
-              <div className="flex gap-3">
+              <div className="flex gap-3" key={idx}>
                 {/* {JSON.stringify(option)} */}
                 <div className="w-48 mt-2 flex gap-3">
                   <Input

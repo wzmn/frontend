@@ -32,6 +32,7 @@ import cssVar from "utility/css-var";
 import { debounce } from "utility/debounce";
 import { findMatchingId } from "utility/find-matching-id";
 import { CompanyFilter, List } from "../../components/pages/company/helper";
+
 const dataList = [
   { label: "Wade Cooper" },
   { label: "Arlene Mccoy" },

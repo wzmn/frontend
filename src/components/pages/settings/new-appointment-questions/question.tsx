@@ -30,9 +30,9 @@ const Question = ({ data }: { data: WorkTypeQuestionT }) => {
           <Input placeholder={data.content} />
           {mutiChecker.includes(data.question_type) && (
             <div className="mt-2 ml-2">
-              {data.options.map((item) => {
+              {data.options.map((item, key) => {
                 return (
-                  <div className="mt-1 flex gap-3 flex-col">
+                  <div className="mt-1 flex gap-3 flex-col" key={key}>
                     <NestedQuestions data={item} parentId={data.id} />
                     {/* <div className="flex">
                       <Checkbox
@@ -115,9 +115,9 @@ function NestedQuestions({
         )}
       </div>
       {!!subQ &&
-        subQ?.[0]?.next_subquestions?.map((item) => {
+        subQ?.[0]?.next_subquestions?.map((item, key) => {
           return (
-            <div className="my-5 ml-5">
+            <div className="my-5 ml-5" key={key}>
               <Question data={item} />
             </div>
           );

@@ -26,6 +26,8 @@ import { FaPlus } from "react-icons/fa";
 import Modal from "components/modal";
 import AddQuestion from "components/pages/settings/new-appt-questions/add-question";
 import Button from "components/button";
+import AddMainQuestion from "components/pages/settings/new-appt-questions/add-main-question";
+import { RiDeleteBin6Line } from "react-icons/ri";
 
 export type AddQuestionsT = Partial<Omit<WorkTypeQuestionT, "options">> & {
   options: Partial<Option>[];
@@ -35,15 +37,22 @@ const AppointmentQuestions = () => {
   const [qData, setQData] = useState<WorkTypeQuestionT[]>([]);
   const [selectedWT, setSelectedWT] = useState<WorkTypeT>();
   const [viewModal, setViewModal] = useState(false);
+  const { workTypes } = useAppContext();
   const [workType, setWorkType] = useState<string>();
 
-  const { workTypes } = useAppContext();
+  const [mainQList, setMainQList] = useState<any[]>([]);
 
   const { control, handleSubmit, register, setValue, watch } = useForm<{
     questions: AddQuestionsT[];
   }>({
     defaultValues: {
       questions: [
+        {
+          content: "",
+          question_type: "text",
+          options: [{ option_text: "add" }, { option_text: "add" }],
+        },
+
         {
           content: "",
           question_type: "text",
@@ -67,7 +76,7 @@ const AppointmentQuestions = () => {
           work_type__id: workType,
         },
       });
-      setQData(() => response.data.results!);
+      setQData(() => response.data.results!.reverse());
     } catch (error) {}
   }
 
@@ -75,9 +84,25 @@ const AppointmentQuestions = () => {
     console.log(data);
   }
 
+  function addNewQ() {
+    const list = [...mainQList];
+    list.push(1);
+    setMainQList(() => [...list]);
+  }
+
+  function deleteQ(index: number) {
+    const list = [...mainQList];
+    list.splice(index, 1);
+    setMainQList(() => [...list]);
+  }
+
   useEffect(() => {
     fetchWTQ();
   }, [workType]);
+
+  useEffect(() => {
+    setWorkType(() => String(workTypes?.[0]?.id));
+  }, [workTypes]);
 
   return (
     <div className="grow">
@@ -85,11 +110,12 @@ const AppointmentQuestions = () => {
       <FormSection title="Select Work Type">
         <FormWraper>
           <div className={settingStyles.wtGrid}>
-            {workTypes?.map((item) => {
+            {workTypes?.map((item, index) => {
               return (
                 <Checkbox<WorkTypeT>
                   key={item.id}
                   id={item.title}
+                  defaultChecked={index == 0 && true}
                   onClick={(e) => {
                     e.stopPropagation();
                   }}
@@ -115,17 +141,42 @@ const AppointmentQuestions = () => {
           label="Add Question"
           icon={<FaPlus />}
           onClick={() => {
-            setViewModal((prev) => !prev);
+            addNewQ();
+            // setViewModal((prev) => !prev);
           }}
         />
       </div>
-      {qData.map((item) => {
+
+      {mainQList.map((newQ, index, arr) => {
         return (
-          <div className="mt-10 mb-5">
+          <div className="mt-10 mb-5 relative">
+            <FormSection
+              title="Input Questions"
+              style={{ zIndex: arr.length - index }}
+            >
+              <FormWraper>
+                <>
+                  <AddMainQuestion workType={workType!} refetch={fetchWTQ} />
+                </>
+              </FormWraper>
+            </FormSection>
+            <RiDeleteBin6Line
+              onClick={() => {
+                deleteQ(index);
+              }}
+              className="absolute top-3 right-4 z-50 text-rose-600"
+            />
+          </div>
+        );
+      })}
+
+      {qData.map((item, index) => {
+        return (
+          <div className="mt-10 mb-5 " key={item.id}>
             <FormSection key={item.id} title="Input Questions">
               <FormWraper>
                 <>
-                  <QuestionTabWrapper data={[[item]]} />
+                  <QuestionTabWrapper qIndex={index} data={[[item]]} />
                   {/* <Questions data={item} /> */}
                 </>
               </FormWraper>
@@ -142,6 +193,7 @@ const AppointmentQuestions = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           {useArray.fields.map((question, index) => (
             <AddQuestion
+              key={index}
               index={index}
               register={register}
               setValue={setValue}

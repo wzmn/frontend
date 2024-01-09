@@ -127,8 +127,10 @@ const Questions = ({
 };
 
 export function QuestionTabWrapper({
+  qIndex,
   data,
 }: {
+  qIndex: number;
   data: Array<WorkTypeQuestionT[]>;
 }) {
   const [state, setState] = useState<Array<WorkTypeQuestionT[]>>(data);
@@ -148,16 +150,15 @@ export function QuestionTabWrapper({
       <div className="mb-3 flex gap-2">
         {state.map((item, index) => {
           return (
-            <>
-              <p
-                className="text-rose-600 text-xs cursor-pointer"
-                onClick={() => {
-                  clear(index);
-                }}
-              >
-                Q{index + 1}
-              </p>{" "}
-            </>
+            <p
+              key={index}
+              className="text-rose-600 text-xs cursor-pointer"
+              onClick={() => {
+                clear(index);
+              }}
+            >
+              Q{index === 0 ? qIndex + 1 : qIndex + 1 + "." + index}
+            </p>
           );
         })}
       </div>
@@ -167,9 +168,9 @@ export function QuestionTabWrapper({
             <ImSpinner10 className="animate-spin text-blue-500" />
           </div>
         ) : (
-          state[state.length - 1]?.map((question) => {
+          state[state.length - 1]?.map((question, index) => {
             return (
-              <div className="mt-5">
+              <div className="mt-5" key={index}>
                 {" "}
                 <Questions
                   setLoading={setLoading}

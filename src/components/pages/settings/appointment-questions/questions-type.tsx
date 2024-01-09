@@ -70,7 +70,7 @@ const QuestionsType = ({
           onClick={() => {
             append({
               content: "",
-              question_type: "",
+              question_type: "" as any,
               work_type: workType,
             });
           }}
@@ -80,6 +80,7 @@ const QuestionsType = ({
         {fields?.map((item, index, array) => {
           return (
             <FormSection
+              key={index}
               title="Input Questions"
               style={{ zIndex: Math.abs(index - array.length) }}
             >
@@ -241,15 +242,14 @@ function Question({
           {question.question_type?.includes("multi")
             ? fields?.map((optionItem, index, array) => {
                 return (
-                  <>
-                    <Options
-                      fetchOtps={fetchOtps}
-                      qId={question.id!}
-                      option={optionItem}
-                      index={index}
-                      remove={remove}
-                    />
-                  </>
+                  <Options
+                    key={question.id!}
+                    fetchOtps={fetchOtps}
+                    qId={question.id!}
+                    option={optionItem}
+                    index={index}
+                    remove={remove}
+                  />
                 );
               })
             : null}

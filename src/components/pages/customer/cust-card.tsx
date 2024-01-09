@@ -1,5 +1,5 @@
 import { useRightBarContext } from "providers/right-bar-provider";
-import React from "react";
+import React, { CSSProperties } from "react";
 import { CustomerDataExtraType } from "type/customer";
 import ViewCustomer from "./view-customer";
 import { IoCallOutline, IoEyeOutline } from "react-icons/io5";
@@ -7,6 +7,15 @@ import { ImSpinner10 } from "react-icons/im";
 import moment from "moment";
 import { TfiEmail } from "react-icons/tfi";
 import * as styles from "styles/pages/common.module.scss";
+import { BsThreeDots } from "react-icons/bs";
+import Menu from "components/menu";
+import { ActionBtn } from "../common";
+
+import * as common from "components/pages/common/common.module.scss";
+
+const cssStyles: CSSProperties = {
+  width: "8rem",
+};
 
 export default function CustList({
   data,
@@ -35,6 +44,17 @@ export default function CustList({
                 window.open(`customer-details/?customer=${data.id}`, "_blank");
               }}
             />
+
+            <div className="w-10">
+              <Menu
+                styles={cssStyles}
+                arrow={false}
+                icon={<BsThreeDots />}
+                dropPosition={common.dropPosition}
+              >
+                <ActionBtn />
+              </Menu>
+            </div>
           </>
         );
       }}
