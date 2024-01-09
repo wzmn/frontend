@@ -32,6 +32,8 @@ import cssVar from "utility/css-var";
 import { debounce } from "utility/debounce";
 import { findMatchingId } from "utility/find-matching-id";
 import { CompanyFilter, List } from "../../components/pages/company/helper";
+import UserIdentifyer from "services/user-identifyer";
+import companyIdFetcher from "services/company-id-fetcher";
 
 const dataList = [
   { label: "Wade Cooper" },
@@ -68,6 +70,9 @@ const Company = () => {
     limit: 10,
     totalRecords: 0,
   });
+
+  const userRole = UserIdentifyer();
+  const id = companyIdFetcher(userRole);
 
   function getColumnColor(int: number) {
     const colors = [
@@ -108,6 +113,7 @@ const Company = () => {
         params: {
           limit: pagination.limit,
           offset: pagination.offset,
+          company__id: id,
           ...params,
         },
       });
@@ -200,7 +206,7 @@ const Company = () => {
   useEffect(() => {
     // For skeleton
     if (JSON.stringify(status) !== "{}") fetchData();
-  }, [pagination.page, pagination.limit, status]);
+  }, [pagination.page, pagination.limit, status, id]);
 
   return (
     <>

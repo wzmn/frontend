@@ -40,6 +40,8 @@ import { DateRangePicker } from "react-date-range";
 import * as menuStyle from "components/menu/styles.module.scss";
 import ViewEmp from "components/pages/employee/view-emp";
 import { debounce } from "utility/debounce";
+import UserIdentifyer from "services/user-identifyer";
+import companyIdFetcher from "services/company-id-fetcher";
 
 type DropItemType = { id: number; section: EmployeeRole };
 const selectionRangeInit = {
@@ -64,6 +66,10 @@ const Employees = () => {
     limit: 10,
     totalRecords: 0,
   });
+
+  const userRole = UserIdentifyer();
+  const id = companyIdFetcher(userRole);
+
   function getColumnColor(int: number) {
     const colors = [
       cssVar("--color-blue_dress"),
@@ -104,6 +110,7 @@ const Employees = () => {
         params: {
           limit: pagination.limit,
           offset: pagination.offset,
+          company__id: id,
           ...params,
         },
       });
@@ -196,7 +203,7 @@ const Employees = () => {
   useEffect(() => {
     // For skeleton
     if (JSON.stringify(status) !== "{}") fetchData();
-  }, [pagination.page, pagination.limit, status]);
+  }, [pagination.page, pagination.limit, status, id]);
 
   const { btnCont, tableCont } = commonStyles;
   return (

@@ -21,7 +21,9 @@ import React, {
 } from "react";
 import { DateRangePicker } from "react-date-range";
 import { AiOutlinePlus } from "react-icons/ai";
+import companyIdFetcher from "services/company-id-fetcher";
 import { request } from "services/http-request";
+import UserIdentifyer from "services/user-identifyer";
 import * as styles from "styles/pages/common.module.scss";
 import {
   CustomerDataExtraType,
@@ -63,6 +65,10 @@ const Customers = () => {
   });
 
   const table = useRef<HTMLDivElement>(null);
+  4;
+
+  const userRole = UserIdentifyer();
+  const id = companyIdFetcher(userRole);
 
   function getColumnColor(int: number) {
     const colors = [
@@ -140,6 +146,7 @@ const Customers = () => {
         params: {
           limit: pagination.limit,
           offset: pagination.offset,
+          company__id: id,
           ...params,
         },
       });
@@ -196,11 +203,10 @@ const Customers = () => {
   useEffect(() => {
     // For skeleton
     fetchData().finally(() => setLoading(false));
-  }, [pagination.page, pagination.limit]);
+  }, [pagination.page, pagination.limit, id]);
 
   return (
     <>
-      {/* <pre>{JSON.stringify(data, null, 4)}</pre> */}
       <div className={styles.btnCont}>
         <Link to="customer-registration">
           <Button

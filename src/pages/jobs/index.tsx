@@ -21,8 +21,10 @@ import React, {
 import { DateRangePicker } from "react-date-range";
 import { useForm } from "react-hook-form";
 import { AiOutlinePlus } from "react-icons/ai";
+import companyIdFetcher from "services/company-id-fetcher";
 import { WorkTypeFilter } from "services/filters";
 import { request } from "services/http-request";
+import UserIdentifyer from "services/user-identifyer";
 import * as commonStyles from "styles/pages/common.module.scss";
 import * as styles from "styles/pages/common.module.scss";
 import { FilterT } from "type/filters";
@@ -67,6 +69,9 @@ const Jobs = () => {
     setValue: setValueFilters,
   } = useForm<FilterT>();
 
+  const userRole = UserIdentifyer();
+  const id = companyIdFetcher(userRole);
+
   const workType = watchFilters("workType");
 
   function getColumnColor(int: number) {
@@ -89,6 +94,7 @@ const Jobs = () => {
         params: {
           limit: pagination.limit,
           offset: pagination.offset,
+          company__id: id,
           ...params,
         },
       });
@@ -200,7 +206,7 @@ const Jobs = () => {
 
   useEffect(() => {
     fetchData();
-  }, [pagination.page, pagination.limit]);
+  }, [pagination.page, pagination.limit, id]);
 
   return (
     <>

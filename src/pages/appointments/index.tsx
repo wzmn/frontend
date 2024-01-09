@@ -41,6 +41,8 @@ import { CompanyFilter } from "components/pages/company/helper";
 import Modal from "components/modal";
 import { DateRangePicker } from "react-date-range";
 import ViewAppt from "components/pages/appointment/view-appt";
+import UserIdentifyer from "services/user-identifyer";
+import companyIdFetcher from "services/company-id-fetcher";
 
 const selectionRangeInit = {
   startDate: new Date(),
@@ -77,6 +79,9 @@ const Appintments = () => {
 
   const { btnCont, tableCont } = commonStyles;
   const table = useRef<HTMLDivElement>(null);
+
+  const userRole = UserIdentifyer();
+  const id = companyIdFetcher(userRole);
 
   function getColumnColor(int: number) {
     const colors = [
@@ -119,6 +124,7 @@ const Appintments = () => {
         params: {
           limit: pagination.limit,
           offset: pagination.offset,
+          company__id: id,
           ...params,
         },
       });
@@ -210,7 +216,7 @@ const Appintments = () => {
   useEffect(() => {
     // For skeleton
     if (JSON.stringify(status) !== "{}") fetchData();
-  }, [pagination.page, pagination.limit, status]);
+  }, [pagination.page, pagination.limit, status, id]);
 
   return (
     <>
