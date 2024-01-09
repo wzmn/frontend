@@ -140,7 +140,7 @@ const EmployeeRegistration = () => {
                     />
                   </div>
                 </div>
-                <p className={styles.error}>{errors.role?.message}</p>
+                <p className={styles.errorMessage}>{errors.role?.message}</p>
               </>
             </FormWraper>
           </div>

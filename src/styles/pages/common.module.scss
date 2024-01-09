@@ -172,3 +172,9 @@
     flex: 1;
   }
 }
+
+.error-message {
+  font-size: $font-small;
+  color: rgb(236, 76, 76);
+  margin-top: 3px;
+}

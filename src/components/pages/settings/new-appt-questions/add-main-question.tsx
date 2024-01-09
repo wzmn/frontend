@@ -1,27 +1,19 @@
+import { Switch } from "@headlessui/react";
+import Button from "components/button";
 import Input from "components/input";
 import SelectBox from "components/selectBox";
-import React, { useEffect, useState } from "react";
-import {
-  UseFieldArrayReturn,
-  UseFormRegister,
-  UseFormSetValue,
-  UseFormWatch,
-  useFieldArray,
-  useForm,
-} from "react-hook-form";
-import { Option, WorkTypeQuestionT } from "type/global";
-import { checkforMultiChecker, questions } from "./helper";
-import { IoMdAdd } from "react-icons/io";
-import * as styles from "./styles.module.scss";
-import { RiDeleteBin6Line } from "react-icons/ri";
-import { AddQuestionsT } from "pages/settings/appointment-questions";
-import Button from "components/button";
-import { Switch } from "@headlessui/react";
-import { request } from "services/http-request";
 import { APPT_Q } from "constants/api";
-import UserIdentifyer from "services/user-identifyer";
-import companyIdFetcher from "services/company-id-fetcher";
+import { AddQuestionsT } from "pages/settings/appointment-questions";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { IoMdAdd } from "react-icons/io";
+import { RiDeleteBin6Line } from "react-icons/ri";
 import { toast } from "react-toastify";
+import companyIdFetcher from "services/company-id-fetcher";
+import { request } from "services/http-request";
+import UserIdentifyer from "services/user-identifyer";
+import { checkforMultiChecker, questions } from "./helper";
+import * as styles from "./styles.module.scss";
 
 const AddMainQuestion = ({
   workType,

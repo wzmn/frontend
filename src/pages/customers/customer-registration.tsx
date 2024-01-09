@@ -158,7 +158,7 @@ const customerRegistration = () => {
                         />
                       </div>
                     </div>
-                    <p className={styles.error}>
+                    <p className={styles.errorMessage}>
                       {errors.customer_type?.message}
                     </p>
                   </div>
@@ -210,7 +210,7 @@ const customerRegistration = () => {
                               setValue("emp_role", e.label);
                             }}
                           />
-                          <p className={styles.error}>
+                          <p className={styles.errorMessage}>
                             {errors.emp_role?.message}
                           </p>
                         </div>
@@ -224,7 +224,7 @@ const customerRegistration = () => {
                             }}
                             onChange={debounce(handleEmployeeList)}
                           />
-                          <p className={styles.error}>
+                          <p className={styles.errorMessage}>
                             {errors.assigned_to?.message}
                           </p>
                         </div>
