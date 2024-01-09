@@ -5,38 +5,26 @@ import { WorkTypeLabel } from "pages/jobs/create-appointment";
 import React, { useEffect, useState } from "react";
 import * as styles from "styles/pages/common.module.scss";
 
-import * as settingStyles from "../styles.module.scss";
+import { QuestionTabWrapper } from "components/pages/settings/new-appt-questions";
+import AddMainQuestion from "components/pages/settings/new-appt-questions/add-main-question";
+import TextButton from "components/text-button";
+import { APPT_Q } from "constants/api";
 import { useAppContext } from "providers/app-provider";
 import { useFieldArray, useForm } from "react-hook-form";
-import QuestionsType from "components/pages/settings/appointment-questions/questions-type";
+import { FaPlus } from "react-icons/fa";
+import { RiDeleteBin6Line } from "react-icons/ri";
 import { request } from "services/http-request";
-import { APPT_Q } from "constants/api";
 import {
   Option,
   WorkTypeQuestionT,
   WorkTypeRespQuestionT,
   WorkTypeT,
 } from "type/global";
-import Question from "components/pages/settings/new-appointment-questions/question";
-import Questions, {
-  QuestionTabWrapper,
-} from "components/pages/settings/new-appt-questions";
-import TextButton from "components/text-button";
-import { FaPlus } from "react-icons/fa";
-import Modal from "components/modal";
-import AddQuestion from "components/pages/settings/new-appt-questions/add-question";
-import Button from "components/button";
-import AddMainQuestion from "components/pages/settings/new-appt-questions/add-main-question";
-import { RiDeleteBin6Line } from "react-icons/ri";
-
-export type AddQuestionsT = Partial<Omit<WorkTypeQuestionT, "options">> & {
-  options: Partial<Option>[];
-};
+import * as settingStyles from "../styles.module.scss";
+import { AddQuestionsT } from "type/settings/questions";
 
 const AppointmentQuestions = () => {
   const [qData, setQData] = useState<WorkTypeQuestionT[]>([]);
-  const [selectedWT, setSelectedWT] = useState<WorkTypeT>();
-  const [viewModal, setViewModal] = useState(false);
   const { workTypes } = useAppContext();
   const [workType, setWorkType] = useState<string>();
 
@@ -184,7 +172,7 @@ const AppointmentQuestions = () => {
           </div>
         );
       })}
-      <Modal
+      {/* <Modal
         options={{
           title: "Add Question",
           toggle: [viewModal, setViewModal],
@@ -203,7 +191,7 @@ const AppointmentQuestions = () => {
           ))}
           <Button type="submit" title="Submit" className="mt-2" />
         </form>
-      </Modal>
+      </Modal> */}
       {/* <QuestionsType
         workType={selectedWT?.id}
         title={selectedWT?.title}

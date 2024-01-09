@@ -14,7 +14,7 @@ import { checkforMultiChecker, questions } from "./helper";
 import { IoMdAdd } from "react-icons/io";
 import * as settingStyles from "./styles.module.scss";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { AddQuestionsT } from "pages/settings/appointment-questions";
+import { AddQuestionsT } from "type/settings/questions";
 
 const AddQuestion = ({
   register,
@@ -57,8 +57,8 @@ const AddQuestion = ({
 
   return (
     <div>
-      {index + " in"}
-      <div className="flex gap-3">
+      {/* {index + " in"} */}
+      <div className="flex gap-3 mt-4">
         <div className="w-80">
           <Input
             placeholder="Enter Text"

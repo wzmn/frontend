@@ -3,7 +3,6 @@ import Button from "components/button";
 import Input from "components/input";
 import SelectBox from "components/selectBox";
 import { APPT_Q } from "constants/api";
-import { AddQuestionsT } from "pages/settings/appointment-questions";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoMdAdd } from "react-icons/io";
@@ -14,6 +13,7 @@ import { request } from "services/http-request";
 import UserIdentifyer from "services/user-identifyer";
 import { checkforMultiChecker, questions } from "./helper";
 import * as styles from "./styles.module.scss";
+import { AddQuestionsT } from "type/settings/questions";
 
 const AddMainQuestion = ({
   workType,
