@@ -1,0 +1,20 @@
+@import "styles/variable.scss";
+
+.submit-btn {
+  //   margin-top: 0.8rem;
+}
+
+.submit-btn > button {
+  width: 5rem;
+}
+
+.txt-btn {
+  color: var(--color-cloudy_grey) !important;
+}
+
+.svg {
+  font-size: $font-larger;
+  color: var(--color-blue_dress);
+  align-self: center;
+  cursor: pointer;
+}

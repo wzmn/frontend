@@ -13,7 +13,6 @@ const Checkbox = forwardRef(
       <div
         className={styles.checkboxCont}
         onClick={(e) => {
-          console.log(e.target);
           e.stopPropagation();
           props.getStoredData &&
             props.getStoredData(props.storeData ?? ("" as T));
