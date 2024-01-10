@@ -73,9 +73,9 @@ const CreateJob = () => {
       });
       toast.success("Added Sucessfully");
       navigate(-1);
-    } catch (error: any) {
+    } catch (error) {
       console.log("error");
-      toast.error(error.response.data.message);
+      toast.error("Something went wrong");
     }
   }
 

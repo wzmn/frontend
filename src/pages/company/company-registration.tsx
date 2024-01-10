@@ -192,8 +192,12 @@ const CompanyRegistration = () => {
       //   });
       // }
     } catch (error: any) {
-      console.log(error);
-      toast.error(error.response.data.message);
+      if (error.response.data.company_owner.hasOwnProperty("email")) {
+        toast.error(error.response.data.company_owner.email[0]);
+      }
+      if (error.response.data.company_owner.hasOwnProperty("phone")) {
+        toast.error(error.response.data.company_owner.phone[0]);
+      }
     }
   }
 

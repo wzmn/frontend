@@ -15,13 +15,14 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { TfiEmail } from "react-icons/tfi";
 import { request } from "services/http-request";
 import * as styles from "styles/pages/common.module.scss";
-import { EmployeeDataType, Result } from "type/employee";
+import { EmployeeDataType } from "type/employee";
 import * as additionalStyles from "styles/pages/additional.module.scss";
 import { LuClipboardList } from "react-icons/lu";
 import { JOB_LISTING, REMINDER_LISTING } from "constants/api";
 import useQuickFetch from "hook/quick-fetch";
 import Button from "components/button";
 import { AiOutlinePlus } from "react-icons/ai";
+import { CustomerDataType, Result } from "type/customer";
 
 const CustomerDetails = (props: PageProps) => {
   const { location } = props;
@@ -67,7 +68,7 @@ const CustomerDetails = (props: PageProps) => {
   //     },
   //   });
 
-  const [data, setData] = useState<Result>({});
+  const [data, setData] = useState<Result>();
 
   //   const { fields, append, remove } = useFieldArray({
   //     control,
@@ -81,7 +82,7 @@ const CustomerDetails = (props: PageProps) => {
       const response = await request<Result>({
         url: CUSTOMER_LISTING + customerId,
       });
-      setData(() => response.data);
+      setData(() => response?.data);
     } catch (error) {
       console.log(error);
     }
@@ -150,13 +151,19 @@ const CustomerDetails = (props: PageProps) => {
                     <span className={styles.bold}>Customer Status</span>
                   </p>
 
-                  <div className={styles.roles}>
+                  {/* <div className={styles.roles}>
                     {Object.keys(status).map((s) => (
                       <Radio
                         label={s.toUpperCase()}
                         checked={(data as any)?.cust_status === s}
                       />
                     ))}
+                  </div> */}
+                  <div className={styles.roles}>
+                    <Radio
+                      label={data?.cust_status?.toUpperCase()!}
+                      checked={true}
+                    />
                   </div>
                 </div>
               </>
