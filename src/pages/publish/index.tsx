@@ -99,6 +99,8 @@ const Publish = () => {
       setData(() => filterData);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -198,7 +200,7 @@ const Publish = () => {
   }, [table]);
 
   useEffect(() => {
-    fetchData().finally(() => setLoading(false));
+    fetchData();
   }, [pagination.page, pagination.limit]);
 
   return (

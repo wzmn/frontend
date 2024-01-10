@@ -89,7 +89,6 @@ const Address = () => {
         <div className="max-w-3xl">
           <TextField
             title="Unit No"
-            asterisk
             {...register("address.unit_number")}
             errormessage={errors.address?.unit_number?.message}
           />
@@ -97,7 +96,7 @@ const Address = () => {
 
         <div className="max-w-3xl">
           <TextField
-            title="Lot No."
+            title="Lot No"
             // asterisk
             {...register("address.lot_number")}
             errormessage={errors.address?.lot_number?.message}
@@ -124,7 +123,7 @@ const Address = () => {
 
         <div className="max-w-3xl">
           <TextField
-            title="Suffix."
+            title="Suffix"
             // asterisk
             {...register("address.suffix")}
             errormessage={errors.address?.suffix?.message}

@@ -36,7 +36,7 @@ const ViewCustomer = ({ data }: { data: CustomerResult }) => {
     response: reminderResp,
     error: reminderErr,
     lodaing: reminderLoading,
-  } = useQuickFetch<JobDataType>(
+  } = useQuickFetch<CustomerResult>(
     {
       url: REMINDER_LISTING,
       params: {
@@ -45,7 +45,7 @@ const ViewCustomer = ({ data }: { data: CustomerResult }) => {
     },
     [JSON.stringify(data)]
   );
-    console.log(data, reminderResp)
+  console.log(data, reminderResp);
   return (
     <div className={styles.view}>
       {/* {JSON.stringify(data)} */}
@@ -160,65 +160,76 @@ const ViewCustomer = ({ data }: { data: CustomerResult }) => {
               />
             </Disclosure.Button>
             <Disclosure.Panel className={`${styles.panel} mb-5`}>
-              {jobResp.results?.length > 0 ? jobResp.results?.map((item, idx, array) => {
-                return (
-                  <div className={styles.job}>
-                    <p className={styles.jobTitle}>{item.work_type?.title}</p>
-                    <p className="">
-                      Job ID : <span className={styles.tag}>{item.id}</span>
-                    </p>
-                    <LuClipboardList />
-                    <p className={styles.count}>3</p>
-                  </div>
-                );
-              }) : <div className="mb-2">No Jobs</div>}
+              {jobResp?.results?.length! > 0 ? (
+                jobResp.results?.map((item, idx, array) => {
+                  return (
+                    <div className={styles.job}>
+                      <p className={styles.jobTitle}>{item.work_type?.title}</p>
+                      <p className="">
+                        Job ID : <span className={styles.tag}>{item.id}</span>
+                      </p>
+                      <LuClipboardList />
+                      <p className={styles.count}>3</p>
+                    </div>
+                  );
+                })
+              ) : (
+                <div className="mb-2">No Jobs</div>
+              )}
             </Disclosure.Panel>
           </>
         )}
       </Disclosure>
-      
+
       <div className={styles.divider}>
         <Divider />
       </div>
       <Disclosure>
         {({ open }) => (
-          /* Use the `open` state to conditionally change the direction of an icon. */
           <>
             <Disclosure.Button
               className={`${styles.details} ${open ? "" : "mb-5"}`}
             >
               <div className="">
-                <p className={styles.bold}>Reminders({reminderResp?.results?.length})</p>
+                <p className={styles.bold}>
+                  Reminders({reminderResp?.results?.length})
+                </p>
               </div>
               <FaChevronDown
                 className={`${open ? "rotate-180 transform" : ""} font-light`}
               />
             </Disclosure.Button>
             <Disclosure.Panel className={styles.panel}>
-              {reminderResp?.results?.length > 0 ? reminderResp?.results.map((item) => {
-                return (
-                  <div key={item} className={styles.reminder}>
-                    <div className="flex flex-col">
-                      <p className={styles.reminderTitle}>
-                       {item.description}
-                      </p>
-                      <p className={styles.reminderId}>
-                        Status : <span>{item.status}</span>
-                      </p>
-                      <p className={styles.reminderId}>
-                        Due By : <span>{moment(item.due_date).format("DD-MM-yyyy HH:MM")}</span>
-                      </p>
+              {reminderResp?.results?.length > 0 ? (
+                reminderResp?.results.map((item) => {
+                  return (
+                    <div key={item} className={styles.reminder}>
+                      <div className="flex flex-col">
+                        <p className={styles.reminderTitle}>
+                          {item.description}
+                        </p>
+                        <p className={styles.reminderId}>
+                          Status : <span>{item.status}</span>
+                        </p>
+                        <p className={styles.reminderId}>
+                          Due By :{" "}
+                          <span>
+                            {moment(item.due_date).format("DD-MM-yyyy HH:MM")}
+                          </span>
+                        </p>
+                      </div>
+                      <SlBell className={styles.reminderIcon} />
                     </div>
-                    <SlBell className={styles.reminderIcon} />
-                  </div>
-                );
-              }) : <div className="mb-2">No Reminders</div>}
+                  );
+                })
+              ) : (
+                <div className="mb-2">No Reminders</div>
+              )}
             </Disclosure.Panel>
           </>
         )}
       </Disclosure>
-      
-      <Link to="create-reminder">
+      <Link to="customer-reminder">
         <Button
           width="full"
           title="Create Reminder"

@@ -1,9 +1,9 @@
 import { EmailReg } from "constants/regex";
-import { InferType, mixed, object, string } from "yup";
+import { InferType, array, bool, mixed, object, string } from "yup";
 import { addressSchema } from "./address-schema";
 
 export const jobRegistrationSchema = object({
-  workType: mixed(),
+  workType: array().min(1, "at least one must be selected"),
   customer: object({
     user: object({
       first_name: string().trim().required("Required"),

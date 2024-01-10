@@ -10,11 +10,13 @@
   & .label {
     color: var(--color-black);
     position: relative;
-    flex-basis: 16rem;
     // margin-top: 4.937rem;
     font-weight: 500;
-    align-self: center;
+    align-self: self-start;
     // background-color: pink;
+    @include xl {
+      flex-basis: 16rem;
+    }
 
     &::after {
       content: "";
@@ -34,7 +36,7 @@
 
   @include xl {
     flex-direction: row;
-    align-items: flex-start;
+    align-items: flex-end;
     padding: 0rem 0rem;
 
     // background-color: pink;

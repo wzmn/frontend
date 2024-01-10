@@ -1,13 +1,12 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import Button from "components/button";
 import Checkbox from "components/checkbox";
-import ComboBox, { ComboBoxDataT } from "components/combo-box";
+import { ComboBoxDataT } from "components/combo-box";
 import FormSection from "components/form-sections";
 import FormWraper from "components/form-wrapper";
-import Label from "components/label";
 import Radio from "components/radio";
 import TextField from "components/text-field";
-import { APPOINTMENT_LISTING, JOB_LISTING } from "constants/api";
+import { JOB_LISTING } from "constants/api";
 import { navigate } from "gatsby";
 import { useAppContext } from "providers/app-provider";
 import React, { ChangeEvent, useEffect, useState } from "react";
@@ -23,8 +22,6 @@ import employeeList from "services/employee-list";
 import { request } from "services/http-request";
 import UserIdentifyer from "services/user-identifyer";
 import * as styles from "styles/pages/common.module.scss";
-import { Result } from "type/employee";
-import { debounce } from "utility/debounce";
 import { WorkTypeLabel } from "./create-appointment";
 import * as jobStyles from "./styles.module.scss";
 
@@ -38,6 +35,9 @@ const CreateJob = () => {
 
   const methods = useForm({
     resolver: yupResolver(jobRegistrationSchema),
+    defaultValues: {
+      workType: [],
+    },
   });
 
   const {
@@ -116,24 +116,29 @@ const CreateJob = () => {
             <div className="z-10 grow">
               <FormWraper>
                 <>
-                  <div className={`${styles.userRole}  my-10`}>
-                    <p className={styles.name}>
-                      <span className={styles.bold}>Customer Type</span>
-                    </p>
-
-                    <div className={`${styles.roles}`}>
-                      <Radio
-                        value="residential"
-                        label="Residential"
-                        {...register("customer.customer_type")}
-                      />
-                      <Radio
-                        value="commercial"
-                        label="Commercial"
-                        {...register("customer.customer_type")}
-                      />
+                  <div className=" my-10">
+                    <div className={`${styles.userRole} `}>
+                      <p className={styles.name}>
+                        <span className={styles.bold}>Customer Type</span>
+                      </p>
+                      <div className={`${styles.roles}`}>
+                        <Radio
+                          value="Business"
+                          label="Business"
+                          {...register("customer.customer_type")}
+                        />
+                        <Radio
+                          value="Residential"
+                          label="Residential"
+                          {...register("customer.customer_type")}
+                        />
+                      </div>
                     </div>
-                  </div>{" "}
+                    <p className={styles.errorMessage}>
+                      {errors.customer?.customer_type?.message}
+                    </p>
+                  </div>
+
                   <div className={styles.formGrid}>
                     <div className="max-w-3xl">
                       <TextField
@@ -193,18 +198,23 @@ const CreateJob = () => {
 
           <FormSection title="Work Types">
             <FormWraper>
-              <div className={jobStyles.wtGrid}>
-                {workTypes?.map((item) => {
-                  return (
-                    <Checkbox
-                      key={item.id}
-                      id={item.title}
-                      label={<WorkTypeLabel text={item.title} />}
-                      {...register("workType")}
-                      value={item.id}
-                    />
-                  );
-                })}
+              <div className="">
+                <div className={jobStyles.wtGrid}>
+                  {workTypes?.map((item) => {
+                    return (
+                      <Checkbox
+                        key={item.id}
+                        id={item.title}
+                        label={<WorkTypeLabel text={item.title} />}
+                        {...register("workType")}
+                        value={item.id}
+                      />
+                    );
+                  })}
+                </div>
+                <p className={styles.errorMessage}>
+                  {errors.workType?.message}
+                </p>
               </div>
             </FormWraper>
           </FormSection>

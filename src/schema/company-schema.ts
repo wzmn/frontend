@@ -5,6 +5,7 @@ import { addressSchema } from "./address-schema";
 export const companyRegistrationSchema = object({
   // abnNo: string().trim().required("Required"),
   company_name: string().trim().required("Required"),
+  abn: string().trim().required("Required"),
   company_mobile_phone: string().trim().required("Required"),
   company_landline: string().trim().required("Required"),
   company_email: string().trim().matches(EmailReg, "Invalid email"),

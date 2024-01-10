@@ -84,7 +84,6 @@ const Customers = () => {
   });
 
   const table = useRef<HTMLDivElement>(null);
-  4;
 
   const userRole = UserIdentifyer();
   const id = companyIdFetcher(userRole);
@@ -196,6 +195,8 @@ const Customers = () => {
       setData(() => filterData);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -222,7 +223,7 @@ const Customers = () => {
 
   useEffect(() => {
     // For skeleton
-    fetchData().finally(() => setLoading(false));
+    fetchData();
   }, [pagination.page, pagination.limit, id, sort]);
 
   return (

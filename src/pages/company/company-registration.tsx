@@ -255,42 +255,6 @@ const CompanyRegistration = () => {
                     />
                   </div>
 
-                  {/* <label htmlFor="">Upload Profile Photo</label>
-                  <label htmlFor="">Preview</label>
-                  <div className={styles.file}>
-                    <DNDImage setFiles={setFiles} />
-                  </div>
-
-                  <aside className={companyStyles.preview}>
-                    {files?.[0]?.preview ? (
-                      <div className="">
-                        <img
-                          src={files?.[0]?.preview}
-                          alt="/assets/images/picture.svg"
-                          // Revoke data uri after image is loaded
-                          onLoad={() => {
-                            URL.revokeObjectURL(files?.[0]?.preview);
-                          }}
-                        />
-                        <RiDeleteBin6Line
-                          className="w-5 h-5 cursor-pointer absolute top-1 right-4"
-                          onClick={() => {
-                            setFiles(() => []);
-                          }}
-                        />
-                      </div>
-                    ) : (
-                      <div className="">
-                        <img
-                          src="/assets/images/picture.svg"
-
-                          // alt="/assets/images/picture.svg"
-                          // Revoke data uri after image is loaded
-                        />
-                      </div>
-                    )}
-                  </aside> */}
-
                   <div className="max-w-3xl flex gap-2">
                     <TextField
                       title="Mobile Number"
@@ -364,8 +328,9 @@ const CompanyRegistration = () => {
 
           <FormSection title="Company Details">
             <FormWraper>
-              <div className={styles.formGrid}>
-                {/* <div className="max-w-3xl">
+              <>
+                <div className={styles.formGrid}>
+                  {/* <div className="max-w-3xl">
                 <TextField
                   title="ABN No."
                   asterisk
@@ -373,111 +338,125 @@ const CompanyRegistration = () => {
                   errormessage={errors.abnNo?.message}
                 />
               </div> */}
-                <div className="max-w-3xl">
-                  <TextField
-                    title="Company Name"
-                    asterisk
-                    {...register("company_name")}
-                    errormessage={errors.company_name?.message}
-                  />
-                </div>
-                <div className="max-w-3xl">
-                  <TextField
-                    title="Mobile Number"
-                    asterisk
-                    {...register("company_mobile_phone")}
-                    errormessage={errors.company_mobile_phone?.message}
-                  />
+                  <div className="max-w-3xl">
+                    <TextField
+                      title="ABN"
+                      asterisk
+                      {...register("abn")}
+                      errormessage={errors.abn?.message}
+                    />
+                  </div>
+
+                  <div className="max-w-3xl">
+                    <TextField
+                      title="Company Name"
+                      asterisk
+                      {...register("company_name")}
+                      errormessage={errors.company_name?.message}
+                    />
+                  </div>
+                  <div className="max-w-3xl">
+                    <TextField
+                      title="Mobile Number"
+                      asterisk
+                      {...register("company_mobile_phone")}
+                      errormessage={errors.company_mobile_phone?.message}
+                    />
+                  </div>
+
+                  <div className="max-w-3xl">
+                    <TextField
+                      title="Landline Number"
+                      asterisk
+                      {...register("company_landline")}
+                      errormessage={errors.company_landline?.message}
+                    />
+                  </div>
+                  <div className="max-w-3xl">
+                    <TextField
+                      title="Company E-mail ID"
+                      asterisk
+                      {...register("company_email")}
+                      errormessage={errors.company_email?.message}
+                    />
+                  </div>
+                  <div className="max-w-3xl">
+                    <SelectBox
+                      placeholder="Company Country"
+                      data={countries}
+                      asterisk
+                      onChange={(e) => {
+                        setValue("company_country", e.label);
+                      }}
+                    />
+                    <p className={styles.error + " text-xs"}>
+                      {errors.company_country?.message}
+                    </p>
+                  </div>
+
+                  <div className="max-w-3xl">
+                    <SelectBox
+                      placeholder="Company Type"
+                      data={type}
+                      asterisk
+                      onChange={(e) => {
+                        setValue("company_type", e.label);
+                      }}
+                    />
+                    <p className={styles.error + " text-xs"}>
+                      {errors.company_type?.message}
+                    </p>
+                  </div>
                 </div>
 
-                <div className="max-w-3xl">
-                  <TextField
-                    title="Landline Number"
-                    asterisk
-                    {...register("company_landline")}
-                    errormessage={errors.company_landline?.message}
-                  />
-                </div>
-                <div className="max-w-3xl">
-                  <TextField
-                    title="Company E-mail ID"
-                    asterisk
-                    {...register("company_email")}
-                    errormessage={errors.company_email?.message}
-                  />
-                </div>
-                <div className="max-w-3xl">
-                  <SelectBox
-                    placeholder="Company Country"
-                    data={countries}
-                    asterisk
-                    onChange={(e) => {
-                      setValue("company_country", e.label);
-                    }}
-                  />
-                  <p className={styles.error + " text-xs"}>
-                    {errors.company_country?.message}
-                  </p>
-                </div>
+                <div className={styles.formGrid + " mt-5"}>
+                  <div className="">
+                    <Label title="Upload Logo" htmlFor="" />
+                    &nbsp;
+                    <Label
+                      title="(specifying the required image range 300-400 pixels)"
+                      htmlFor=""
+                      className={styles.error}
+                    />
+                  </div>
 
-                <div className="max-w-3xl">
-                  <SelectBox
-                    placeholder="Company Type"
-                    data={type}
-                    asterisk
-                    onChange={(e) => {
-                      setValue("company_type", e.label);
-                    }}
-                  />
-                  <p className={styles.error + " text-xs"}>
-                    {errors.company_type?.message}
-                  </p>
-                </div>
-                <div className="">
-                  <Label title="Upload Logo" htmlFor="" />
-                  &nbsp;
-                  <Label
-                    title="(specifying the required image range 300-400 pixels)"
-                    htmlFor=""
-                    className={styles.error}
-                  />
-                </div>
-                <Label title="Preview" htmlFor="" />
+                  <Label title="Preview" htmlFor="" />
 
-                <div className={styles.file}>
-                  <DNDImage setFiles={setFiles} />
+                  <div className={styles.file}>
+                    <DNDImage setFiles={setFiles} />
+                  </div>
+
+                  <aside className={companyStyles.preview}>
+                    {files?.[0]?.preview ? (
+                      <div className="">
+                        <img
+                          src={files?.[0]?.preview}
+                          alt="/assets/images/picture.svg"
+                          // Revoke data uri after image is loaded
+                          onLoad={() => {
+                            URL.revokeObjectURL(files?.[0]?.preview);
+                          }}
+                        />
+                        <RiDeleteBin6Line
+                          className="w-5 h-5 cursor-pointer absolute top-1 right-4"
+                          onClick={() => {
+                            setFiles(() => []);
+                          }}
+                        />
+                      </div>
+                    ) : (
+                      <div className="">
+                        <img
+                          src="/assets/images/picture.svg"
+
+                          // alt="/assets/images/picture.svg"
+                          // Revoke data uri after image is loaded
+                        />
+                      </div>
+                    )}
+                  </aside>
                 </div>
-
-                <aside className={companyStyles.preview}>
-                  {files?.[0]?.preview ? (
-                    <div className="">
-                      <img
-                        src={files?.[0]?.preview}
-                        alt="/assets/images/picture.svg"
-                        // Revoke data uri after image is loaded
-                        onLoad={() => {
-                          URL.revokeObjectURL(files?.[0]?.preview);
-                        }}
-                      />
-                      <RiDeleteBin6Line
-                        className="w-5 h-5 cursor-pointer absolute top-1 right-4"
-                        onClick={() => {
-                          setFiles(() => []);
-                        }}
-                      />
-                    </div>
-                  ) : (
-                    <div className="">
-                      <img
-                        src="/assets/images/picture.svg"
-
-                        // alt="/assets/images/picture.svg"
-                        // Revoke data uri after image is loaded
-                      />
-                    </div>
-                  )}
-                </aside>
-              </div>
+              </>
             </FormWraper>
           </FormSection>
 

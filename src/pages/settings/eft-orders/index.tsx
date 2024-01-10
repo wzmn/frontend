@@ -98,6 +98,8 @@ const Jobs = () => {
       setData(() => filterData);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -197,7 +199,7 @@ const Jobs = () => {
   }, [table]);
 
   useEffect(() => {
-    fetchData().finally(() => setLoading(false));
+    fetchData();
   }, [pagination.page, pagination.limit]);
 
   return (

@@ -12,6 +12,7 @@ import Menu from "components/menu";
 import { ActionBtn } from "../common";
 
 import * as common from "components/pages/common/common.module.scss";
+import HLessMenu from "components/h-less-menu";
 
 const cssStyles: CSSProperties = {
   width: "8rem",
@@ -45,7 +46,7 @@ export default function CustList({
               }}
             />
 
-            <div className="w-10">
+            {/* <div className="w-10">
               <Menu
                 styles={cssStyles}
                 arrow={false}
@@ -54,7 +55,8 @@ export default function CustList({
               >
                 <ActionBtn />
               </Menu>
-            </div>
+            </div> */}
+            <HLessMenu />
           </>
         );
       }}
@@ -67,8 +69,7 @@ export default function CustList({
           <p className="title">{data.user?.first_name}</p>
           <span className="">
             {" "}
-            <div>
-            Created on: {moment(data?.created_at).format("ddd DD")}</div>
+            <div>Created on: {moment(data?.created_at).format("ddd DD")}</div>
             at {moment(data?.created_at).format("h:mm a")}
           </span>
         </div>
