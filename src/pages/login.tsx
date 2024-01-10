@@ -30,7 +30,7 @@ const Login = (props: any) => {
         method: "post",
       })
         .then((s) => {
-          setUserAuth(s.data);
+          setUserAuth(s?.data);
         })
         .catch((s) => {
           setFormError(s.response.data.detail);

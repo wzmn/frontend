@@ -39,7 +39,7 @@ Axios.interceptors.response.use(
       let pathname =
         typeof window !== "undefined" ? window.location.pathname : "";
 
-      if (pathname === "/login/") return;
+      if (pathname === "/login/") return Promise.reject(error);
       localStorage.setItem("user", "null");
       window.location.replace("/login");
     }
