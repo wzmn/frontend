@@ -13,6 +13,14 @@ export const customerRegistrationSchema = object({
       .matches(EmailReg, "Invalid email")
       .required("Required"),
   }),
+  abn: string().when("customer_type", {
+    is: "Business",
+    then: (schema) => schema.required("Required"),
+  }),
+  company_name: string().when("customer_type", {
+    is: "Business",
+    then: (schema) => schema.required("Required"),
+  }),
   assigned_to: string().nullable(),
   address: addressSchema,
 });

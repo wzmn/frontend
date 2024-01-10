@@ -54,9 +54,9 @@ const EmployeeRegistration = () => {
       });
       console.log(response);
       toast.success("Added Sucessfully");
-    } catch (error) {
+    } catch (error: any) {
       console.log("error");
-      toast.error("Something went wrong");
+      toast.error(error.response.data.message);
     }
   }
 

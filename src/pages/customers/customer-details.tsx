@@ -32,7 +32,7 @@ const CustomerDetails = (props: PageProps) => {
     response: jobResp,
     error: jobErr,
     lodaing: jobLoading,
-  } = useQuickFetch<JobDataType>(
+  } = useQuickFetch<any>(
     {
       url: JOB_LISTING,
       params: {
@@ -45,7 +45,7 @@ const CustomerDetails = (props: PageProps) => {
     response: reminderResp,
     error: reminderErr,
     lodaing: reminderLoading,
-  } = useQuickFetch<JobDataType>(
+  } = useQuickFetch<any>(
     {
       url: REMINDER_LISTING,
       params: {
@@ -56,9 +56,9 @@ const CustomerDetails = (props: PageProps) => {
   );
 
   const [status, setStaus] = useState({
-    'fresh': [],
-    "contacted": [],
-    "converted": [],
+    fresh: [],
+    contacted: [],
+    converted: [],
     "not interested": [],
   });
   //   const { control, setValue, handleSubmit } = useForm<any>({
@@ -151,7 +151,12 @@ const CustomerDetails = (props: PageProps) => {
                   </p>
 
                   <div className={styles.roles}>
-                    {Object.keys(status).map(s => <Radio label={s.toUpperCase()} checked={data?.cust_status === s} />)}
+                    {Object.keys(status).map((s) => (
+                      <Radio
+                        label={s.toUpperCase()}
+                        checked={(data as any)?.cust_status === s}
+                      />
+                    ))}
                   </div>
                 </div>
               </>
@@ -246,22 +251,27 @@ const CustomerDetails = (props: PageProps) => {
         <FormSection title="Reminders">
           <FormWraper>
             <div className={additionalStyles.cardCont}>
-              {reminderResp.results?.length > 0 ? reminderResp.results.map((item) => {
-                return (
-                  <Link to="/customers/reminder/" key={item}>
-                    <List data={{}} index={1} loading />
+              {reminderResp.results?.length > 0 ? (
+                reminderResp.results.map((item: any) => {
+                  return (
+                    <Link to="/customers/reminder/" key={item}>
+                      <List data={{}} index={1} loading />
+                    </Link>
+                  );
+                })
+              ) : (
+                <div className="flex justify-between w-full items-center">
+                  No Reminders{" "}
+                  <Link to="/customers/create-reminder">
+                    <Button
+                      width="full"
+                      title="Create Reminder"
+                      icon={<AiOutlinePlus />}
+                      className="flex-row-reverse justify-between"
+                    />
                   </Link>
-                );
-              }) : <div className="flex justify-between w-full items-center">
-                No Reminders       <Link to="/customers/create-reminder">
-                  <Button
-                    width="full"
-                    title="Create Reminder"
-                    icon={<AiOutlinePlus />}
-                    className="flex-row-reverse justify-between"
-                  />
-                </Link>
-              </div>}
+                </div>
+              )}
             </div>
           </FormWraper>
         </FormSection>

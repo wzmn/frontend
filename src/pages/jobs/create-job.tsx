@@ -48,6 +48,8 @@ const CreateJob = () => {
     formState: { isSubmitting, errors },
   } = methods;
 
+  const customerType = watch("customer.customer_type");
+
   async function onSubmit(data: JobRegistrationSchemaType) {
     try {
       if (!id) {
@@ -71,9 +73,9 @@ const CreateJob = () => {
       });
       toast.success("Added Sucessfully");
       navigate(-1);
-    } catch (error) {
+    } catch (error: any) {
       console.log("error");
-      toast.error("Something went wrong");
+      toast.error(error.response.data.message);
     }
   }
 
@@ -190,6 +192,29 @@ const CreateJob = () => {
                         {errors.job_assigned_to_id?.message}
                       </p>
                     </div> */}
+
+                    {customerType === "Business" && (
+                      <>
+                        <div className="max-w-3xl">
+                          <TextField
+                            title="Company ABN"
+                            asterisk
+                            {...register("customer.abn")}
+                            errormessage={errors.customer?.abn?.message}
+                          />
+                        </div>
+                        <div className="max-w-3xl">
+                          <TextField
+                            title="Company Name"
+                            asterisk
+                            {...register("customer.company_name")}
+                            errormessage={
+                              errors.customer?.company_name?.message
+                            }
+                          />
+                        </div>
+                      </>
+                    )}
                   </div>
                 </>
               </FormWraper>

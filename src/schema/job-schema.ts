@@ -15,6 +15,14 @@ export const jobRegistrationSchema = object({
         .required("Required"),
     }),
     customer_type: string().required("Required"),
+    abn: string().when("customer_type", {
+      is: "Business",
+      then: (schema) => schema.required("Required"),
+    }),
+    company_name: string().when("customer_type", {
+      is: "Business",
+      then: (schema) => schema.required("Required"),
+    }),
   }),
   job_assigned_to_id: string().nullable(),
   address: addressSchema,

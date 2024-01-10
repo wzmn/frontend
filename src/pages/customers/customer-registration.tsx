@@ -27,6 +27,8 @@ import { request } from "services/http-request";
 import UserIdentifyer from "services/user-identifyer";
 import { Result } from "type/company";
 import { debounce } from "utility/debounce";
+import Checkbox from "components/checkbox";
+import { AxiosError } from "axios";
 
 const countries = [
   { label: "ADMIN" },
@@ -61,7 +63,7 @@ const customerRegistration = () => {
   });
 
   const companyListRef = useRef<HTMLInputElement>();
-
+  const [checkBillingAdd, setCheckBillingAdd] = useState(false);
   const {
     register,
     watch,
@@ -69,6 +71,8 @@ const customerRegistration = () => {
     setValue,
     formState: { errors, isSubmitting },
   } = methods;
+
+  const customerType = watch("customer_type");
 
   async function onSubmit(data: CustomerRegistrationSchemaType) {
     // return;
@@ -94,9 +98,9 @@ const customerRegistration = () => {
       });
       toast.success("Added Sucessfully");
       navigate(-1);
-    } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong");
+    } catch (error: any) {
+      console.log(error.response.data.message);
+      toast.error(error.response.data.message);
     }
   }
 
@@ -198,6 +202,27 @@ const customerRegistration = () => {
                       />
                     </div>
 
+                    {customerType === "Business" && (
+                      <>
+                        <div className="max-w-3xl">
+                          <TextField
+                            title="Company ABN"
+                            asterisk
+                            {...register("abn")}
+                            errormessage={errors.abn?.message}
+                          />
+                        </div>
+                        <div className="max-w-3xl">
+                          <TextField
+                            title="Company Name"
+                            asterisk
+                            {...register("company_name")}
+                            errormessage={errors.company_name?.message}
+                          />
+                        </div>
+                      </>
+                    )}
+
                     {showEmpFieldFor.includes(userRole) && (
                       <>
                         <div className="max-w-3xl">
@@ -226,6 +251,19 @@ const customerRegistration = () => {
               <FormWraper>
                 <>
                   <Address />
+
+                  {/* <Checkbox
+                    label={
+                      <p className={styles.wtFilters}>
+                        Do you have seperate address for billing
+                      </p>
+                    }
+                    // value={item.title}
+                    checked={checkBillingAdd}
+                    onChange={(e) => {
+                      // setValue(e.target.value);
+                    }}
+                  /> */}
                 </>
               </FormWraper>
               <div className="flex justify-center gap-36 mt-10">
