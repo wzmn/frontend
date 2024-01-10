@@ -11,6 +11,7 @@ import { useUploadContext } from "providers/upload-doc-provider";
 const UploadDoc = ({ data }: { data: CountryComplianceType[] }) => {
   return (
     <div className={styles.doc}>
+      {/* {JSON.stringify(data)}h */}
       <div className={styles.header}>
         <div className={styles.title}>Primary Document</div>
         <div className={styles.subTitle}>
@@ -75,7 +76,7 @@ function Upload({
                   }}
                 />
               </div>
-              {files[data.item_type!][index]?.documents?.length > 0 && (
+              {files[data.item_type!]?.[index]?.documents?.length > 0 && (
                 <>
                   {files[data.item_type!][index]?.documents?.map(
                     (item, idx) => {

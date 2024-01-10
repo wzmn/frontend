@@ -5,7 +5,7 @@ import FormSection from "components/form-sections";
 import FormWraper from "components/form-wrapper";
 import Radio from "components/radio";
 import TextField from "components/text-field";
-import { EMPLOYEE_LISTING } from "constants/api";
+import { COUNTRY_COMPLIANCE, EMPLOYEE_LISTING } from "constants/api";
 import { navigate } from "gatsby";
 import { useRightBarContext } from "providers/right-bar-provider";
 import React, { useEffect, useState } from "react";
@@ -19,16 +19,38 @@ import companyIdFetcher from "services/company-id-fetcher";
 import { request } from "services/http-request";
 import UserIdentifyer from "services/user-identifyer";
 import * as styles from "styles/pages/common.module.scss";
+import { CountryComplianceType } from "type/global";
+import * as companyStyles from "pages/company/styles.module.scss";
+import UploadDoc from "components/pages/company/upload-doc/upload-doc";
+import { ComplianceRespT } from "type/company";
 
 interface FileProps extends File {
   preview: string;
 }
 
+type ComplianceState = {
+  primary: CountryComplianceType[];
+  secondary: CountryComplianceType[];
+  additional: CountryComplianceType[];
+};
+
+function initialState() {
+  return JSON.parse(
+    JSON.stringify({
+      primary: [],
+      secondary: [],
+      additional: [],
+    })
+  );
+}
+
 const EmployeeRegistration = () => {
   const [OTP, setOTP] = useState<string>("");
   const [files, setFiles] = useState<FileProps[]>([]);
-  const { toggle } = useRightBarContext();
+  const { toggle, open, setElement } = useRightBarContext();
   const userRole = UserIdentifyer();
+
+  const [compliance, setCompliance] = useState<ComplianceState>(initialState());
 
   const id = companyIdFetcher(userRole);
 
@@ -36,10 +58,13 @@ const EmployeeRegistration = () => {
     register,
     handleSubmit,
     getValues,
+    watch,
     formState: { isSubmitting, errors },
   } = useForm({
     resolver: yupResolver(employeeRegistrationSchema),
   });
+
+  const empRole = watch("role");
 
   async function onSubmit(data: EmployeeRegistrationSchemaType) {
     try {
@@ -64,13 +89,37 @@ const EmployeeRegistration = () => {
     setOTP(OTP);
   }
 
+  async function fetchCountryCompliance() {
+    try {
+      const response = await request<ComplianceRespT>({
+        url: COUNTRY_COMPLIANCE,
+        params: {
+          company_country: "Australia",
+        },
+      });
+      const list = initialState();
+
+      response?.data?.results?.forEach((item) => {
+        list[item.item_type?.toLowerCase()!].push(item);
+      });
+
+      console.log(list, " listtttttt");
+
+      setCompliance(() => list);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
+    fetchCountryCompliance();
+
     // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
     return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
   }, []);
 
   return (
-    <>
+    <div className="grow">
       <p className={styles.title}>Create Employee</p>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-16 mb-3">
         <FormSection title="Employee Details">
@@ -130,7 +179,7 @@ const EmployeeRegistration = () => {
                     <Radio label="AGENT" value="Agent" {...register("role")} />
                     <Radio
                       label="FIELDWORKER"
-                      value="	Field Worker"
+                      value="Field Worker"
                       {...register("role")}
                     />
                     <Radio
@@ -146,51 +195,75 @@ const EmployeeRegistration = () => {
           </div>
         </FormSection>
 
-        <FormSection title=" Upload Documents" note="(Only for Fieldworker)">
-          <div className="flex-1">
+        {empRole === "Field Worker" && (
+          <FormSection title=" Upload Documents">
             <FormWraper>
-              <>
+              <div className="flex-1">
                 <p className="text-sm mb-10">
-                  <span className="text-red-500 font-bold">Note: &nbsp;</span>
+                  <span className={companyStyles.note}>Note: &nbsp;</span>
                   You must upload at least ONE Primary document. Foreign
-                  documents must be accompanied by an official translation.
+                  documents must be accompanied by an official translation.{" "}
+                  <a
+                    href="https://www.google.com"
+                    className={companyStyles.moreInfo}
+                  >
+                    Click for more info
+                  </a>
                 </p>
                 <div className={styles.formGrid}>
                   <ButtonGroup
-                    onClick={toggle}
-                    title="Primary Documents"
+                    onClick={() => {
+                      setElement(
+                        <UploadDoc data={compliance.primary} />,
+                        "Upload Primary Documents"
+                      );
+                      !open && toggle();
+                    }}
+                    title="Upload Primary Documents"
                     groupTitle="Upload"
                   />
                   <ButtonGroup
-                    onClick={toggle}
-                    title="Secondary Documents"
+                    onClick={() => {
+                      setElement(
+                        <UploadDoc data={compliance.secondary} />,
+                        "Upload Secondary Documents"
+                      );
+                      !open && toggle();
+                    }}
+                    title="Upload Secondary Documents"
                     groupTitle="Upload"
                   />
                   <ButtonGroup
-                    onClick={toggle}
-                    title="Additional Documents"
+                    onClick={() => {
+                      setElement(
+                        <UploadDoc data={compliance.additional} />,
+                        "Upload Additional Documents"
+                      );
+                      !open && toggle();
+                    }}
+                    title="Upload Additional Documents"
                     groupTitle="Upload"
                   />
                 </div>
-              </>
+              </div>
             </FormWraper>
-            <div className="flex justify-center gap-36 mt-10">
-              <Button title="Submit" type="submit" isLoading={isSubmitting} />
+          </FormSection>
+        )}
+        <div className="flex justify-center gap-36 mt-10">
+          <Button title="Submit" type="submit" isLoading={isSubmitting} />
 
-              <Button
-                title="Cancel"
-                type="button"
-                color="red"
-                className="py-10"
-                onClick={() => {
-                  navigate(-1);
-                }}
-              />
-            </div>
-          </div>
-        </FormSection>
+          <Button
+            type="button"
+            title="Cancel"
+            color="red"
+            className="py-10"
+            onClick={() => {
+              navigate(-1);
+            }}
+          />
+        </div>
       </form>
-    </>
+    </div>
   );
 };
 

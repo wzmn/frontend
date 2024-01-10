@@ -26,7 +26,7 @@ import {
 import Address from "services/address";
 import { request } from "services/http-request";
 import * as styles from "styles/pages/common.module.scss";
-import { CompanyDataType } from "type/company";
+import { CompanyDataType, ComplianceRespT } from "type/company";
 import { CountryComplianceType } from "type/global";
 import * as companyStyles from "./styles.module.scss";
 
@@ -203,19 +203,24 @@ const CompanyRegistration = () => {
 
   async function fetchCountryCompliance() {
     try {
-      const response = await request<CountryComplianceType[]>({
+      const response = await request<ComplianceRespT>({
         url: COUNTRY_COMPLIANCE,
         params: {
-          company_country: "UK",
+          company_country: "Australia",
         },
       });
       const list = initialState();
-      response?.data?.forEach((item) => {
-        list[item.item_type?.toLocaleLowerCase()!].push(item);
+
+      response?.data?.results?.forEach((item) => {
+        list[item.item_type?.toLowerCase()!].push(item);
       });
 
+      console.log(list, " listtttttt");
+
       setCompliance(() => list);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   useEffect(() => {
@@ -512,7 +517,7 @@ const CompanyRegistration = () => {
                   <ButtonGroup
                     onClick={() => {
                       setElement(
-                        <AdditionalDocument />,
+                        <UploadDoc data={compliance.additional} />,
                         "Upload Additional Documents"
                       );
                       !open && toggle();
