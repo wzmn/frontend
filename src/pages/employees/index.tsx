@@ -128,13 +128,18 @@ const Employees = () => {
       }));
 
       response?.data?.results?.forEach((item) => {
-        filterData[item.role! as EmployeeRole].push({ ...item, status: false });
+        console.log(item.role);
+        filterData[item.role! as EmployeeRole]?.push({
+          ...item,
+          status: false,
+        });
       });
 
-      console.log(filterData);
+      console.log(filterData, "$$$$$$$$$$$$$$$4444");
 
       setData(() => filterData);
     } catch (error: any) {
+      console.log(" errorrrrrrrrrrrrrrrrr", error);
       toast.error(error.response?.data?.detail);
     } finally {
       setLoading(false);
@@ -202,13 +207,13 @@ const Employees = () => {
 
   useEffect(() => {
     // For skeleton
+    console.log("render emppppppppp");
     if (JSON.stringify(status) !== "{}") fetchData();
   }, [pagination.page, pagination.limit, status, id]);
 
   const { btnCont, tableCont } = commonStyles;
   return (
     <>
-      {JSON.stringify(data)}
       <div className={btnCont}>
         <div className="">
           <Link to="employee-registration">

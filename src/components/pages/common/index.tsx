@@ -26,3 +26,42 @@ export function ActionBtn() {
     </>
   );
 }
+
+type SortCompanyFilterT = {
+  data: {
+    label: string;
+    value: string;
+  }[];
+  setValue: (e: string) => void;
+  defaultChecked?: string;
+};
+
+export function SortCompanyFilter({
+  data,
+  setValue,
+  defaultChecked,
+}: SortCompanyFilterT) {
+  return (
+    <div className={commonStyles.sortCont}>
+      {data.map((item) => {
+        return (
+          <div key={item.value} className={commonStyles.filter}>
+            <label className="">
+              <input
+                defaultChecked={defaultChecked === item.value}
+                onChange={(e) => {
+                  setValue(e.target.value);
+                }}
+                type="radio"
+                name="companyType"
+                id=""
+                value={item.value}
+              />
+              <span className="">{item.label}</span>
+            </label>
+          </div>
+        );
+      })}
+    </div>
+  );
+}

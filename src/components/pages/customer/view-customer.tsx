@@ -45,7 +45,7 @@ const ViewCustomer = ({ data }: { data: CustomerResult }) => {
                 <p className="mb-1">
                   <span className={styles.bold}>Customer Name:</span>{" "}
                   <span className={styles.normal}>
-                    {data?.user.last_name} &nbsp; {data?.user.last_name}
+                    {data?.user.first_name} &nbsp; {data?.user.last_name}
                     {/* {data?.user?.first_name + " " + data?.user?.last_name} */}
                   </span>
                 </p>

@@ -13,20 +13,12 @@ export const customerRegistrationSchema = object({
       .matches(EmailReg, "Invalid email")
       .required("Required"),
   }),
-  emp_role: string().nullable(),
   assigned_to: string().nullable(),
   address: addressSchema,
 });
 
 export const superAndAdminSchema = object({
-  emp_role: string().trim().required("Required"),
-  assigned_to: string()
-    .trim()
-    .when("emp_role", ([emp_role], schema) => {
-      return emp_role === undefined
-        ? schema.required("Please select Employee Role first")
-        : schema.required("Required");
-    }),
+  assigned_to: string().required("Please select Employee Role first"),
 });
 
 // export const adminSchema = string().trim().required("Required");

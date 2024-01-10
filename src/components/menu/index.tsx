@@ -1,4 +1,4 @@
-import React, { CSSProperties, useState } from "react";
+import React, { CSSProperties, HTMLAttributes, useState } from "react";
 import * as cssStyles from "./styles.module.scss";
 import Dropdown from "components/dropdown";
 import { IoIosArrowForward } from "react-icons/io";
@@ -7,7 +7,7 @@ function Menu({
   children,
   icon,
   arrow,
-  dropPosition = "",
+  dropPosition,
   styles,
 }: {
   arrow?: boolean;

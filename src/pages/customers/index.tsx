@@ -21,6 +21,7 @@ import React, {
 } from "react";
 import { DateRangePicker } from "react-date-range";
 import { AiOutlinePlus } from "react-icons/ai";
+import { IoIosArrowDown } from "react-icons/io";
 import companyIdFetcher from "services/company-id-fetcher";
 import { request } from "services/http-request";
 import UserIdentifyer from "services/user-identifyer";
@@ -33,6 +34,8 @@ import {
 import cssVar from "utility/css-var";
 import { debounce } from "utility/debounce";
 import { findMatchingId } from "utility/find-matching-id";
+import { TbCircuitSwitchClosed } from "react-icons/tb";
+import { SortCompanyFilter } from "components/pages/common";
 
 type DropItemType = { id: number; section: CustomerStatus };
 
@@ -41,6 +44,21 @@ const selectionRangeInit = {
   endDate: new Date(),
   key: "selection",
 };
+
+const sortType = [
+  {
+    label: "Created On",
+    value: "-created_at",
+  },
+  {
+    label: "Last Active",
+    value: "last_login",
+  },
+  {
+    label: "Modifyed On",
+    value: "-upadted_at",
+  },
+];
 
 const Customers = () => {
   const [data, setData] = useState<
@@ -56,6 +74,7 @@ const Customers = () => {
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
   const [selectionRange, setSelectionRange] = useState(selectionRangeInit);
+  const [sort, setSort] = useState(sortType[0].value);
 
   const [pagination, setPagination] = useState({
     page: 1,
@@ -147,6 +166,7 @@ const Customers = () => {
           limit: pagination.limit,
           offset: pagination.offset,
           company__id: id,
+          ordering: sort,
           ...params,
         },
       });
@@ -203,7 +223,7 @@ const Customers = () => {
   useEffect(() => {
     // For skeleton
     fetchData().finally(() => setLoading(false));
-  }, [pagination.page, pagination.limit, id]);
+  }, [pagination.page, pagination.limit, id, sort]);
 
   return (
     <>
@@ -227,7 +247,7 @@ const Customers = () => {
         {/* <div className="w-64">
           <SelectBox color="full-white" data={dataList} />
         </div> */}
-        <Filterbtn>
+        <Filterbtn icon={<IoIosArrowDown />} title="Filter">
           <div
             onClick={() => {
               setVisible((prev) => !prev);
@@ -236,11 +256,22 @@ const Customers = () => {
           >
             <button>Date</button>
           </div>
-          <Menu title="Company Type">
+          {/* <Menu title="Company Type" dropPosition={styles.menuPos}>
             <CompanyFilter />
-          </Menu>
+          </Menu> */}
+        </Filterbtn>
+
+        <Filterbtn icon={<TbCircuitSwitchClosed />} title="Sort">
+          <SortCompanyFilter
+            data={sortType}
+            defaultChecked="-created_at"
+            setValue={(e) => {
+              setSort(e);
+            }}
+          />
         </Filterbtn>
       </div>
+
       <div className={`${styles.tableCont} drop-container`} ref={table}>
         {(Object.keys(data) as CustomerStatus[]).map((dropName, index) => {
           return (
@@ -302,7 +333,6 @@ const Customers = () => {
         }}
         label="Customers"
       />
-
       <Modal
         options={{
           title: "Date Picker",

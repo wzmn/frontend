@@ -85,7 +85,6 @@ const customerRegistration = () => {
         company: id,
       };
 
-      delete dt["emp_role"];
       console.log(data);
 
       const response = await request({
@@ -101,20 +100,21 @@ const customerRegistration = () => {
     }
   }
 
-  async function handleEmployeeList(e: ChangeEvent<HTMLInputElement>) {
+  async function handleEmployeeList(e?: ChangeEvent<HTMLInputElement>) {
     try {
-      if (!id) {
-        alert("Please Select Country");
-        return;
-      }
-      if (id === null) return;
       const res = await employeeList({
-        search: e?.target?.value,
+        search: typeof e === "string" ? "" : e?.target?.value,
         company: id,
       });
 
       const empFilteredList = res.results?.map((item) => ({
-        label: item.user?.first_name + " " + item.user?.last_name,
+        label:
+          item.user?.first_name +
+          " " +
+          item.user?.last_name +
+          " (" +
+          item.role +
+          " )",
         ...item,
       })) as ComboBoxDataT[];
 
@@ -123,10 +123,10 @@ const customerRegistration = () => {
   }
 
   useEffect(() => {
-    // handleEmployeeList();
+    handleEmployeeList();
     // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
     return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
-  }, []);
+  }, [id]);
 
   useEffect(() => {}, [companyListRef]);
 
@@ -200,21 +200,6 @@ const customerRegistration = () => {
 
                     {showEmpFieldFor.includes(userRole) && (
                       <>
-                        <div className="max-w-3xl">
-                          <Label title="Employee Role" />
-                          <SelectBox
-                            color="full-white"
-                            data={countries}
-                            // asterisk
-                            onChange={(e) => {
-                              setValue("emp_role", e.label);
-                            }}
-                          />
-                          <p className={styles.errorMessage}>
-                            {errors.emp_role?.message}
-                          </p>
-                        </div>
-
                         <div className="max-w-3xl">
                           <Label title="Assign To" />
                           <ComboBox<Result>
