@@ -67,7 +67,9 @@ export default function CustList({
           <p className="title">{data.user?.first_name}</p>
           <span className="">
             {" "}
-            Created on: {moment(data?.created_at).format("ddd DD, h:mm a")}
+            <div>
+            Created on: {moment(data?.created_at).format("ddd DD")}</div>
+            at {moment(data?.created_at).format("h:mm a")}
           </span>
         </div>
         <div className={styles.contactInfo}>
@@ -85,24 +87,6 @@ export default function CustList({
             </span>
 
             <span className={styles.contact}>{data.user?.phone}</span>
-          </div>
-        </div>
-        <div className={styles.badgeContainer}>
-          <div
-            className={`badge text-white px-2 py-1 text-xs rounded-sm`}
-            style={
-              {
-                backgroundColor: index % 2 == 0 ? '#32D0D1' : '#0A84FF',
-              }
-            }
-          >
-            {index % 2 == 0 ? "BUYER" : "SELLER"}
-          </div>
-          <div
-            className="badge text-white px-2 py-1 text-xs rounded-sm"
-            // style={{ backgroundColor: colors.reminder }}
-          >
-            REMINDER: {index++}
           </div>
         </div>
       </div>

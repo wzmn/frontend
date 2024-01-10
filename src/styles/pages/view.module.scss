@@ -2,6 +2,7 @@
 @import "./additional.module.scss";
 
 .view {
+  padding-bottom: 1rem;
   & .divider {
     padding: 1rem 0rem;
     margin-bottom: 10px;
@@ -44,7 +45,25 @@
     align-items: center;
     margin-bottom: 1rem;
   }
-
+  & .reminder {
+    border-color: var(--color-dusty_grey);
+    border-width: 1px;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  & .reminder-title {
+    font-size: medium;
+  }
+  & .reminder-icon {
+    flex-basis: 30px;
+    height: 25px;
+    fill: var(--color-cloudy_grey);
+  }
+  & .reminder-Id {
+    font-size: small;
+  }
   & .job {
     position: relative;
     border: 0.5px solid var(--color-cloudy_grey);
