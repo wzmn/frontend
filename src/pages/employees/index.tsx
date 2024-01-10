@@ -42,6 +42,9 @@ import ViewEmp from "components/pages/employee/view-emp";
 import { debounce } from "utility/debounce";
 import UserIdentifyer from "services/user-identifyer";
 import companyIdFetcher from "services/company-id-fetcher";
+import { IoIosArrowDown } from "react-icons/io";
+import { TbCircuitSwitchClosed } from "react-icons/tb";
+import { SortFilter } from "components/pages/common";
 
 type DropItemType = { id: number; section: EmployeeRole };
 const selectionRangeInit = {
@@ -49,6 +52,18 @@ const selectionRangeInit = {
   endDate: new Date(),
   key: "selection",
 };
+
+const sortType = [
+  {
+    label: "Created On",
+    value: "-created_at",
+  },
+  {
+    label: "Modified On",
+    value: "-upadted_at",
+  },
+];
+
 const Employees = () => {
   const {
     emp: { status },
@@ -59,6 +74,7 @@ const Employees = () => {
   const [loading, setLoading] = useState(false);
   const [selectionRange, setSelectionRange] = useState(selectionRangeInit);
   const [visible, setVisible] = useState(false);
+  const [sort, setSort] = useState(sortType[0].value);
 
   const [pagination, setPagination] = useState({
     page: 1,
@@ -111,6 +127,7 @@ const Employees = () => {
           limit: pagination.limit,
           offset: pagination.offset,
           company__id: id,
+          ordering: sort,
           ...params,
         },
       });
@@ -209,7 +226,7 @@ const Employees = () => {
     // For skeleton
     console.log("render emppppppppp");
     if (JSON.stringify(status) !== "{}") fetchData();
-  }, [pagination.page, pagination.limit, status, id]);
+  }, [pagination.page, pagination.limit, status, id, sort]);
 
   const { btnCont, tableCont } = commonStyles;
   return (
@@ -230,8 +247,7 @@ const Employees = () => {
           <Input placeholder="Search" onChange={handleSearch} />
         </div>
 
-        {/* <div className=""> */}
-        <Filterbtn>
+        <Filterbtn icon={<IoIosArrowDown />} title="Filter">
           <div
             onClick={() => {
               setVisible((prev) => !prev);
@@ -244,7 +260,16 @@ const Employees = () => {
             <CompanyFilter />
           </Menu>
         </Filterbtn>
-        {/* </div> */}
+
+        <Filterbtn icon={<TbCircuitSwitchClosed />} title="Sort">
+          <SortFilter
+            data={sortType}
+            defaultChecked={sort}
+            setValue={(e) => {
+              setSort(e);
+            }}
+          />
+        </Filterbtn>
       </div>
       <div className={`${tableCont} drop-container`} ref={table}>
         {(Object?.keys(data) as EmployeeRole[])?.map((dropName, index) => {

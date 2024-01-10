@@ -6,10 +6,10 @@ import { UseFormRegister } from "react-hook-form";
 import { FilterT } from "type/filters";
 
 type WorkTypeFilterProps = {
-  register: UseFormRegister<Pick<FilterT, "workType">>;
+  setValue: (e: string) => void;
 };
 
-export const WorkTypeFilter = ({ register }: WorkTypeFilterProps) => {
+export const WorkTypeFilter = ({ setValue }: WorkTypeFilterProps) => {
   const { workTypes } = useAppContext();
 
   const Label = ({ title }: { title: string }) => {
@@ -21,10 +21,14 @@ export const WorkTypeFilter = ({ register }: WorkTypeFilterProps) => {
       {workTypes?.map((item) => {
         return (
           <Checkbox
+            key={item.id}
             id={item.title}
             label={<Label title={item.title} />}
-            {...register("workType")}
-            value={item.id}
+            name="workType"
+            value={item.title}
+            onChange={(e) => {
+              setValue(e.target.value);
+            }}
           />
         );
       })}

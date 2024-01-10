@@ -34,6 +34,11 @@ import { findMatchingId } from "utility/find-matching-id";
 import { CompanyFilter, List } from "../../components/pages/company/helper";
 import UserIdentifyer from "services/user-identifyer";
 import companyIdFetcher from "services/company-id-fetcher";
+import { IoIosArrowDown } from "react-icons/io";
+import { TbCircuitSwitchClosed } from "react-icons/tb";
+import { SortFilter } from "components/pages/common";
+
+type DropItemType = { id: number; section: CompanyStatus };
 
 const dataList = [
   { label: "Wade Cooper" },
@@ -50,7 +55,16 @@ const selectionRangeInit = {
   key: "selection",
 };
 
-type DropItemType = { id: number; section: CompanyStatus };
+const sortType = [
+  {
+    label: "Created On",
+    value: "-created_at",
+  },
+  {
+    label: "Modified On",
+    value: "-upadted_at",
+  },
+];
 
 const Company = () => {
   const {
@@ -63,6 +77,7 @@ const Company = () => {
   // For skeleton
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [sort, setSort] = useState(sortType[0].value);
 
   const [pagination, setPagination] = useState({
     page: 1,
@@ -114,6 +129,7 @@ const Company = () => {
           limit: pagination.limit,
           offset: pagination.offset,
           company__id: id,
+          ordering: sort,
           ...params,
         },
       });
@@ -206,7 +222,7 @@ const Company = () => {
   useEffect(() => {
     // For skeleton
     if (JSON.stringify(status) !== "{}") fetchData();
-  }, [pagination.page, pagination.limit, status, id]);
+  }, [pagination.page, pagination.limit, status, id, sort]);
 
   return (
     <>
@@ -234,7 +250,7 @@ const Company = () => {
         {/* <div className="w-64">
           <SelectBox color="full-white" data={dataList} />
         </div> */}
-        <Filterbtn>
+        <Filterbtn icon={<IoIosArrowDown />} title="Filter">
           <div
             onClick={() => {
               setVisible((prev) => !prev);
@@ -243,9 +259,16 @@ const Company = () => {
           >
             <button>Date</button>
           </div>
-          <Menu title="Company Type">
-            <CompanyFilter />
-          </Menu>
+        </Filterbtn>
+
+        <Filterbtn icon={<TbCircuitSwitchClosed />} title="Sort">
+          <SortFilter
+            data={sortType}
+            defaultChecked={sort}
+            setValue={(e) => {
+              setSort(e);
+            }}
+          />
         </Filterbtn>
       </div>
 

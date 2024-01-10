@@ -43,6 +43,9 @@ import { DateRangePicker } from "react-date-range";
 import ViewAppt from "components/pages/appointment/view-appt";
 import UserIdentifyer from "services/user-identifyer";
 import companyIdFetcher from "services/company-id-fetcher";
+import { IoIosArrowDown } from "react-icons/io";
+import { TbCircuitSwitchClosed } from "react-icons/tb";
+import { SortFilter } from "components/pages/common";
 
 const selectionRangeInit = {
   startDate: new Date(),
@@ -58,6 +61,17 @@ let apptStatusState = {} as Record<
   AppointmentExtraDataType[]
 >;
 
+const sortType = [
+  {
+    label: "Created On",
+    value: "-created_at",
+  },
+  {
+    label: "Modified On",
+    value: "-upadted_at",
+  },
+];
+
 const Appintments = () => {
   const {
     appointment: { status, statusData },
@@ -69,6 +83,7 @@ const Appintments = () => {
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
   const [selectionRange, setSelectionRange] = useState(selectionRangeInit);
+  const [sort, setSort] = useState(sortType[0].value);
 
   const [pagination, setPagination] = useState({
     page: 1,
@@ -125,6 +140,7 @@ const Appintments = () => {
           limit: pagination.limit,
           offset: pagination.offset,
           company__id: id,
+          ordering: sort,
           ...params,
         },
       });
@@ -216,7 +232,7 @@ const Appintments = () => {
   useEffect(() => {
     // For skeleton
     if (JSON.stringify(status) !== "{}") fetchData();
-  }, [pagination.page, pagination.limit, status, id]);
+  }, [pagination.page, pagination.limit, status, id, sort]);
 
   return (
     <>
@@ -242,7 +258,7 @@ const Appintments = () => {
         {/* <div className="w-64">
           <SelectBox color="full-white" data={dataList} />
         </div> */}
-        <Filterbtn>
+        <Filterbtn icon={<IoIosArrowDown />} title="Filter">
           <div
             onClick={() => {
               setVisible((prev) => !prev);
@@ -251,9 +267,16 @@ const Appintments = () => {
           >
             <button>Date</button>
           </div>
-          <Menu title="Company Type">
-            <CompanyFilter />
-          </Menu>
+        </Filterbtn>
+
+        <Filterbtn icon={<TbCircuitSwitchClosed />} title="Sort">
+          <SortFilter
+            data={sortType}
+            defaultChecked={sort}
+            setValue={(e) => {
+              setSort(e);
+            }}
+          />
         </Filterbtn>
       </div>
 

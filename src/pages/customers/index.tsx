@@ -35,7 +35,7 @@ import cssVar from "utility/css-var";
 import { debounce } from "utility/debounce";
 import { findMatchingId } from "utility/find-matching-id";
 import { TbCircuitSwitchClosed } from "react-icons/tb";
-import { SortCompanyFilter } from "components/pages/common";
+import { SortFilter } from "components/pages/common";
 
 type DropItemType = { id: number; section: CustomerStatus };
 
@@ -52,10 +52,10 @@ const sortType = [
   },
   {
     label: "Last Active",
-    value: "last_login",
+    value: "-user__last_login",
   },
   {
-    label: "Modifyed On",
+    label: "Modified On",
     value: "-upadted_at",
   },
 ];
@@ -262,9 +262,9 @@ const Customers = () => {
         </Filterbtn>
 
         <Filterbtn icon={<TbCircuitSwitchClosed />} title="Sort">
-          <SortCompanyFilter
+          <SortFilter
             data={sortType}
-            defaultChecked="-created_at"
+            defaultChecked={sort}
             setValue={(e) => {
               setSort(e);
             }}

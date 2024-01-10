@@ -6,6 +6,7 @@ import Input from "components/input";
 import Menu from "components/menu";
 import * as menuStyle from "components/menu/styles.module.scss";
 import Modal from "components/modal";
+import { SortFilter } from "components/pages/common";
 import JobList from "components/pages/job/job-card";
 import Pagination from "components/pagination";
 import Placeholder from "components/skeleton";
@@ -21,6 +22,8 @@ import React, {
 import { DateRangePicker } from "react-date-range";
 import { useForm } from "react-hook-form";
 import { AiOutlinePlus } from "react-icons/ai";
+import { IoIosArrowDown } from "react-icons/io";
+import { TbCircuitSwitchClosed } from "react-icons/tb";
 import companyIdFetcher from "services/company-id-fetcher";
 import { WorkTypeFilter } from "services/filters";
 import { request } from "services/http-request";
@@ -41,6 +44,17 @@ const selectionRangeInit = {
   key: "selection",
 };
 
+const sortType = [
+  {
+    label: "Created On",
+    value: "-created_at",
+  },
+  {
+    label: "Modified On",
+    value: "-upadted_at",
+  },
+];
+
 const Jobs = () => {
   const [data, setData] = useState<Record<JobStatusRole, JobDataStateType[]>>({
     waiting: [],
@@ -51,28 +65,29 @@ const Jobs = () => {
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
   const [selectionRange, setSelectionRange] = useState(selectionRangeInit);
-
+  const [workType, setWorkType] = useState<string[]>([]);
   const [pagination, setPagination] = useState({
     page: 1,
     offset: 0,
     limit: 10,
     totalRecords: 0,
   });
+  const [sort, setSort] = useState(sortType[0].value);
 
   const { btnCont, tableCont } = commonStyles;
 
   const table = useRef<HTMLDivElement>(null);
 
-  const {
-    register: registerFilters,
-    watch: watchFilters,
-    setValue: setValueFilters,
-  } = useForm<FilterT>();
+  // const {
+  //   register: registerFilters,
+  //   watch: watchFilters,
+  //   setValue: setValueFilters,
+  // } = useForm<FilterT>();
 
   const userRole = UserIdentifyer();
   const id = companyIdFetcher(userRole);
 
-  const workType = watchFilters("workType");
+  // const workType = watchFilters("workType");
 
   function getColumnColor(int: number) {
     const colors = [
@@ -94,7 +109,9 @@ const Jobs = () => {
         params: {
           limit: pagination.limit,
           offset: pagination.offset,
+          work_type__title__in: workType.toString(),
           company__id: id,
+          ordering: sort,
           ...params,
         },
       });
@@ -186,6 +203,24 @@ const Jobs = () => {
     fetchData({ search: e.target.value });
   });
 
+  function workTypeFilterHandler(value: string) {
+    let idChecker = null;
+    const list = [...workType];
+    for (let i = 0; i < workType.length; i++) {
+      if (workType[i] === value) {
+        list.splice(i, 1);
+        idChecker = i;
+        break;
+      }
+    }
+
+    if (idChecker === null) {
+      list.push(value);
+    }
+
+    setWorkType(() => [...list]);
+  }
+
   const handleScroll = (evt: any) => {
     console.log(evt.deltaY);
     if (
@@ -206,7 +241,7 @@ const Jobs = () => {
 
   useEffect(() => {
     fetchData();
-  }, [pagination.page, pagination.limit, id]);
+  }, [pagination.page, pagination.limit, id, JSON.stringify(workType), sort]);
 
   return (
     <>
@@ -233,9 +268,9 @@ const Jobs = () => {
         {/* <div className="w-64">
           <SelectBox color="full-white" data={dataList} />
         </div> */}
-        <Filterbtn>
-          <Menu title="Work Type">
-            <WorkTypeFilter register={registerFilters as any} />
+        <Filterbtn icon={<IoIosArrowDown />} title="Filter">
+          <Menu title="Work Type" dropPosition={styles.menuPos}>
+            <WorkTypeFilter setValue={workTypeFilterHandler} />
           </Menu>
           <div
             onClick={() => {
@@ -245,6 +280,16 @@ const Jobs = () => {
           >
             <button>Date</button>
           </div>
+        </Filterbtn>
+
+        <Filterbtn icon={<TbCircuitSwitchClosed />} title="Sort">
+          <SortFilter
+            data={sortType}
+            defaultChecked={sort}
+            setValue={(e) => {
+              setSort(e);
+            }}
+          />
         </Filterbtn>
       </div>
 

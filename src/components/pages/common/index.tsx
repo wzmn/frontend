@@ -27,7 +27,7 @@ export function ActionBtn() {
   );
 }
 
-type SortCompanyFilterT = {
+type SortFilterT = {
   data: {
     label: string;
     value: string;
@@ -36,11 +36,7 @@ type SortCompanyFilterT = {
   defaultChecked?: string;
 };
 
-export function SortCompanyFilter({
-  data,
-  setValue,
-  defaultChecked,
-}: SortCompanyFilterT) {
+export function SortFilter({ data, setValue, defaultChecked }: SortFilterT) {
   return (
     <div className={commonStyles.sortCont}>
       {data.map((item) => {
