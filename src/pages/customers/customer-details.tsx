@@ -18,13 +18,49 @@ import * as styles from "styles/pages/common.module.scss";
 import { EmployeeDataType, Result } from "type/employee";
 import * as additionalStyles from "styles/pages/additional.module.scss";
 import { LuClipboardList } from "react-icons/lu";
+import { JOB_LISTING, REMINDER_LISTING } from "constants/api";
+import useQuickFetch from "hook/quick-fetch";
+import Button from "components/button";
+import { AiOutlinePlus } from "react-icons/ai";
 
 const CustomerDetails = (props: PageProps) => {
   const { location } = props;
   // const employee = location.state as EmployeeDataType;
   const params = new URLSearchParams(location.search);
   const customerId = params.get("customer");
+  const {
+    response: jobResp,
+    error: jobErr,
+    lodaing: jobLoading,
+  } = useQuickFetch<JobDataType>(
+    {
+      url: JOB_LISTING,
+      params: {
+        search: customerId,
+      },
+    },
+    []
+  );
+  const {
+    response: reminderResp,
+    error: reminderErr,
+    lodaing: reminderLoading,
+  } = useQuickFetch<JobDataType>(
+    {
+      url: REMINDER_LISTING,
+      params: {
+        id: customerId,
+      },
+    },
+    []
+  );
 
+  const [status, setStaus] = useState({
+    'fresh': [],
+    "contacted": [],
+    "converted": [],
+    "not interested": [],
+  });
   //   const { control, setValue, handleSubmit } = useForm<any>({
   //     defaultValues: {
   //       attachments: [{ file: null }],
@@ -68,14 +104,15 @@ const CustomerDetails = (props: PageProps) => {
           <div className="flex-1">
             <FormWraper>
               <>
-                <p className={styles.name}>
-                  <span className={styles.bold}>Customer name: &nbsp; </span>
-                  {data?.user?.first_name} &nbsp;
-                  <span className={styles.tag}>(Company Owner)</span>
-                </p>
-
+                <div className="mb-2">
+                  <p className={styles.name}>
+                    <span className={styles.bold}>Customer name: &nbsp; </span>
+                    {data?.user?.first_name}&nbsp;{data?.user?.last_name}&nbsp;
+                    <span className={styles.tag}>(Company Owner)</span>
+                  </p>
+                </div>
                 <div className={styles.contactInfo}>
-                  <div className="">
+                  <div className="mb-2">
                     <span className={styles.icon}>
                       <TfiEmail className={styles.icon} />
                     </span>
@@ -83,7 +120,7 @@ const CustomerDetails = (props: PageProps) => {
                     <span className={styles.contact}>{data?.user?.email}</span>
                   </div>
 
-                  <div className="">
+                  <div className="mb-2">
                     <span className={styles.icon}>
                       <IoCallOutline className={styles.icon} />
                     </span>
@@ -110,22 +147,11 @@ const CustomerDetails = (props: PageProps) => {
 
                 <div className={styles.userRole}>
                   <p className={styles.name}>
-                    <span className={styles.bold}>Customer Role</span>
+                    <span className={styles.bold}>Customer Status</span>
                   </p>
 
                   <div className={styles.roles}>
-                    <Radio label="ADMIN" checked={data?.role === "Admin"} />
-                    <Radio label="MANAGER" checked={data?.role === "Manager"} />
-                    <Radio
-                      label="TEAM LEADER"
-                      checked={data?.role === "Team Lead"}
-                    />
-                    <Radio label="AGENT" checked={data?.role === "Agent"} />
-                    <Radio
-                      label="FIELDWORKER"
-                      checked={data?.role === "Fieldworker"}
-                    />
-                    <Radio label="AUDITOR" checked={data?.role === "Auditor"} />
+                    {Object.keys(status).map(s => <Radio label={s.toUpperCase()} checked={data?.cust_status === s} />)}
                   </div>
                 </div>
               </>
@@ -207,7 +233,7 @@ const CustomerDetails = (props: PageProps) => {
           </form>
         </FormSection> */}
 
-        <FormSection title="Appointments">
+        <FormSection title="Job with Appointments">
           <FormWraper>
             <div className={additionalStyles.cardCont}>
               {[1, 2, 3, 4].map((item) => {
@@ -220,13 +246,22 @@ const CustomerDetails = (props: PageProps) => {
         <FormSection title="Reminders">
           <FormWraper>
             <div className={additionalStyles.cardCont}>
-              {[1, 2, 3, 4].map((item) => {
+              {reminderResp.results?.length > 0 ? reminderResp.results.map((item) => {
                 return (
                   <Link to="/customers/reminder/" key={item}>
                     <List data={{}} index={1} loading />
                   </Link>
                 );
-              })}
+              }) : <div className="flex justify-between w-full items-center">
+                No Reminders       <Link to="/customers/create-reminder">
+                  <Button
+                    width="full"
+                    title="Create Reminder"
+                    icon={<AiOutlinePlus />}
+                    className="flex-row-reverse justify-between"
+                  />
+                </Link>
+              </div>}
             </div>
           </FormWraper>
         </FormSection>

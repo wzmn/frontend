@@ -1,9 +1,15 @@
+import Button from "components/button";
 import FormSection from "components/form-sections";
 import FormWraper from "components/form-wrapper";
 import Input from "components/input";
 import SelectBox from "components/selectBox";
 import React from "react";
 import * as styles from "styles/pages/common.module.scss";
+import { FormProvider, useForm } from "react-hook-form";
+import { InferType, mixed, object, string } from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { navigate } from "gatsby";
+
 
 const reminder = [
   { label: "15 mins Before" },
@@ -16,13 +22,42 @@ const reminder = [
   { label: "1 Hour Before" },
 ];
 
+
+const ReminderSchema = object({
+  workType: mixed(),
+  customer: object({
+    user: object({
+      first_name: string().trim().required("Required"),
+      last_name: string().trim().required("Required"),
+      phone: string().trim().required("Required"),
+      email: string()
+        .trim()
+        .required("Required"),
+    }),
+    customer_type: string().required("Required"),
+  }),
+  job_assigned_to_id: string().nullable(),
+});
+
+
 const CreateReminder = () => {
+  const methods = useForm({
+    resolver: yupResolver(ReminderSchema),
+  });
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { isSubmitting, errors },
+  } = methods;
   return (
     <>
       <p className={styles.title}>Create Reminder</p>
 
       <div className="space-y-16 mb-3">
-        <FormSection title="Subject">
+        <FormSection title="Title">
           <div className="flex-1">
             <FormWraper>
               <>
@@ -38,7 +73,7 @@ const CreateReminder = () => {
           </div>
         </FormSection>
 
-        <FormSection title="Shedule">
+        <FormSection title="Schedule">
           <div className="flex-1 z-10">
             <FormWraper>
               <>
@@ -92,6 +127,19 @@ const CreateReminder = () => {
                 {/* </div> */}
               </>
             </FormWraper>
+            <div className="flex justify-center gap-36 mt-10">
+                <Button title="Submit" type="submit" isLoading={isSubmitting} />
+
+                <Button
+                  title="Cancel"
+                  type="button"
+                  color="red"
+                  className="py-10"
+                  onClick={() => {
+                    navigate(-1);
+                  }}
+                />
+              </div>
           </div>
         </FormSection>
       </div>
