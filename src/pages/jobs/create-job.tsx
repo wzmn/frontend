@@ -216,6 +216,12 @@ const CreateJob = () => {
                       </>
                     )}
                   </div>
+
+                  {/* <div className="flex gap-10">
+                    <Checkbox />
+                    <Checkbox />
+                    <Checkbox />
+                  </div> */}
                 </>
               </FormWraper>
             </div>

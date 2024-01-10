@@ -109,7 +109,7 @@ const CustomerDetails = (props: PageProps) => {
                   <p className={styles.name}>
                     <span className={styles.bold}>Customer name: &nbsp; </span>
                     {data?.user?.first_name}&nbsp;{data?.user?.last_name}&nbsp;
-                    <span className={styles.tag}>(Company Owner)</span>
+                    {/* <span className={styles.tag}>(Company Owner)</span> */}
                   </p>
                 </div>
                 <div className={styles.contactInfo}>

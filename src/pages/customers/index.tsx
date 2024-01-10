@@ -166,6 +166,8 @@ const Customers = () => {
           offset: pagination.offset,
           company__id: id,
           ordering: sort,
+          created_at__gte: selectionRange.startDate,
+          created_at__lte: selectionRange.endDate,
           ...params,
         },
       });
@@ -224,7 +226,13 @@ const Customers = () => {
   useEffect(() => {
     // For skeleton
     fetchData();
-  }, [pagination.page, pagination.limit, id, sort]);
+  }, [
+    pagination.page,
+    pagination.limit,
+    id,
+    sort,
+    JSON.stringify(selectionRange),
+  ]);
 
   return (
     <>
@@ -262,15 +270,18 @@ const Customers = () => {
           </Menu> */}
         </Filterbtn>
 
-        <Filterbtn icon={<TbCircuitSwitchClosed />} title="Sort">
-          <SortFilter
-            data={sortType}
-            defaultChecked={sort}
-            setValue={(e) => {
-              setSort(e);
-            }}
-          />
-        </Filterbtn>
+        <div className="w-32">
+          {" "}
+          <Filterbtn icon={<TbCircuitSwitchClosed />} title="Sort">
+            <SortFilter
+              data={sortType}
+              defaultChecked={sort}
+              setValue={(e) => {
+                setSort(e);
+              }}
+            />
+          </Filterbtn>
+        </div>
       </div>
 
       <div className={`${styles.tableCont} drop-container`} ref={table}>

@@ -25,7 +25,7 @@ const ViewCompany = ({ data }: { data: CompanyExtraDataType }) => {
                   <span className={styles.normal}>{data?.company_name}</span>
                 </p>
                 <p className={styles.tag}>
-                  {moment(data?.created_at).format("DD-MM-yyyy HH:MM a")}
+                  {moment(data?.created_at).format("ddd DD MM,  hh mm a")}
                 </p>
               </div>
               <FaChevronDown

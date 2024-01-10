@@ -127,6 +127,8 @@ const Employees = () => {
           limit: pagination.limit,
           offset: pagination.offset,
           company__id: id,
+          created_at__gte: selectionRange.startDate,
+          created_at__lte: selectionRange.endDate,
           ordering: sort,
           ...params,
         },
@@ -226,7 +228,14 @@ const Employees = () => {
     // For skeleton
     console.log("render emppppppppp");
     if (JSON.stringify(status) !== "{}") fetchData();
-  }, [pagination.page, pagination.limit, status, id, sort]);
+  }, [
+    pagination.page,
+    pagination.limit,
+    status,
+    id,
+    sort,
+    JSON.stringify(selectionRange),
+  ]);
 
   const { btnCont, tableCont } = commonStyles;
   return (
@@ -260,16 +269,17 @@ const Employees = () => {
             <CompanyFilter />
           </Menu>
         </Filterbtn>
-
-        <Filterbtn icon={<TbCircuitSwitchClosed />} title="Sort">
-          <SortFilter
-            data={sortType}
-            defaultChecked={sort}
-            setValue={(e) => {
-              setSort(e);
-            }}
-          />
-        </Filterbtn>
+        <div className="w-32">
+          <Filterbtn icon={<TbCircuitSwitchClosed />} title="Sort">
+            <SortFilter
+              data={sortType}
+              defaultChecked={sort}
+              setValue={(e) => {
+                setSort(e);
+              }}
+            />
+          </Filterbtn>
+        </div>
       </div>
       <div className={`${tableCont} drop-container`} ref={table}>
         {(Object?.keys(data) as EmployeeRole[])?.map((dropName, index) => {

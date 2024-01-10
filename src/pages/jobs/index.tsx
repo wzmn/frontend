@@ -112,6 +112,8 @@ const Jobs = () => {
           work_type__title__in: workType.toString(),
           company__id: id,
           ordering: sort,
+          created_at__gte: selectionRange.startDate,
+          created_at__lte: selectionRange.endDate,
           ...params,
         },
       });
@@ -241,7 +243,14 @@ const Jobs = () => {
 
   useEffect(() => {
     fetchData();
-  }, [pagination.page, pagination.limit, id, JSON.stringify(workType), sort]);
+  }, [
+    pagination.page,
+    pagination.limit,
+    id,
+    JSON.stringify(workType),
+    sort,
+    JSON.stringify(selectionRange),
+  ]);
 
   return (
     <>
@@ -281,16 +290,17 @@ const Jobs = () => {
             <button>Date</button>
           </div>
         </Filterbtn>
-
-        <Filterbtn icon={<TbCircuitSwitchClosed />} title="Sort">
-          <SortFilter
-            data={sortType}
-            defaultChecked={sort}
-            setValue={(e) => {
-              setSort(e);
-            }}
-          />
-        </Filterbtn>
+        <div className="w-32">
+          <Filterbtn icon={<TbCircuitSwitchClosed />} title="Sort">
+            <SortFilter
+              data={sortType}
+              defaultChecked={sort}
+              setValue={(e) => {
+                setSort(e);
+              }}
+            />
+          </Filterbtn>
+        </div>
       </div>
 
       <div className={`${tableCont} drop-container`} ref={table}>

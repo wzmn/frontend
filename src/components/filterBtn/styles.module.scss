@@ -3,6 +3,7 @@
 // $dpd-width: in;
 
 .dropdown-cont {
+  width: inherit;
   position: relative;
   & > button {
     display: flex;

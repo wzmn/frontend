@@ -141,6 +141,8 @@ const Appintments = () => {
           offset: pagination.offset,
           company__id: id,
           ordering: sort,
+          created_at__gte: selectionRange.startDate,
+          created_at__lte: selectionRange.endDate,
           ...params,
         },
       });
@@ -232,7 +234,14 @@ const Appintments = () => {
   useEffect(() => {
     // For skeleton
     if (JSON.stringify(status) !== "{}") fetchData();
-  }, [pagination.page, pagination.limit, status, id, sort]);
+  }, [
+    pagination.page,
+    pagination.limit,
+    status,
+    id,
+    sort,
+    JSON.stringify(selectionRange),
+  ]);
 
   return (
     <>
@@ -268,16 +277,17 @@ const Appintments = () => {
             <button>Date</button>
           </div>
         </Filterbtn>
-
-        <Filterbtn icon={<TbCircuitSwitchClosed />} title="Sort">
-          <SortFilter
-            data={sortType}
-            defaultChecked={sort}
-            setValue={(e) => {
-              setSort(e);
-            }}
-          />
-        </Filterbtn>
+        <div className="w-32">
+          <Filterbtn icon={<TbCircuitSwitchClosed />} title="Sort">
+            <SortFilter
+              data={sortType}
+              defaultChecked={sort}
+              setValue={(e) => {
+                setSort(e);
+              }}
+            />
+          </Filterbtn>
+        </div>
       </div>
 
       <div className={`${tableCont} drop-container`} ref={table}>
