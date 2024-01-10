@@ -29,8 +29,7 @@ type Props = {
 
 const Layout = ({ children }: Props) => {
   const alertIfOnline = () => toast.success("Connection restored");
-  const alertIfOffline = () =>
-    toast.warn("Oops! It seems like you're currently offline.");
+  const alertIfOffline = () => toast.warn("Oops! It seems like you're currently offline.");
   useEffect(() => {
     window.addEventListener("offline", () => alertIfOffline);
     window.addEventListener("online", () => alertIfOnline);

@@ -104,7 +104,7 @@ const Settings = () => {
               {/* <div className={settingtyles.cont1}></div>
             <div className={settingtyles.cont2}></div> */}
               <p className={`${settingtyles.otherUser} ${settingtyles.mtB}`}>
-                View Streamline Transactions with EFT Ease.
+                View Streamline Transactions with EFT Ease
               </p>
               <Link
                 to="eft-orders"

@@ -92,7 +92,7 @@ export default function CustList({
             className={`badge text-white px-2 py-1 text-xs rounded-sm`}
             style={
               {
-                // backgroundColor: index % 2 == 0 ? colors.buyer : colors.seller,
+                backgroundColor: index % 2 == 0 ? '#32D0D1' : '#0A84FF',
               }
             }
           >

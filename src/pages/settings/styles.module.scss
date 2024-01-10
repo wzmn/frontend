@@ -4,10 +4,26 @@
   display: flex;
   justify-content: space-between;
 
-  & .mt-b:not(:last-child) {
-    margin-bottom: 1.5rem;
-  }
-
+  // & .mt-b:not(:last-child) {
+  //   margin-bottom: 1.5rem;
+  // }
+    .cont1 {
+      & > div {
+        margin-bottom: 20px;
+      }
+      & > p {
+        margin-bottom: 25px;
+      }
+    }
+    .cont2 {
+      & > p {
+        &:last-child {
+          margin-bottom: 0px;
+        }
+        text-align: right;
+        margin-bottom: 20px;
+      }
+    }
   //   & .cont1 {
   & .profile-pic {
     width: 4rem;
@@ -23,7 +39,7 @@
 
   & .user-email {
     font-size: $font-normal;
-    margin-top: 1rem;
+    // margin-top: 1rem;
     font-weight: bold;
   }
 

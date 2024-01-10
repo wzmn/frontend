@@ -36,6 +36,7 @@
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
+    padding-right: 10px;
     @include scrollBarStyle;
   }
   @include scrollBarStyle;
