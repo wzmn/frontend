@@ -48,7 +48,7 @@ const CreateAppointment = () => {
         <Schedule item={location} />
         {/* ))} */}
 
-        <FormSection title="Comments">
+        {/* <FormSection title="Comments">
           <div className="flex-1">
             <FormWraper>
               <>
@@ -65,7 +65,7 @@ const CreateAppointment = () => {
               </>
             </FormWraper>
           </div>
-        </FormSection>
+        </FormSection> */}
       </div>
     </div>
   );

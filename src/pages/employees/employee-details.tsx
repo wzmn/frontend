@@ -100,7 +100,7 @@ const EmployeeDetails = (props: PageProps) => {
                   {data.created_by} &nbsp;
                   <span className={styles.tag2}>
                     {moment(data?.user?.created_at).format(
-                      "DD/MM/yyyy HH:MM a"
+                      "DD/MM/yyyy hh:mm a"
                     )}
                   </span>
                 </p>
@@ -195,7 +195,7 @@ const EmployeeDetails = (props: PageProps) => {
           </form>
         </FormSection>
 
-        <FormSection title="Comments">
+        {/* <FormSection title="Comments">
           <div className="flex-1">
             <FormWraper>
               <>
@@ -212,7 +212,7 @@ const EmployeeDetails = (props: PageProps) => {
               </>
             </FormWraper>
           </div>
-        </FormSection>
+        </FormSection> */}
       </div>
     </div>
   );

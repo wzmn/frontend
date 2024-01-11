@@ -62,7 +62,7 @@ const ViewCustomer = ({ data }: { data: CustomerResult }) => {
                   </span>
                 </p>
                 <p className={styles.tag}>
-                  {moment(data.user?.created_at).format("DD/MM/yyyy HH:MM a")}
+                  {moment(data.user?.created_at).format("DD/MM/yyyy hh:mm a")}
                 </p>
               </div>
               <FaChevronDown
@@ -159,7 +159,7 @@ const ViewCustomer = ({ data }: { data: CustomerResult }) => {
         <br />
         <span className={styles.tag}>
           Created on:{" "}
-          {moment(data.user?.created_at).format("DD/MM/yyyy HH:MM a")}
+          {moment(data.user?.created_at).format("DD/MM/yyyy hh:mm a")}
         </span>
       </p>
 

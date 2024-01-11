@@ -52,7 +52,7 @@ const ViewJob = ({ data }: { data: JobResultT }) => {
                 </p>
                 <p className={styles.tag}>
                   {moment(data?.customer?.user?.created_at).format(
-                    "DD-MM-yyyy HH:MM a"
+                    "DD-/MM/yyyy hh:mm a"
                   )}
                 </p>
               </div>
@@ -124,7 +124,7 @@ ${data.address?.state ? data.address?.state : ""} ${
         {data?.job_created_by} &nbsp;
         <p className={styles.tag}>
           {moment(data?.customer?.user?.created_at).format(
-            "DD/MM/yyyy HH:MM a"
+            "DD/MM/yyyy hh:mm a"
           )}
         </p>
       </p>

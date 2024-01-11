@@ -25,7 +25,7 @@ const ViewEmp = ({ data }: { data: Result }) => {
                   </span>
                 </p>
                 <p className={styles.tag}>
-                  {moment(data?.user?.created_at).format("DD/MM/yyyy HH:MM a")}
+                  {moment(data?.user?.created_at).format("DD/MM/yyyy hh:mm a")}
                 </p>
               </div>
               <FaChevronDown
@@ -62,7 +62,7 @@ const ViewEmp = ({ data }: { data: Result }) => {
         <span className={styles.bold}>Employee Created by: &nbsp; </span>
         {data?.created_by} &nbsp;
         <p className={styles.tag}>
-          {moment(data?.user?.created_at).format("DD/MM/yyyy HH:MM a")}
+          {moment(data?.user?.created_at).format("DD/MM/yyyy hh:mm a")}
         </p>
       </p>
       <div className="mt-3">

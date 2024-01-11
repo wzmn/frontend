@@ -105,7 +105,7 @@ const CustomerDetails = (props: PageProps) => {
   }, []);
 
   return (
-    <>
+    <div className="grow">
       <p className={styles.title}>Customer ID: {data?.id}</p>
 
       <div className="space-y-16 mb-3">
@@ -185,7 +185,7 @@ const CustomerDetails = (props: PageProps) => {
                   }`}{" "}
                   <span className={styles.tag2}>
                     {moment(data?.user?.created_at).format(
-                      "DD/MM/yyyy HH:MM a"
+                      "DD/MM/yyyy hh:mm a"
                     )}
                   </span>
                 </p>
@@ -356,7 +356,7 @@ const CustomerDetails = (props: PageProps) => {
           </FormWraper>
         </FormSection> */}
 
-        <FormSection title="Comments">
+        {/* <FormSection title="Comments">
           <div className="flex-1">
             <FormWraper>
               <>
@@ -373,9 +373,9 @@ const CustomerDetails = (props: PageProps) => {
               </>
             </FormWraper>
           </div>
-        </FormSection>
+        </FormSection> */}
       </div>
-    </>
+    </div>
   );
 };
 

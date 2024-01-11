@@ -62,7 +62,7 @@ const PublishDetails = (props: PageProps) => {
   }, []);
 
   return (
-    <>
+    <div className="grow">
       <p className={styles.title}>Publish ID: {data?.id}</p>
 
       <div className="space-y-16 mb-3">
@@ -156,7 +156,7 @@ const PublishDetails = (props: PageProps) => {
           </FormWraper>
         </FormSection>
 
-        <FormSection title="Comments">
+        {/* <FormSection title="Comments">
           <div className="flex-1">
             <FormWraper>
               <>
@@ -173,9 +173,9 @@ const PublishDetails = (props: PageProps) => {
               </>
             </FormWraper>
           </div>
-        </FormSection>
+        </FormSection> */}
       </div>
-    </>
+    </div>
   );
 };
 
