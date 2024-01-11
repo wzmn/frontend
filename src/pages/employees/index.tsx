@@ -48,8 +48,8 @@ import { SortFilter } from "components/pages/common";
 
 type DropItemType = { id: number; section: EmployeeRole };
 const selectionRangeInit = {
-  startDate: new Date(),
-  endDate: new Date(),
+  startDate: undefined,
+  endDate: undefined,
   key: "selection",
 };
 

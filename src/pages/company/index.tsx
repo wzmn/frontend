@@ -50,8 +50,8 @@ const dataList = [
 ];
 
 const selectionRangeInit = {
-  startDate: new Date(),
-  endDate: new Date(),
+  startDate: undefined,
+  endDate: undefined,
   key: "selection",
 };
 

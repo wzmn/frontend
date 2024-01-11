@@ -39,8 +39,8 @@ import { findMatchingId } from "utility/find-matching-id";
 type DropItemType = { id: number; section: JobStatusRole };
 
 const selectionRangeInit = {
-  startDate: new Date(),
-  endDate: new Date(),
+  startDate: undefined,
+  endDate: undefined,
   key: "selection",
 };
 

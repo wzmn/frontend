@@ -23,17 +23,19 @@ import useQuickFetch from "hook/quick-fetch";
 import Button from "components/button";
 import { AiOutlinePlus } from "react-icons/ai";
 import { CustomerDataType, Result } from "type/customer";
+import { JobDataType, Result as JobResultT } from "type/job";
 
 const CustomerDetails = (props: PageProps) => {
   const { location } = props;
   // const employee = location.state as EmployeeDataType;
   const params = new URLSearchParams(location.search);
   const customerId = params.get("customer");
+
   const {
     response: jobResp,
     error: jobErr,
     lodaing: jobLoading,
-  } = useQuickFetch<any>(
+  } = useQuickFetch<JobDataType>(
     {
       url: JOB_LISTING,
       params: {
@@ -42,6 +44,7 @@ const CustomerDetails = (props: PageProps) => {
     },
     []
   );
+
   const {
     response: reminderResp,
     error: reminderErr,
@@ -136,7 +139,7 @@ const CustomerDetails = (props: PageProps) => {
                   <span className={styles.bold}>
                     Customer Created by: &nbsp;{" "}
                   </span>
-                  Superadmin/Jackson &nbsp;
+                  {data?.customer_created_by} &nbsp;
                   <span className={styles.tag2}>
                     {moment(data?.user?.created_at).format(
                       "DD-MM-yyyy HH:MM a"
@@ -245,17 +248,17 @@ const CustomerDetails = (props: PageProps) => {
           </form>
         </FormSection> */}
 
-        <FormSection title="Job with Appointments">
+        <FormSection title="Job">
           <FormWraper>
             <div className={additionalStyles.cardCont}>
-              {[1, 2, 3, 4].map((item) => {
-                return <List key={item} data={{}} index={1} loading />;
+              {jobResp?.results?.map((item) => {
+                return <List key={item.id} data={item} index={1} loading />;
               })}
             </div>
           </FormWraper>
         </FormSection>
 
-        <FormSection title="Reminders">
+        {/* <FormSection title="Reminders">
           <FormWraper>
             <div className={additionalStyles.cardCont}>
               {reminderResp.results?.length > 0 ? (
@@ -281,7 +284,7 @@ const CustomerDetails = (props: PageProps) => {
               )}
             </div>
           </FormWraper>
-        </FormSection>
+        </FormSection> */}
 
         <FormSection title="Comments">
           <div className="flex-1">
@@ -311,7 +314,7 @@ function List({
   loading,
   index,
 }: {
-  data: any;
+  data: JobResultT;
   loading: boolean;
   index: number;
 }) {
@@ -321,13 +324,11 @@ function List({
     <div className={`${styles.card} ${additionalStyles.card}`}>
       <div className={styles.cardInfo}>
         <p className="title">
-          {/* {data.user?.first_name} */}
-          Jason Stone
+          {`${data.customer?.user?.first_name}  ${data.customer?.user?.first_name}`}
         </p>
         <span className="">
           {" "}
-          {/* Created on: {moment(data.user?.created_at).format("ddd, MM a")} */}
-          created on: Mon,3.40 am
+          Created on: {moment(data.created_at).format("ddd, MM hh:mm a")}
         </span>
       </div>
       <div className={`${styles.contactInfo} ${additionalStyles.contact}`}>
@@ -336,10 +337,7 @@ function List({
             <TfiEmail className={styles.icon} />
           </span>
 
-          <span className={styles.contact}>
-            {/* {data.user?.email} */}
-            jason@gmail.com
-          </span>
+          <span className={styles.contact}>{data.customer?.user?.email}</span>
         </div>
 
         <div className="">
@@ -349,12 +347,13 @@ function List({
 
           <span className={styles.contact}>
             {/* {data.user?.phone} */}
-            jason@gmail.com
+
+            {data.customer?.user?.phone}
           </span>
         </div>
 
         <LuClipboardList className={additionalStyles.absIcon} />
-        <p className={additionalStyles.count}>3</p>
+        {/* <p className={additionalStyles.count}>3</p> */}
       </div>
     </div>
   );

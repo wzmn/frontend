@@ -48,8 +48,8 @@ import { TbCircuitSwitchClosed } from "react-icons/tb";
 import { SortFilter } from "components/pages/common";
 
 const selectionRangeInit = {
-  startDate: new Date(),
-  endDate: new Date(),
+  startDate: undefined,
+  endDate: undefined,
   key: "selection",
 };
 
