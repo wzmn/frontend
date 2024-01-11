@@ -52,7 +52,7 @@ const Login = (props: any) => {
             <TextField
               {...register("username")}
               id="username"
-              title="Username"
+              title="Email"
               errormessage={errors.username?.message}
             />
 

@@ -8,14 +8,20 @@ import { CountryComplianceType } from "type/global";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useUploadContext } from "providers/upload-doc-provider";
 
-const UploadDoc = ({ data }: { data: CountryComplianceType[] }) => {
+const UploadDoc = ({
+  data,
+  title = "",
+}: {
+  data: CountryComplianceType[];
+  title?: string;
+}) => {
   return (
     <div className={styles.doc}>
       {/* {JSON.stringify(data)}h */}
       <div className={styles.header}>
-        <div className={styles.title}>Primary Document</div>
+        <div className={styles.title}>{title}</div>
         <div className={styles.subTitle}>
-          <div className="pts">70 pts</div>
+          {/* <div className="pts">70 pts</div> */}
           <div className={styles.icon}>
             <PiFiles />
           </div>

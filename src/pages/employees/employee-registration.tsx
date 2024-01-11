@@ -100,7 +100,7 @@ const EmployeeRegistration = () => {
       const list = initialState();
 
       response?.data?.results?.forEach((item) => {
-        list[item.item_type?.toLowerCase()!].push(item);
+        list[item?.priority?.toLowerCase()!].push(item);
       });
 
       console.log(list, " listtttttt");
@@ -214,7 +214,10 @@ const EmployeeRegistration = () => {
                   <ButtonGroup
                     onClick={() => {
                       setElement(
-                        <UploadDoc data={compliance.primary} />,
+                        <UploadDoc
+                          title="Primary Documents"
+                          data={compliance.primary}
+                        />,
                         "Upload Primary Documents"
                       );
                       !open && toggle();
@@ -225,7 +228,10 @@ const EmployeeRegistration = () => {
                   <ButtonGroup
                     onClick={() => {
                       setElement(
-                        <UploadDoc data={compliance.secondary} />,
+                        <UploadDoc
+                          title="Secondary Documents"
+                          data={compliance.secondary}
+                        />,
                         "Upload Secondary Documents"
                       );
                       !open && toggle();
@@ -236,7 +242,10 @@ const EmployeeRegistration = () => {
                   <ButtonGroup
                     onClick={() => {
                       setElement(
-                        <UploadDoc data={compliance.additional} />,
+                        <UploadDoc
+                          title="Additional Documents"
+                          data={compliance.additional}
+                        />,
                         "Upload Additional Documents"
                       );
                       !open && toggle();
