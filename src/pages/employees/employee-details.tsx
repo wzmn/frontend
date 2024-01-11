@@ -59,7 +59,7 @@ const EmployeeDetails = (props: PageProps) => {
   }, []);
 
   return (
-    <>
+    <div className="grow">
       <p className={styles.title}>Employee ID: {data?.id}</p>
 
       <div className="space-y-16 mb-3">
@@ -97,10 +97,10 @@ const EmployeeDetails = (props: PageProps) => {
                   <span className={styles.bold}>
                     Employee Created by: &nbsp;{" "}
                   </span>
-                  Superadmin/Jackson &nbsp;
+                  {data.created_by} &nbsp;
                   <span className={styles.tag2}>
                     {moment(data?.user?.created_at).format(
-                      "DD-MM-yyyy HH:MM a"
+                      "DD/MM/yyyy HH:MM a"
                     )}
                   </span>
                 </p>
@@ -113,18 +113,7 @@ const EmployeeDetails = (props: PageProps) => {
                   </p>
 
                   <div className={styles.roles}>
-                    <Radio label="ADMIN" checked={data?.role === "Admin"} />
-                    <Radio label="MANAGER" checked={data?.role === "Manager"} />
-                    <Radio
-                      label="TEAM LEADER"
-                      checked={data?.role === "Team Lead"}
-                    />
-                    <Radio label="AGENT" checked={data?.role === "Agent"} />
-                    <Radio
-                      label="FIELDWORKER"
-                      checked={data?.role === "Fieldworker"}
-                    />
-                    <Radio label="AUDITOR" checked={data?.role === "Auditor"} />
+                    <Radio label={data?.role?.toUpperCase()!} checked={true} />
                   </div>
                 </div>
               </>
@@ -141,14 +130,14 @@ const EmployeeDetails = (props: PageProps) => {
                     return (
                       <>
                         {/* <div className={styles.file}> */}
-                        <DNDImage
+                        {/* <DNDImage
                           setFiles={(e) => {
                             setValue(`attachments.${index}.file`, e);
                             const list = [...files];
                             list[index] = e[0];
                             setFiles(() => list);
                           }}
-                        />
+                        /> */}
                         {/* </div> */}
 
                         <aside className={companyStyles.preview}>
@@ -162,13 +151,13 @@ const EmployeeDetails = (props: PageProps) => {
                                   URL.revokeObjectURL(files?.[index]?.preview);
                                 }}
                               />
-                              <RiDeleteBin6Line
+                              {/* <RiDeleteBin6Line
                                 className="w-5 h-5 cursor-pointer absolute top-1 right-4"
                                 onClick={() => {
                                   files.splice(index, 1);
                                   remove(index);
                                 }}
-                              />
+                              /> */}
                             </div>
                           ) : (
                             <div className="">
@@ -178,13 +167,13 @@ const EmployeeDetails = (props: PageProps) => {
                                 // alt="/assets/images/picture.svg"
                                 // Revoke data uri after image is loaded
                               />
-                              <RiDeleteBin6Line
+                              {/* <RiDeleteBin6Line
                                 className="w-5 h-5 cursor-pointer absolute top-1 right-4"
                                 onClick={() => {
                                   files.splice(index, 1);
                                   remove(index);
                                 }}
-                              />
+                              /> */}
                             </div>
                           )}
                         </aside>
@@ -192,7 +181,7 @@ const EmployeeDetails = (props: PageProps) => {
                     );
                   })}
                 </div>
-                <p
+                {/* <p
                   className={styles.addAttachments}
                   onClick={() => append({ file: null })}
                 >
@@ -200,7 +189,7 @@ const EmployeeDetails = (props: PageProps) => {
                   <span className="icon">
                     <ImAttachment />
                   </span>
-                </p>
+                </p> */}
               </>
             </FormWraper>
           </form>
@@ -225,7 +214,7 @@ const EmployeeDetails = (props: PageProps) => {
           </div>
         </FormSection>
       </div>
-    </>
+    </div>
   );
 };
 

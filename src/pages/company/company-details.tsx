@@ -106,11 +106,11 @@ const CompanyDetails = (props: PageProps) => {
 
                 <p className={`${styles.name} ${styles.createBy}`}>
                   <span className={styles.bold}>
-                    Company Created by: &nbsp;{" "}
+                    Company Created at: &nbsp;{" "}
                   </span>
                   {/* &nbsp; */}
                   <span className={styles.tag2}>
-                    {moment(data?.created_at).format("DD-MM-yyyy HH:MM a")}
+                    {moment(data?.created_at).format("DD/MM/yyyy HH:MM a")}
                   </span>
                 </p>
 
@@ -143,14 +143,14 @@ const CompanyDetails = (props: PageProps) => {
                     return (
                       <Fragment key={item.id}>
                         {/* <div className={styles.file}> */}
-                        <DNDImage
+                        {/* <DNDImage
                           setFiles={(e) => {
                             setValue(`attachments.${index}.file`, e);
                             const list = [...files];
                             list[index] = e[0];
                             setFiles(() => list);
                           }}
-                        />
+                        /> */}
                         {/* </div> */}
 
                         <aside className={companyStyles.preview}>
@@ -180,13 +180,13 @@ const CompanyDetails = (props: PageProps) => {
                                 // alt="/assets/images/picture.svg"
                                 // Revoke data uri after image is loaded
                               />
-                              <RiDeleteBin6Line
+                              {/* <RiDeleteBin6Line
                                 className="w-5 h-5 cursor-pointer absolute top-1 right-4"
                                 onClick={() => {
                                   files.splice(index, 1);
                                   remove(index);
                                 }}
-                              />
+                              /> */}
                             </div>
                           )}
                         </aside>

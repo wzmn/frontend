@@ -21,8 +21,8 @@ import * as additionalStyles from "styles/pages/additional.module.scss";
 import { LuClipboardList } from "react-icons/lu";
 import TextButton from "components/text-button";
 import { GoPlus } from "react-icons/go";
-import Button from "components/button";
 import { AiOutlinePlus } from "react-icons/ai";
+import Button from "components/button";
 
 const JobDetails = (props: PageProps) => {
   const { location } = props;
@@ -108,7 +108,7 @@ const JobDetails = (props: PageProps) => {
                   {data.job_created_by} &nbsp;
                   <span className={styles.tag2}>
                     {moment(data?.customer?.user?.created_at).format(
-                      "DD-MM-yyyy HH:MM a"
+                      "DD/MM/yyyy HH:MM a"
                     )}
                   </span>
                 </p>
@@ -122,7 +122,7 @@ const JobDetails = (props: PageProps) => {
 
                   <div className={styles.roles}>
                     <Radio
-                      label={data?.job_status!.toUpperCase()}
+                      label={data?.job_status?.toUpperCase()!}
                       checked={true}
                     />
                   </div>
@@ -226,7 +226,7 @@ const JobDetails = (props: PageProps) => {
               /> */}
               <div className="flex justify-between w-full items-center">
                 No Appointment{" "}
-                <Link to="/customers/create-reminder">
+                <Link to="#">
                   <Button
                     width="full"
                     title="Create Appointment"

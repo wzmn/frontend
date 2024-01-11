@@ -58,13 +58,13 @@ const ViewCustomer = ({ data }: { data: CustomerResult }) => {
                 <p className="mb-1">
                   <span className={styles.bold}>Customer Name:</span>{" "}
                   <span className={styles.normal}>
-                    {data?.user.first_name}&nbsp;{data?.user.last_name}
-                    {/* {data?.user?.first_name + " " + data?.user?.last_name} */}
+                    {data?.user?.first_name}&nbsp;{data?.user?.last_name}
+                    {data?.user?.first_name + " " + data?.user?.last_name}
                   </span>
                 </p>
-                {/* <p className={styles.tag}>
+                <p className={styles.tag}>
                   {moment(data.user?.created_at).format("DD-MM-yyyy HH:MM a")}
-                </p> */}
+                </p>
               </div>
               <FaChevronDown
                 className={`${open ? "rotate-180 transform" : ""}`}
@@ -94,7 +94,7 @@ const ViewCustomer = ({ data }: { data: CustomerResult }) => {
                   </span>
 
                   <span className={styles.contact}>
-                    {data.user?.groups || "N/A"}
+                    {data?.user?.groups || "N/A"}
                     NO API
                   </span>
                 </div>
@@ -110,7 +110,7 @@ const ViewCustomer = ({ data }: { data: CustomerResult }) => {
       <div className="">
         <p className={styles.additionalInfo}>
           <span className={styles.title}>Customer Type: &nbsp;</span>
-          {data.customer_type ? data.customer_type : "No data available"}
+          {data?.customer_type ? data?.customer_type : "No data available"}
         </p>
 
         <p className={styles.additionalInfo}>
@@ -128,11 +128,13 @@ const ViewCustomer = ({ data }: { data: CustomerResult }) => {
 
       <p className={`${styles.name} ${styles.createBy}`}>
         <span className={styles.bold}>Customer Created by: &nbsp; </span>
-        {data?.customer_created_by || "N/A"} <br />
+        {data?.customer_created_by.created_by || "N/A"} <br />
         <span className={styles.tag}>
-          Created on: {moment(data.user?.created_at).format("DD-MM-yyyy HH:MM")}
+          Created on:{" "}
+          {moment(data.user?.created_at).format("DD/MM/yyyy HH:MM a")}
         </span>
       </p>
+
       <div className="my-3">
         <Divider />
       </div>
@@ -147,7 +149,6 @@ const ViewCustomer = ({ data }: { data: CustomerResult }) => {
       </div>
       <Disclosure>
         {({ open }) => (
-          /* Use the `open` state to conditionally change the direction of an icon. */
           <>
             <Disclosure.Button
               className={`${styles.details} ${open ? "" : "mb-1"}`}
@@ -161,7 +162,7 @@ const ViewCustomer = ({ data }: { data: CustomerResult }) => {
             </Disclosure.Button>
             <Disclosure.Panel className={`${styles.panel} mb-5`}>
               {jobResp?.results?.length! > 0 ? (
-                jobResp.results?.map((item, idx, array) => {
+                jobResp?.results?.map((item, idx, array) => {
                   return (
                     <div className={styles.job}>
                       <p className={styles.jobTitle}>{item.work_type?.title}</p>
