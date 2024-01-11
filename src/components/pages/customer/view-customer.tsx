@@ -195,13 +195,21 @@ const ViewCustomer = ({ data }: { data: CustomerResult }) => {
               {jobResp?.results?.length! > 0 ? (
                 jobResp?.results?.map((item, idx, array) => {
                   return (
-                    <div className={styles.job}>
+                    <div
+                      onClick={() => {
+                        window.open(
+                          `/jobs/job-details/?job=${item.id}`,
+                          "_blank"
+                        );
+                      }}
+                      className={styles.job + " mt-1"}
+                    >
                       <p className={styles.jobTitle}>{item.work_type?.title}</p>
                       <p className="">
                         Job ID : <span className={styles.tag}>{item.id}</span>
                       </p>
                       <LuClipboardList />
-                      <p className={styles.count}>3</p>
+                      {/* <p className={styles.count}>3</p> */}
                     </div>
                   );
                 })
