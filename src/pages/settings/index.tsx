@@ -8,12 +8,36 @@ import { Link } from "gatsby-link";
 import Input from "components/input";
 import { ChangeEmail, ChangePhone } from "components/pages/settings";
 import { useAuthContext } from "providers/auth-provider";
+import { RESET_PASSWORD } from "constants/api";
+import { toast } from "react-toastify";
+import { request } from "services/http-request";
 
 const Settings = () => {
   const [chageEmail, setChangeEmail] = useState(false);
   const [chagePhone, setChangePhone] = useState(false);
 
   const { userAuth } = useAuthContext();
+
+  const changePassword = async () => {
+    try {
+      const response = await toast.promise(
+        request({
+          url: RESET_PASSWORD,
+          method: "post",
+          data: {
+            email: userAuth.email,
+          },
+        }),
+        {
+          pending: "Wait...",
+          success: "Please Check Your Email ",
+          error: "Cannot send request try again later",
+        }
+      );
+    } catch (error: any) {
+      // toast.error(error.response.data.email[0]);
+    }
+  };
 
   return (
     <div className="grow">
@@ -61,6 +85,9 @@ const Settings = () => {
                 </p>
                 <p
                   className={`${settingtyles.userSettings} ${settingtyles.mtB}`}
+                  onClick={() => {
+                    changePassword();
+                  }}
                 >
                   Change Password
                 </p>

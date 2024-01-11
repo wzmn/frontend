@@ -61,7 +61,7 @@ const ForgotPassword = () => {
             isLoading={isSubmitting}
             disabled={isSubmitting}
             width="full"
-            title="FORGOT PASSWORD"
+            title="RESET PASSWORD"
             className="mt-6 font-bold"
             name="forgot-btn"
             type="submit"
