@@ -9,8 +9,8 @@ import { Link, PageProps } from "gatsby";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import { ImAttachment } from "react-icons/im";
-import { IoCallOutline } from "react-icons/io5";
+import { ImAttachment, ImSpinner10 } from "react-icons/im";
+import { IoCallOutline, IoLocationOutline } from "react-icons/io5";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { TfiEmail } from "react-icons/tfi";
 import { request } from "services/http-request";
@@ -44,6 +44,8 @@ const CustomerDetails = (props: PageProps) => {
     },
     []
   );
+
+  const [loading, setLoading] = useState(false);
 
   const {
     response: reminderResp,
@@ -82,12 +84,15 @@ const CustomerDetails = (props: PageProps) => {
 
   async function fetchData() {
     try {
+      setLoading(true);
       const response = await request<Result>({
         url: CUSTOMER_LISTING + customerId,
       });
       setData(() => response?.data);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -131,6 +136,36 @@ const CustomerDetails = (props: PageProps) => {
 
                     <span className={styles.contact}>{data?.user?.phone}</span>
                   </div>
+
+                  <div className="user-address">
+                    <span className={styles.icon}>
+                      <IoLocationOutline className={styles.icon} />
+                    </span>
+
+                    <span className={styles.contact}>
+                      {/* {data?.user?.groups || "N/A"} */}
+                      {`
+                    ${
+                      data?.address?.building_number
+                        ? data?.address?.building_number
+                        : ""
+                    } ${
+                        data?.address?.street_number
+                          ? data?.address?.street_number
+                          : ""
+                      } ${
+                        data?.address?.street_name
+                          ? data.address?.street_name
+                          : ""
+                      }
+                    
+                    ${data?.address?.suburb ? data.address?.suburb : ""}
+
+                    ${data?.address?.state ? data.address?.state : ""} ${
+                        data?.address?.pincode ? data.address?.pincode : ""
+                      }`}
+                    </span>
+                  </div>
                 </div>
 
                 <Divider />
@@ -139,7 +174,15 @@ const CustomerDetails = (props: PageProps) => {
                   <span className={styles.bold}>
                     Customer Created by: &nbsp;{" "}
                   </span>
-                  {data?.customer_created_by.created_by} &nbsp;
+                  {`${
+                    data?.customer_created_by?.user.first_name
+                      ? data?.customer_created_by?.user.first_name
+                      : "N/A"
+                  } ${
+                    data?.customer_created_by?.user.last_name
+                      ? data?.customer_created_by?.user.last_name
+                      : "N/A"
+                  }`}{" "}
                   <span className={styles.tag2}>
                     {moment(data?.user?.created_at).format(
                       "DD/MM/yyyy HH:MM a"
@@ -250,10 +293,35 @@ const CustomerDetails = (props: PageProps) => {
 
         <FormSection title="Job">
           <FormWraper>
-            <div className={additionalStyles.cardCont}>
-              {jobResp?.results?.map((item) => {
-                return <List key={item.id} data={item} index={1} loading />;
-              })}
+            <div className={additionalStyles.cardCont + " relative"}>
+              {jobResp?.results?.length! > 0 ? (
+                jobResp?.results?.map((item) => {
+                  return <List key={item.id} data={item} index={1} loading />;
+                })
+              ) : (
+                <>
+                  {loading ? (
+                    <>
+                      <div className="absolute left-3 top-0 text-blue-500">
+                        <ImSpinner10 className="animate-spin" />
+                      </div>
+                    </>
+                  ) : (
+                    <div className="flex justify-between w-full items-center">
+                      No Job{" "}
+                      {/* <Link to="#">
+                  <Button
+                    width="full"
+                    title="Create Appointment"
+                    icon={<AiOutlinePlus />}
+                    className="flex-row-reverse justify-between"
+                  />
+                </Link> */}
+                    </div>
+                  )}
+                </>
+              )}
+              {}
             </div>
           </FormWraper>
         </FormSection>

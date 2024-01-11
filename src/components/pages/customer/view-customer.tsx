@@ -96,20 +96,22 @@ const ViewCustomer = ({ data }: { data: CustomerResult }) => {
                     {/* {data?.user?.groups || "N/A"} */}
                     {`
                     ${
-                      data.address?.building_number
+                      data?.address?.building_number
                         ? data.address?.building_number
                         : ""
                     } ${
-                      data.address?.street_number
+                      data?.address?.street_number
                         ? data.address?.street_number
                         : ""
                     } ${
-                      data.address?.street_name ? data.address?.street_name : ""
+                      data?.address?.street_name
+                        ? data.address?.street_name
+                        : ""
                     }
                     
-                    ${data.address?.suburb ? data.address?.suburb : ""}
+                    ${data?.address?.suburb ? data.address?.suburb : ""}
 
-${data.address?.state ? data.address?.state : ""} ${
+                    ${data?.address?.state ? data.address?.state : ""} ${
                       data.address?.pincode ? data.address?.pincode : ""
                     }`}
                   </span>
@@ -145,7 +147,16 @@ ${data.address?.state ? data.address?.state : ""} ${
 
       <p className={`${styles.name} ${styles.createBy}`}>
         <span className={styles.bold}>Customer Created by: &nbsp; </span>
-        {data?.customer_created_by?.created_by || "N/A"} <br />
+        {`${
+          data?.customer_created_by?.user.first_name
+            ? data?.customer_created_by?.user.first_name
+            : "N/A"
+        } ${
+          data?.customer_created_by?.user.last_name
+            ? data?.customer_created_by?.user.last_name
+            : "N/A"
+        }`}{" "}
+        <br />
         <span className={styles.tag}>
           Created on:{" "}
           {moment(data.user?.created_at).format("DD/MM/yyyy HH:MM a")}
