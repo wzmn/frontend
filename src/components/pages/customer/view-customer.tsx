@@ -59,7 +59,6 @@ const ViewCustomer = ({ data }: { data: CustomerResult }) => {
                   <span className={styles.bold}>Customer Name:</span>{" "}
                   <span className={styles.normal}>
                     {data?.user?.first_name}&nbsp;{data?.user?.last_name}
-                    {data?.user?.first_name + " " + data?.user?.last_name}
                   </span>
                 </p>
                 <p className={styles.tag}>
@@ -95,7 +94,20 @@ const ViewCustomer = ({ data }: { data: CustomerResult }) => {
 
                   <span className={styles.contact}>
                     {data?.user?.groups || "N/A"}
-                    NO API
+                    {`
+                    ${
+                      data.address?.building_number
+                        ? data.address?.building_number
+                        : ""
+                    } ${
+                      data.address?.street_number
+                        ? data.address?.street_number
+                        : ""
+                    } ${
+                      data.address?.street_name ? data.address?.street_name : ""
+                    }
+                    
+                    ${data.address?.suburb ? data.address?.suburb : ""}`}
                   </span>
                 </div>
               </div>
@@ -114,11 +126,12 @@ const ViewCustomer = ({ data }: { data: CustomerResult }) => {
         </p>
 
         <p className={styles.additionalInfo}>
-          <span className={styles.title}>State: &nbsp;</span>NO API
+          <span className={styles.title}>State: &nbsp;</span>
+          {data?.address?.state}
         </p>
 
         <p className={styles.additionalInfo}>
-          <span className={styles.title}>LGA: &nbsp;</span> NO API
+          <span className={styles.title}>LGA: &nbsp;</span> {data.address?.lga}
         </p>
       </div>
 
@@ -128,7 +141,7 @@ const ViewCustomer = ({ data }: { data: CustomerResult }) => {
 
       <p className={`${styles.name} ${styles.createBy}`}>
         <span className={styles.bold}>Customer Created by: &nbsp; </span>
-        {data?.customer_created_by.created_by || "N/A"} <br />
+        {data?.customer_created_by?.created_by || "N/A"} <br />
         <span className={styles.tag}>
           Created on:{" "}
           {moment(data.user?.created_at).format("DD/MM/yyyy HH:MM a")}
