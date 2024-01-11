@@ -45,6 +45,7 @@ import companyIdFetcher from "services/company-id-fetcher";
 import { IoIosArrowDown } from "react-icons/io";
 import { TbCircuitSwitchClosed } from "react-icons/tb";
 import { SortFilter } from "components/pages/common";
+import { EmpList } from "components/pages/employee/emp-list";
 
 type DropItemType = { id: number; section: EmployeeRole };
 const selectionRangeInit = {
@@ -306,7 +307,10 @@ const Employees = () => {
                           loading={dragItem.status}
                         >
                           <>
-                            <List loading={dragItem.status} data={dragItem} />
+                            <EmpList
+                              loading={dragItem.status}
+                              data={dragItem}
+                            />
                           </>
                         </Drage>
                       </Fragment>
@@ -367,67 +371,5 @@ const Employees = () => {
     </>
   );
 };
-
-export function List({
-  data,
-  loading,
-}: {
-  data: EmployeeDataStateType;
-  loading: boolean;
-}) {
-  const { card, cardInfo, contactInfo, icon, contact } = commonStyles;
-  const { open, setElement, toggle } = useRightBarContext();
-
-  return (
-    <div
-      onClick={() => {
-        !open && toggle();
-
-        setElement(
-          <ViewEmp data={data} />,
-          `Employee ID: ${data.id}`,
-          <>
-            <IoEyeOutline
-              onClick={() => {
-                window.open(`employee-details/?employee=${data.id}`, "_blank");
-              }}
-            />
-          </>
-        );
-      }}
-    >
-      <div className={card}>
-        <div className="absolute right-3 top-1">
-          <ImSpinner10 className="animate-spin" />
-        </div>
-        <div className={cardInfo}>
-          <p className="title">{data.user?.first_name}</p>
-          <span className="">
-            {" "}
-            created on: {moment(data.user?.created_at).format("ddd DD")} at{" "}
-            {moment(data?.user?.created_at).format("h:mm a")}
-          </span>
-        </div>
-        <div className={contactInfo}>
-          <div className="">
-            <span className={icon}>
-              <TfiEmail className={icon} />
-            </span>
-
-            <span className={contact}>{data.user?.email}</span>
-          </div>
-
-          <div className="">
-            <span className={icon}>
-              <IoCallOutline className={icon} />
-            </span>
-
-            <span className={contact}>{data.user?.phone}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 export default Employees;

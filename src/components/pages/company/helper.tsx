@@ -8,6 +8,10 @@ import { TfiEmail } from "react-icons/tfi";
 import * as styles from "styles/pages/common.module.scss";
 import { CompanyExtraDataType } from "type/company";
 import ViewCompany from "./view-company";
+import { toast } from "react-toastify";
+import { request } from "services/http-request";
+import { COMPANY_LISTING } from "constants/api";
+import HLessMenu from "components/h-less-menu";
 
 export function List({
   data,
@@ -26,6 +30,23 @@ export function List({
   };
   const { open, setElement, toggle } = useRightBarContext();
 
+  async function deleteCompany() {
+    try {
+      toggle();
+      const response = await toast.promise(
+        request({
+          url: COMPANY_LISTING + data.id + "/",
+          method: "delete",
+        }),
+        {
+          pending: "Wait...",
+          success: "Deleted ",
+          error: "Cannot delete try again later",
+        }
+      );
+    } catch (error) {}
+  }
+
   return (
     <div
       onClick={() => {
@@ -39,6 +60,7 @@ export function List({
                 window.open(`company-details/?company=${data.id}`, "_blank");
               }}
             />
+            <HLessMenu deleteFun={deleteCompany} />
           </>
         );
       }}

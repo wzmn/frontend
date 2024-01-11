@@ -1,7 +1,7 @@
-import React from "react";
 import { useRightBarContext } from "providers/right-bar-provider";
-import { JobDataStateType } from "type/job";
-import ViewJob from "./view-job";
+import React from "react";
+import { EmployeeDataStateType } from "type/employee";
+import ViewEmp from "./view-emp";
 import { IoCallOutline, IoEyeOutline } from "react-icons/io5";
 import { ImSpinner10 } from "react-icons/im";
 import moment from "moment";
@@ -9,25 +9,25 @@ import { TfiEmail } from "react-icons/tfi";
 import * as commonStyles from "styles/pages/common.module.scss";
 import { request } from "services/http-request";
 import { toast } from "react-toastify";
+import { EMPLOYEE_LISTING } from "constants/api";
 import HLessMenu from "components/h-less-menu";
-import { JOB_LISTING } from "constants/api";
 
-export default function JobList({
+export function EmpList({
   data,
   loading,
 }: {
-  data: JobDataStateType;
+  data: EmployeeDataStateType;
   loading: boolean;
 }) {
   const { card, cardInfo, contactInfo, icon, contact } = commonStyles;
   const { open, setElement, toggle } = useRightBarContext();
 
-  async function deleteJob() {
+  async function deleteEmp() {
     try {
       toggle();
       const response = await toast.promise(
         request({
-          url: JOB_LISTING + data.id + "/",
+          url: EMPLOYEE_LISTING + data.id + "/",
           method: "delete",
         }),
         {
@@ -45,16 +45,16 @@ export default function JobList({
         !open && toggle();
 
         setElement(
-          <ViewJob data={data} />,
-          `Job ID: ${data.id}`,
+          <ViewEmp data={data} />,
+          `Employee ID: ${data.id}`,
           <>
             <IoEyeOutline
               onClick={() => {
-                window.open(`job-details/?job=${data.id}`, "_blank");
+                window.open(`employee-details/?employee=${data.id}`, "_blank");
               }}
             />
 
-            <HLessMenu deleteFun={deleteJob} />
+            <HLessMenu deleteFun={deleteEmp} />
           </>
         );
       }}
@@ -64,12 +64,11 @@ export default function JobList({
           <ImSpinner10 className="animate-spin" />
         </div>
         <div className={cardInfo}>
-          <p className="title">{data?.customer?.user?.first_name}</p>
+          <p className="title">{data.user?.first_name}</p>
           <span className="">
             {" "}
-            created on:{" "}
-            {moment(data?.customer?.user?.created_at).format("ddd DD")} at{" "}
-            {moment(data?.created_at).format("h:mm a")}
+            created on: {moment(data.user?.created_at).format("ddd DD")} at{" "}
+            {moment(data?.user?.created_at).format("h:mm a")}
           </span>
         </div>
         <div className={contactInfo}>
@@ -78,7 +77,7 @@ export default function JobList({
               <TfiEmail className={icon} />
             </span>
 
-            <span className={contact}>{data?.customer?.user?.email}</span>
+            <span className={contact}>{data.user?.email}</span>
           </div>
 
           <div className="">
@@ -86,7 +85,7 @@ export default function JobList({
               <IoCallOutline className={icon} />
             </span>
 
-            <span className={contact}>{data?.customer?.user?.phone}</span>
+            <span className={contact}>{data.user?.phone}</span>
           </div>
         </div>
       </div>

@@ -62,7 +62,7 @@ const ViewCustomer = ({ data }: { data: CustomerResult }) => {
                   </span>
                 </p>
                 <p className={styles.tag}>
-                  {moment(data.user?.created_at).format("DD-MM-yyyy HH:MM a")}
+                  {moment(data.user?.created_at).format("DD/MM/yyyy HH:MM a")}
                 </p>
               </div>
               <FaChevronDown
@@ -93,7 +93,7 @@ const ViewCustomer = ({ data }: { data: CustomerResult }) => {
                   </span>
 
                   <span className={styles.contact}>
-                    {data?.user?.groups || "N/A"}
+                    {/* {data?.user?.groups || "N/A"} */}
                     {`
                     ${
                       data.address?.building_number
@@ -107,7 +107,11 @@ const ViewCustomer = ({ data }: { data: CustomerResult }) => {
                       data.address?.street_name ? data.address?.street_name : ""
                     }
                     
-                    ${data.address?.suburb ? data.address?.suburb : ""}`}
+                    ${data.address?.suburb ? data.address?.suburb : ""}
+
+${data.address?.state ? data.address?.state : ""} ${
+                      data.address?.pincode ? data.address?.pincode : ""
+                    }`}
                   </span>
                 </div>
               </div>

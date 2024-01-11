@@ -34,8 +34,6 @@ export default function CustList({
   // target="_blank" href={`customer-details/?customer=${data.id}`}
   const { open, setElement, toggle } = useRightBarContext();
 
-  const { fetchData } = usefetchData({});
-
   async function deleteCust() {
     try {
       toggle();
@@ -50,7 +48,6 @@ export default function CustList({
           error: "Cannot delete try again later",
         }
       );
-      fetchData();
     } catch (error) {}
   }
 
