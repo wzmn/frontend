@@ -6,17 +6,43 @@ export interface Result {
   id: number;
   user: User;
   company: Company;
-  assigned_to: AssignedTo | null;
+  assigned_to: AssignedTo;
   role: string;
+  address: Address | null;
+  customer_created_by: AssignedTo | null;
   ref_id: null;
-  created_at: string;
-  updated_at: string;
-  customer_type: null | string;
-  customer_created_by: AssignedTo;
-  cust_status: CustomerStatus;
+  created_at: Date;
+  updated_at: Date;
+  customer_type: string;
+  cust_status: string;
   is_active: boolean;
-  company_name: null;
-  abn: null;
+  company_name: null | string;
+  abn: null | string;
+  sms_consent_type: string;
+}
+
+export interface Address {
+  id: number;
+  ref_id: null;
+  created_at: Date;
+  updated_at: Date;
+  is_active: boolean;
+  building_number: string;
+  level_number: string;
+  unit_type: string;
+  unit_number: string;
+  lot_number: string;
+  street_number: string;
+  street_name: string;
+  street_type: string;
+  suffix: string;
+  suburb: string;
+  state: string;
+  lat: null;
+  long: null;
+  lga: string;
+  pincode: string;
+  user: number;
 }
 
 export interface AssignedTo {
