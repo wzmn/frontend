@@ -12,7 +12,7 @@ export interface Result {
   created_at: string;
   updated_at: string;
   customer_type: null | string;
-  customer_created_by: null | string;
+  customer_created_by: AssignedTo;
   cust_status: CustomerStatus;
   is_active: boolean;
   company_name: null;

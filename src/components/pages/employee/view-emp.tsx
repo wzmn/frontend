@@ -18,14 +18,14 @@ const ViewEmp = ({ data }: { data: Result }) => {
           <>
             <Disclosure.Button className={styles.details}>
               <div className="">
-                <p className="">
+                <p className="text-left">
                   <span className={styles.bold}>Employee Name:</span>{" "}
                   <span className={styles.normal}>
                     {data?.user?.first_name + " " + data?.user?.last_name}
                   </span>
                 </p>
                 <p className={styles.tag}>
-                  {moment(data?.user?.created_at).format("DD-MM-yyyy HH:MM a")}
+                  {moment(data?.user?.created_at).format("DD/MM/yyyy HH:MM a")}
                 </p>
               </div>
               <FaChevronDown
@@ -62,7 +62,7 @@ const ViewEmp = ({ data }: { data: Result }) => {
         <span className={styles.bold}>Employee Created by: &nbsp; </span>
         {data?.created_by} &nbsp;
         <p className={styles.tag}>
-          {moment(data?.user?.created_at).format("DD-MM-yyyy HH:MM a")}
+          {moment(data?.user?.created_at).format("DD/MM/yyyy HH:MM a")}
         </p>
       </p>
       <div className="mt-3">

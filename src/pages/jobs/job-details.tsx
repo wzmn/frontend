@@ -5,7 +5,7 @@ import FormWraper from "components/form-wrapper";
 import Input from "components/input";
 import Radio from "components/radio";
 import { JOB_LISTING } from "constants/api";
-import { PageProps, navigate } from "gatsby";
+import { Link, PageProps, navigate } from "gatsby";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
@@ -21,6 +21,8 @@ import * as additionalStyles from "styles/pages/additional.module.scss";
 import { LuClipboardList } from "react-icons/lu";
 import TextButton from "components/text-button";
 import { GoPlus } from "react-icons/go";
+import { AiOutlinePlus } from "react-icons/ai";
+import Button from "components/button";
 
 const JobDetails = (props: PageProps) => {
   const { location } = props;
@@ -63,7 +65,7 @@ const JobDetails = (props: PageProps) => {
   }, []);
 
   return (
-    <>
+    <div className="grow">
       <p className={styles.title}>Job ID: {data?.id}</p>
 
       <div className="space-y-16 mb-3">
@@ -103,10 +105,10 @@ const JobDetails = (props: PageProps) => {
 
                 <p className={`${styles.name} ${styles.createBy}`}>
                   <span className={styles.bold}>Job Created by: &nbsp; </span>
-                  Superadmin/Jackson &nbsp;
+                  {data.job_created_by} &nbsp;
                   <span className={styles.tag2}>
                     {moment(data?.customer?.user?.created_at).format(
-                      "DD-MM-yyyy HH:MM a"
+                      "DD/MM/yyyy HH:MM a"
                     )}
                   </span>
                 </p>
@@ -120,13 +122,8 @@ const JobDetails = (props: PageProps) => {
 
                   <div className={styles.roles}>
                     <Radio
-                      label="WAITING"
-                      checked={data?.job_status === "waiting"}
-                    />
-                    <Radio label="OPEN" checked={data?.job_status === "open"} />
-                    <Radio
-                      label="CLOSE"
-                      checked={data?.job_status === "close"}
+                      label={data?.job_status?.toUpperCase()!}
+                      checked={true}
                     />
                   </div>
                 </div>
@@ -212,7 +209,7 @@ const JobDetails = (props: PageProps) => {
         <FormSection title="Appointment">
           <FormWraper>
             <>
-              <div className={additionalStyles.cardCont}>
+              {/* <div className={additionalStyles.cardCont}>
                 {[1, 2, 3, 4].map((item) => {
                   return <List key={item} data={{}} index={1} loading />;
                 })}
@@ -226,7 +223,18 @@ const JobDetails = (props: PageProps) => {
                     state: data,
                   });
                 }}
-              />
+              /> */}
+              <div className="flex justify-between w-full items-center">
+                No Appointment{" "}
+                <Link to="#">
+                  <Button
+                    width="full"
+                    title="Create Appointment"
+                    icon={<AiOutlinePlus />}
+                    className="flex-row-reverse justify-between"
+                  />
+                </Link>
+              </div>
             </>
           </FormWraper>
         </FormSection>
@@ -250,7 +258,7 @@ const JobDetails = (props: PageProps) => {
           </div>
         </FormSection>
       </div>
-    </>
+    </div>
   );
 };
 

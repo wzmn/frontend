@@ -45,7 +45,8 @@ export default function JobList({
           <span className="">
             {" "}
             created on:{" "}
-            {moment(data?.customer?.user?.created_at).format("ddd DD, h:mm a")}
+            {moment(data?.customer?.user?.created_at).format("ddd DD")} at{" "}
+            {moment(data?.created_at).format("h:mm a")}
           </span>
         </div>
         <div className={contactInfo}>

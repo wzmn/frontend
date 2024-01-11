@@ -93,8 +93,10 @@ export default function CustList({
           <p className="title">{data.user?.first_name}</p>
           <span className="">
             {" "}
-            <div>Created on: {moment(data?.created_at).format("ddd DD")}</div>
-            at {moment(data?.created_at).format("h:mm a")}
+            <div>
+              Created on: {moment(data?.created_at).format("ddd DD")} at{" "}
+              {moment(data?.created_at).format("h:mm a")}
+            </div>
           </span>
         </div>
         <div className={styles.contactInfo}>

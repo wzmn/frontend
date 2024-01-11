@@ -139,10 +139,10 @@ const CustomerDetails = (props: PageProps) => {
                   <span className={styles.bold}>
                     Customer Created by: &nbsp;{" "}
                   </span>
-                  {data?.customer_created_by} &nbsp;
+                  {data?.customer_created_by.created_by} &nbsp;
                   <span className={styles.tag2}>
                     {moment(data?.user?.created_at).format(
-                      "DD-MM-yyyy HH:MM a"
+                      "DD/MM/yyyy HH:MM a"
                     )}
                   </span>
                 </p>

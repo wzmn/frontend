@@ -84,7 +84,9 @@ const AppointmentDetails = (props: PageProps) => {
                   <span className={styles.bold}>
                     Scheduled Date & Time : &nbsp;{" "}
                   </span>
-                  {` ${data?.assessment_scheduled_on}`}
+                  {` ${moment(data?.assessment_scheduled_on).format(
+                    "DD/MM/yyyy HH:MM a"
+                  )}`}
                 </p>
 
                 <Divider />
@@ -150,7 +152,7 @@ const AppointmentDetails = (props: PageProps) => {
 
                   <span className={styles.tag2}>
                     {moment(data?.job?.customer?.user?.created_at).format(
-                      "DD-MM-yyyy HH:MM a"
+                      "DD/MM/yyyy HH:MM a"
                     )}
                   </span>
                 </p>

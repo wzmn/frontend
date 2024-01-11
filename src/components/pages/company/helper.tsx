@@ -56,7 +56,8 @@ export function List({
           <p className="">{data.company_name}</p>
           <span className="">
             {" "}
-            created on: {moment(data.created_at).format("ddd DD MM,  hh mm a")}
+            created on: {moment(data.created_at).format("ddd DD")} at{" "}
+            {moment(data?.created_at).format("h:mm a")}
           </span>
         </div>
         <div className={styles.contactInfo}>

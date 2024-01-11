@@ -423,7 +423,10 @@ export function List({
           <span className="">
             {" "}
             created on:{" "}
-            {moment(data?.job?.customer?.user?.created_at).format("ddd, MM a")}
+            {moment(data?.job?.customer?.user?.created_at).format(
+              "ddd DD"
+            )} at{" "}
+            {moment(data?.job?.customer?.user?.created_at).format("h:mm a")}
           </span>
         </div>
         <div className={contactInfo}>
