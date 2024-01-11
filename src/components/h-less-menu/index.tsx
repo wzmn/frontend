@@ -5,19 +5,11 @@ import { BsThreeDots } from "react-icons/bs";
 import { toast } from "react-toastify";
 import { request } from "services/http-request";
 
-export default function HLessMenu() {
-  async function fet() {
-    const response = await toast.promise(
-      request({
-        url: CUSTOMER_LISTING,
-      }),
-      {
-        pending: "Promise is pending",
-        success: "Promise resolved 👌",
-        error: "Promise rejected 🤯",
-      }
-    );
-  }
+export default function HLessMenu({
+  deleteFun,
+}: {
+  deleteFun: () => Promise<void>;
+}) {
   return (
     <div className="text-right">
       <Menu as="div" className="relative inline-block text-left">
@@ -43,7 +35,7 @@ export default function HLessMenu() {
                 {({ active }) => (
                   <button
                     onClick={() => {
-                      fet();
+                      deleteFun();
                     }}
                     className={`${
                       active ? "bg-violet-500 text-white" : "text-gray-900"

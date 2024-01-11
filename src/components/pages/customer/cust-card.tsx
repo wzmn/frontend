@@ -13,6 +13,10 @@ import { ActionBtn } from "../common";
 
 import * as common from "components/pages/common/common.module.scss";
 import HLessMenu from "components/h-less-menu";
+import { request } from "services/http-request";
+import { toast } from "react-toastify";
+import { CUSTOMER_LISTING } from "constants/api";
+import { usefetchData } from "./helper";
 
 const cssStyles: CSSProperties = {
   width: "8rem",
@@ -29,6 +33,26 @@ export default function CustList({
 }) {
   // target="_blank" href={`customer-details/?customer=${data.id}`}
   const { open, setElement, toggle } = useRightBarContext();
+
+  const { fetchData } = usefetchData({});
+
+  async function deleteCust() {
+    try {
+      toggle();
+      const response = await toast.promise(
+        request({
+          url: CUSTOMER_LISTING + data.id + "/",
+          method: "delete",
+        }),
+        {
+          pending: "Promise is pending",
+          success: "Deleted ",
+          error: "Cannot delete try again later",
+        }
+      );
+      fetchData();
+    } catch (error) {}
+  }
 
   return (
     <div
@@ -56,7 +80,7 @@ export default function CustList({
                 <ActionBtn />
               </Menu>
             </div> */}
-            <HLessMenu />
+            <HLessMenu deleteFun={deleteCust} />
           </>
         );
       }}

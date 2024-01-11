@@ -64,7 +64,7 @@ export function List({
             <span className={styles.icon}>
               <TfiEmail className={styles.icon} />
             </span>
-            <span className={styles.contact}>{data.company_email}</span>
+            <span className={styles.contact}>{data?.company_owner?.email}</span>
           </div>
 
           <div className="">
@@ -72,7 +72,7 @@ export function List({
               <IoCallOutline className={styles.icon} />
             </span>
 
-            <span className={styles.contact}>{data.company_mobile_phone}</span>
+            <span className={styles.contact}>{data?.company_owner?.phone}</span>
           </div>
         </div>
       </div>

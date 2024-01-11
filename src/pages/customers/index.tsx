@@ -36,6 +36,7 @@ import { debounce } from "utility/debounce";
 import { findMatchingId } from "utility/find-matching-id";
 import { TbCircuitSwitchClosed } from "react-icons/tb";
 import { SortFilter } from "components/pages/common";
+import { usefetchData } from "components/pages/customer/helper";
 
 type DropItemType = { id: number; section: CustomerStatus };
 
@@ -71,7 +72,7 @@ const Customers = () => {
   });
 
   // For skeleton
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
   const [selectionRange, setSelectionRange] = useState(selectionRangeInit);
   const [sort, setSort] = useState(sortType[0].value);
@@ -87,6 +88,20 @@ const Customers = () => {
 
   const userRole = UserIdentifyer();
   const id = companyIdFetcher(userRole);
+
+  const { fetchData, loading } = usefetchData({
+    params: {
+      limit: pagination.limit,
+      offset: pagination.offset,
+      company__id: id,
+      ordering: sort,
+      created_at__gte: selectionRange.startDate,
+      created_at__lte: selectionRange.endDate,
+    },
+    data,
+    setData,
+    setPagination,
+  });
 
   function getColumnColor(int: number) {
     const colors = [
@@ -156,51 +171,51 @@ const Customers = () => {
     }
   }
 
-  async function fetchData(params?: Record<any, any>) {
-    try {
-      setLoading(true);
-      const response = await request<CustomerDataType>({
-        url: CUSTOMER_LISTING,
-        params: {
-          limit: pagination.limit,
-          offset: pagination.offset,
-          company__id: id,
-          ordering: sort,
-          created_at__gte: selectionRange.startDate,
-          created_at__lte: selectionRange.endDate,
-          ...params,
-        },
-      });
+  // async function fetchData(params?: Record<any, any>) {
+  //   try {
+  //     setLoading(true);
+  //     const response = await request<CustomerDataType>({
+  //       url: CUSTOMER_LISTING,
+  //       params: {
+  //         limit: pagination.limit,
+  //         offset: pagination.offset,
+  //         company__id: id,
+  //         ordering: sort,
+  //         created_at__gte: selectionRange.startDate,
+  //         created_at__lte: selectionRange.endDate,
+  //         ...params,
+  //       },
+  //     });
 
-      const filterData = { ...data } as Record<
-        CustomerStatus,
-        CustomerDataExtraType[]
-      >;
+  //     const filterData = { ...data } as Record<
+  //       CustomerStatus,
+  //       CustomerDataExtraType[]
+  //     >;
 
-      //this is to make all record empty before calling this function otherwise it will stack
-      Object.keys(data).map(
-        (item) => (filterData[item as CustomerStatus].length = 0)
-      );
+  //     //this is to make all record empty before calling this function otherwise it will stack
+  //     Object.keys(data).map(
+  //       (item) => (filterData[item as CustomerStatus].length = 0)
+  //     );
 
-      setPagination((prev) => ({
-        ...prev,
-        totalRecords: Number(response?.data?.count),
-      }));
+  //     setPagination((prev) => ({
+  //       ...prev,
+  //       totalRecords: Number(response?.data?.count),
+  //     }));
 
-      response?.data?.results?.forEach((item) => {
-        filterData[item.cust_status].push({
-          ...item,
-          status: false,
-        } as CustomerDataExtraType);
-      });
+  //     response?.data?.results?.forEach((item) => {
+  //       filterData[item.cust_status].push({
+  //         ...item,
+  //         status: false,
+  //       } as CustomerDataExtraType);
+  //     });
 
-      setData(() => filterData);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  }
+  //     setData(() => filterData);
+  //   } catch (error) {
+  //     console.log(error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // }
 
   const handleSearch = debounce((e: ChangeEvent<HTMLInputElement>) => {
     fetchData({ search: e.target.value });

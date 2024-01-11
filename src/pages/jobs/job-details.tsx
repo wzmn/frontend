@@ -135,7 +135,7 @@ const JobDetails = (props: PageProps) => {
           </div>
         </FormSection>
 
-        <FormSection title="Attachments">
+        {/* <FormSection title="Attachments">
           <form className="flex-1" onSubmit={handleSubmit(onSubmit)}>
             <FormWraper>
               <>
@@ -143,7 +143,7 @@ const JobDetails = (props: PageProps) => {
                   {fields.map((item, index: number) => {
                     return (
                       <>
-                        {/* <div className={styles.file}> */}
+                        
                         <DNDImage
                           setFiles={(e) => {
                             setValue(`attachments.${index}.file`, e);
@@ -152,7 +152,7 @@ const JobDetails = (props: PageProps) => {
                             setFiles(() => list);
                           }}
                         />
-                        {/* </div> */}
+                        
 
                         <aside className={companyStyles.preview}>
                           {files[index] ? (
@@ -207,7 +207,7 @@ const JobDetails = (props: PageProps) => {
               </>
             </FormWraper>
           </form>
-        </FormSection>
+        </FormSection> */}
 
         <FormSection title="Appointment">
           <FormWraper>

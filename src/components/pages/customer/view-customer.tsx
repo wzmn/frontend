@@ -184,7 +184,7 @@ const ViewCustomer = ({ data }: { data: CustomerResult }) => {
       <div className={styles.divider}>
         <Divider />
       </div>
-      <Disclosure>
+      {/* <Disclosure>
         {({ open }) => (
           <>
             <Disclosure.Button
@@ -236,7 +236,7 @@ const ViewCustomer = ({ data }: { data: CustomerResult }) => {
           icon={<AiOutlinePlus />}
           className="flex-row-reverse justify-between"
         />
-      </Link>
+      </Link> */}
     </div>
   );
 };

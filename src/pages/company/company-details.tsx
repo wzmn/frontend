@@ -76,7 +76,7 @@ const CompanyDetails = (props: PageProps) => {
                     </span>
 
                     <span className={styles.contact}>
-                      {data?.company_email}
+                      {data?.company_owner?.email}
                     </span>
                   </div>
 
@@ -86,7 +86,7 @@ const CompanyDetails = (props: PageProps) => {
                     </span>
 
                     <span className={styles.contact}>
-                      {data?.company_mobile_phone}
+                      {data?.company_owner?.phone}
                     </span>
                   </div>
 
@@ -96,7 +96,8 @@ const CompanyDetails = (props: PageProps) => {
                     </span>
 
                     <span className={styles.contact}>
-                      {data?.company_address || "N/A"}
+                      {/* {data?.company_address || "N/A"} */}
+                      N/A
                     </span>
                   </div>
                 </div>
@@ -107,7 +108,7 @@ const CompanyDetails = (props: PageProps) => {
                   <span className={styles.bold}>
                     Company Created by: &nbsp;{" "}
                   </span>
-                  Superadmin/Jackson &nbsp;
+                  {/* &nbsp; */}
                   <span className={styles.tag2}>
                     {moment(data?.created_at).format("DD-MM-yyyy HH:MM a")}
                   </span>
@@ -122,24 +123,9 @@ const CompanyDetails = (props: PageProps) => {
 
                   <div className={styles.roles}>
                     <Radio
-                      label="DOCUMENT REVIEW"
+                      label={data?.company_status!}
                       name="status"
-                      checked={data?.company_status === "document review"}
-                    />
-                    <Radio
-                      label="OPERATIONAL"
-                      name="status"
-                      checked={data?.company_status === "operational"}
-                    />
-                    <Radio
-                      label="REJECTED"
-                      name="status"
-                      checked={data?.company_status === "rejected"}
-                    />
-                    <Radio
-                      label="UPLOAD INFO"
-                      name="status"
-                      checked={data?.company_status === "upload info"}
+                      checked={true}
                     />
                   </div>
                 </div>
@@ -208,7 +194,7 @@ const CompanyDetails = (props: PageProps) => {
                     );
                   })}
                 </div>
-                <p
+                {/* <p
                   className={styles.addAttachments}
                   onClick={() => append({ file: null })}
                 >
@@ -216,7 +202,7 @@ const CompanyDetails = (props: PageProps) => {
                   <span className="icon">
                     <ImAttachment />
                   </span>
-                </p>
+                </p> */}
               </>
             </FormWraper>
           </form>

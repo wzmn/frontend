@@ -39,7 +39,9 @@ const ViewCompany = ({ data }: { data: CompanyExtraDataType }) => {
                     <TfiEmail className={styles.icon} />
                   </span>
 
-                  <span className={styles.contact}>{data?.company_email}</span>
+                  <span className={styles.contact}>
+                    {data?.company_owner?.email}
+                  </span>
                 </div>
 
                 <div className="">
@@ -48,7 +50,7 @@ const ViewCompany = ({ data }: { data: CompanyExtraDataType }) => {
                   </span>
 
                   <span className={styles.contact}>
-                    {data?.company_mobile_phone}
+                    {data?.company_owner?.phone}
                   </span>
                 </div>
 
