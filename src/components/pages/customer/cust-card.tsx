@@ -45,7 +45,7 @@ export default function CustList({
           method: "delete",
         }),
         {
-          pending: "Promise is pending",
+          pending: "Wait...",
           success: "Deleted ",
           error: "Cannot delete try again later",
         }
