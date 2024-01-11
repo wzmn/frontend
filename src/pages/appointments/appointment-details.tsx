@@ -60,10 +60,10 @@ const AppointmentDetails = (props: PageProps) => {
 
   return (
     <div className="grow">
-      <p className={styles.title}>Appointmnet ID: {data?.id}</p>
+      <p className={styles.title}>Appointmet ID: {data?.id}</p>
 
       <div className="space-y-16 mb-3">
-        <FormSection title="Appointmnet Details">
+        <FormSection title="Appointmet Details">
           <div className="flex-1">
             <FormWraper>
               <>
@@ -93,7 +93,7 @@ const AppointmentDetails = (props: PageProps) => {
 
                 <div className={styles.userRole}>
                   <p className={styles.name}>
-                    <span className={styles.bold}>Employee Role</span>
+                    <span className={styles.bold}>Appt Status</span>
                   </p>
 
                   <div className={styles.roles}>
@@ -163,7 +163,7 @@ const AppointmentDetails = (props: PageProps) => {
           </div>
         </FormSection>
 
-        <FormSection title="Comments">
+        {/* <FormSection title="Comments">
           <div className="flex-1">
             <FormWraper>
               <>
@@ -180,7 +180,7 @@ const AppointmentDetails = (props: PageProps) => {
               </>
             </FormWraper>
           </div>
-        </FormSection>
+        </FormSection> */}
       </div>
     </div>
   );

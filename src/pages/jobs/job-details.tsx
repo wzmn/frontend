@@ -108,7 +108,7 @@ const JobDetails = (props: PageProps) => {
                   {data.job_created_by} &nbsp;
                   <span className={styles.tag2}>
                     {moment(data?.customer?.user?.created_at).format(
-                      "DD/MM/yyyy HH:MM a"
+                      "DD/MM/yyyy hh:mm a"
                     )}
                   </span>
                 </p>
@@ -226,14 +226,14 @@ const JobDetails = (props: PageProps) => {
               /> */}
               <div className="flex justify-between w-full items-center">
                 No Appointment{" "}
-                <Link to="#">
+                {/* <Link to="#">
                   <Button
                     width="full"
                     title="Create Appointment"
                     icon={<AiOutlinePlus />}
                     className="flex-row-reverse justify-between"
                   />
-                </Link>
+                </Link> */}
               </div>
             </>
           </FormWraper>

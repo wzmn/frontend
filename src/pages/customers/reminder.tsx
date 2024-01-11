@@ -23,7 +23,7 @@ const reminder = [
 
 const Reminder = ({ data }: any) => {
   return (
-    <>
+    <div className="grow">
       <p className={styles.title}>Reminder ID: TD00078 </p>
 
       <div className="space-y-16 mb-3">
@@ -150,7 +150,7 @@ const Reminder = ({ data }: any) => {
           </div>
         </FormSection>
 
-        <FormSection title="Comments">
+        {/* <FormSection title="Comments">
           <div className="flex-1">
             <FormWraper>
               <>
@@ -167,9 +167,9 @@ const Reminder = ({ data }: any) => {
               </>
             </FormWraper>
           </div>
-        </FormSection>
+        </FormSection> */}
       </div>
-    </>
+    </div>
   );
 };
 

@@ -57,7 +57,7 @@ const CompanyDetails = (props: PageProps) => {
   }, []);
 
   return (
-    <>
+    <div className="grow">
       <p className={styles.title}>{data?.company_name}</p>
 
       <div className="space-y-16 mb-3">
@@ -110,7 +110,7 @@ const CompanyDetails = (props: PageProps) => {
                   </span>
                   {/* &nbsp; */}
                   <span className={styles.tag2}>
-                    {moment(data?.created_at).format("DD/MM/yyyy HH:MM a")}
+                    {moment(data?.created_at).format("DD/MM/yyyy hh:mm a")}
                   </span>
                 </p>
 
@@ -208,7 +208,7 @@ const CompanyDetails = (props: PageProps) => {
           </form>
         </FormSection>
 
-        <FormSection title="Comments">
+        {/* <FormSection title="Comments">
           <div className="flex-1">
             <FormWraper>
               <>
@@ -225,9 +225,9 @@ const CompanyDetails = (props: PageProps) => {
               </>
             </FormWraper>
           </div>
-        </FormSection>
+        </FormSection> */}
       </div>
-    </>
+    </div>
   );
 };
 

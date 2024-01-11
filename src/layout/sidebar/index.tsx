@@ -35,7 +35,7 @@ const sideBarData = [
     link: "/appointments",
   },
   {
-    svg: "/assets/icons/to-do-list.svg",
+    svg: "/assets/icons/paper-plane.svg",
     title: "Publish",
     link: "/publish",
   },

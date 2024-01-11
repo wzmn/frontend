@@ -96,7 +96,7 @@ const customerRegistration = () => {
         method: "post",
         data: dt,
       });
-      toast.success("Added Sucessfully");
+      toast.success("Customer Created Sucessfully!");
       navigate(-1);
     } catch (error: any) {
       console.log(error.response.data.message);
