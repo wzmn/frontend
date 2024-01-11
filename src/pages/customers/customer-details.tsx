@@ -207,7 +207,9 @@ const CustomerDetails = (props: PageProps) => {
                   </div> */}
                   <div className={styles.roles}>
                     <Radio
-                      label={data?.cust_status?.toUpperCase()!}
+                      label={
+                        data?.cust_status?.toUpperCase()?.replace("_", " ")!
+                      }
                       checked={true}
                     />
                   </div>
@@ -389,7 +391,12 @@ function List({
   // target="_blank" href={`customer-details/?customer=${data.id}`}
 
   return (
-    <div className={`${styles.card} ${additionalStyles.card}`}>
+    <div
+      onClick={() => {
+        window.open(`/jobs/job-details/?job=${data.id}`, "_blank");
+      }}
+      className={`${styles.card} ${additionalStyles.card}`}
+    >
       <div className={styles.cardInfo}>
         <p className="title">
           {`${data.customer?.user?.first_name}  ${data.customer?.user?.first_name}`}

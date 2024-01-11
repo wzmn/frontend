@@ -169,7 +169,10 @@ const ViewCustomer = ({ data }: { data: CustomerResult }) => {
 
       <div className="flex justify-between items-center">
         <p className={styles.bold}>Customer Status</p>
-        <Radio label={data.cust_status.toUpperCase()} checked={true} />
+        <Radio
+          label={data?.cust_status?.toUpperCase()?.replace("_", " ")}
+          checked={true}
+        />
       </div>
 
       <div className="my-3">
