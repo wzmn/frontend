@@ -108,15 +108,16 @@ const Questions = ({
                 company={data.company}
                 work_type={data.work_type}
                 fetchNestQ={fetchNestQ}
+                parentQId={data.id}
               />
             );
           })}
         </div>
-        <div className="flex gap-5 items-center mt-4">
+        {/* <div className="flex gap-5 items-center mt-4">
           <div className={styles.submitBtn}>
             <Button type="submit" title="Submit" />
           </div>
-        </div>
+        </div> */}
       </form>
     </div>
   );
@@ -127,50 +128,15 @@ function Options({
   fetchNestQ,
   company,
   work_type,
+  parentQId,
 }: {
   option: Partial<Option>;
   fetchNestQ: (e: any) => Promise<void>;
-  company: string | number;
-  work_type: string | number;
+  company: number;
+  work_type: number;
+  parentQId: number;
 }) {
   const [showAddQ, setShowAddQ] = useState(false);
-
-  // const {
-  //   control,
-  //   handleSubmit,
-  //   register,
-  //   setValue,
-  //   watch,
-  //   formState: { isSubmitting },
-  // } = useForm<{
-  //   questions: AddQuestionsT[];
-  // }>({
-  //   defaultValues: {
-  //     questions: [
-  //       {
-  //         content: "",
-  //         question_type: "text",
-  //         options: [],
-  //       },
-
-  //       // {
-  //       //   content: "",
-  //       //   question_type: "text",
-  //       //   options: [{ option_text: "add" }, { option_text: "add" }],
-  //       // },
-  //     ],
-  //   },
-  // });
-
-  // const useArray = useFieldArray({
-  //   keyName: "arrayId",
-  //   control, // control props comes from useForm (optional: if you are using FormContext)
-  //   name: "questions", // unique name for your Field Array
-  // });
-
-  // function onSubmit(data: any) {
-  //   console.log(data, company, work_type);
-  // }
 
   return (
     <>
@@ -204,31 +170,9 @@ function Options({
             qText={option.option_text}
             company={company}
             work_type={work_type}
+            parentQId={parentQId}
           />
         </div>
-        // <form id="nest" className="ml-10 my-8">
-        //   {useArray.fields.map((question, index) => (
-        //     <ArrayQuestionsPallet
-        //       key={index}
-        //       index={index}
-        //       register={register}
-        //       setValue={setValue}
-        //       watch={watch}
-        //       useArray={useArray}
-        //     />
-        //   ))}
-        //   <div className={settingStyles.submitBtn}>
-        //     <Button
-        //       isLoading={isSubmitting}
-        //       disabled={isSubmitting}
-        //       onClick={handleSubmit(onSubmit)}
-        //       form="nest"
-        //       type="submit"
-        //       title="send"
-        //       className="mt-2"
-        //     />
-        //   </div>
-        // </form>
       )}
     </>
   );

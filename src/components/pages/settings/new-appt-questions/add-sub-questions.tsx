@@ -11,25 +11,75 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { request } from "services/http-request";
 import { toast } from "react-toastify";
 import { APPT_Q, SUB_Q_CONDITIONS } from "constants/api";
+import { InferType, array, boolean, mixed, number, object, string } from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { checkforMultiChecker } from "./helper";
 
-const AddSubQuestions = ({ company, work_type, qId, qText }: any) => {
+const schemaNestQuestion = object({
+  next_questions: array()
+    .of(
+      object({
+        has_sub_question: boolean(),
+        is_sub_question: boolean(),
+        content: string().trim().required("required"),
+        question_type: string().trim().required("required"),
+        company: number(),
+        work_type: number(),
+        options: array().when("question_type", ([question_type], schema) => {
+          if (checkforMultiChecker.includes(question_type))
+            return schema
+              .of(
+                object({
+                  option_text: string().trim().required("required"),
+                })
+              )
+              .min(1, "You need at least 1 option tag")
+              .required("options required");
+          return schema.of(
+            object({
+              option_text: string().trim(),
+            })
+          );
+        }),
+        // options: array()
+        // .of(
+        //   object({
+        //     option_text: string().trim(),
+        //   })
+        // )
+        //   .min(1, "You need at least 1 question")
+        //   .required("options required"),
+      })
+    )
+    .min(1, "You need at least 1 question")
+    .required("question required"),
+});
+
+export type SchemaNestQuestionT = InferType<typeof schemaNestQuestion>;
+
+const AddSubQuestions = ({
+  company,
+  work_type,
+  qId,
+  qText,
+  parentQId,
+}: any) => {
   const {
     control,
     handleSubmit,
     register,
     setValue,
     watch,
-    formState: { isSubmitting },
-  } = useForm<{
-    next_questions: AddQuestionsT[];
-  }>({
+    formState: { isSubmitting, errors },
+  } = useForm<SchemaNestQuestionT>({
+    resolver: yupResolver(schemaNestQuestion),
     defaultValues: {
       next_questions: [
         {
           has_sub_question: false,
           is_sub_question: true,
           content: "",
-          question_type: "text",
+          question_type: "",
           options: [],
           company,
           work_type,
@@ -44,17 +94,17 @@ const AddSubQuestions = ({ company, work_type, qId, qText }: any) => {
     name: "next_questions", // unique name for your Field Array
   });
 
-  const [enabled, setEnabled] = useState(false);
-
   async function onSubmit(data: AddQuestionsT) {
+    console.log(data, "dataaaa");
+    return;
     try {
       const response = await request({
         url: SUB_Q_CONDITIONS,
         method: "post",
         data: {
-          question_id: qId,
-          answer: qText,
           ...data,
+          question_id: parentQId,
+          answer: qText,
         },
       });
       toast.success("added");
@@ -66,7 +116,7 @@ const AddSubQuestions = ({ company, work_type, qId, qText }: any) => {
 
   return (
     <div className="">
-      <div className="mt-5 flex justify-end">
+      <div className=" flex justify-end">
         <TextButton
           label="Add Question"
           icon={<FaPlus />}
@@ -91,8 +141,7 @@ const AddSubQuestions = ({ company, work_type, qId, qText }: any) => {
               register={register}
               setValue={setValue}
               watch={watch}
-              setEnabled={setEnabled}
-              enabled={enabled}
+              errors={errors}
               // useArray={useArray}
             />
 

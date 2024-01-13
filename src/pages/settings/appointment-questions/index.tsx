@@ -137,11 +137,11 @@ const AppointmentQuestions = () => {
 
       {mainQList.map((newQ, index, arr) => {
         return (
-          <div className="mt-10 mb-5 relative">
-            <FormSection
-              title="Input Questions"
-              style={{ zIndex: arr.length - index }}
-            >
+          <div
+            className="mt-10 mb-5 relative"
+            style={{ zIndex: arr.length - index }}
+          >
+            <FormSection title="Input Questions" style={{ zIndex: "inherit" }}>
               <FormWraper>
                 <>
                   <AddMainQuestion workType={workType!} refetch={fetchWTQ} />
@@ -158,10 +158,18 @@ const AppointmentQuestions = () => {
         );
       })}
 
-      {qData.map((item, index) => {
+      {qData.map((item, index, arr) => {
         return (
-          <div className="mt-10 mb-5 " key={item.id}>
-            <FormSection key={item.id} title="Input Questions">
+          <div
+            className="mt-10 mb-5 "
+            key={item.id}
+            style={{ zIndex: arr.length - index }}
+          >
+            <FormSection
+              key={item.id}
+              title="Input Questions"
+              style={{ zIndex: "inherit" }}
+            >
               <FormWraper>
                 <>
                   <QuestionTabWrapper qIndex={index} data={[[item]]} />

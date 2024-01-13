@@ -2,6 +2,7 @@ import Input from "components/input";
 import SelectBox from "components/selectBox";
 import React, { useEffect, useState } from "react";
 import {
+  FieldErrors,
   UseFieldArrayReturn,
   UseFormRegister,
   UseFormSetValue,
@@ -16,6 +17,8 @@ import * as settingStyles from "./styles.module.scss";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { AddQuestionsT } from "type/settings/questions";
 import { Switch } from "@headlessui/react";
+import { SchemaNestQuestionT } from "./add-sub-questions";
+import * as styles from "styles/pages/common.module.scss";
 
 //AddQuestion is a pattern of form which doest have onSubmit, which will trigger by form which wrapped  AddQuestion
 // all the form controlers will be pass as params in AddQuestion
@@ -24,37 +27,26 @@ const ArrayQuestionsPallet = ({
   setValue,
   watch,
   index,
-  setEnabled,
-  enabled,
+  errors,
 }: // useArray,
 {
   index: number;
-  watch: UseFormWatch<{
-    next_questions: AddQuestionsT[];
-  }>;
-  setValue: UseFormSetValue<{
-    next_questions: AddQuestionsT[];
-  }>;
-  register: UseFormRegister<{
-    next_questions: AddQuestionsT[];
-  }>;
-  enabled: boolean;
-  setEnabled: React.Dispatch<React.SetStateAction<boolean>>;
-  // useArray: UseFieldArrayReturn<
-  //   {
-  //     questions: AddQuestionsT[];
-  //   },
-  //   "questions",
-  //   "arrayId"
-  // >;
+  watch: UseFormWatch<SchemaNestQuestionT>;
+  setValue: UseFormSetValue<SchemaNestQuestionT>;
+  register: UseFormRegister<SchemaNestQuestionT>;
+  errors: FieldErrors<SchemaNestQuestionT>;
 }) => {
-  // const {} = useArray;
-
   const qOptions = watch(`next_questions.${index}.options`);
   const qType = watch(`next_questions.${index}.question_type`);
 
+  const [enabled, setEnabled] = useState(false);
+
+  useEffect(() => {
+    setValue(`next_questions.${index}.has_sub_question`, enabled);
+  }, [enabled]);
+
   function deleteOptions(idx: number) {
-    const list = [...qOptions];
+    const list = [...qOptions!];
     list.splice(idx, 1);
     console.log(list);
     setValue(`next_questions.${index}.options`, [...list]);
@@ -94,6 +86,7 @@ const ArrayQuestionsPallet = ({
           <Input
             placeholder="Enter Text"
             {...register(`next_questions.${index}.content`)}
+            errormessage={errors.next_questions?.[index]?.content?.message}
           />
         </div>
         <div className="w-52">
@@ -104,6 +97,9 @@ const ArrayQuestionsPallet = ({
               setValue(`next_questions.${index}.question_type`, e.value);
             }}
           />
+          <p className={styles.errorMessage}>
+            {errors.next_questions?.[index]?.question_type?.message}
+          </p>
         </div>
 
         {checkforMultiChecker.includes(qType!) && (
@@ -111,7 +107,7 @@ const ArrayQuestionsPallet = ({
             className={`${settingStyles.svg}`}
             onClick={() => {
               console.log(qOptions);
-              const list = [...qOptions];
+              const list = [...qOptions!];
               list.push({
                 option_text: "",
               });
@@ -134,6 +130,10 @@ const ArrayQuestionsPallet = ({
                     {...register(
                       `next_questions.${index}.options.${idx}.option_text`
                     )}
+                    errormessage={
+                      (errors.next_questions?.[index]?.options?.[idx] as any)
+                        ?.option_text?.message
+                    }
                   />
 
                   <RiDeleteBin6Line
@@ -147,6 +147,9 @@ const ArrayQuestionsPallet = ({
               </div>
             );
           })}
+          <p className={styles.errorMessage}>
+            {errors.next_questions?.[index]?.options?.message}
+          </p>
         </div>
       )}
     </div>
