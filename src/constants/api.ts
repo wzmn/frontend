@@ -20,10 +20,11 @@ export const WORK_TYPE = "/jobs/work_types/";
 //APPT
 export const APPOINTMENT_LISTING = "/appointments/management/";
 export const APPT_STATUES = "/appointments/appointment_status/";
+//QUESTIONS
 export const APPT_Q = "/appointments/questions/";
 export const SUB_Q_CONDITIONS = "/appointments/subquestion-conditions/";
 export const APPT_Q_OPT = "/appointments/options/";
 //PROFILE / USER
 export const CHANGE_EMAIL = "/users/management/";
 // Reminder
-export const REMINDER_LISTING = '/employee/tasks/'
+export const REMINDER_LISTING = "/employee/tasks/";

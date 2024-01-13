@@ -26,11 +26,9 @@ import {
 import Address from "services/address";
 import { request } from "services/http-request";
 import * as styles from "styles/pages/common.module.scss";
-import { CompanyDataType, ComplianceRespT } from "type/company";
-import { CountryComplianceType } from "type/global";
+import { CompanyDataType } from "type/company";
+import { ComplianceRespT, ComplianceResultT } from "type/global";
 import * as companyStyles from "./styles.module.scss";
-
-let countryComplianceData: CountryComplianceType[];
 
 function objectToFormData(
   obj: Record<any, any>,
@@ -71,9 +69,9 @@ interface FileProps extends File {
 }
 
 type ComplianceState = {
-  primary: CountryComplianceType[];
-  secondary: CountryComplianceType[];
-  additional: CountryComplianceType[];
+  primary: ComplianceResultT[];
+  secondary: ComplianceResultT[];
+  additional: ComplianceResultT[];
 };
 
 function initialState() {
@@ -117,7 +115,7 @@ const CompanyRegistration = () => {
 
   async function sendOtp(value: string) {
     try {
-      const response = await request<CountryComplianceType[]>({
+      const response = await request<any[]>({
         url: OTP_API,
         method: "post",
         data: {

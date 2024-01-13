@@ -4,7 +4,7 @@ import { FaChevronDown } from "react-icons/fa";
 import { Disclosure, Transition } from "@headlessui/react";
 import * as styles from "./styles.module.scss";
 import DNDImage, { DNDImageFileType } from "components/dnd-image";
-import { CountryComplianceType } from "type/global";
+import { ComplianceResultT } from "type/global";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useUploadContext } from "providers/upload-doc-provider";
 
@@ -12,7 +12,7 @@ const UploadDoc = ({
   data,
   title = "",
 }: {
-  data: CountryComplianceType[];
+  data: ComplianceResultT[];
   title?: string;
 }) => {
   return (
@@ -36,13 +36,7 @@ const UploadDoc = ({
   );
 };
 
-function Upload({
-  data,
-  index,
-}: {
-  data: CountryComplianceType;
-  index: number;
-}) {
+function Upload({ data, index }: { data: ComplianceResultT; index: number }) {
   const { files, setFiles } = useUploadContext();
 
   return (
@@ -76,37 +70,35 @@ function Upload({
                       detail: data.id!,
                       documents: e,
                     };
-                    list[data.item_type!][index] = dt;
+                    list[data.priority!][index] = dt;
 
                     setFiles(() => list);
                   }}
                 />
               </div>
-              {files[data.item_type!]?.[index]?.documents?.length > 0 && (
+              {files[data.priority!]?.[index]?.documents?.length > 0 && (
                 <>
-                  {files[data.item_type!][index]?.documents?.map(
-                    (item, idx) => {
-                      return (
-                        <div className={styles.preview} key={idx}>
-                          <img
-                            src={item.preview}
-                            alt="/assets/images/picture.svg"
-                          />
-                          <RiDeleteBin6Line
-                            className="w-5 h-5 cursor-pointer absolute  top-1 right-4"
-                            onClick={() => {
-                              const list = { ...files };
-                              list[data.item_type!][index].documents.splice(
-                                idx,
-                                1
-                              );
-                              setFiles(() => list);
-                            }}
-                          />
-                        </div>
-                      );
-                    }
-                  )}
+                  {files[data.priority!][index]?.documents?.map((item, idx) => {
+                    return (
+                      <div className={styles.preview} key={idx}>
+                        <img
+                          src={item.preview}
+                          alt="/assets/images/picture.svg"
+                        />
+                        <RiDeleteBin6Line
+                          className="w-5 h-5 cursor-pointer absolute  top-1 right-4"
+                          onClick={() => {
+                            const list = { ...files };
+                            list[data.priority!][index].documents.splice(
+                              idx,
+                              1
+                            );
+                            setFiles(() => list);
+                          }}
+                        />
+                      </div>
+                    );
+                  })}
                 </>
               )}
             </Disclosure.Panel>

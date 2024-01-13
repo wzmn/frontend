@@ -15,6 +15,8 @@ import { checkforMultiChecker, questions } from "./helper";
 import * as styles from "./styles.module.scss";
 import { AddQuestionsT } from "type/settings/questions";
 
+// this component to create just to handle adding main question
+//single question at a time
 const AddMainQuestion = ({
   workType,
   refetch,
