@@ -1,7 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import Button from "components/button";
 import Checkbox from "components/checkbox";
-import { ComboBoxDataT } from "components/combo-box";
+import ComboBox, { ComboBoxDataT } from "components/combo-box";
 import FormSection from "components/form-sections";
 import FormWraper from "components/form-wrapper";
 import Radio from "components/radio";
@@ -24,6 +24,10 @@ import UserIdentifyer from "services/user-identifyer";
 import * as styles from "styles/pages/common.module.scss";
 import { WorkTypeLabel } from "./create-appointment";
 import * as jobStyles from "./styles.module.scss";
+import Label from "components/label";
+import { debounce } from "utility/debounce";
+import { Result } from "type/employee";
+const showEmpFieldFor = ["superadmin", "admin"];
 
 const CreateJob = () => {
   const [OTP, setOTP] = useState<string>("");
@@ -66,7 +70,6 @@ const CreateJob = () => {
           customer: {
             user: data.customer.user,
             company: id,
-            assigned_to: data.job_assigned_to_id,
             customer_type: data.customer.customer_type,
           },
           address: data.address,
@@ -89,12 +92,12 @@ const CreateJob = () => {
     setOTP(OTP);
   }
 
-  async function handleEmployeeList(e: ChangeEvent<HTMLInputElement>) {
+  async function handleEmployeeList(e?: ChangeEvent<HTMLInputElement>) {
     try {
-      if (!id) {
-        alert("Please Select Country");
-        return;
-      }
+      // if (!id) {
+      //   alert("Please Select Country");
+      //   return;
+      // }
       const res = await employeeList({
         search: e?.target?.value,
         company: id,
@@ -110,9 +113,10 @@ const CreateJob = () => {
   }
 
   useEffect(() => {
+    handleEmployeeList();
     // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
     // return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
-  }, []);
+  }, [id]);
 
   return (
     <>
@@ -221,6 +225,24 @@ const CreateJob = () => {
                         </div>
                       </>
                     )}
+
+                    {showEmpFieldFor.includes(userRole) && (
+                      <>
+                        <div className="max-w-3xl">
+                          <Label title="Job Assign To" />
+                          <ComboBox<Result>
+                            data={empListData}
+                            handleSelect={(e) => {
+                              setValue("job_assigned_to_id", String(e?.id!));
+                            }}
+                            onChange={debounce(handleEmployeeList)}
+                          />
+                          <p className={styles.errorMessage}>
+                            {errors.job_assigned_to_id?.message}
+                          </p>
+                        </div>
+                      </>
+                    )}
                   </div>
 
                   {/* <div className="flex gap-10">
@@ -295,26 +317,22 @@ const CreateJob = () => {
                     <Address wat="billing_address" />
                   </>
                 </FormWraper>
-                <div className="flex justify-center gap-36 mt-10">
-                  <Button
-                    title="Submit"
-                    type="submit"
-                    isLoading={isSubmitting}
-                  />
-
-                  <Button
-                    title="Cancel"
-                    type="button"
-                    color="red"
-                    className="py-10"
-                    onClick={() => {
-                      navigate(-1);
-                    }}
-                  />
-                </div>
               </div>
             </FormSection>
           )}
+          <div className="flex justify-center gap-36 mt-10">
+            <Button title="Submit" type="submit" isLoading={isSubmitting} />
+
+            <Button
+              title="Cancel"
+              type="button"
+              color="red"
+              className="py-10"
+              onClick={() => {
+                navigate(-1);
+              }}
+            />
+          </div>
         </form>
       </FormProvider>
     </>

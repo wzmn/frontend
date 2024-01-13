@@ -28,7 +28,7 @@ const hasUnreadNotifications = false;
 const Navbar = () => {
   const { toggle } = useSidebarContext();
   const { navbar, burger, rightSide, leftSide } = styles;
-  const { setCompany } = useCompanyContext();
+  const { company, setCompany } = useCompanyContext();
   const [companyListData, setCompanyListData] = useState<ComboBoxDataT[]>([]);
   const userRole = UserIdentifyer();
 
@@ -42,7 +42,7 @@ const Navbar = () => {
       ...item,
     })) as ComboBoxDataT[];
 
-    setCompany(res.results![0]);
+    JSON.stringify(company) === "{}" && setCompany(res.results![0]);
 
     setCompanyListData(() => companyFilteredList);
   });
@@ -59,7 +59,7 @@ const Navbar = () => {
             <FaGripLines onClick={toggle} className={styles.burger} />
             <div className="flex-1 ml-1">
               <ComboBox<Result>
-                placeholder={companyListData[0]?.label}
+                placeholder={company?.company_name}
                 data={companyListData}
                 handleSelect={(e) => {
                   setCompany(e);

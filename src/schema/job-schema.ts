@@ -5,6 +5,7 @@ import { addressSchema } from "./address-schema";
 export const jobRegistrationSchema = object({
   billAddCheck: boolean(),
   workType: array().min(1, "at least one must be selected"),
+
   customer: object({
     user: object({
       first_name: string().trim().required("Required"),
@@ -25,7 +26,7 @@ export const jobRegistrationSchema = object({
       then: (schema) => schema.required("Required"),
     }),
   }),
-  job_assigned_to_id: string().nullable(),
+  job_assigned_to_id: string().trim().required("Required"),
   address: addressSchema,
   billing_address: mixed().when("billAddCheck", {
     is: true,
