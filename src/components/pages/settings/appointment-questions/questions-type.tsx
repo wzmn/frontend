@@ -307,7 +307,6 @@ function Options({
 
   async function onSubmit(data: any) {
     try {
-      console.log(data);
       // return;
       const response = await request({
         url: APPT_Q_OPT + `${option.id ? String(option.id) + "/" : ""}`,
@@ -325,21 +324,26 @@ function Options({
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form
+      onClick={(e) => {
+        e.stopPropagation();
+        handleSubmit(onSubmit);
+      }}
+    >
       <div className={`mb-2 ${settingStyles.questionGrid}`}>
         <div className="w-52">
           <Input {...register(`option_text`)} className="text-sm" />
         </div>
         <div className="w-52">
           <ComboBox<Questions>
-            placeholder={
-              filteredQlist?.find(
-                (item) => item.id === Number(option?.next_question?.id)
-              )?.content
-            }
+            // placeholder={
+            //   filteredQlist?.find(
+            //     (item) => item.id === Number(option?.next_question?.id)
+            //   )?.content
+            // }
             data={filteredQlist!}
             handleSelect={(e) => {
-              console.log(e.id);
+              // console.log(e.id);
 
               setValue("next_question_id", String(e.id));
             }}

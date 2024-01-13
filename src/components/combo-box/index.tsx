@@ -38,7 +38,8 @@ const ComboBox = forwardRef(
       <div className="z-50 w-full">
         <Combobox
           value={inputLabel}
-          onChange={(e) => {
+          onChange={(e: any) => {
+            // e?.stopPropogation();
             const data = e as any as ComboBoxDataT;
             setInputLabel(data.label);
             if (handleSelect) handleSelect(e as any);

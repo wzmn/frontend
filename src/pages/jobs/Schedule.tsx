@@ -28,9 +28,10 @@ import {
 
 type Props = {
   item: Result;
+  companyId: number;
 };
 
-const Schedule = ({ item }: Props) => {
+const Schedule = ({ item, companyId }: Props) => {
   const {
     register,
     handleSubmit,
@@ -41,12 +42,7 @@ const Schedule = ({ item }: Props) => {
     resolver: yupResolver(createApptSchema),
   });
   const [empListData, setEmpListData] = useState<ComboBoxDataT[]>([]);
-
-  const userRole = UserIdentifyer();
-
-  const id = companyIdFetcher(userRole);
-
-  // const startDate = watch(`startDate`);
+  const selfAssessment = watch("self_assessment");
 
   async function onSubmit(data: CreateApptSchemaT) {
     try {
@@ -62,15 +58,10 @@ const Schedule = ({ item }: Props) => {
   }
   async function handleEmployeeList(e: ChangeEvent<HTMLInputElement>) {
     try {
-      if (!id) {
-        alert("Please Select Country");
-        return;
-      }
-      if (id === null) return;
       const res = await employeeList({
         search: e?.target?.value,
         role__title: "Field Worker",
-        company: id,
+        company: companyId,
       });
 
       const empFilteredList = res.results?.map((item) => ({
@@ -88,47 +79,6 @@ const Schedule = ({ item }: Props) => {
           <FormWraper>
             <>
               <p className="mb-6">{item.work_type?.title}</p>
-              <div className="flex items-start gap-5">
-                <div className="w-72">
-                  <Label title="assessment scheduled" />
-                  <Input
-                    type="datetime-local"
-                    className={styles.input}
-                    varient="regular"
-                    placeholder="Subject"
-                    {...register(`assessment_scheduled_on`)}
-                    errormessage={
-                      errors.assessment_scheduled_on?.message as string
-                    }
-                    // min={moment(new Date()).format("yyyy-MM-DD") + "T00:00"}
-                  />
-                </div>
-
-                <div className="w-64 ">
-                  <Label title="Assign To" />
-                  <ComboBox<EmpResult>
-                    data={empListData}
-                    handleSelect={(e) => {
-                      setValue("assessment_assigned_to", String(e?.id!));
-                    }}
-                    onChange={debounce(handleEmployeeList)}
-                  />
-                  <p className={styles.error + " text-xs"}>
-                    {errors.assessment_assigned_to?.message as string}
-                  </p>
-                </div>
-                {/* <p className="font-bold">TO</p>
-                <div className="w-72">
-                  <Input
-                    type="datetime-local"
-                    className={styles.input}
-                    varient="regular"
-                    placeholder="Subject"
-                    {...register(`${item.title}.endDate`)}
-                    min={startDate}
-                  />
-                </div> */}
-              </div>
 
               <div className="">
                 <div className={`${styles.userRole} `}>
@@ -154,6 +104,49 @@ const Schedule = ({ item }: Props) => {
                     </p>
                   </div>
                 </div>{" "}
+                <div className="flex items-start gap-5 mt-8">
+                  <div className="w-72">
+                    <Label title="assessment scheduled" />
+                    <Input
+                      type="datetime-local"
+                      className={styles.input}
+                      varient="regular"
+                      placeholder="Subject"
+                      {...register(`assessment_scheduled_on`)}
+                      errormessage={
+                        errors.assessment_scheduled_on?.message as string
+                      }
+                      // min={moment(new Date()).format("yyyy-MM-DD") + "T00:00"}
+                    />
+                  </div>
+
+                  {selfAssessment === "False" && (
+                    <div className="w-64 ">
+                      <Label title="Assign To" />
+                      <ComboBox<EmpResult>
+                        data={empListData}
+                        handleSelect={(e) => {
+                          setValue("assessment_assigned_to", String(e?.id!));
+                        }}
+                        onChange={debounce(handleEmployeeList)}
+                      />
+                      <p className={styles.error + " text-xs"}>
+                        {errors.assessment_assigned_to?.message as string}
+                      </p>
+                    </div>
+                  )}
+                  {/* <p className="font-bold">TO</p>
+                <div className="w-72">
+                  <Input
+                    type="datetime-local"
+                    className={styles.input}
+                    varient="regular"
+                    placeholder="Subject"
+                    {...register(`${item.title}.endDate`)}
+                    min={startDate}
+                  />
+                </div> */}
+                </div>
                 <Button
                   isLoading={isSubmitting}
                   disabled={isSubmitting}

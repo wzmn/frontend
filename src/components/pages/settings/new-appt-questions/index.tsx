@@ -13,7 +13,8 @@ import { SUB_Q_CONDITIONS } from "constants/api";
 import { request } from "services/http-request";
 import { questions } from "./helper";
 import { AddQuestionsT } from "type/settings/questions";
-import AddQuestion from "./add-question";
+import ArrayQuestionsPallet from "./array-questions-pallet";
+import AddSubQuestions from "./add-sub-questions";
 
 const Questions = ({
   data,
@@ -107,15 +108,16 @@ const Questions = ({
                 company={data.company}
                 work_type={data.work_type}
                 fetchNestQ={fetchNestQ}
+                parentQId={data.id}
               />
             );
           })}
         </div>
-        <div className="flex gap-5 items-center mt-4">
+        {/* <div className="flex gap-5 items-center mt-4">
           <div className={styles.submitBtn}>
             <Button type="submit" title="Submit" />
           </div>
-        </div>
+        </div> */}
       </form>
     </div>
   );
@@ -126,50 +128,15 @@ function Options({
   fetchNestQ,
   company,
   work_type,
+  parentQId,
 }: {
   option: Partial<Option>;
   fetchNestQ: (e: any) => Promise<void>;
-  company: string | number;
-  work_type: string | number;
+  company: number;
+  work_type: number;
+  parentQId: number;
 }) {
   const [showAddQ, setShowAddQ] = useState(false);
-
-  const {
-    control,
-    handleSubmit,
-    register,
-    setValue,
-    watch,
-    formState: { isSubmitting },
-  } = useForm<{
-    questions: AddQuestionsT[];
-  }>({
-    defaultValues: {
-      questions: [
-        {
-          content: "",
-          question_type: "text",
-          options: [],
-        },
-
-        {
-          content: "",
-          question_type: "text",
-          options: [{ option_text: "add" }, { option_text: "add" }],
-        },
-      ],
-    },
-  });
-
-  const useArray = useFieldArray({
-    keyName: "arrayId",
-    control, // control props comes from useForm (optional: if you are using FormContext)
-    name: "questions", // unique name for your Field Array
-  });
-
-  function onSubmit(data: any) {
-    console.log(data, company, work_type);
-  }
 
   return (
     <>
@@ -197,33 +164,22 @@ function Options({
       </div>
 
       {showAddQ && (
-        <form id="nest" className="ml-10 my-8" onClick={handleSubmit(onSubmit)}>
-          {useArray.fields.map((question, index) => (
-            <AddQuestion
-              key={index}
-              index={index}
-              register={register}
-              setValue={setValue}
-              watch={watch}
-              useArray={useArray}
-            />
-          ))}
-          <div className={settingStyles.submitBtn}>
-            <Button
-              isLoading={isSubmitting}
-              disabled={isSubmitting}
-              form="nest"
-              type="submit"
-              title="send"
-              className="mt-2"
-            />
-          </div>
-        </form>
+        <div className="ml-10 my-8">
+          <AddSubQuestions
+            qId={option.id}
+            qText={option.option_text}
+            company={company}
+            work_type={work_type}
+            parentQId={parentQId}
+          />
+        </div>
       )}
     </>
   );
 }
 
+// QuestionTabWrapper this function is use to wrap a question in a tab view ans also control loading state
+//all the question and nested questions will be wraped in it
 export function QuestionTabWrapper({
   qIndex,
   data,

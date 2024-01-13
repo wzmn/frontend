@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   AiOutlinePoweroff,
   AiOutlineLeftCircle,
@@ -61,6 +61,10 @@ const Sidebar = () => {
   const { setUserAuth, userAuth } = useAuthContext();
 
   const routeAccess = userAccessRouter();
+
+  useEffect(() => {
+    console.log("sidebaeerrrr");
+  }, []);
 
   return (
     <div className={`${styles.sidebarCont} ${sidebarFlag && styles.slideIn}`}>

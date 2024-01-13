@@ -5,7 +5,7 @@ import Sidebar from "layout/sidebar";
 import AddressLabels from "providers/address-labels";
 import AppProvider from "providers/app-provider";
 import AuthProvider from "providers/auth-provider";
-import CompanyProvider from "providers/company-provider";
+// import CompanyProvider from "providers/company-provider";
 import GoogleMapProvider from "providers/google-map-provider";
 import RightBarProvider from "providers/right-bar-provider";
 import SidebarContext from "providers/sidebar-provider";
@@ -29,7 +29,8 @@ type Props = {
 
 const Layout = ({ children }: Props) => {
   const alertIfOnline = () => toast.success("Connection restored");
-  const alertIfOffline = () => toast.warn("Oops! It seems like you're currently offline.");
+  const alertIfOffline = () =>
+    toast.warn("Oops! It seems like you're currently offline.");
   useEffect(() => {
     window.addEventListener("offline", () => alertIfOffline);
     window.addEventListener("online", () => alertIfOnline);
@@ -48,36 +49,36 @@ const Layout = ({ children }: Props) => {
         {!routeNotToInclude.includes(pathname) ? (
           <div className="c-container">
             <AppProvider>
-              <CompanyProvider>
-                <AddressLabels>
-                  <UploadDocProvider>
-                    <ProtectedRoutes>
-                      <GoogleMapProvider>
-                        <DndProvider backend={HTML5Backend}>
-                          <RightBarProvider>
-                            <SidebarContext>
-                              <>
-                                <div className={`${styles.layout} `}>
-                                  <Sidebar />
-                                  <div className={styles.children}>
-                                    <div className={styles.mainContent}>
-                                      <Navbar />
-                                      {children}
-                                      {/* <Footer /> */}
-                                    </div>
+              {/* <CompanyProvider> */}
+              <AddressLabels>
+                <UploadDocProvider>
+                  <ProtectedRoutes>
+                    <GoogleMapProvider>
+                      <DndProvider backend={HTML5Backend}>
+                        <RightBarProvider>
+                          <SidebarContext>
+                            <>
+                              <div className={`${styles.layout} `}>
+                                <Sidebar />
+                                <div className={styles.children}>
+                                  <div className={styles.mainContent}>
+                                    <Navbar />
+                                    {children}
+                                    {/* <Footer /> */}
                                   </div>
-                                  <RightBar /> {/* has absolute position */}
                                 </div>
-                                {/* <ConfirmDialog /> */}
-                              </>
-                            </SidebarContext>
-                          </RightBarProvider>
-                        </DndProvider>
-                      </GoogleMapProvider>
-                    </ProtectedRoutes>
-                  </UploadDocProvider>
-                </AddressLabels>
-              </CompanyProvider>
+                                <RightBar /> {/* has absolute position */}
+                              </div>
+                              {/* <ConfirmDialog /> */}
+                            </>
+                          </SidebarContext>
+                        </RightBarProvider>
+                      </DndProvider>
+                    </GoogleMapProvider>
+                  </ProtectedRoutes>
+                </UploadDocProvider>
+              </AddressLabels>
+              {/* </CompanyProvider> */}
             </AppProvider>
           </div>
         ) : (
