@@ -39,7 +39,7 @@ const ComboBox = forwardRef(
         <Combobox
           value={inputLabel}
           onChange={(e: any) => {
-            e.stopPropogation();
+            // e?.stopPropogation();
             const data = e as any as ComboBoxDataT;
             setInputLabel(data.label);
             if (handleSelect) handleSelect(e as any);

@@ -30,12 +30,14 @@ const CreateJob = () => {
   const [empListData, setEmpListData] = useState<ComboBoxDataT[]>([]);
   const userRole = UserIdentifyer();
   const { workTypes } = useAppContext();
+  const [checkBillingAdd, setBillingAdd] = useState(false);
 
   const id = companyIdFetcher(userRole);
 
   const methods = useForm({
     resolver: yupResolver(jobRegistrationSchema),
     defaultValues: {
+      billAddCheck: false,
       workType: [],
     },
   });
@@ -49,6 +51,7 @@ const CreateJob = () => {
   } = methods;
 
   const customerType = watch("customer.customer_type");
+  const billAddCheck = watch("billAddCheck");
 
   async function onSubmit(data: JobRegistrationSchemaType) {
     try {
@@ -69,6 +72,9 @@ const CreateJob = () => {
           address: data.address,
           job_assigned_to_id: data.job_assigned_to_id,
           work_type_id: data.workType,
+          ...(billAddCheck
+            ? { billing_address: data.address }
+            : { billing_address: data.billing_address }),
         },
       });
       toast.success("Added Sucessfully");
@@ -255,9 +261,17 @@ const CreateJob = () => {
               <FormWraper>
                 <>
                   <Address />
+                  <div className="flex justify-center mt-5">
+                    <Checkbox
+                      id={"billAddCheck"}
+                      {...register("billAddCheck")}
+                      label={<p>Have Different Billing Address</p>}
+                      value={"true"}
+                    />
+                  </div>
                 </>
               </FormWraper>
-              <div className="flex justify-center gap-36 mt-10">
+              {/* <div className="flex justify-center gap-36 mt-10">
                 <Button title="Submit" type="submit" isLoading={isSubmitting} />
 
                 <Button
@@ -269,9 +283,38 @@ const CreateJob = () => {
                     navigate(-1);
                   }}
                 />
-              </div>
+              </div> */}
             </div>
           </FormSection>
+
+          {billAddCheck && (
+            <FormSection title="Billing Address">
+              <div className="flex-1">
+                <FormWraper>
+                  <>
+                    <Address wat="billing_address" />
+                  </>
+                </FormWraper>
+                <div className="flex justify-center gap-36 mt-10">
+                  <Button
+                    title="Submit"
+                    type="submit"
+                    isLoading={isSubmitting}
+                  />
+
+                  <Button
+                    title="Cancel"
+                    type="button"
+                    color="red"
+                    className="py-10"
+                    onClick={() => {
+                      navigate(-1);
+                    }}
+                  />
+                </div>
+              </div>
+            </FormSection>
+          )}
         </form>
       </FormProvider>
     </>

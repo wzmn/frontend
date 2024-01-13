@@ -25,17 +25,17 @@ const countries = [
 ];
 
 type AddressT = {
-  address: AddressSchemaT;
+  [key in string]: AddressSchemaT;
 };
 
-const Address = () => {
+const Address = ({ wat = "address" }) => {
   const {
     register,
     setValue,
     formState: { errors },
     watch,
   } = useFormContext<AddressT>(); // retrieve all hook methods
-  const address = watch("address");
+  const address = watch(wat);
   const { city, district, postcode } = useAddressLabelContext();
   const { open, toggle, setElement } = useRightBarContext();
   const { formatedComponents, Map } = Geolocation();
@@ -54,7 +54,7 @@ const Address = () => {
           }}
           setFields={(val) => {
             console.log(val);
-            setValue("address", val as AddressSchemaT);
+            setValue(wat, val as AddressSchemaT);
           }}
         />
         <TextButton
@@ -73,24 +73,24 @@ const Address = () => {
           <TextField
             title="Building Name"
             // asterisk
-            {...register("address.building_number")}
-            errormessage={errors.address?.building_number?.message}
+            {...register(`${wat}.building_number`)}
+            errormessage={errors[wat]?.building_number?.message}
           />
         </div>
         <div className="max-w-3xl">
           <TextField
             title="Level No"
             // asterisk
-            {...register("address.level_number")}
-            errormessage={errors.address?.level_number?.message}
+            {...register(`${wat}.level_number`)}
+            errormessage={errors[wat]?.level_number?.message}
           />
         </div>
 
         <div className="max-w-3xl">
           <TextField
             title="Unit No"
-            {...register("address.unit_number")}
-            errormessage={errors.address?.unit_number?.message}
+            {...register(`${wat}.unit_number`)}
+            errormessage={errors[wat]?.unit_number?.message}
           />
         </div>
 
@@ -98,8 +98,8 @@ const Address = () => {
           <TextField
             title="Lot No"
             // asterisk
-            {...register("address.lot_number")}
-            errormessage={errors.address?.lot_number?.message}
+            {...register(`${wat}.lot_number`)}
+            errormessage={errors[wat]?.lot_number?.message}
           />
         </div>
 
@@ -107,8 +107,8 @@ const Address = () => {
           <TextField
             title="Street No"
             // asterisk
-            {...register("address.street_number")}
-            errormessage={errors.address?.street_number?.message}
+            {...register(`${wat}.street_number`)}
+            errormessage={errors[wat]?.street_number?.message}
           />
         </div>
 
@@ -116,8 +116,8 @@ const Address = () => {
           <TextField
             title="Street Name"
             asterisk
-            {...register("address.street_name")}
-            errormessage={errors.address?.street_name?.message}
+            {...register(`${wat}.street_name`)}
+            errormessage={errors[wat]?.street_name?.message}
           />
         </div>
 
@@ -125,16 +125,16 @@ const Address = () => {
           <TextField
             title="Suffix"
             // asterisk
-            {...register("address.suffix")}
-            errormessage={errors.address?.suffix?.message}
+            {...register(`${wat}.suffix`)}
+            errormessage={errors[wat]?.suffix?.message}
           />
         </div>
         <div className="max-w-3xl">
           <TextField
             title={district()}
             asterisk
-            {...register("address.suburb")}
-            errormessage={errors.address?.suburb?.message}
+            {...register(`${wat}.suburb`)}
+            errormessage={errors[wat]?.suburb?.message}
           />
         </div>
 
@@ -142,8 +142,8 @@ const Address = () => {
           <TextField
             title={postcode()}
             asterisk
-            {...register("address.pincode")}
-            errormessage={errors.address?.pincode?.message}
+            {...register(`${wat}.pincode`)}
+            errormessage={errors[wat]?.pincode?.message}
           />
         </div>
 
@@ -151,8 +151,8 @@ const Address = () => {
           <TextField
             title={city()}
             asterisk
-            {...register("address.lga")}
-            errormessage={errors.address?.lga?.message}
+            {...register(`${wat}.lga`)}
+            errormessage={errors[wat]?.lga?.message}
           />
         </div>
 
@@ -166,11 +166,11 @@ const Address = () => {
             asterisk
             value={address?.state}
             onChange={(e) => {
-              setValue("address.state", e.label);
+              setValue(`${wat}.state`, e.label);
             }}
           />
           <p className={`${styles.error} text-xs mt-1`}>
-            {errors.address?.state?.message}
+            {errors[wat]?.state?.message}
           </p>
         </div>
 
@@ -185,7 +185,7 @@ const Address = () => {
             asterisk
             value={address?.unit_type!}
             onChange={(e) => {
-              setValue("address.unit_type", e.label);
+              setValue(`${wat}.unit_type`, e.label);
             }}
           />
         </div>
@@ -201,7 +201,7 @@ const Address = () => {
             // asterisk
             value={address?.street_type!}
             onChange={(e) => {
-              setValue("address.street_type", e.label);
+              setValue(`${wat}.street_type`, e.label);
             }}
           />
         </div>

@@ -45,7 +45,7 @@ const CreateAppointment = () => {
         </FormSection> */}
 
         {/* {workTypeList?.map((_: any, key: number) => ( */}
-        <Schedule item={location} />
+        <Schedule item={location} companyId={location.customer?.company?.id!} />
         {/* ))} */}
 
         {/* <FormSection title="Comments">

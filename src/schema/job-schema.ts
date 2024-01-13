@@ -1,8 +1,9 @@
 import { EmailReg } from "constants/regex";
-import { InferType, array, bool, mixed, object, string } from "yup";
+import { InferType, array, bool, boolean, mixed, object, string } from "yup";
 import { addressSchema } from "./address-schema";
 
 export const jobRegistrationSchema = object({
+  billAddCheck: boolean(),
   workType: array().min(1, "at least one must be selected"),
   customer: object({
     user: object({
@@ -26,6 +27,10 @@ export const jobRegistrationSchema = object({
   }),
   job_assigned_to_id: string().nullable(),
   address: addressSchema,
+  billing_address: mixed().when("billAddCheck", {
+    is: true,
+    then: (schema) => schema.concat(addressSchema),
+  }),
 });
 
 export type JobRegistrationSchemaType = InferType<typeof jobRegistrationSchema>;
