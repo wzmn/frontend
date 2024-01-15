@@ -14,9 +14,36 @@ import UserIdentifyer from "services/user-identifyer";
 import { checkforMultiChecker, questions } from "./helper";
 import * as styles from "./styles.module.scss";
 import { AddQuestionsT } from "type/settings/questions";
+import { InferType, array, object, string } from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as commonStyles from "styles/pages/common.module.scss";
 
 // this component to create just to handle adding main question
 //single question at a time
+
+const schemaMainQ = object({
+  content: string().trim().required("required"),
+  question_type: string().trim().required("required"),
+  options: array().when("question_type", ([question_type], schema) => {
+    if (checkforMultiChecker.includes(question_type))
+      return schema
+        .of(
+          object({
+            option_text: string().trim().required("required"),
+          })
+        )
+        .min(1, "You need at least 1 option tag")
+        .required("options required");
+    return schema.of(
+      object({
+        option_text: string().trim(),
+      })
+    );
+  }),
+});
+
+type SchemaMainQ = InferType<typeof schemaMainQ>;
+
 const AddMainQuestion = ({
   workType,
   refetch,
@@ -31,8 +58,9 @@ const AddMainQuestion = ({
     setValue,
     watch,
     handleSubmit,
-    formState: { isSubmitting },
-  } = useForm<AddQuestionsT>({
+    formState: { isSubmitting, errors },
+  } = useForm<SchemaMainQ>({
+    resolver: yupResolver(schemaMainQ),
     defaultValues: {},
   });
 
@@ -43,7 +71,7 @@ const AddMainQuestion = ({
   const qType = watch("question_type");
   const options = watch("options");
 
-  async function onSubmit(data: AddQuestionsT) {
+  async function onSubmit(data: SchemaMainQ) {
     try {
       if (!id) {
         alert("Please Select Country");
@@ -69,13 +97,13 @@ const AddMainQuestion = ({
   }
 
   function addOptions() {
-    const list = [...options];
+    const list = [...options!];
     list.push({ option_text: "" });
     setValue("options", [...list]);
   }
 
   function deleteOptions(index: number) {
-    const list = [...options];
+    const list = [...options!];
     list.splice(index, 1);
     setValue("options", [...list]);
   }
@@ -109,7 +137,11 @@ const AddMainQuestion = ({
 
       <div className="flex gap-3">
         <div className="w-80">
-          <Input placeholder="Enter Text" {...register(`content`)} />
+          <Input
+            placeholder="Enter Text"
+            {...register(`content`)}
+            errormessage={errors.content?.message}
+          />
         </div>
         <div className="w-52">
           <SelectBox
@@ -119,6 +151,10 @@ const AddMainQuestion = ({
               setValue(`question_type`, e.value);
             }}
           />
+
+          <p className={commonStyles.errorMessage}>
+            {errors.question_type?.message}
+          </p>
         </div>
 
         {checkforMultiChecker.includes(qType!) && (
@@ -141,6 +177,9 @@ const AddMainQuestion = ({
                   <Input
                     placeholder="Add Opt Label"
                     {...register(`options.${idx}.option_text`)}
+                    errormessage={
+                      (errors.options?.[idx] as any)?.option_text?.message
+                    }
                   />
 
                   <RiDeleteBin6Line
@@ -154,6 +193,9 @@ const AddMainQuestion = ({
               </div>
             );
           })}
+          <p className={commonStyles.errorMessage}>
+            {errors.options?.root?.message}
+          </p>
         </div>
       )}
       <div className={styles.submitBtn + " mt-2"}>

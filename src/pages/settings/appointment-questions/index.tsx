@@ -139,7 +139,7 @@ const AppointmentQuestions = () => {
         return (
           <div
             className="mt-10 mb-5 relative"
-            style={{ zIndex: arr.length - index }}
+            style={{ zIndex: arr.length - index + "" + 1 }}
           >
             <FormSection title="Input Questions" style={{ zIndex: "inherit" }}>
               <FormWraper>
