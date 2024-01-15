@@ -65,12 +65,12 @@ const AppointmentQuestions = () => {
       const response = await request<WorkTypeRespQuestionT>({
         url: APPT_Q,
         params: {
-          work_type__title: workType,
+          work_type: workType,
           is_sub_question: false,
           company: id,
         },
       });
-      setQData(() => response.data.results!.reverse());
+      setQData(() => response.data.results!);
     } catch (error) {}
   }
 
@@ -123,7 +123,7 @@ const AppointmentQuestions = () => {
                     // setSelectedWT(data);
                   }}
                   type="radio"
-                  value={item.title}
+                  value={item.id}
                 />
               );
             })}

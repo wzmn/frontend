@@ -49,7 +49,7 @@ const Schedule = ({ item, companyId }: Props) => {
       const response = await request({
         url: APPOINTMENT_LISTING,
         method: "post",
-        data: { ...data, job_id: item.id },
+        data: { ...data, job_id: item.id, appointment_status: "Confirmed" },
       });
       toast.success("Appt is created");
     } catch (error) {
@@ -131,12 +131,12 @@ const Schedule = ({ item, companyId }: Props) => {
                       <ComboBox<EmpResult>
                         data={empListData}
                         handleSelect={(e) => {
-                          setValue("assessment_assigned_to", String(e?.id!));
+                          setValue("assessment_assigned_to_id", String(e?.id!));
                         }}
                         onChange={debounce(handleEmployeeList)}
                       />
                       <p className={styles.error + " text-xs"}>
-                        {errors.assessment_assigned_to?.message as string}
+                        {errors.assessment_assigned_to_id?.message as string}
                       </p>
                     </div>
                   )}

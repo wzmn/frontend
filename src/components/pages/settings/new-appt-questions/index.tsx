@@ -1,7 +1,7 @@
 import Input from "components/input";
 import SelectBox from "components/selectBox";
 import React, { useEffect, useState } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
+import { UseFormRegister, useFieldArray, useForm } from "react-hook-form";
 import { Option, SubQuestionRespT, WorkTypeQuestionT } from "type/global";
 import * as styles from "./styles.module.scss";
 import Button from "components/button";
@@ -33,6 +33,8 @@ const Questions = ({
     question_type: string;
   }>({
     defaultValues: {
+      content: data.content,
+      question_type: data.question_type,
       options: data.options,
     },
   });
@@ -101,7 +103,7 @@ const Questions = ({
         </div>
 
         <div className="mt-2">
-          {fields?.map((option) => {
+          {fields?.map((option, index) => {
             return (
               <Options
                 option={option}
@@ -109,6 +111,8 @@ const Questions = ({
                 work_type={data.work_type}
                 fetchNestQ={fetchNestQ}
                 parentQId={data.id}
+                register={register}
+                index={index}
               />
             );
           })}
@@ -129,12 +133,20 @@ function Options({
   company,
   work_type,
   parentQId,
+  register,
+  index,
 }: {
   option: Partial<Option>;
   fetchNestQ: (e: any) => Promise<void>;
   company: number;
   work_type: number;
   parentQId: number;
+  register: UseFormRegister<{
+    options: Partial<Option>[];
+    content: string;
+    question_type: string;
+  }>;
+  index: number;
 }) {
   const [showAddQ, setShowAddQ] = useState(false);
 
@@ -143,7 +155,10 @@ function Options({
       <div className="flex gap-3">
         {/* {JSON.stringify(option)} */}
         <div className="w-48 mt-2 ">
-          <Input placeholder={option.option_text} />
+          <Input
+            placeholder={option.option_text}
+            {...register(`options.${index}.option_text`)}
+          />
         </div>
         <TextButton
           type="button"

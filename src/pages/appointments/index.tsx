@@ -155,7 +155,7 @@ const Appintments = () => {
       }));
 
       response?.data?.results?.forEach((item) => {
-        filterData[item.appointment_status! as AppointmentStatusType].push({
+        filterData[item?.appointment_status! as AppointmentStatusType].push({
           ...item,
           status: false,
         });

@@ -8,8 +8,8 @@ function companyIdFetcher(str: string) {
   if (JSON.stringify(company) === "{}") {
     return null;
   }
-  if (role === "superadmin") return company.id;
-  return userAuth.emp_license_info.company.id;
+  if (role === "superadmin") return company?.id;
+  return userAuth?.emp_license_info.company?.id;
 }
 
 export default companyIdFetcher;
