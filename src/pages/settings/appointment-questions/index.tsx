@@ -22,6 +22,8 @@ import {
 } from "type/global";
 import * as settingStyles from "../styles.module.scss";
 import { AddQuestionsT } from "type/settings/questions";
+import UserIdentifyer from "services/user-identifyer";
+import companyIdFetcher from "services/company-id-fetcher";
 
 const AppointmentQuestions = () => {
   const [qData, setQData] = useState<WorkTypeQuestionT[]>([]);
@@ -29,6 +31,8 @@ const AppointmentQuestions = () => {
   const [workType, setWorkType] = useState<string>();
 
   const [mainQList, setMainQList] = useState<any[]>([]);
+  const userRole = UserIdentifyer();
+  const id = companyIdFetcher(userRole);
 
   const { control, handleSubmit, register, setValue, watch } = useForm<{
     questions: AddQuestionsT[];
@@ -61,7 +65,9 @@ const AppointmentQuestions = () => {
       const response = await request<WorkTypeRespQuestionT>({
         url: APPT_Q,
         params: {
-          work_type__id: workType,
+          work_type__title: workType,
+          is_sub_question: false,
+          company: id,
         },
       });
       setQData(() => response.data.results!.reverse());
@@ -86,7 +92,7 @@ const AppointmentQuestions = () => {
 
   useEffect(() => {
     fetchWTQ();
-  }, [workType]);
+  }, [workType, id]);
 
   useEffect(() => {
     setWorkType(() => String(workTypes?.[0]?.id));
@@ -117,7 +123,7 @@ const AppointmentQuestions = () => {
                     // setSelectedWT(data);
                   }}
                   type="radio"
-                  value={item.id}
+                  value={item.title}
                 />
               );
             })}

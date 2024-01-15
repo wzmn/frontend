@@ -261,7 +261,7 @@ const CreateJob = () => {
           <FormSection title="Work Types">
             <FormWraper>
               <div className="">
-                <div className={jobStyles.wtGrid}>
+                <div data-name="work_types" className={jobStyles.wtGrid}>
                   {workTypes?.map((item) => {
                     return (
                       <Checkbox

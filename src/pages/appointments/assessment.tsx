@@ -7,11 +7,17 @@ import * as styles from "styles/pages/common.module.scss";
 import * as apptStyle from "./styles.module.scss";
 import Button from "components/button";
 import { request } from "services/http-request";
-import { APPT_Q } from "constants/api";
+import { APPT_Q, QUESTIONS_ANS } from "constants/api";
 import { toast } from "react-toastify";
-import { WorkTypeQuestionT, WorkTypeRespQuestionT } from "type/global";
+import {
+  QAnsRespT,
+  QAnsResultT,
+  WorkTypeQuestionT,
+  WorkTypeRespQuestionT,
+} from "type/global";
 import { PageProps } from "gatsby";
 import { set } from "date-fns";
+import AnsQuestion from "components/pages/appointment/assessment";
 
 const txtData = [
   {
@@ -78,12 +84,12 @@ type LocState = {
 };
 
 const Assessment = (props: PageProps) => {
-  const [data, setData] = useState<WorkTypeQuestionT[]>();
+  const [data, setData] = useState<QAnsResultT[]>();
 
-  async function fetchQuestions() {
+  async function fetchQuestionsAns() {
     try {
-      const response = await request<WorkTypeRespQuestionT>({
-        url: APPT_Q,
+      const response = await request<QAnsRespT>({
+        url: QUESTIONS_ANS,
         params: {
           work_type__id: (props.location.state as LocState).wtId,
         },
@@ -96,7 +102,7 @@ const Assessment = (props: PageProps) => {
   }
 
   useEffect(() => {
-    fetchQuestions();
+    fetchQuestionsAns();
   }, []);
 
   return (
@@ -106,6 +112,16 @@ const Assessment = (props: PageProps) => {
 
       <div className="space-y-16 mb-3">
         <FormSection title="Questionnaire">
+          <FormWraper>
+            <div className="space-y-16 mb-3">
+              {data?.map((qAns, index) => {
+                return <AnsQuestion data={qAns} key={index} />;
+              })}
+            </div>
+          </FormWraper>
+        </FormSection>
+
+        {/* <FormSection title="Questionnaire">
           <FormWraper>
             <div className={apptStyle.QACont}>
               {txtData.map((item) => {
@@ -139,9 +155,9 @@ const Assessment = (props: PageProps) => {
               })}
             </div>
           </FormWraper>
-        </FormSection>
+        </FormSection> */}
 
-        <FormSection title="Photos">
+        {/* <FormSection title="Photos">
           <div className="flex-1">
             <FormWraper>
               <div className={apptStyle.QACont}>
@@ -179,7 +195,7 @@ const Assessment = (props: PageProps) => {
               <Button title="Cancel" className={apptStyle.cancel} />
             </div>
           </div>
-        </FormSection>
+        </FormSection> */}
       </div>
     </div>
   );

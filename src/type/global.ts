@@ -112,9 +112,9 @@ export interface SubQuestionT {
 
 //answers api
 
-export type AnsRespQT = PaginationType<WorkTypeQuestionT[]>;
+export type QAnsRespT = PaginationType<QAnsResultT[]>;
 
-export interface AnsQResultT {
+export interface QAnsResultT {
   id: number;
   question: WorkTypeQuestionT;
   selected_options: any[];
