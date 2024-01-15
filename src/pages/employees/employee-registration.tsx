@@ -19,19 +19,18 @@ import companyIdFetcher from "services/company-id-fetcher";
 import { request } from "services/http-request";
 import UserIdentifyer from "services/user-identifyer";
 import * as styles from "styles/pages/common.module.scss";
-import { CountryComplianceType } from "type/global";
+import { ComplianceRespT, ComplianceResultT } from "type/global";
 import * as companyStyles from "pages/company/styles.module.scss";
 import UploadDoc from "components/pages/company/upload-doc/upload-doc";
-import { ComplianceRespT } from "type/company";
 
 interface FileProps extends File {
   preview: string;
 }
 
 type ComplianceState = {
-  primary: CountryComplianceType[];
-  secondary: CountryComplianceType[];
-  additional: CountryComplianceType[];
+  primary: ComplianceResultT[];
+  secondary: ComplianceResultT[];
+  additional: ComplianceResultT[];
 };
 
 function initialState() {
@@ -173,7 +172,7 @@ const EmployeeRegistration = () => {
                     />
                     <Radio
                       label="TEAM LEADER"
-                      value="Team leader"
+                      value="Team Leader"
                       {...register("role")}
                     />
                     <Radio label="AGENT" value="Agent" {...register("role")} />

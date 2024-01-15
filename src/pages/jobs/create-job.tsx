@@ -100,7 +100,7 @@ const CreateJob = () => {
       // }
       const res = await employeeList({
         search: e?.target?.value,
-        company: id,
+        license_id__company__id: id,
       });
 
       const empFilteredList = res.results?.map((item) => ({

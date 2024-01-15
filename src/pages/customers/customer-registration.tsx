@@ -63,7 +63,7 @@ const customerRegistration = () => {
   });
 
   const companyListRef = useRef<HTMLInputElement>();
-  const [checkBillingAdd, setCheckBillingAdd] = useState(false);
+
   const {
     register,
     watch,
@@ -108,7 +108,7 @@ const customerRegistration = () => {
     try {
       const res = await employeeList({
         search: typeof e === "string" ? "" : e?.target?.value,
-        company: id,
+        license_id__company__id: id,
       });
 
       const empFilteredList = res.results?.map((item) => ({

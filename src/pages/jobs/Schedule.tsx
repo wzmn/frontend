@@ -3,7 +3,7 @@ import FormSection from "components/form-sections";
 import FormWraper from "components/form-wrapper";
 import Input from "components/input";
 import Radio from "components/radio";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as styles from "styles/pages/common.module.scss";
 import * as jobStyles from "./styles.module.scss";
@@ -56,12 +56,12 @@ const Schedule = ({ item, companyId }: Props) => {
       toast.error("could`t create appt try later");
     }
   }
-  async function handleEmployeeList(e: ChangeEvent<HTMLInputElement>) {
+  async function handleEmployeeList(e?: ChangeEvent<HTMLInputElement>) {
     try {
       const res = await employeeList({
         search: e?.target?.value,
         role__title: "Field Worker",
-        company: companyId,
+        license_id__company__id: companyId,
       });
 
       const empFilteredList = res.results?.map((item) => ({
@@ -72,6 +72,11 @@ const Schedule = ({ item, companyId }: Props) => {
       setEmpListData(() => empFilteredList);
     } catch (error) {}
   }
+
+  useEffect(() => {
+    handleEmployeeList();
+  }, []);
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <FormSection title="Schedule Appt(s)" style={{ zIndex: "1" }}>
