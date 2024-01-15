@@ -8,18 +8,20 @@ type Props<T> = InputHTMLAttributes<HTMLInputElement> & {
 };
 
 const Checkbox = forwardRef(
-  <T extends unknown>(props: Props<T>, ref: ForwardedRef<HTMLInputElement>) => {
+  <T extends unknown>(
+    { getStoredData, storeData, label, ...props }: Props<T>,
+    ref: ForwardedRef<HTMLInputElement>
+  ) => {
     return (
       <div
         className={styles.checkboxCont}
         onClick={(e) => {
           e.stopPropagation();
-          props.getStoredData &&
-            props.getStoredData(props.storeData ?? ("" as T));
+          getStoredData && getStoredData(storeData ?? ("" as T));
         }}
       >
         <input ref={ref} type="checkbox" {...props} />
-        <label htmlFor={props.id}>{props.label}</label>
+        <label htmlFor={props.id}>{label}</label>
       </div>
     );
   }
