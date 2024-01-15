@@ -133,7 +133,10 @@ const CreateJob = () => {
                       <p className={styles.name}>
                         <span className={styles.bold}>Customer Type</span>
                       </p>
-                      <div className={`${styles.roles}`}>
+                      <div
+                        data-name="customer_type"
+                        className={`${styles.roles}`}
+                      >
                         <Radio
                           value="Business"
                           label="Business"

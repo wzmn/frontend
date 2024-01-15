@@ -77,9 +77,11 @@ export interface WorkTypeQuestionT {
   updated_at: Date;
   is_active: boolean;
   content: string;
-  question_type: Question_type;
+  question_type: string;
   has_sub_question: boolean;
   is_sub_question: boolean;
+  is_required: boolean;
+  parent_question: null;
   company: number;
   work_type: number;
 }
@@ -106,4 +108,20 @@ export interface SubQuestionT {
   next_subquestions: WorkTypeQuestionT[];
   answer: string;
   question: number;
+}
+
+//answers api
+
+export type AnsRespQT = PaginationType<WorkTypeQuestionT[]>;
+
+export interface AnsQResultT {
+  id: number;
+  question: WorkTypeQuestionT;
+  selected_options: any[];
+  ref_id: null;
+  created_at: Date;
+  updated_at: Date;
+  is_active: boolean;
+  answer: string;
+  appointment: number;
 }
