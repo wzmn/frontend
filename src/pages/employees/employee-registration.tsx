@@ -59,7 +59,7 @@ const EmployeeRegistration = () => {
     getValues,
     watch,
     formState: { isSubmitting, errors },
-  } = useForm({
+  } = useForm<EmployeeRegistrationSchemaType>({
     resolver: yupResolver(employeeRegistrationSchema),
   });
 
@@ -171,8 +171,8 @@ const EmployeeRegistration = () => {
                       {...register("role")}
                     />
                     <Radio
-                      label="TEAM LEADER"
-                      value="Team Leader"
+                      label="TEAM LEAD"
+                      value="Team Lead"
                       {...register("role")}
                     />
                     <Radio label="AGENT" value="Agent" {...register("role")} />

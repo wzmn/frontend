@@ -40,10 +40,15 @@ const ArrayQuestionsPallet = ({
   const qType = watch(`next_questions.${index}.question_type`);
 
   const [enabled, setEnabled] = useState(false);
+  const [isRequired, setIsRequired] = useState(false);
 
   useEffect(() => {
     setValue(`next_questions.${index}.has_sub_question`, enabled);
   }, [enabled]);
+
+  useEffect(() => {
+    setValue(`next_questions.${index}.is_required`, isRequired);
+  }, [isRequired]);
 
   function deleteOptions(idx: number) {
     const list = [...qOptions!];
@@ -81,6 +86,23 @@ const ArrayQuestionsPallet = ({
           </Switch>
         </div>
       )}
+
+      <div className="flex gap-3 items-center mb-4">
+        <p className="text-xs">is requires</p>
+        <Switch
+          checked={isRequired}
+          onChange={setIsRequired}
+          className={`${isRequired ? "bg-blue-500" : "bg-gray-500"}
+          relative inline-flex h-[20px] w-[30px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white/75`}
+        >
+          <span className="sr-only">Use setting</span>
+          <span
+            aria-hidden="true"
+            className={`${isRequired ? "translate-x-3" : "translate-x-0"}
+            pointer-events-none inline-block h-[16px] w-[16px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
+          />
+        </Switch>
+      </div>
       <div className="flex gap-3 mt-4">
         <div className="w-80">
           <Input

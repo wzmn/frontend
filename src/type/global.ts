@@ -31,7 +31,7 @@ export type RoleType =
   | "Snippit Auditor"
   | "Admin"
   | "Manager"
-  | "Team Leader"
+  | "Team Lead"
   | "Auditor"
   | "Agent"
   | "Field Worker"

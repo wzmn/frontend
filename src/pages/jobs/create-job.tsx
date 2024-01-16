@@ -14,6 +14,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import {
   JobRegistrationSchemaType,
+  conditionalSchema,
   jobRegistrationSchema,
 } from "schema/job-schema";
 import Address from "services/address";
@@ -39,7 +40,7 @@ const CreateJob = () => {
   const id = companyIdFetcher(userRole);
 
   const methods = useForm({
-    resolver: yupResolver(jobRegistrationSchema),
+    resolver: yupResolver(conditionalSchema()),
     defaultValues: {
       billAddCheck: false,
       workType: [],
@@ -63,6 +64,9 @@ const CreateJob = () => {
         alert("Please Select Country");
         return;
       }
+
+      console.log(data);
+      return;
       const response = await request({
         url: JOB_LISTING,
         method: "post",
@@ -75,7 +79,7 @@ const CreateJob = () => {
           address: data.address,
           job_assigned_to_id: data.job_assigned_to_id,
           work_type_id: data.workType,
-          ...(billAddCheck
+          ...(!billAddCheck
             ? { billing_address: data.address }
             : { billing_address: data.billing_address }),
         },

@@ -19,6 +19,7 @@ const schemaNestQuestion = object({
   next_questions: array()
     .of(
       object({
+        is_required: boolean(),
         has_sub_question: boolean(),
         is_sub_question: boolean(),
         content: string().trim().required("required"),
@@ -95,8 +96,6 @@ const AddSubQuestions = ({
   });
 
   async function onSubmit(data: AddQuestionsT) {
-    console.log(data, "dataaaa");
-    return;
     try {
       const response = await request({
         url: SUB_Q_CONDITIONS,

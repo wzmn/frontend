@@ -1,18 +1,27 @@
+import Checkbox from "components/checkbox";
 import Input from "components/input";
 import { checkforMultiChecker } from "components/pages/settings/new-appt-questions/helper";
 import TextButton from "components/text-button";
-import { SUB_Q_CONDITIONS } from "constants/api";
+import { QUESTIONS_ANS, SUB_Q_CONDITIONS } from "constants/api";
 import React, { useState } from "react";
 import { UseFormRegister, useFieldArray, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import { request } from "services/http-request";
 import {
   Option,
+  QAnsRespT,
   QAnsResultT,
   SubQuestionRespT,
   SubQuestionT,
 } from "type/global";
 
-const AnsQuestion = ({ data }: { data: QAnsResultT }) => {
+const AnsQuestion = ({
+  data,
+  formParent = "parent",
+}: {
+  data: QAnsResultT;
+  formParent?: string;
+}) => {
   const { control, register, setValue, handleSubmit } = useForm<{
     options: Partial<Option>[];
     content: string;
@@ -30,20 +39,30 @@ const AnsQuestion = ({ data }: { data: QAnsResultT }) => {
     name: "options", // unique name for your Field Array
   });
 
+  function onSubmit(data: any) {
+    console.log(data);
+  }
+
   return (
-    <div>
-      <p className="">{data.question.content}</p>
+    <form
+      onSubmit={(e) => {
+        e.stopPropagation();
+        handleSubmit(onSubmit)(e);
+      }}
+      className=""
+    >
+      <p className="">{data?.question?.content}</p>
       <div className="">
-        {checkforMultiChecker.includes(data.question.question_type) ? (
+        {checkforMultiChecker.includes(data?.question?.question_type) ? (
           <div className="mt-2">
             {fields?.map((option, index) => {
               return (
                 <Options
                   option={option}
-                  company={data.question.company}
-                  work_type={data.question.work_type}
+                  company={data?.question?.company}
+                  work_type={data?.question?.work_type}
                   //   fetchNestQ={fetchNestQ}
-                  parentQId={data.id}
+                  parentQId={data?.id}
                   register={register}
                   index={index}
                 />
@@ -52,11 +71,12 @@ const AnsQuestion = ({ data }: { data: QAnsResultT }) => {
           </div>
         ) : (
           <div className="w-64">
-            <Input placeholder={data.answer} />
+            <Input placeholder={data?.answer} />
           </div>
         )}
       </div>
-    </div>
+      {/* <button type="submit">submit</button> */}
+    </form>
   );
 };
 
@@ -83,7 +103,21 @@ function Options({
 }) {
   const [showAddQ, setShowAddQ] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [subQ, setSubQ] = useState<SubQuestionT[]>();
+  const [subQ, setSubQ] = useState<QAnsResultT[]>();
+
+  async function fetchQuestionsAns(id: number) {
+    try {
+      const response = await request<QAnsRespT>({
+        url: QUESTIONS_ANS,
+        params: {
+          answer: id,
+        },
+      });
+      setSubQ(() => response?.data?.results);
+    } catch (error) {
+      toast("Problem fetching questions");
+    }
+  }
 
   async function fetchNestQ(qText: string) {
     try {
@@ -91,11 +125,14 @@ function Options({
       const response = await request<SubQuestionRespT>({
         url: SUB_Q_CONDITIONS,
         params: {
-          answer_in: qText,
+          answer__in: qText,
           question: parentQId,
         },
+      }).then((res) => {
+        if (res?.data?.results?.length! > 0) {
+          fetchQuestionsAns(res?.data?.results?.[0]?.id!);
+        }
       });
-      setSubQ(() => response.data.results);
     } catch (error) {
     } finally {
       setLoading((prev) => !prev);
@@ -107,38 +144,47 @@ function Options({
       <div className="flex gap-3">
         {/* {JSON.stringify(option)} */}
         <div className="w-48 mt-2 ">
-          <Input
-            placeholder={option.option_text}
-            {...register(`options.${index}.option_text`)}
+          <Checkbox
+            type="radio"
+            checked={option?.option_text === "Yes"}
+            id={option?.option_text}
+            {...register(`options`)}
+            label={<p className="">{option?.option_text}</p>}
+            value={option?.option_text}
           />
+
+          {/* //   <Input
+        //     placeholder={option.option_text}
+        //     {...register(`options.${index}.option_text`)}
+        //   /> */}
         </div>
         <TextButton
           type="button"
           label="View Sub Questions"
           // className={styles.txtBtn}
           onClick={() => {
-            fetchNestQ(option.option_text!);
+            fetchNestQ(option?.option_text!);
           }}
         />
-        <TextButton
+        {/* <TextButton
           type="button"
           label={showAddQ ? "Hide" : "Add Questions"}
           // className={styles.txtBtn}
           onClick={() => {
             setShowAddQ((prev) => !prev);
           }}
-        />
+        /> */}
       </div>
 
-      {showAddQ &&
+      {
         !!subQ &&
-        subQ?.[0]?.next_subquestions?.map((item, key) => {
-          return (
-            <div className="my-5 ml-5" key={key}>
-              {/* <AnsQuestion data={subQ?.[0]?.next_subquestions!} /> */}
-            </div>
-          );
-        })
+          subQ?.map((item, key) => {
+            return (
+              <div className="my-5 ml-5 " key={key}>
+                <AnsQuestion data={item} />
+              </div>
+            );
+          })
         // <div className="ml-10 my-8">
         //
         // </div>

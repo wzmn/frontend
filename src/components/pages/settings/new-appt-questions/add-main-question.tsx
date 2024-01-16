@@ -14,7 +14,7 @@ import UserIdentifyer from "services/user-identifyer";
 import { checkforMultiChecker, questions } from "./helper";
 import * as styles from "./styles.module.scss";
 import { AddQuestionsT } from "type/settings/questions";
-import { InferType, array, object, string } from "yup";
+import { InferType, array, boolean, object, string } from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as commonStyles from "styles/pages/common.module.scss";
 
@@ -24,6 +24,7 @@ import * as commonStyles from "styles/pages/common.module.scss";
 const schemaMainQ = object({
   content: string().trim().required("required"),
   question_type: string().trim().required("required"),
+  is_required: boolean(),
   options: array().when("question_type", ([question_type], schema) => {
     if (checkforMultiChecker.includes(question_type))
       return schema
@@ -52,6 +53,7 @@ const AddMainQuestion = ({
   refetch: () => Promise<void>;
 }) => {
   const [enabled, setEnabled] = useState(false);
+  const [isRequired, setIsRequired] = useState(false);
 
   const {
     register,
@@ -86,6 +88,7 @@ const AddMainQuestion = ({
           work_type: workType,
           has_sub_question: enabled,
           is_sub_question: false,
+          is_required: isRequired,
         },
       });
       toast.success("added");
@@ -134,6 +137,23 @@ const AddMainQuestion = ({
           </Switch>
         </div>
       )}
+
+      <div className="flex gap-3 items-center mb-4">
+        <p className="text-xs">is requires</p>
+        <Switch
+          checked={isRequired}
+          onChange={setIsRequired}
+          className={`${isRequired ? "bg-blue-500" : "bg-gray-500"}
+          relative inline-flex h-[20px] w-[30px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white/75`}
+        >
+          <span className="sr-only">Use setting</span>
+          <span
+            aria-hidden="true"
+            className={`${isRequired ? "translate-x-3" : "translate-x-0"}
+            pointer-events-none inline-block h-[16px] w-[16px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
+          />
+        </Switch>
+      </div>
 
       <div className="flex gap-3">
         <div className="w-80">

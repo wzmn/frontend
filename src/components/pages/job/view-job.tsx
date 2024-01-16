@@ -2,19 +2,16 @@ import { Disclosure } from "@headlessui/react";
 import Button from "components/button";
 import Divider from "components/divider";
 import Radio from "components/radio";
-import { APPOINTMENT_LISTING, JOB_LISTING } from "constants/api";
+import { APPOINTMENT_LISTING } from "constants/api";
 import { Link } from "gatsby-link";
 import useQuickFetch from "hook/quick-fetch";
 import moment from "moment";
-import { useRightBarContext } from "providers/right-bar-provider";
 import React from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import { FaChevronDown } from "react-icons/fa";
 import { IoCallOutline, IoLocationOutline } from "react-icons/io5";
 import { LuClipboardList } from "react-icons/lu";
 import { TfiEmail } from "react-icons/tfi";
-import { toast } from "react-toastify";
-import { request } from "services/http-request";
 import * as styles from "styles/pages/view.module.scss";
 import { AppointmentDataType } from "type/appointment";
 import { Result as JobResultT } from "type/job";
@@ -121,7 +118,14 @@ ${data.address?.state ? data.address?.state : ""} ${
 
       <p className={`${styles.name} ${styles.createBy}`}>
         <span className={styles.bold}>Job Created by: &nbsp; </span>
-        {data?.job_created_by} &nbsp;
+        {`${
+          data?.job_created_by?.first_name
+            ? data?.job_created_by?.first_name +
+              " " +
+              data?.job_created_by?.first_name
+            : "N/A"
+        }`}{" "}
+        &nbsp;
         <p className={styles.tag}>
           {moment(data?.customer?.user?.created_at).format(
             "DD/MM/yyyy hh:mm a"

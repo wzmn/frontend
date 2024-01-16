@@ -18,7 +18,7 @@ const manager = [
   "/settings",
 ];
 
-const teamLeader = [
+const teamLead = [
   "/",
   "/customers",
   "/jobs",
@@ -29,7 +29,7 @@ const teamLeader = [
 
 const auditor = ["/", "/appointments", "/settings"];
 
-const agent = ["/", "/jobs", "/appointments", "/settings"];
+const agent = ["/", "/jobs", "/appointments", "/settings", "/customer"];
 
 const snippitAuditor = ["/", "/appointments", "/settings"];
 
@@ -51,8 +51,8 @@ export function userAccessRouter(): string[] {
       return superAdmin;
     case "admin":
       return admin;
-    case "team leader":
-      return teamLeader;
+    case "team lead":
+      return teamLead;
     case "manager":
       return manager;
     case "auditor":
