@@ -21,13 +21,13 @@ export const customerRegistrationSchema = object({
     is: "Business",
     then: (schema) => schema.required("Required"),
   }),
-  assigned_to: string().nullable(),
+  // assigned_to: string().nullable(),
   address: addressSchema,
 });
 
-export const superAndAdminSchema = object({
-  assigned_to: string().required("Please select Employee Role first"),
-});
+// export const superAndAdminSchema = object({
+//   assigned_to: string().required("Please select Employee Role first"),
+// });
 
 // export const adminSchema = string().trim().required("Required");
 

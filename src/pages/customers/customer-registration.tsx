@@ -10,7 +10,7 @@ import {
   CustomerRegistrationSchemaType,
   // companyFieldSchema,
   customerRegistrationSchema,
-  superAndAdminSchema,
+  // superAndAdminSchema,
 } from "schema/customer-schema";
 import * as styles from "styles/pages/common.module.scss";
 // https://visgl.github.io/react-google-map
@@ -43,15 +43,15 @@ interface FileProps extends File {
 
 const showEmpFieldFor = ["superadmin", "admin"];
 
-function dynamicSchema(role: string) {
-  if (role === "superadmin") {
-    return customerRegistrationSchema.concat(superAndAdminSchema);
-  } else if (role === "admin") {
-    return customerRegistrationSchema.concat(superAndAdminSchema);
-  }
+// function dynamicSchema(role: string) {
+//   if (role === "superadmin") {
+//     return customerRegistrationSchema.concat(superAndAdminSchema);
+//   } else if (role === "admin") {
+//     return customerRegistrationSchema.concat(superAndAdminSchema);
+//   }
 
-  return customerRegistrationSchema;
-}
+//   return customerRegistrationSchema;
+// }
 
 const customerRegistration = () => {
   const [files, setFiles] = useState<FileProps[]>([]);
@@ -59,7 +59,7 @@ const customerRegistration = () => {
   const userRole = UserIdentifyer();
   const id = companyIdFetcher(userRole);
   const methods = useForm<CustomerRegistrationSchemaType>({
-    resolver: yupResolver(dynamicSchema(userRole)),
+    resolver: yupResolver(customerRegistrationSchema),
   });
 
   const companyListRef = useRef<HTMLInputElement>();
@@ -85,7 +85,7 @@ const customerRegistration = () => {
       const dt = {
         ...data,
         user: data.user,
-        assigned_to: data.assigned_to,
+        // assigned_to: data.assigned_to,
         company: id,
       };
 
@@ -226,7 +226,7 @@ const customerRegistration = () => {
                       </>
                     )}
 
-                    {showEmpFieldFor.includes(userRole) && (
+                    {/* {showEmpFieldFor.includes(userRole) && (
                       <>
                         <div className="max-w-3xl">
                           <Label title="Assign To" />
@@ -242,7 +242,7 @@ const customerRegistration = () => {
                           </p>
                         </div>
                       </>
-                    )}
+                    )} */}
                   </div>
                 </>
               </FormWraper>

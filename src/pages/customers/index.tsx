@@ -10,7 +10,7 @@ import { CompanyFilter } from "components/pages/company/helper";
 import CustList from "components/pages/customer/cust-card";
 import Pagination from "components/pagination";
 import Placeholder from "components/skeleton";
-import { CUSTOMER_LISTING } from "constants/api";
+import { CUSTOMER_LISTING, EXPORT_CUST } from "constants/api";
 import { Link } from "gatsby";
 import React, {
   ChangeEvent,
@@ -37,6 +37,9 @@ import { findMatchingId } from "utility/find-matching-id";
 import { TbCircuitSwitchClosed } from "react-icons/tb";
 import { SortFilter } from "components/pages/common";
 import { usefetchData } from "components/pages/customer/helper";
+import * as locStyles from "./styles.module.scss";
+import { CiExport, CiImport } from "react-icons/ci";
+import { toast } from "react-toastify";
 
 type DropItemType = { id: number; section: CustomerStatus };
 
@@ -217,6 +220,25 @@ const Customers = () => {
   //   }
   // }
 
+  async function exportCust() {
+    try {
+      const response = await toast.promise(
+        request({
+          url: EXPORT_CUST,
+          method: "get",
+          params: {
+            file_format: "CSV",
+          },
+        }),
+        {
+          pending: "Wait...",
+          success: "Exported! ",
+          error: "Cannot export try again later",
+        }
+      );
+    } catch (error) {}
+  }
+
   const handleSearch = debounce((e: ChangeEvent<HTMLInputElement>) => {
     fetchData({ search: e.target.value });
   });
@@ -251,8 +273,8 @@ const Customers = () => {
 
   return (
     <>
-      <div className={styles.btnCont}>
-        <Link to="customer-registration">
+      <div className={locStyles.btnCont}>
+        <Link to="customer-registration" className={locStyles.alignWithCard}>
           <Button
             width="default"
             title="Create Customer"
@@ -260,7 +282,7 @@ const Customers = () => {
             className="flex-row-reverse"
           />
         </Link>
-        <div className="">
+        <div className={locStyles.alignWithCard}>
           <Input
             name="company-search"
             placeholder="Search"
@@ -271,19 +293,21 @@ const Customers = () => {
         {/* <div className="w-64">
           <SelectBox color="full-white" data={dataList} />
         </div> */}
-        <Filterbtn icon={<IoIosArrowDown />} title="Filter">
-          <div
-            onClick={() => {
-              setVisible((prev) => !prev);
-            }}
-            className={menuStyle.menu}
-          >
-            <button>Date</button>
-          </div>
-          {/* <Menu title="Company Type" dropPosition={styles.menuPos}>
+        <div className={locStyles.alignWithCard}>
+          <Filterbtn icon={<IoIosArrowDown />} title="Filter">
+            <div
+              onClick={() => {
+                setVisible((prev) => !prev);
+              }}
+              className={menuStyle.menu}
+            >
+              <button>Date</button>
+            </div>
+            {/* <Menu title="Company Type" dropPosition={styles.menuPos}>
             <CompanyFilter />
           </Menu> */}
-        </Filterbtn>
+          </Filterbtn>
+        </div>
 
         <div className="w-32">
           {" "}
@@ -296,6 +320,27 @@ const Customers = () => {
               }}
             />
           </Filterbtn>
+        </div>
+
+        <div className="w-44 flex gap-3">
+          <div className={locStyles.impExpBtn}>
+            <Button
+              icon={<CiImport />}
+              className={`flex-row-reverse`}
+              color={"white"}
+              title="Import"
+            />
+          </div>
+
+          <div className={locStyles.impExpBtn}>
+            <Button
+              icon={<CiExport />}
+              className={`flex-row-reverse`}
+              color={"white"}
+              title="Export"
+              onClick={() => exportCust()}
+            />
+          </div>
         </div>
       </div>
 

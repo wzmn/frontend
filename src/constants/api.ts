@@ -10,6 +10,7 @@ export const EMPLOYEE_LISTING = "/employee/management/";
 export const EMPLOYEE_STATUS = "/employee/list-roles/";
 //CUSTOMER
 export const CUSTOMER_LISTING = "customer/management/";
+export const EXPORT_CUST = "/customer/export_data/";
 //COMPANY
 export const CONPAMY_UPLOAD_DOCS = "/company/info/?expand=detail";
 export const COMPANY_LISTING = "/company/basic/";

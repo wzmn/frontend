@@ -155,8 +155,8 @@ const Schedule = ({ item, companyId }: Props) => {
                 <Button
                   isLoading={isSubmitting}
                   disabled={isSubmitting}
-                  className={`${jobStyles.borderRing} mt-5`}
-                  color={isSubmitting ? "gray" : "white"}
+                  className={` mt-5`}
+                  color={"blue"}
                   title="Schedule"
                   type="submit"
                 />

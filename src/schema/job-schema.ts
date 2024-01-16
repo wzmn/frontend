@@ -44,7 +44,7 @@ export function conditionalSchema() {
   const userRole = UserIdentifyer();
 
   if (showEmpFieldFor.includes(userRole)) {
-    return jobRegistrationSchema.clone(jobAssignedSchema as any);
+    return jobRegistrationSchema.concat(jobAssignedSchema);
   } else {
     return jobRegistrationSchema;
   }

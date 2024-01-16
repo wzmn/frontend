@@ -117,9 +117,13 @@ const CreateJob = () => {
     // return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
   }, [id]);
 
+  // useEffect(() => {
+  //   console.log(errors);
+  // }),
+  //   [errors];
+
   return (
     <>
-      {/* {JSON.stringify(errors)} */}
       <p className={styles.title}>Create Job</p>
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-16 mb-3">

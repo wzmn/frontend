@@ -101,7 +101,7 @@ const ViewAppt = ({ data }: { data: Result }) => {
         <span className={styles.bold}>Appt Created by: &nbsp; </span>
         {/* {data?.company_owner?.first_name} &nbsp; */}
         <span className={styles.tag}>
-          {moment(data?.created_at).format("DD/MM/yyyy HH:MM a")}
+          {moment(data?.created_at).format("DD/MM/yyyy hh:mm a")}
         </span>
       </p>
       <div className={styles.divider}>

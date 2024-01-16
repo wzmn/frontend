@@ -4,7 +4,7 @@ import FormSection from "components/form-sections";
 import FormWraper from "components/form-wrapper";
 import Input from "components/input";
 import Radio from "components/radio";
-import { PageProps } from "gatsby";
+import { PageProps, navigate } from "gatsby";
 import moment from "moment";
 import React, { Fragment, useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
@@ -17,6 +17,7 @@ import { CompanyDataType, Result } from "type/company";
 import * as companyStyles from "../company/styles.module.scss";
 import { request } from "services/http-request";
 import { COMPANY_LISTING } from "constants/api";
+import { AxiosError } from "axios";
 
 const CompanyDetails = (props: PageProps) => {
   const { control, setValue, handleSubmit } = useForm<any>({
@@ -44,6 +45,11 @@ const CompanyDetails = (props: PageProps) => {
       });
       setData(() => response.data);
     } catch (error) {
+      if (
+        ((error as AxiosError).response?.data as any)?.detail === "Not found."
+      ) {
+        navigate("/company");
+      }
       console.log(error);
     }
   }
