@@ -1,24 +1,19 @@
+import { Switch } from "@headlessui/react";
 import Input from "components/input";
 import SelectBox from "components/selectBox";
 import React, { useEffect, useState } from "react";
 import {
   FieldErrors,
-  UseFieldArrayReturn,
   UseFormRegister,
   UseFormSetValue,
   UseFormWatch,
-  useFieldArray,
-  useForm,
 } from "react-hook-form";
-import { Option, WorkTypeQuestionT } from "type/global";
-import { checkforMultiChecker, questions } from "./helper";
 import { IoMdAdd } from "react-icons/io";
-import * as settingStyles from "./styles.module.scss";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { AddQuestionsT } from "type/settings/questions";
-import { Switch } from "@headlessui/react";
-import { SchemaNestQuestionT } from "./add-sub-questions";
 import * as styles from "styles/pages/common.module.scss";
+import { SchemaNestQuestionT } from "./add-sub-questions";
+import { checkforMultiChecker, questions } from "./helper";
+import * as settingStyles from "./styles.module.scss";
 
 //AddQuestion is a pattern of form which doest have onSubmit, which will trigger by form which wrapped  AddQuestion
 // all the form controlers will be pass as params in AddQuestion

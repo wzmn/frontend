@@ -1,11 +1,15 @@
 import Button from "components/button";
 import { Drop } from "components/drop-zone";
 import { Drage } from "components/drop-zone/drage";
+import Filterbtn from "components/filterBtn";
 import Input from "components/input";
+import * as menuStyle from "components/menu/styles.module.scss";
+import Modal from "components/modal";
+import ViewAppt from "components/pages/appointment/view-appt";
+import { SortFilter } from "components/pages/common";
 import Pagination from "components/pagination";
-import SelectBox from "components/selectBox";
 import Placeholder from "components/skeleton";
-import { APPOINTMENT_LISTING, APPT_STATUES } from "constants/api";
+import { APPOINTMENT_LISTING } from "constants/api";
 import { Link } from "gatsby";
 import moment from "moment";
 import { useAppContext } from "providers/app-provider";
@@ -17,35 +21,27 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { DateRangePicker } from "react-date-range";
 import { AiOutlinePlus } from "react-icons/ai";
 import { ImSpinner10 } from "react-icons/im";
+import { IoIosArrowDown } from "react-icons/io";
 import { IoCallOutline, IoEyeOutline } from "react-icons/io5";
+import { TbCircuitSwitchClosed } from "react-icons/tb";
 import { TfiEmail } from "react-icons/tfi";
+import companyIdFetcher from "services/company-id-fetcher";
 import { request } from "services/http-request";
+import UserIdentifyer from "services/user-identifyer";
 import * as commonStyles from "styles/pages/common.module.scss";
 import {
   AppointmentDataType,
   AppointmentExtraDataType,
   AppointmentStatusType,
   ApptStateStatus,
-  ApptStatues,
   ApptStatuesResp,
 } from "type/appointment";
 import cssVar from "utility/css-var";
-import { findMatchingId } from "utility/find-matching-id";
-import * as menuStyle from "components/menu/styles.module.scss";
 import { debounce } from "utility/debounce";
-import Filterbtn from "components/filterBtn";
-import Menu from "components/menu";
-import { CompanyFilter } from "components/pages/company/helper";
-import Modal from "components/modal";
-import { DateRangePicker } from "react-date-range";
-import ViewAppt from "components/pages/appointment/view-appt";
-import UserIdentifyer from "services/user-identifyer";
-import companyIdFetcher from "services/company-id-fetcher";
-import { IoIosArrowDown } from "react-icons/io";
-import { TbCircuitSwitchClosed } from "react-icons/tb";
-import { SortFilter } from "components/pages/common";
+import { findMatchingId } from "utility/find-matching-id";
 
 const selectionRangeInit = {
   startDate: undefined,

@@ -1,19 +1,19 @@
-import Button from "components/button";
-import React, { useState } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
-import { AddQuestionsT } from "type/settings/questions";
-import ArrayQuestionsPallet from "./array-questions-pallet";
-import * as settingStyles from "./styles.module.scss";
-import TextButton from "components/text-button";
-import { FaPlus } from "react-icons/fa";
-import * as styles from "./styles.module.scss";
-import { RiDeleteBin6Line } from "react-icons/ri";
-import { request } from "services/http-request";
-import { toast } from "react-toastify";
-import { APPT_Q, SUB_Q_CONDITIONS } from "constants/api";
-import { InferType, array, boolean, mixed, number, object, string } from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import Button from "components/button";
+import TextButton from "components/text-button";
+import { SUB_Q_CONDITIONS } from "constants/api";
+import React from "react";
+import { useFieldArray, useForm } from "react-hook-form";
+import { FaPlus } from "react-icons/fa";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { toast } from "react-toastify";
+import { request } from "services/http-request";
+import { AddQuestionsT } from "type/settings/questions";
+import { InferType, array, boolean, number, object, string } from "yup";
+import ArrayQuestionsPallet from "./array-questions-pallet";
 import { checkforMultiChecker } from "./helper";
+import * as settingStyles from "./styles.module.scss";
+import * as styles from "./styles.module.scss";
 
 const schemaNestQuestion = object({
   next_questions: array()

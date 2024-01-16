@@ -1,20 +1,15 @@
 import Input from "components/input";
 import SelectBox from "components/selectBox";
+import TextButton from "components/text-button";
+import { SUB_Q_CONDITIONS } from "constants/api";
 import React, { useEffect, useState } from "react";
 import { UseFormRegister, useFieldArray, useForm } from "react-hook-form";
-import { Option, SubQuestionRespT, WorkTypeQuestionT } from "type/global";
-import * as styles from "./styles.module.scss";
-import Button from "components/button";
-import TextButton from "components/text-button";
 import { ImSpinner10 } from "react-icons/im";
-import { IoMdAdd } from "react-icons/io";
-import * as settingStyles from "./styles.module.scss";
-import { SUB_Q_CONDITIONS } from "constants/api";
 import { request } from "services/http-request";
-import { questions } from "./helper";
-import { AddQuestionsT } from "type/settings/questions";
-import ArrayQuestionsPallet from "./array-questions-pallet";
+import { Option, SubQuestionRespT, WorkTypeQuestionT } from "type/global";
 import AddSubQuestions from "./add-sub-questions";
+import { questions } from "./helper";
+import * as styles from "./styles.module.scss";
 
 const Questions = ({
   data,

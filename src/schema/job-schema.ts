@@ -1,7 +1,7 @@
 import { EmailReg } from "constants/regex";
-import { InferType, array, bool, boolean, mixed, object, string } from "yup";
-import { addressSchema } from "./address-schema";
 import UserIdentifyer from "services/user-identifyer";
+import { InferType, array, boolean, mixed, object, string } from "yup";
+import { addressSchema } from "./address-schema";
 
 export const jobRegistrationSchema = object({
   billAddCheck: boolean(),

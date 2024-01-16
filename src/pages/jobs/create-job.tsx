@@ -4,6 +4,7 @@ import Checkbox from "components/checkbox";
 import ComboBox, { ComboBoxDataT } from "components/combo-box";
 import FormSection from "components/form-sections";
 import FormWraper from "components/form-wrapper";
+import Label from "components/label";
 import Radio from "components/radio";
 import TextField from "components/text-field";
 import { JOB_LISTING } from "constants/api";
@@ -15,7 +16,6 @@ import { toast } from "react-toastify";
 import {
   JobRegistrationSchemaType,
   conditionalSchema,
-  jobRegistrationSchema,
 } from "schema/job-schema";
 import Address from "services/address";
 import companyIdFetcher from "services/company-id-fetcher";
@@ -23,11 +23,10 @@ import employeeList from "services/employee-list";
 import { request } from "services/http-request";
 import UserIdentifyer from "services/user-identifyer";
 import * as styles from "styles/pages/common.module.scss";
+import { Result } from "type/employee";
+import { debounce } from "utility/debounce";
 import { WorkTypeLabel } from "./create-appointment";
 import * as jobStyles from "./styles.module.scss";
-import Label from "components/label";
-import { debounce } from "utility/debounce";
-import { Result } from "type/employee";
 const showEmpFieldFor = ["superadmin", "admin"];
 
 const CreateJob = () => {
@@ -35,7 +34,6 @@ const CreateJob = () => {
   const [empListData, setEmpListData] = useState<ComboBoxDataT[]>([]);
   const userRole = UserIdentifyer();
   const { workTypes } = useAppContext();
-  const [checkBillingAdd, setBillingAdd] = useState(false);
 
   const id = companyIdFetcher(userRole);
 
@@ -64,9 +62,6 @@ const CreateJob = () => {
         alert("Please Select Country");
         return;
       }
-
-      console.log(data);
-      return;
       const response = await request({
         url: JOB_LISTING,
         method: "post",

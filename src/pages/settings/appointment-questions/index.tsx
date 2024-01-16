@@ -13,17 +13,16 @@ import { useAppContext } from "providers/app-provider";
 import { useFieldArray, useForm } from "react-hook-form";
 import { FaPlus } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import companyIdFetcher from "services/company-id-fetcher";
 import { request } from "services/http-request";
+import UserIdentifyer from "services/user-identifyer";
 import {
-  Option,
   WorkTypeQuestionT,
   WorkTypeRespQuestionT,
   WorkTypeT,
 } from "type/global";
-import * as settingStyles from "../styles.module.scss";
 import { AddQuestionsT } from "type/settings/questions";
-import UserIdentifyer from "services/user-identifyer";
-import companyIdFetcher from "services/company-id-fetcher";
+import * as settingStyles from "../styles.module.scss";
 
 const AppointmentQuestions = () => {
   const [qData, setQData] = useState<WorkTypeQuestionT[]>([]);
