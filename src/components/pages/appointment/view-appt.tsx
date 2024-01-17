@@ -117,6 +117,7 @@ const ViewAppt = ({ data }: { data: Result }) => {
         to="assessment"
         state={{
           wtId: data?.job?.work_type?.id,
+          apptId: data?.id,
         }}
         className="mt-10"
       >

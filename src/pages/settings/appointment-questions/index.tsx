@@ -149,7 +149,12 @@ const AppointmentQuestions = () => {
             <FormSection title="Input Questions" style={{ zIndex: "inherit" }}>
               <FormWraper>
                 <>
-                  <AddMainQuestion workType={workType!} refetch={fetchWTQ} />
+                  <AddMainQuestion
+                    workType={workType!}
+                    refetch={fetchWTQ}
+                    index={index}
+                    deleteQ={deleteQ}
+                  />
                 </>
               </FormWraper>
             </FormSection>

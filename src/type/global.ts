@@ -117,7 +117,7 @@ export type QAnsRespT = PaginationType<QAnsResultT[]>;
 export interface QAnsResultT {
   id: number;
   question: WorkTypeQuestionT;
-  selected_options: any[];
+  selected_options: Option[];
   ref_id: null;
   created_at: Date;
   updated_at: Date;

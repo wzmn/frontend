@@ -29,7 +29,7 @@ const teamLead = [
 
 const auditor = ["/", "/appointments", "/settings"];
 
-const agent = ["/", "/jobs", "/appointments", "/settings", "/customer"];
+const agent = ["/", "/jobs", "/appointments", "/settings", "/customers"];
 
 const snippitAuditor = ["/", "/appointments", "/settings"];
 

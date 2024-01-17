@@ -69,6 +69,7 @@ const customerRegistration = () => {
     watch,
     handleSubmit,
     setValue,
+    setError,
     formState: { errors, isSubmitting },
   } = methods;
 
@@ -132,7 +133,47 @@ const customerRegistration = () => {
     return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
   }, [id]);
 
+  function toLoc(arrOfObj: Array<any>) {
+    console.log("track toLoc");
+    for (let i of arrOfObj) {
+      if (Array.isArray(i)) {
+        return toLoc(i);
+      }
+      if (typeof i === "object") {
+        if (i.hasOwnProperty("ref")) {
+          return i.ref.name;
+        }
+        return toLoc(Object.entries(i));
+      }
+    }
+  }
+
   useEffect(() => {}, [companyListRef]);
+
+  useEffect(() => {
+    // console.log(errors[Object.keys(errors)[0]], Object.entries(errors)[0]);
+    // Autofocus on the first input field with an error
+    // const firstErrorField = Object.keys(errors)[0];
+    // if (firstErrorField) {
+    //   setError(firstErrorField as any, {});
+    //   const inputElement = document.getElementById(firstErrorField);
+    //   if (inputElement) {
+    //     inputElement.focus();
+    //   }
+    // }
+
+    const tagName = toLoc(Object.entries(errors));
+    if (tagName) {
+      console.log(document.getElementsByName(tagName)[0]);
+
+      (document.getElementsByName(tagName)[0] as HTMLElement).scrollIntoView({
+        behavior: "smooth",
+      });
+      // (
+      //   document.getElementsByTagName(tagName) as unknown as HTMLDivElement
+      // ).scrollIntoView({ behavior: "smooth" });
+    }
+  }, [errors]);
 
   return (
     <>

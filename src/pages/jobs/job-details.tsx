@@ -36,7 +36,7 @@ const JobDetails = (props: PageProps) => {
     },
   });
 
-  const [data, setData] = useState<Result>({});
+  const [data, setData] = useState<Result>();
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -105,7 +105,14 @@ const JobDetails = (props: PageProps) => {
 
                 <p className={`${styles.name} ${styles.createBy}`}>
                   <span className={styles.bold}>Job Created by: &nbsp; </span>
-                  {data.job_created_by} &nbsp;
+                  {`${
+                    data?.job_created_by?.first_name
+                      ? data?.job_created_by?.first_name +
+                        " " +
+                        data?.job_created_by?.first_name
+                      : "N/A"
+                  }`}{" "}
+                  &nbsp;
                   <span className={styles.tag2}>
                     {moment(data?.customer?.user?.created_at).format(
                       "DD/MM/yyyy hh:mm a"

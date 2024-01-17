@@ -239,7 +239,10 @@ const CreateJob = () => {
                           <ComboBox<Result>
                             data={empListData}
                             handleSelect={(e) => {
-                              setValue("job_assigned_to_id", String(e?.id!));
+                              setValue(
+                                "job_assigned_to_id",
+                                String(e?.user?.id)
+                              );
                             }}
                             onChange={debounce(handleEmployeeList)}
                           />

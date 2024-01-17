@@ -81,6 +81,7 @@ const vidData = [
 
 type LocState = {
   wtId: string;
+  apptId: number;
 };
 
 const Assessment = (props: PageProps) => {
@@ -91,7 +92,8 @@ const Assessment = (props: PageProps) => {
       const response = await request<QAnsRespT>({
         url: QUESTIONS_ANS,
         params: {
-          work_type__id: (props.location.state as LocState).wtId,
+          question__is_sub_question: false,
+          appointment: (props.location.state as LocState).apptId,
         },
       });
 
@@ -113,7 +115,7 @@ const Assessment = (props: PageProps) => {
       <div className="space-y-16 mb-3">
         <FormSection title="Questionnaire">
           <FormWraper>
-            <div className="space-y-16 mb-3">
+            <div className="space-y-10 mb-3">
               {data?.map((qAns, index) => {
                 return <AnsQuestion data={qAns} key={index} />;
               })}

@@ -131,7 +131,10 @@ const Schedule = ({ item, companyId }: Props) => {
                       <ComboBox<EmpResult>
                         data={empListData}
                         handleSelect={(e) => {
-                          setValue("assessment_assigned_to_id", String(e?.id!));
+                          setValue(
+                            "assessment_assigned_to_id",
+                            String(e?.user?.id)
+                          );
                         }}
                         onChange={debounce(handleEmployeeList)}
                       />

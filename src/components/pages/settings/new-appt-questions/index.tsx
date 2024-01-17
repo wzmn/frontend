@@ -49,7 +49,7 @@ const Questions = ({
           question: data.id,
         },
       });
-      !!response.data.results![0]?.next_subquestions &&
+      response.data.results![0]?.next_subquestions.length > 0 &&
         appendInParentState((prev) => [
           ...prev,
           response.data.results![0]?.next_subquestions,
@@ -108,6 +108,7 @@ const Questions = ({
                 parentQId={data.id}
                 register={register}
                 index={index}
+                hasSubQ={data.has_sub_question}
               />
             );
           })}
@@ -130,12 +131,14 @@ function Options({
   parentQId,
   register,
   index,
+  hasSubQ,
 }: {
   option: Partial<Option>;
   fetchNestQ: (e: any) => Promise<void>;
   company: number;
   work_type: number;
   parentQId: number;
+  hasSubQ: boolean;
   register: UseFormRegister<{
     options: Partial<Option>[];
     content: string;
@@ -155,32 +158,36 @@ function Options({
             {...register(`options.${index}.option_text`)}
           />
         </div>
-        <TextButton
-          type="button"
-          label="View Sub Questions"
-          className={styles.txtBtn}
-          onClick={() => {
-            fetchNestQ(option.option_text!);
-          }}
-        />
-        <TextButton
-          type="button"
-          label={showAddQ ? "Hide" : "Add Questions"}
-          className={styles.txtBtn}
-          onClick={() => {
-            setShowAddQ((prev) => !prev);
-          }}
-        />
+        {hasSubQ && (
+          <>
+            <TextButton
+              type="button"
+              label="View Sub Questions"
+              className={styles.txtBtn}
+              onClick={() => {
+                fetchNestQ(option.option_text!);
+              }}
+            />
+            <TextButton
+              type="button"
+              label={showAddQ ? "Hide" : "Add Questions"}
+              className={styles.txtBtn}
+              onClick={() => {
+                setShowAddQ((prev) => !prev);
+              }}
+            />
+          </>
+        )}
       </div>
 
       {showAddQ && (
         <div className="ml-10 my-8">
           <AddSubQuestions
-            qId={option.id}
-            qText={option.option_text}
+            qText={option.option_text!}
             company={company}
             work_type={work_type}
             parentQId={parentQId}
+            setShowAddQ={setShowAddQ}
           />
         </div>
       )}

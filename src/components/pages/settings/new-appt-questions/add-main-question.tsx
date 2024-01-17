@@ -48,9 +48,13 @@ type SchemaMainQ = InferType<typeof schemaMainQ>;
 const AddMainQuestion = ({
   workType,
   refetch,
+  index,
+  deleteQ,
 }: {
   workType: string;
   refetch: () => Promise<void>;
+  index: number;
+  deleteQ: (e: number) => void;
 }) => {
   const [enabled, setEnabled] = useState(false);
   const [isRequired, setIsRequired] = useState(false);
@@ -91,8 +95,9 @@ const AddMainQuestion = ({
           is_required: isRequired,
         },
       });
-      toast.success("added");
+      toast.success("Question added successfully");
       await refetch();
+      deleteQ(index);
     } catch (error) {
       console.log("inside error");
       toast.error("failed adding question");

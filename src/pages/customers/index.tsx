@@ -322,7 +322,7 @@ const Customers = () => {
           </Filterbtn>
         </div>
 
-        <div className="w-44 flex gap-3">
+        {/* <div className="w-44 flex gap-3">
           <div className={locStyles.impExpBtn}>
             <Button
               icon={<CiImport />}
@@ -341,7 +341,7 @@ const Customers = () => {
               onClick={() => exportCust()}
             />
           </div>
-        </div>
+        </div> */}
       </div>
 
       <div className={`${styles.tableCont} drop-container`} ref={table}>

@@ -58,19 +58,28 @@ const schemaNestQuestion = object({
 
 export type SchemaNestQuestionT = InferType<typeof schemaNestQuestion>;
 
+type AddSubQuestionsT = {
+  company: number;
+  work_type: number;
+  qText: string;
+  parentQId: number;
+  setShowAddQ: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
 const AddSubQuestions = ({
   company,
   work_type,
-  qId,
   qText,
   parentQId,
-}: any) => {
+  setShowAddQ,
+}: AddSubQuestionsT) => {
   const {
     control,
     handleSubmit,
     register,
     setValue,
     watch,
+    reset,
     formState: { isSubmitting, errors },
   } = useForm<SchemaNestQuestionT>({
     resolver: yupResolver(schemaNestQuestion),
@@ -106,8 +115,10 @@ const AddSubQuestions = ({
           answer: qText,
         },
       });
-      toast.success("added");
+      toast.success("Sub Question added successfully");
+      reset();
       // await refetch();
+      setShowAddQ(false);
     } catch (error) {
       toast.error("failed adding question");
     }
