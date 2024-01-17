@@ -5,15 +5,13 @@ import Filterbtn from "components/filterBtn";
 import Input from "components/input";
 import * as menuStyle from "components/menu/styles.module.scss";
 import Modal from "components/modal";
-import ViewAppt from "components/pages/appointment/view-appt";
+import ApptList from "components/pages/appointment/appt-list";
 import { SortFilter } from "components/pages/common";
 import Pagination from "components/pagination";
 import Placeholder from "components/skeleton";
 import { APPOINTMENT_LISTING } from "constants/api";
 import { Link } from "gatsby";
-import moment from "moment";
 import { useAppContext } from "providers/app-provider";
-import { useRightBarContext } from "providers/right-bar-provider";
 import React, {
   ChangeEvent,
   Fragment,
@@ -23,11 +21,8 @@ import React, {
 } from "react";
 import { DateRangePicker } from "react-date-range";
 import { AiOutlinePlus } from "react-icons/ai";
-import { ImSpinner10 } from "react-icons/im";
 import { IoIosArrowDown } from "react-icons/io";
-import { IoCallOutline, IoEyeOutline } from "react-icons/io5";
 import { TbCircuitSwitchClosed } from "react-icons/tb";
-import { TfiEmail } from "react-icons/tfi";
 import companyIdFetcher from "services/company-id-fetcher";
 import { request } from "services/http-request";
 import UserIdentifyer from "services/user-identifyer";
@@ -42,6 +37,7 @@ import {
 import cssVar from "utility/css-var";
 import { debounce } from "utility/debounce";
 import { findMatchingId } from "utility/find-matching-id";
+import * as locStyles from "./styles.module.scss";
 
 const selectionRangeInit = {
   startDate: undefined,
@@ -80,6 +76,7 @@ const Appintments = () => {
   const [visible, setVisible] = useState(false);
   const [selectionRange, setSelectionRange] = useState(selectionRangeInit);
   const [sort, setSort] = useState(sortType[0].value);
+  const [snippitAudited, setSnippitAudited] = useState<string[]>([]);
 
   const [pagination, setPagination] = useState({
     page: 1,
@@ -220,6 +217,25 @@ const Appintments = () => {
       table.current!.scrollLeft += evt.deltaY;
     }
   };
+
+  function snippitAuditedCheckboxHandler(value: string) {
+    let idChecker = null;
+    const list = [...snippitAudited];
+    for (let i = 0; i < snippitAudited.length; i++) {
+      if (snippitAudited[i] === value) {
+        list.splice(i, 1);
+        idChecker = i;
+        break;
+      }
+    }
+
+    if (idChecker === null) {
+      list.push(value);
+    }
+
+    setSnippitAudited(() => [...list]);
+  }
+
   useEffect(() => {
     table.current!.addEventListener("wheel", handleScroll);
     return () => {
@@ -241,18 +257,16 @@ const Appintments = () => {
 
   return (
     <>
-      <div className={btnCont}>
-        <div className="">
-          <Link to="/jobs/create-job/">
-            <Button
-              title="Create Job"
-              icon={<AiOutlinePlus />}
-              className="flex-row-reverse"
-            />
-          </Link>
-        </div>
+      <div className={locStyles.filtersCont}>
+        <Link to="/jobs/create-job/" className={locStyles.alignWithCard}>
+          <Button
+            title="Create Job"
+            icon={<AiOutlinePlus />}
+            className="flex-row-reverse"
+          />
+        </Link>
 
-        <div className="">
+        <div className={locStyles.alignWithCard}>
           <Input
             name="company-search"
             placeholder="Search"
@@ -263,16 +277,18 @@ const Appintments = () => {
         {/* <div className="w-64">
           <SelectBox color="full-white" data={dataList} />
         </div> */}
-        <Filterbtn icon={<IoIosArrowDown />} title="Filter">
-          <div
-            onClick={() => {
-              setVisible((prev) => !prev);
-            }}
-            className={menuStyle.menu}
-          >
-            <button>Date</button>
-          </div>
-        </Filterbtn>
+        <div className={locStyles.alignWithCard}>
+          <Filterbtn icon={<IoIosArrowDown />} title="Filter">
+            <div
+              onClick={() => {
+                setVisible((prev) => !prev);
+              }}
+              className={menuStyle.menu}
+            >
+              <button>Date</button>
+            </div>
+          </Filterbtn>
+        </div>
         <div className="w-32">
           <Filterbtn icon={<TbCircuitSwitchClosed />} title="Sort">
             <SortFilter
@@ -284,6 +300,11 @@ const Appintments = () => {
             />
           </Filterbtn>
         </div>
+        {snippitAudited.length > 0 && (
+          <div className={locStyles.publishBtn}>
+            <Button title="Publish" />
+          </div>
+        )}
       </div>
 
       <div className={`${tableCont} drop-container`} ref={table}>
@@ -315,7 +336,13 @@ const Appintments = () => {
                           >
                             <>
                               {/* {JSON.stringify(dropName)} */}
-                              <List loading={dragItem.status} data={dragItem} />
+                              <ApptList
+                                snippitAuditedCheckboxHandler={
+                                  snippitAuditedCheckboxHandler
+                                }
+                                loading={dragItem.status}
+                                data={dragItem}
+                              />
                             </>
                           </Drage>
                         </Fragment>
@@ -378,73 +405,5 @@ const Appintments = () => {
     </>
   );
 };
-
-export function List({
-  data,
-  loading,
-}: {
-  data: AppointmentExtraDataType;
-  loading: boolean;
-}) {
-  const { card, cardInfo, contactInfo, icon, contact } = commonStyles;
-  const { open, setElement, toggle } = useRightBarContext();
-
-  return (
-    <div
-      onClick={() => {
-        !open && toggle();
-
-        setElement(
-          <ViewAppt data={data} />,
-          `Appt ID: ${data.id}`,
-          <>
-            <IoEyeOutline
-              onClick={() => {
-                window.open(
-                  `appointment-details/?appointment=${data.id}`,
-                  "_blank"
-                );
-              }}
-            />
-          </>
-        );
-      }}
-    >
-      <div className={card}>
-        <div className="absolute right-3 top-1">
-          <ImSpinner10 className="animate-spin" />
-        </div>
-        <div className={cardInfo}>
-          <p className="title">{data?.job?.customer?.user?.first_name}</p>
-          <span className="">
-            {" "}
-            created on:{" "}
-            {moment(data?.job?.customer?.user?.created_at).format(
-              "ddd DD"
-            )} at{" "}
-            {moment(data?.job?.customer?.user?.created_at).format("h:mm a")}
-          </span>
-        </div>
-        <div className={contactInfo}>
-          <div className="">
-            <span className={icon}>
-              <TfiEmail className={icon} />
-            </span>
-
-            <span className={contact}>{data?.job?.customer?.user?.email}</span>
-          </div>
-
-          <div className="">
-            <span className={icon}>
-              <IoCallOutline className={icon} />
-            </span>
-
-            <span className={contact}>{data?.job?.customer?.user?.phone}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 export default Appintments;

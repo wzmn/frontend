@@ -55,10 +55,10 @@ const AnsQuestion = ({
         e.stopPropagation();
         handleSubmit(onSubmit)(e);
       }}
-      className={`${
+      className={`pl-5 ${
         data?.question?.options?.length > 0 &&
         data?.question?.has_sub_question &&
-        "border-l border-blue-500 pl-5"
+        "border-l border-blue-500"
       }`}
     >
       <p className="font-semibold">
