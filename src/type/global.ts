@@ -125,3 +125,33 @@ export interface QAnsResultT {
   answer: string;
   appointment: number;
 }
+
+//DOCUMENTS TYPES
+
+export type DocumentsAnsRespT = PaginationType<DocumentsAnsT[]>;
+
+export interface DocumentsAnsT {
+  id: number;
+  documents: Document[];
+  question: WorkTypeQuestionT;
+  ref_id: null;
+  created_at: Date;
+  updated_at: Date;
+  is_active: boolean;
+  place_id: null;
+  lat: null | string;
+  long: null | string;
+  formatted_address: null;
+  appointment: number;
+  owner: null;
+  company: number;
+}
+
+export interface Document {
+  id: number;
+  ref_id: null;
+  created_at: Date;
+  updated_at: Date;
+  is_active: boolean;
+  file: string;
+}

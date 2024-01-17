@@ -7,9 +7,11 @@ import * as styles from "styles/pages/common.module.scss";
 import * as apptStyle from "./styles.module.scss";
 import Button from "components/button";
 import { request } from "services/http-request";
-import { APPT_Q, QUESTIONS_ANS } from "constants/api";
+import { APPT_Q, DOCUMENTS_ANS, QUESTIONS_ANS } from "constants/api";
 import { toast } from "react-toastify";
 import {
+  DocumentsAnsRespT,
+  DocumentsAnsT,
   QAnsRespT,
   QAnsResultT,
   WorkTypeQuestionT,
@@ -17,7 +19,8 @@ import {
 } from "type/global";
 import { PageProps } from "gatsby";
 import { set } from "date-fns";
-import AnsQuestion from "components/pages/appointment/assessment";
+import AnsQuestion from "components/pages/appointment/assessment/questions";
+import ViewDocuments from "components/pages/appointment/assessment/view-documents";
 
 const txtData = [
   {
@@ -86,6 +89,7 @@ type LocState = {
 
 const Assessment = (props: PageProps) => {
   const [data, setData] = useState<QAnsResultT[]>();
+  const [docData, setDocData] = useState<DocumentsAnsT[]>();
 
   async function fetchQuestionsAns() {
     try {
@@ -103,8 +107,24 @@ const Assessment = (props: PageProps) => {
     }
   }
 
+  async function fetchDocumentsAns() {
+    try {
+      const response = await request<DocumentsAnsRespT>({
+        url: DOCUMENTS_ANS,
+        params: {
+          appointment: (props.location.state as LocState).apptId,
+        },
+      });
+
+      setDocData(response.data.results);
+    } catch (error) {
+      toast("Problem fetching questions");
+    }
+  }
+
   useEffect(() => {
     fetchQuestionsAns();
+    fetchDocumentsAns();
   }, []);
 
   return (
@@ -118,6 +138,16 @@ const Assessment = (props: PageProps) => {
             <div className="space-y-10 mb-3">
               {data?.map((qAns, index) => {
                 return <AnsQuestion data={qAns} key={index} />;
+              })}
+            </div>
+          </FormWraper>
+        </FormSection>
+
+        <FormSection title="Photos">
+          <FormWraper>
+            <div className="grid grid-cols-2 gap-4 ">
+              {docData?.map((docAns, index) => {
+                return <ViewDocuments data={docAns} />;
               })}
             </div>
           </FormWraper>

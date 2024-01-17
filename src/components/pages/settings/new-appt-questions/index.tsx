@@ -49,11 +49,12 @@ const Questions = ({
           question: data.id,
         },
       });
-      response.data.results![0]?.next_subquestions.length > 0 &&
-        appendInParentState((prev) => [
-          ...prev,
-          response.data.results![0]?.next_subquestions,
-        ]);
+      let qArr: WorkTypeQuestionT[] = [];
+      response.data?.results!?.length > 0 &&
+        response.data?.results!?.map((nxtQList) => {
+          qArr.push(...nxtQList.next_subquestions);
+        });
+      appendInParentState((prev) => [...prev, qArr]);
     } catch (error) {
     } finally {
       setLoading((prev) => !prev);

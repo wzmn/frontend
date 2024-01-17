@@ -26,6 +26,7 @@ export const APPT_Q = "/appointments/questions/";
 export const SUB_Q_CONDITIONS = "/appointments/subquestion-conditions/";
 export const APPT_Q_OPT = "/appointments/options/";
 export const QUESTIONS_ANS = "/appointments/answers/";
+export const DOCUMENTS_ANS = "/appointments/documents/";
 //PROFILE / USER
 export const CHANGE_EMAIL = "/users/management/";
 // Reminder

@@ -114,13 +114,16 @@ function NestedQuestions({
           />
         )}
       </div>
+
       {!!subQ &&
-        subQ?.[0]?.next_subquestions?.map((item, key) => {
-          return (
-            <div className="my-5 ml-5" key={key}>
-              <Question data={item} />
-            </div>
-          );
+        subQ?.map((item, key) => {
+          return item?.next_subquestions?.map((qu) => {
+            return (
+              <div className="my-5 ml-5" key={key}>
+                <Question data={qu} />
+              </div>
+            );
+          });
         })}
     </div>
   );
