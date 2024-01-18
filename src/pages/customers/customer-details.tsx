@@ -22,7 +22,12 @@ import { JOB_LISTING, REMINDER_LISTING } from "constants/api";
 import useQuickFetch from "hook/quick-fetch";
 import Button from "components/button";
 import { AiOutlinePlus } from "react-icons/ai";
-import { CustomerDataType, Result } from "type/customer";
+import {
+  CustomerDataType,
+  ReminderRespT,
+  ReminderResultT,
+  Result,
+} from "type/customer";
 import { JobDataType, Result as JobResultT } from "type/job";
 
 const CustomerDetails = (props: PageProps) => {
@@ -39,7 +44,7 @@ const CustomerDetails = (props: PageProps) => {
     {
       url: JOB_LISTING,
       params: {
-        search: customerId,
+        customer__id: customerId,
       },
     },
     []
@@ -51,11 +56,11 @@ const CustomerDetails = (props: PageProps) => {
     response: reminderResp,
     error: reminderErr,
     lodaing: reminderLoading,
-  } = useQuickFetch<any>(
+  } = useQuickFetch<ReminderRespT>(
     {
       url: REMINDER_LISTING,
       params: {
-        id: customerId,
+        customer: customerId,
       },
     },
     []
@@ -328,14 +333,19 @@ const CustomerDetails = (props: PageProps) => {
           </FormWraper>
         </FormSection>
 
-        {/* <FormSection title="Reminders">
+        <FormSection title="Reminders">
           <FormWraper>
             <div className={additionalStyles.cardCont}>
-              {reminderResp.results?.length > 0 ? (
-                reminderResp.results.map((item: any) => {
+              {reminderResp.results?.length! > 0 ? (
+                reminderResp?.results?.map((item) => {
                   return (
-                    <Link to="/customers/reminder/" key={item}>
-                      <List data={{}} index={1} loading />
+                    <Link to="/customers/reminder/" key={item.id}>
+                      <ReminderList
+                        data={item}
+                        custData={data!}
+                        index={1}
+                        loading
+                      />
                     </Link>
                   );
                 })
@@ -354,7 +364,7 @@ const CustomerDetails = (props: PageProps) => {
               )}
             </div>
           </FormWraper>
-        </FormSection> */}
+        </FormSection>
 
         {/* <FormSection title="Comments">
           <div className="flex-1">
@@ -424,6 +434,65 @@ function List({
             {/* {data.user?.phone} */}
 
             {data.customer?.user?.phone}
+          </span>
+        </div>
+
+        <LuClipboardList className={additionalStyles.absIcon} />
+        {/* <p className={additionalStyles.count}>3</p> */}
+      </div>
+    </div>
+  );
+}
+
+function ReminderList({
+  data,
+  loading,
+  index,
+  custData,
+}: {
+  data: ReminderResultT;
+  loading: boolean;
+  index: number;
+  custData: Result;
+}) {
+  // target="_blank" href={`customer-details/?customer=${data.id}`}
+
+  return (
+    <div
+      onClick={(e) => {
+        e.preventDefault();
+        window.open(
+          `/customers/reminder/?custId=${custData?.id}&reminderId=${data?.id}`,
+          "_blank"
+        );
+      }}
+      className={`${styles.card} ${additionalStyles.card}`}
+    >
+      <div className={styles.cardInfo}>
+        <p className="title">{`Reminder ID: ${data.id}`}</p>
+        <span className="">
+          {" "}
+          Created on: {moment(data.reminder_time).format("ddd, MM hh:mm a")}
+        </span>
+      </div>
+      <div className={`${styles.contactInfo} ${additionalStyles.contact}`}>
+        <div className="flex">
+          <span className={styles.icon}>
+            <TfiEmail className={styles.icon} />
+          </span>
+
+          <span className={styles.contact}>{custData?.user.email}</span>
+        </div>
+
+        <div className="">
+          <span className={styles.icon}>
+            <IoCallOutline className={styles.icon} />
+          </span>
+
+          <span className={styles.contact}>
+            {/* {data.user?.phone} */}
+
+            {custData?.user.phone}
           </span>
         </div>
 

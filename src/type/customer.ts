@@ -109,3 +109,21 @@ export type CustomerStatus =
   | "contacted"
   | "converted"
   | "not_interested";
+
+export type ReminderRespT = PaginationType<ReminderResultT[]>;
+
+export interface ReminderResultT {
+  id: number;
+  ref_id: null;
+  created_at: Date;
+  updated_at: Date;
+  is_active: boolean;
+  task_name: string;
+  description: string;
+  reminder_time: Date;
+  reminder_sent: boolean;
+  priority: string;
+  status: string;
+  task_user: number;
+  assigned_to: null;
+}

@@ -1,48 +1,73 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import Button from "components/button";
+import ComboBox, { ComboBoxDataT } from "components/combo-box";
 import FormSection from "components/form-sections";
 import FormWraper from "components/form-wrapper";
 import Input from "components/input";
+import Label from "components/label";
 import SelectBox from "components/selectBox";
-import React from "react";
+import { REMINDER_LISTING } from "constants/api";
+import { PageProps, navigate } from "gatsby";
+import moment from "moment";
+import React, { ChangeEvent, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import companyIdFetcher from "services/company-id-fetcher";
+import employeeList from "services/employee-list";
+import { request } from "services/http-request";
+import UserIdentifyer from "services/user-identifyer";
 import * as styles from "styles/pages/common.module.scss";
-import { FormProvider, useForm } from "react-hook-form";
-import { InferType, mixed, object, string } from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { navigate } from "gatsby";
-
+import { Result } from "type/employee";
+import { debounce } from "utility/debounce";
+import { InferType, object, string } from "yup";
+const showAssignToFieldFor = ["superadmin", "admin"];
 
 const reminder = [
-  { label: "15 mins Before" },
-  { label: "20 mins Before" },
-  { label: "25 mins Before" },
-  { label: "30 mins Before" },
-  { label: "35 mins Before" },
-  { label: "40 mins Before" },
-  { label: "55 mins Before" },
-  { label: "1 Hour Before" },
+  { label: "15 mins Before", value: { minutes: 15 } },
+  { label: "25 mins Before", value: { minutes: 25 } },
+  { label: "30 mins Before", value: { minutes: 30 } },
+  { label: "35 mins Before", value: { minutes: 35 } },
+  { label: "40 mins Before", value: { minutes: 40 } },
+  { label: "45 mins Before", value: { minutes: 45 } },
+  { label: "50 mins Before", value: { minutes: 50 } },
+  { label: "1 Hour Before", value: { hours: 1 } },
 ];
 
-
 const ReminderSchema = object({
-  workType: mixed(),
-  customer: object({
-    user: object({
-      first_name: string().trim().required("Required"),
-      last_name: string().trim().required("Required"),
-      phone: string().trim().required("Required"),
-      email: string()
-        .trim()
-        .required("Required"),
-    }),
-    customer_type: string().required("Required"),
-  }),
-  job_assigned_to_id: string().nullable(),
+  task_name: string().trim().required("required"),
+  description: string().trim().required("required"),
+  reminder_time: string().trim().required("required"),
+  due_date: string().trim().required("required"),
+  assigned_to: string().trim(),
+  // priority:string().trim().required('required'),
+  // status:string().trim().required('required'),
+  // task_user:string().trim().required('required'),
 });
 
+const ReminderSchemaSomeRoles = object({
+  assigned_to: string().trim().required("required"),
+});
 
-const CreateReminder = () => {
-  const methods = useForm({
-    resolver: yupResolver(ReminderSchema),
+function roleBaseSchema(user: string) {
+  switch (user.toLowerCase()) {
+    case "superadmin":
+    case "admin":
+      return ReminderSchema.concat(ReminderSchemaSomeRoles);
+    default:
+      return ReminderSchema;
+  }
+}
+
+type ReminderSchemaT = InferType<typeof ReminderSchema>;
+
+const CreateReminder = (props: PageProps) => {
+  const { location } = props;
+  // const params = new URLSearchParams(location.search);
+  const customerId = (location.state as any).custId;
+  const userRole = UserIdentifyer();
+
+  const methods = useForm<ReminderSchemaT>({
+    resolver: yupResolver(roleBaseSchema(userRole)),
   });
 
   const {
@@ -52,20 +77,71 @@ const CreateReminder = () => {
     watch,
     formState: { isSubmitting, errors },
   } = methods;
+
+  const [empListData, setEmpListData] = useState<ComboBoxDataT[]>([]);
+
+  const id = companyIdFetcher(userRole);
+
+  async function onSubmit(data: ReminderSchemaT) {
+    try {
+      const response = await request({
+        url: REMINDER_LISTING,
+        method: "post",
+        data: {
+          task_user: customerId,
+          priority: "medium",
+          status: "completed",
+          ...data,
+        },
+      });
+      toast.success("Reminder Created");
+    } catch (error) {
+      toast.success("Cant Create Reminder at this time try again later ");
+    }
+  }
+
+  async function handleEmployeeList(e?: ChangeEvent<HTMLInputElement>) {
+    try {
+      // if (!id) {
+      //   alert("Please Select Country");
+      //   return;
+      // }
+      const res = await employeeList({
+        search: e?.target?.value,
+        license_id__company__id: id,
+      });
+
+      const empFilteredList = res.results?.map((item) => ({
+        label: item.user?.first_name + " " + item.user?.last_name,
+        ...item,
+      })) as ComboBoxDataT[];
+
+      setEmpListData(() => empFilteredList);
+    } catch (error) {}
+  }
+
+  const reminderTime = watch("reminder_time");
+
+  useEffect(() => {
+    handleEmployeeList();
+  }, []);
+
   return (
-    <>
+    <div className="grow">
       <p className={styles.title}>Create Reminder</p>
 
-      <div className="space-y-16 mb-3">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-16 mb-3">
         <FormSection title="Title">
           <div className="flex-1">
             <FormWraper>
               <>
                 <div className={styles.input}>
                   <Input
+                    {...register("task_name")}
                     className={styles.input}
                     varient="regular"
                     placeholder="Subject"
+                    errormessage={errors.task_name?.message}
                   />
                 </div>
               </>
@@ -73,41 +149,68 @@ const CreateReminder = () => {
           </div>
         </FormSection>
 
-        <FormSection title="Schedule">
+        <FormSection title="Schedule" style={{ zIndex: 2 }}>
           <div className="flex-1 z-10">
             <FormWraper>
               <>
+                {showAssignToFieldFor.includes(userRole) && (
+                  <>
+                    <div className="w-64 mb-5">
+                      <Label title="Reminder Assign To" />
+                      <ComboBox<Result>
+                        data={empListData}
+                        handleSelect={(e) => {
+                          setValue("assigned_to", String(e?.user?.id));
+                        }}
+                        onChange={debounce(handleEmployeeList)}
+                      />
+                      <p className={styles.errorMessage}>
+                        {errors.assigned_to?.message}
+                      </p>
+                    </div>
+                  </>
+                )}
                 <div className="flex items-center justify-between">
                   <div className="w-72">
                     <Input
+                      {...register("reminder_time")}
                       type="datetime-local"
                       className={styles.input}
                       varient="regular"
                       placeholder="Subject"
+                      errormessage={errors.reminder_time?.message}
                     />
                   </div>
-                  <p className="font-bold">TO</p>
-                  <div className="w-72">
+                  {/* <p className="font-bold">TO</p> */}
+                  {/* <div className="w-72">
                     <Input
                       type="datetime-local"
                       className={styles.input}
                       varient="regular"
                       placeholder="Subject"
                     />
+                  </div> */}
+
+                  <div className="w-72">
+                    <SelectBox
+                      disabled={
+                        reminderTime === undefined || reminderTime === ""
+                      }
+                      placeholder="Reminder Timer"
+                      data={reminder}
+                      asterisk
+                      onChange={(e) => {
+                        const dueDate = moment(reminderTime)
+                          .subtract(e.value)
+                          .toString();
+
+                        setValue("due_date", dueDate);
+                      }}
+                    />
+                    <p className={styles.errorMessage}>
+                      {errors?.due_date?.message}
+                    </p>
                   </div>
-                </div>
-                <div className="w-72 mt-20 z-auto">
-                  <SelectBox
-                    placeholder="Reminder Timer"
-                    data={reminder}
-                    asterisk
-                    onChange={(e) => {
-                      // setValue("company_country", e.label);
-                    }}
-                  />
-                  <p className={styles.error}>
-                    {/* {errors.company_country?.message} */}
-                  </p>
                 </div>
               </>
             </FormWraper>
@@ -120,30 +223,32 @@ const CreateReminder = () => {
               <>
                 {/* <div className={styles.input}> */}
                 <Input
+                  {...register("description")}
                   className={styles.input}
                   varient="regular"
                   placeholder="Subject"
+                  errormessage={errors.description?.message}
                 />
                 {/* </div> */}
               </>
             </FormWraper>
             <div className="flex justify-center gap-36 mt-10">
-                <Button title="Submit" type="submit" isLoading={isSubmitting} />
+              <Button title="Submit" type="submit" isLoading={isSubmitting} />
 
-                <Button
-                  title="Cancel"
-                  type="button"
-                  color="red"
-                  className="py-10"
-                  onClick={() => {
-                    navigate(-1);
-                  }}
-                />
-              </div>
+              <Button
+                title="Cancel"
+                type="button"
+                color="red"
+                className="py-10"
+                onClick={() => {
+                  navigate(-1);
+                }}
+              />
+            </div>
           </div>
         </FormSection>
-      </div>
-    </>
+      </form>
+    </div>
   );
 };
 

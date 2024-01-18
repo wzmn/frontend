@@ -4,11 +4,17 @@ import FormWraper from "components/form-wrapper";
 import Input from "components/input";
 import Radio from "components/radio";
 import SelectBox from "components/selectBox";
+import TextButton from "components/text-button";
+import { CUSTOMER_LISTING, REMINDER_LISTING } from "constants/api";
+import { PageProps, navigate } from "gatsby";
+import useQuickFetch from "hook/quick-fetch";
 import moment from "moment";
 import React from "react";
+import { GoPlus } from "react-icons/go";
 import { IoCallOutline, IoLocationOutline } from "react-icons/io5";
 import { TfiEmail } from "react-icons/tfi";
 import * as styles from "styles/pages/common.module.scss";
+import { ReminderResultT, Result } from "type/customer";
 
 const reminder = [
   { label: "15 mins Before" },
@@ -21,7 +27,34 @@ const reminder = [
   { label: "1 Hour Before" },
 ];
 
-const Reminder = ({ data }: any) => {
+const Reminder = (props: PageProps) => {
+  const { location } = props;
+  const params = new URLSearchParams(location.search);
+  const customerId = params.get("custId");
+  const reminderId = params.get("reminderId");
+
+  const {
+    response: custData,
+    error: custErr,
+    lodaing: custLoading,
+  } = useQuickFetch<Result>(
+    {
+      url: CUSTOMER_LISTING + customerId,
+    },
+    []
+  );
+
+  const {
+    response: reminderResp,
+    error: reminderErr,
+    lodaing: reminderLoading,
+  } = useQuickFetch<ReminderResultT>(
+    {
+      url: REMINDER_LISTING + reminderId,
+    },
+    []
+  );
+
   return (
     <div className="grow">
       <p className={styles.title}>Reminder ID: TD00078 </p>
@@ -32,7 +65,7 @@ const Reminder = ({ data }: any) => {
             <FormWraper>
               <>
                 <p className={styles.name}>
-                  <span className={styles.bold}>ABN No: {data?.id}</span>
+                  <span className={styles.bold}>ABN No: {custData?.id}</span>
                 </p>
 
                 <div className={styles.contactInfo}>
@@ -42,7 +75,7 @@ const Reminder = ({ data }: any) => {
                     </span>
 
                     <span className={styles.contact}>
-                      {data?.company_email}
+                      {custData?.user?.email}
                     </span>
                   </div>
 
@@ -52,7 +85,7 @@ const Reminder = ({ data }: any) => {
                     </span>
 
                     <span className={styles.contact}>
-                      {data?.company_mobile_phone}
+                      {custData?.user?.phone}
                     </span>
                   </div>
 
@@ -62,7 +95,30 @@ const Reminder = ({ data }: any) => {
                     </span>
 
                     <span className={styles.contact}>
-                      {data?.company_address || "N/A"}
+                      {`
+                    ${
+                      custData?.address?.building_number
+                        ? custData?.address?.building_number
+                        : ""
+                    } ${
+                        custData?.address?.street_number
+                          ? custData?.address?.street_number
+                          : ""
+                      } ${
+                        custData?.address?.street_name
+                          ? custData.address?.street_name
+                          : ""
+                      }
+                    
+                    ${custData?.address?.suburb ? custData.address?.suburb : ""}
+
+                    ${
+                      custData?.address?.state ? custData.address?.state : ""
+                    } ${
+                        custData?.address?.pincode
+                          ? custData.address?.pincode
+                          : ""
+                      }`}
                     </span>
                   </div>
                 </div>
@@ -75,7 +131,7 @@ const Reminder = ({ data }: any) => {
                   </span>
                   Superadmin/Jackson &nbsp;
                   <span className={styles.tag2}>
-                    {moment(data?.created_at).format("DD-MM-yyyy HH:MM a")}
+                    {moment(custData?.created_at).format("DD-MM-yyyy HH:MM a")}
                   </span>
                 </p>
 
@@ -83,24 +139,14 @@ const Reminder = ({ data }: any) => {
 
                 <div className={styles.userRole}>
                   <p className={styles.name}>
-                    <span className={styles.bold}>Company Status</span>
+                    <span className={styles.bold}>Reminder Status</span>
                   </p>
 
                   <div className={styles.roles}>
                     <Radio
-                      label="PENDING"
+                      label={reminderResp?.status?.toUpperCase()}
                       name="status"
-                      checked={data?.company_status === "document review"}
-                    />
-                    <Radio
-                      label="OVERDUE"
-                      name="status"
-                      checked={data?.company_status === "operational"}
-                    />
-                    <Radio
-                      label="COMPLETED"
-                      name="status"
-                      checked={data?.company_status === "rejected"}
+                      checked={true}
                     />
                   </div>
                 </div>
@@ -116,13 +162,16 @@ const Reminder = ({ data }: any) => {
                 <div className="flex items-center justify-between">
                   <div className="w-72">
                     <Input
-                      type="datetime-local"
+                      defaultValue={moment(reminderResp.reminder_time).format(
+                        "YYYY-MM-DD"
+                      )}
+                      type="date"
                       className={styles.input}
                       varient="regular"
                       placeholder="Subject"
                     />
                   </div>
-                  <p className="font-bold">TO</p>
+                  {/* <p className="font-bold">TO</p>
                   <div className="w-72">
                     <Input
                       type="datetime-local"
@@ -130,21 +179,31 @@ const Reminder = ({ data }: any) => {
                       varient="regular"
                       placeholder="Subject"
                     />
+                  </div> */}
+                  <div className="w-72 ">
+                    <SelectBox
+                      disabled={true}
+                      // placeholder={reminderResp.description}
+                      data={reminder}
+                      asterisk
+                      onChange={(e) => {
+                        // setValue("company_country", e.label);
+                      }}
+                    />
+                    <p className={styles.error}>
+                      {/* {errors.company_country?.message} */}
+                    </p>
                   </div>
                 </div>
-                <div className="w-72 mt-20 z-auto">
-                  <SelectBox
-                    placeholder="Reminder Timer"
-                    data={reminder}
-                    asterisk
-                    onChange={(e) => {
-                      // setValue("company_country", e.label);
-                    }}
-                  />
-                  <p className={styles.error}>
-                    {/* {errors.company_country?.message} */}
-                  </p>
-                </div>
+
+                <TextButton
+                  className="mt-5"
+                  label="Create Reminder"
+                  icon={<GoPlus />}
+                  onClick={() => {
+                    navigate("/customers/create-reminder");
+                  }}
+                />
               </>
             </FormWraper>
           </div>

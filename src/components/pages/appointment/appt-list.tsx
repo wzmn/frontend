@@ -13,10 +13,12 @@ export default function ApptList({
   data,
   loading,
   snippitAuditedCheckboxHandler,
+  snippitAudited,
 }: {
   data: Result;
   loading: boolean;
   snippitAuditedCheckboxHandler: (val: string) => void;
+  snippitAudited: string[];
 }) {
   const { card, cardInfo, contactInfo, icon, contact } = commonStyles;
   const { open, setElement, toggle } = useRightBarContext();
@@ -49,6 +51,9 @@ export default function ApptList({
         {data?.appointment_status?.toLowerCase() === "snippit audited" && (
           <div className="flex justify-end mr-2">
             <Checkbox
+              defaultChecked={snippitAudited.some(
+                (item) => item === String(data.id)
+              )}
               name=""
               value={data.id}
               id={data.id.toString()}

@@ -9,7 +9,7 @@ import moment from "moment";
 import Radio from "components/radio";
 import { LuClipboardList } from "react-icons/lu";
 import { SlBell } from "react-icons/sl";
-import { Result as CustomerResult } from "type/customer";
+import { Result as CustomerResult, ReminderRespT } from "type/customer";
 import useQuickFetch from "hook/quick-fetch";
 import { JOB_LISTING, REMINDER_LISTING } from "constants/api";
 import { JobDataType } from "type/job";
@@ -27,7 +27,7 @@ const ViewCustomer = ({ data }: { data: CustomerResult }) => {
     {
       url: JOB_LISTING,
       params: {
-        search: data?.user?.email,
+        customer__id: data?.id,
       },
     },
     [JSON.stringify(data)]
@@ -36,16 +36,16 @@ const ViewCustomer = ({ data }: { data: CustomerResult }) => {
     response: reminderResp,
     error: reminderErr,
     lodaing: reminderLoading,
-  } = useQuickFetch<CustomerResult>(
+  } = useQuickFetch<ReminderRespT>(
     {
       url: REMINDER_LISTING,
       params: {
-        id: data?.user?.id,
+        customer: data?.user?.id,
       },
     },
     [JSON.stringify(data)]
   );
-  console.log(data, reminderResp);
+
   return (
     <div className={styles.view}>
       {/* {JSON.stringify(data)} */}
@@ -224,7 +224,7 @@ const ViewCustomer = ({ data }: { data: CustomerResult }) => {
       <div className={styles.divider}>
         <Divider />
       </div>
-      {/* <Disclosure>
+      <Disclosure>
         {({ open }) => (
           <>
             <Disclosure.Button
@@ -240,10 +240,10 @@ const ViewCustomer = ({ data }: { data: CustomerResult }) => {
               />
             </Disclosure.Button>
             <Disclosure.Panel className={styles.panel}>
-              {reminderResp?.results?.length > 0 ? (
-                reminderResp?.results.map((item) => {
+              {reminderResp?.results?.length! > 0 ? (
+                reminderResp?.results?.map((item) => {
                   return (
-                    <div key={item} className={styles.reminder}>
+                    <div key={item.id} className={styles.reminder}>
                       <div className="flex flex-col">
                         <p className={styles.reminderTitle}>
                           {item.description}
@@ -252,9 +252,11 @@ const ViewCustomer = ({ data }: { data: CustomerResult }) => {
                           Status : <span>{item.status}</span>
                         </p>
                         <p className={styles.reminderId}>
-                          Due By :{" "}
+                          Reminber By :{" "}
                           <span>
-                            {moment(item.due_date).format("DD-MM-yyyy HH:MM")}
+                            {moment(item.reminder_time).format(
+                              "DD-MM-yyyy hh:mm a"
+                            )}
                           </span>
                         </p>
                       </div>
@@ -269,14 +271,15 @@ const ViewCustomer = ({ data }: { data: CustomerResult }) => {
           </>
         )}
       </Disclosure>
-      <Link to="customer-reminder">
+
+      <Link to="create-reminder" state={{ custId: data.id }}>
         <Button
           width="full"
           title="Create Reminder"
           icon={<AiOutlinePlus />}
           className="flex-row-reverse justify-between"
         />
-      </Link> */}
+      </Link>
     </div>
   );
 };

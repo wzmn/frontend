@@ -20,6 +20,7 @@ type Props = {
   value?: string;
   name?: string;
   onChange?: (e: DataProp) => void;
+  disabled?: boolean;
 };
 
 function varientHandler(varient: color = "transparent1") {
@@ -43,6 +44,7 @@ export default function SelectBox({
   onChange,
   value = "",
   name = "",
+  disabled = false,
 }: Props) {
   // const renderData = [{ label: placeholder }, ...data];
   const [selected, setSelected] = useState<string | undefined>();
@@ -58,7 +60,7 @@ export default function SelectBox({
 
   return (
     <div className={`w-full ${styles.rel}`}>
-      <Listbox date-name={name} onChange={onSelect}>
+      <Listbox disabled={disabled} date-name={name} onChange={onSelect}>
         <div className={`  ${styles.index}`}>
           <Listbox.Button
             className={`${styles.lstBoxBtn} ${varientHandler(color)} border`}

@@ -6,6 +6,7 @@ import Input from "components/input";
 import * as menuStyle from "components/menu/styles.module.scss";
 import Modal from "components/modal";
 import ApptList from "components/pages/appointment/appt-list";
+import PublishModal from "components/pages/appointment/publish-modal";
 import { SortFilter } from "components/pages/common";
 import Pagination from "components/pagination";
 import Placeholder from "components/skeleton";
@@ -74,6 +75,8 @@ const Appintments = () => {
   // For skeleton
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [publishMod, setPublishMod] = useState(false);
+
   const [selectionRange, setSelectionRange] = useState(selectionRangeInit);
   const [sort, setSort] = useState(sortType[0].value);
   const [snippitAudited, setSnippitAudited] = useState<string[]>([]);
@@ -302,7 +305,10 @@ const Appintments = () => {
         </div>
         {snippitAudited.length > 0 && (
           <div className={locStyles.publishBtn}>
-            <Button title="Publish" />
+            <Button
+              title="Publish"
+              onClick={() => setPublishMod((prev) => !prev)}
+            />
           </div>
         )}
       </div>
@@ -340,6 +346,7 @@ const Appintments = () => {
                                 snippitAuditedCheckboxHandler={
                                   snippitAuditedCheckboxHandler
                                 }
+                                snippitAudited={snippitAudited}
                                 loading={dragItem.status}
                                 data={dragItem}
                               />
@@ -401,6 +408,21 @@ const Appintments = () => {
             }));
           }}
         />
+      </Modal>
+
+      <Modal
+        options={{
+          title: "Publish",
+          toggle: [publishMod, setPublishMod],
+          buttons: [
+            {
+              title: "Publish",
+              action: () => console.log("hi"),
+            },
+          ],
+        }}
+      >
+        <PublishModal />
       </Modal>
     </>
   );
