@@ -1,8 +1,8 @@
 import { PaginationType } from "./global";
 
-export type CustomerDataType = PaginationType<Result[]>;
+export type CustomerDataType = PaginationType<CustResultT[]>;
 
-export interface Result {
+export interface CustResultT {
   id: number;
   user: User;
   company: Company;
@@ -99,7 +99,7 @@ export interface Company {
   company_logo: null;
 }
 
-export type CustomerDataExtraType = Result & {
+export type CustomerDataExtraType = CustResultT & {
   status: boolean;
   index: number;
 };

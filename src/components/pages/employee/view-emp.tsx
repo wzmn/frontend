@@ -7,9 +7,9 @@ import { FaChevronDown } from "react-icons/fa";
 import { IoCallOutline, IoLocationOutline } from "react-icons/io5";
 import { TfiEmail } from "react-icons/tfi";
 import * as styles from "styles/pages/view.module.scss";
-import { Result } from "type/employee";
+import { EmpResultT } from "type/employee";
 
-const ViewEmp = ({ data }: { data: Result }) => {
+const ViewEmp = ({ data }: { data: EmpResultT }) => {
   return (
     <div className={styles.view}>
       <Disclosure>

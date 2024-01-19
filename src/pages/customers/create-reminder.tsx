@@ -17,7 +17,7 @@ import employeeList from "services/employee-list";
 import { request } from "services/http-request";
 import UserIdentifyer from "services/user-identifyer";
 import * as styles from "styles/pages/common.module.scss";
-import { Result } from "type/employee";
+import { EmpResultT } from "type/employee";
 import { debounce } from "utility/debounce";
 import { InferType, object, string } from "yup";
 const showAssignToFieldFor = ["superadmin", "admin"];
@@ -158,7 +158,7 @@ const CreateReminder = (props: PageProps) => {
                   <>
                     <div className="w-64 mb-5">
                       <Label title="Reminder Assign To" />
-                      <ComboBox<Result>
+                      <ComboBox<EmpResultT>
                         data={empListData}
                         handleSelect={(e) => {
                           setValue("assigned_to_id", String(e?.id));

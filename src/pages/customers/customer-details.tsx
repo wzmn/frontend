@@ -26,7 +26,7 @@ import {
   CustomerDataType,
   ReminderRespT,
   ReminderResultT,
-  Result,
+  CustResultT,
 } from "type/customer";
 import { JobDataType, Result as JobResultT } from "type/job";
 
@@ -78,7 +78,7 @@ const CustomerDetails = (props: PageProps) => {
   //     },
   //   });
 
-  const [data, setData] = useState<Result>();
+  const [data, setData] = useState<CustResultT>();
 
   //   const { fields, append, remove } = useFieldArray({
   //     control,
@@ -90,7 +90,7 @@ const CustomerDetails = (props: PageProps) => {
   async function fetchData() {
     try {
       setLoading(true);
-      const response = await request<Result>({
+      const response = await request<CustResultT>({
         url: CUSTOMER_LISTING + customerId,
       });
       setData(() => response?.data);
@@ -300,36 +300,57 @@ const CustomerDetails = (props: PageProps) => {
 
         <FormSection title="Job">
           <FormWraper>
-            <div className={additionalStyles.cardCont + " relative"}>
-              {jobResp?.results?.length! > 0 ? (
-                jobResp?.results?.map((item) => {
-                  return <List key={item.id} data={item} index={1} loading />;
-                })
-              ) : (
-                <>
-                  {loading ? (
-                    <>
-                      <div className="absolute left-3 top-0 text-blue-500">
-                        <ImSpinner10 className="animate-spin" />
-                      </div>
-                    </>
-                  ) : (
+            <>
+              <div className={additionalStyles.cardCont + " relative"}>
+                {jobResp?.results?.length! > 0 ? (
+                  <>
+                    {jobResp?.results?.map((item) => {
+                      return (
+                        <List key={item.id} data={item} index={1} loading />
+                      );
+                    })}
                     <div className="flex justify-between w-full items-center">
-                      No Job{" "}
-                      {/* <Link to="#">
-                  <Button
-                    width="full"
-                    title="Create Appointment"
-                    icon={<AiOutlinePlus />}
-                    className="flex-row-reverse justify-between"
-                  />
-                </Link> */}
+                      <Link
+                        to={`/jobs/create-job/?custId=${data?.id}`}
+                        state={{ custData: data }}
+                      >
+                        <Button
+                          width="full"
+                          title="Create Job"
+                          icon={<AiOutlinePlus />}
+                          className="flex-row-reverse justify-between"
+                        />
+                      </Link>
                     </div>
-                  )}
-                </>
-              )}
-              {}
-            </div>
+                  </>
+                ) : (
+                  <>
+                    {loading ? (
+                      <>
+                        <div className="absolute left-3 top-0 text-blue-500">
+                          <ImSpinner10 className="animate-spin" />
+                        </div>
+                      </>
+                    ) : (
+                      <div className="flex justify-between w-full items-center">
+                        No Job{" "}
+                        <Link
+                          to={`/jobs/create-job/?custId=${data?.id}`}
+                          state={{ custData: data }}
+                        >
+                          <Button
+                            width="full"
+                            title="Create Job"
+                            icon={<AiOutlinePlus />}
+                            className="flex-row-reverse justify-between"
+                          />
+                        </Link>
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
+            </>
           </FormWraper>
         </FormSection>
 
@@ -453,7 +474,7 @@ function ReminderList({
   data: ReminderResultT;
   loading: boolean;
   index: number;
-  custData: Result;
+  custData: CustResultT;
 }) {
   // target="_blank" href={`customer-details/?customer=${data.id}`}
 

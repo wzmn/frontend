@@ -1,22 +1,17 @@
+import moment from "moment";
 import { useRightBarContext } from "providers/right-bar-provider";
 import React, { CSSProperties } from "react";
-import { CustomerDataExtraType } from "type/customer";
-import ViewCustomer from "./view-customer";
-import { IoCallOutline, IoEyeOutline } from "react-icons/io5";
 import { ImSpinner10 } from "react-icons/im";
-import moment from "moment";
+import { IoCallOutline, IoEyeOutline } from "react-icons/io5";
 import { TfiEmail } from "react-icons/tfi";
 import * as styles from "styles/pages/common.module.scss";
-import { BsThreeDots } from "react-icons/bs";
-import Menu from "components/menu";
-import { ActionBtn } from "../common";
+import { CustomerDataExtraType } from "type/customer";
+import ViewCustomer from "./view-customer";
 
-import * as common from "components/pages/common/common.module.scss";
 import HLessMenu from "components/h-less-menu";
-import { request } from "services/http-request";
-import { toast } from "react-toastify";
 import { CUSTOMER_LISTING } from "constants/api";
-import { usefetchData } from "./helper";
+import { toast } from "react-toastify";
+import { request } from "services/http-request";
 
 const cssStyles: CSSProperties = {
   width: "8rem",

@@ -14,7 +14,7 @@ import { GoPlus } from "react-icons/go";
 import { IoCallOutline, IoLocationOutline } from "react-icons/io5";
 import { TfiEmail } from "react-icons/tfi";
 import * as styles from "styles/pages/common.module.scss";
-import { ReminderResultT, Result } from "type/customer";
+import { ReminderResultT, CustResultT } from "type/customer";
 
 const reminder = [
   { label: "15 mins Before" },
@@ -37,7 +37,7 @@ const Reminder = (props: PageProps) => {
     response: custData,
     error: custErr,
     lodaing: custLoading,
-  } = useQuickFetch<Result>(
+  } = useQuickFetch<CustResultT>(
     {
       url: CUSTOMER_LISTING + customerId,
     },

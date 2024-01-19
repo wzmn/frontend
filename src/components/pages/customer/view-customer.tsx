@@ -9,7 +9,7 @@ import moment from "moment";
 import Radio from "components/radio";
 import { LuClipboardList } from "react-icons/lu";
 import { SlBell } from "react-icons/sl";
-import { Result as CustomerResult, ReminderRespT } from "type/customer";
+import { CustResultT, ReminderRespT } from "type/customer";
 import useQuickFetch from "hook/quick-fetch";
 import { JOB_LISTING, REMINDER_LISTING } from "constants/api";
 import { JobDataType } from "type/job";
@@ -18,7 +18,7 @@ import { Link } from "gatsby";
 import Button from "components/button";
 import { AiOutlinePlus } from "react-icons/ai";
 
-const ViewCustomer = ({ data }: { data: CustomerResult }) => {
+const ViewCustomer = ({ data }: { data: CustResultT }) => {
   const {
     response: jobResp,
     error: jobErr,

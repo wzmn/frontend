@@ -21,10 +21,12 @@ export const jobRegistrationSchema = object({
     abn: string().when("customer_type", {
       is: "Business",
       then: (schema) => schema.required("Required"),
+      otherwise: (schema) => schema.nullable(),
     }),
     company_name: string().when("customer_type", {
       is: "Business",
       then: (schema) => schema.required("Required"),
+      otherwise: (schema) => schema.nullable(),
     }),
   }),
   job_assigned_to_id: string().trim(),

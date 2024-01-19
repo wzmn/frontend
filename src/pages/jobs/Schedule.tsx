@@ -11,7 +11,7 @@ import moment from "moment";
 import { Result, WorkType } from "type/job";
 import Label from "components/label";
 import ComboBox, { ComboBoxDataT } from "components/combo-box";
-import { Result as EmpResult } from "type/employee";
+import { EmpResultT } from "type/employee";
 import companyIdFetcher from "services/company-id-fetcher";
 import UserIdentifyer from "services/user-identifyer";
 import employeeList from "services/employee-list";
@@ -76,6 +76,7 @@ const Schedule = ({ item, companyId, apptId }: Props) => {
         data: { ...data, ...exData },
       });
       toast.success("Appt is created");
+      navigate(-1);
     } catch (error) {
       toast.error("could`t create appt try later");
     }
@@ -152,7 +153,7 @@ const Schedule = ({ item, companyId, apptId }: Props) => {
                   {selfAssessment === "False" && (
                     <div className="w-64 ">
                       <Label title="Assign To" />
-                      <ComboBox<EmpResult>
+                      <ComboBox<EmpResultT>
                         data={empListData}
                         handleSelect={(e) => {
                           setValue(

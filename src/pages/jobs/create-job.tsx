@@ -8,7 +8,7 @@ import Label from "components/label";
 import Radio from "components/radio";
 import TextField from "components/text-field";
 import { APPOINTMENT_LISTING, JOB_LISTING } from "constants/api";
-import { navigate } from "gatsby";
+import { PageProps, navigate } from "gatsby";
 import { useAppContext } from "providers/app-provider";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
@@ -23,23 +23,42 @@ import employeeList from "services/employee-list";
 import { request } from "services/http-request";
 import UserIdentifyer from "services/user-identifyer";
 import * as styles from "styles/pages/common.module.scss";
-import { Result } from "type/employee";
+import { EmpResultT } from "type/employee";
 import { debounce } from "utility/debounce";
 import { WorkTypeLabel } from "./create-appointment";
 import * as jobStyles from "./styles.module.scss";
+import { CustResultT } from "type/customer";
 const showEmpFieldFor = ["superadmin", "admin"];
 
-const CreateJob = () => {
+const CreateJob = (props: PageProps) => {
   const [OTP, setOTP] = useState<string>("");
   const [empListData, setEmpListData] = useState<ComboBoxDataT[]>([]);
   const userRole = UserIdentifyer();
   const { workTypes } = useAppContext();
-
   const id = companyIdFetcher(userRole);
+
+  const { location } = props;
+
+  const custData = (location?.state as any)?.custData as CustResultT;
+
+  const prefillCustData = {
+    customer: {
+      user: {
+        first_name: custData?.user?.first_name,
+        last_name: custData?.user?.last_name,
+        phone: custData?.user?.phone,
+        email: custData?.user?.email,
+      },
+      customer_type: custData?.customer_type,
+      abn: custData?.abn,
+      company_name: custData?.company_name,
+    },
+  };
 
   const methods = useForm({
     resolver: yupResolver(conditionalSchema()),
     defaultValues: {
+      customer: prefillCustData?.customer as any,
       billAddCheck: false,
       workType: [],
     },
@@ -146,11 +165,13 @@ const CreateJob = () => {
                         className={`${styles.roles}`}
                       >
                         <Radio
+                          disabled={!!custData}
                           value="Business"
                           label="Business"
                           {...register("customer.customer_type")}
                         />
                         <Radio
+                          disabled={!!custData}
                           value="Residential"
                           label="Residential"
                           {...register("customer.customer_type")}
@@ -165,6 +186,7 @@ const CreateJob = () => {
                   <div className={styles.formGrid}>
                     <div className="max-w-3xl">
                       <TextField
+                        disabled={!!custData}
                         title="First Name"
                         asterisk
                         {...register("customer.user.first_name")}
@@ -176,6 +198,7 @@ const CreateJob = () => {
 
                     <div className="max-w-3xl">
                       <TextField
+                        disabled={!!custData}
                         title="Last Name"
                         asterisk
                         {...register("customer.user.last_name")}
@@ -184,6 +207,7 @@ const CreateJob = () => {
                     </div>
                     <div className="max-w-3xl">
                       <TextField
+                        disabled={!!custData}
                         title="E-mail ID"
                         asterisk
                         {...register("customer.user.email")}
@@ -193,6 +217,7 @@ const CreateJob = () => {
 
                     <div className="max-w-3xl">
                       <TextField
+                        disabled={!!custData}
                         title="Mobile Number"
                         asterisk
                         {...register("customer.user.phone")}
@@ -202,7 +227,7 @@ const CreateJob = () => {
 
                     {/* <div className="max-w-3xl">
                       <Label title="Employee" />
-                      <ComboBox<Result>
+                      <ComboBox<EmpResultT>
                         data={empListData}
                         handleSelect={(e) => {
                           setValue("job_assigned_to_id", String(e?.id!));
@@ -218,6 +243,7 @@ const CreateJob = () => {
                       <>
                         <div className="max-w-3xl">
                           <TextField
+                            disabled={!!custData}
                             title="Company ABN"
                             asterisk
                             {...register("customer.abn")}
@@ -226,6 +252,7 @@ const CreateJob = () => {
                         </div>
                         <div className="max-w-3xl">
                           <TextField
+                            disabled={!!custData}
                             title="Company Name"
                             asterisk
                             {...register("customer.company_name")}
@@ -241,7 +268,7 @@ const CreateJob = () => {
                       <>
                         <div className="max-w-3xl">
                           <Label title="Job Assign To" />
-                          <ComboBox<Result>
+                          <ComboBox<EmpResultT>
                             data={empListData}
                             handleSelect={(e) => {
                               setValue(
