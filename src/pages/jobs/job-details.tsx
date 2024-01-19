@@ -332,7 +332,7 @@ function List({
   loading,
   index,
 }: {
-  data: any;
+  data: ApptResultT;
   loading: boolean;
   index: number;
 }) {
@@ -340,16 +340,14 @@ function List({
 
   return (
     <div>
-      <div className={`${styles.card} ${additionalStyles.cardOther}`}>
+      <div className={`${styles.card} ${additionalStyles.cardOther} w-56`}>
         <div className={styles.cardInfo}>
           <p className="title">
-            {/* {data.user?.first_name} */}
-            Jason Stone
+            {`${data?.job?.customer?.user?.first_name} ${data?.job?.customer?.user?.last_name}`}
           </p>
           <span className="">
             {" "}
-            {/* Created on: {moment(data.user?.created_at).format("ddd, MM a")} */}
-            created on: Mon,3.40 am
+            Created on: {moment(data?.created_at).format("ddd, MM a")}
           </span>
         </div>
         <div className={`${styles.contactInfo} ${additionalStyles.contact}`}>
@@ -359,8 +357,7 @@ function List({
             </span>
 
             <span className={styles.contact}>
-              {/* {data.user?.email} */}
-              jason@gmail.com
+              {data?.job?.customer?.user?.email}
             </span>
           </div>
 
@@ -370,8 +367,7 @@ function List({
             </span>
 
             <span className={styles.contact}>
-              {/* {data.user?.phone} */}
-              jason@gmail.com
+              {data?.job?.customer?.user?.phone}
             </span>
           </div>
 

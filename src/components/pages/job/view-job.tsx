@@ -133,6 +133,12 @@ ${data.address?.state ? data.address?.state : ""} ${
         </p>
       </p>
 
+      <p className={`${styles.name} ${styles.createBy}`}>
+        <span className={styles.bold}>Work Type: &nbsp; </span>
+
+        <p className={styles.tag}>{data?.work_type?.title}</p>
+      </p>
+
       <Divider />
 
       <div className={`${styles.status} mt-5`}>

@@ -107,7 +107,7 @@ const Assessment = (props: PageProps) => {
 
   return (
     <div className="grow">
-      <p className={styles.title}>Assessment : {apptId}</p>
+      <p className={styles.title}>Assessment </p>
 
       <div className="space-y-16 mb-3">
         <FormSection title="Questionnaire">
@@ -130,7 +130,7 @@ const Assessment = (props: PageProps) => {
           </FormWraper>
         </FormSection>
 
-        <FormSection title="Product">
+        {/* <FormSection title="Product">
           <FormWraper>
             <div className="grid grid-cols-2 gap-4 ">
               <div className="relative w-96 h-60 rounded-xl border border-1 ">
@@ -152,7 +152,7 @@ const Assessment = (props: PageProps) => {
               </div>
             </div>
           </FormWraper>
-        </FormSection>
+        </FormSection> */}
 
         <div className={apptStyle.btns}>
           <Button
