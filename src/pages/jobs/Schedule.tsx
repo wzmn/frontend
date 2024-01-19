@@ -25,13 +25,15 @@ import {
   CreateApptSchemaT,
   createApptSchema,
 } from "schema/create-schedule-appt";
+import { useAppContext } from "providers/app-provider";
 
 type Props = {
   item: Result;
   companyId: number;
+  apptId?: string;
 };
 
-const Schedule = ({ item, companyId }: Props) => {
+const Schedule = ({ item, companyId, apptId }: Props) => {
   const {
     register,
     handleSubmit,
@@ -43,13 +45,34 @@ const Schedule = ({ item, companyId }: Props) => {
   });
   const [empListData, setEmpListData] = useState<ComboBoxDataT[]>([]);
   const selfAssessment = watch("self_assessment");
+  const {
+    appointment: { status, statusData },
+  } = useAppContext();
 
   async function onSubmit(data: CreateApptSchemaT) {
     try {
+      let exData = {};
+      if (apptId) {
+        const statueChangeFrom = statusData?.filter((item) => {
+          return item.title === "Confirmed";
+        });
+        exData = {
+          appointment_status_id: statueChangeFrom![0].id,
+        };
+      } else {
+        exData = {
+          job_id: item.id,
+          appointment_status: "Confirmed",
+        };
+      }
+
+      const url = apptId
+        ? APPOINTMENT_LISTING + apptId + "/"
+        : APPOINTMENT_LISTING;
       const response = await request({
-        url: APPOINTMENT_LISTING,
-        method: "post",
-        data: { ...data, job_id: item.id, appointment_status: "Confirmed" },
+        url: url,
+        method: apptId ? "patch" : "post",
+        data: { ...data, ...exData },
       });
       toast.success("Appt is created");
     } catch (error) {

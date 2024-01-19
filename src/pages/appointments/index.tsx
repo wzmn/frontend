@@ -11,7 +11,7 @@ import { SortFilter } from "components/pages/common";
 import Pagination from "components/pagination";
 import Placeholder from "components/skeleton";
 import { APPOINTMENT_LISTING } from "constants/api";
-import { Link } from "gatsby";
+import { Link, navigate } from "gatsby";
 import { useAppContext } from "providers/app-provider";
 import React, {
   ChangeEvent,
@@ -111,6 +111,13 @@ const Appintments = () => {
     section: AppointmentStatusType,
     make: boolean = true
   ) {
+    if (section === "Confirmed") {
+      const dt = data[item.section].find((val) => val.id === item.id);
+      navigate(`/jobs/create-appointment/?apptId=${dt?.id}`, {
+        state: dt?.job,
+      });
+      return;
+    }
     console.log(item, section);
     if (item.section === section) return;
     const copyData: any = { ...data };

@@ -7,7 +7,12 @@ import * as styles from "styles/pages/common.module.scss";
 import * as apptStyle from "./styles.module.scss";
 import Button from "components/button";
 import { request } from "services/http-request";
-import { APPT_Q, DOCUMENTS_ANS, QUESTIONS_ANS } from "constants/api";
+import {
+  APPOINTMENT_LISTING,
+  APPT_Q,
+  DOCUMENTS_ANS,
+  QUESTIONS_ANS,
+} from "constants/api";
 import { toast } from "react-toastify";
 import {
   DocumentsAnsRespT,
@@ -17,70 +22,11 @@ import {
   WorkTypeQuestionT,
   WorkTypeRespQuestionT,
 } from "type/global";
-import { PageProps } from "gatsby";
+import { PageProps, navigate } from "gatsby";
 import { set } from "date-fns";
 import AnsQuestion from "components/pages/appointment/assessment/questions";
 import ViewDocuments from "components/pages/appointment/assessment/view-documents";
-
-const txtData = [
-  {
-    type: "boolean",
-    question: "Is the switch board in working condition?",
-    answer: "Yes",
-  },
-  {
-    type: "boolean",
-    question: "Is the there 1m space on either sides of the system?",
-    answer: "Yes",
-  },
-  {
-    type: "textarea",
-    question: "Explain in brief the on-site location",
-    answer:
-      "The Heat pump is in a working condition with 1m space on either sides of the system.",
-  },
-  {
-    type: "textarea",
-    question: "Is the there 1m space on either sides of the system?",
-    answer: "ASDRE478598556",
-  },
-];
-
-const imageData = [
-  {
-    question: "clear photo of your current switch board",
-    id: 1,
-    img: "https://plus.unsplash.com/premium_photo-1675827055694-010aef2cf08f?q=80&w=2024&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    question: "clear photo of your current switch board",
-    id: 2,
-    img: "https://plus.unsplash.com/premium_photo-1675827055694-010aef2cf08f?q=80&w=2024&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    question: "clear photo of your current switch board",
-    id: 3,
-    img: "https://plus.unsplash.com/premium_photo-1675827055694-010aef2cf08f?q=80&w=2024&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    question: "signature",
-    id: 4,
-    img: "https://plus.unsplash.com/premium_photo-1675827055694-010aef2cf08f?q=80&w=2024&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-];
-
-const vidData = [
-  {
-    question: "clear photo of your current switch board",
-    id: 3,
-    vid: "https://www.youtube.com/watch?v=WsptdUFthWI",
-  },
-  {
-    question: "signature",
-    id: 4,
-    vid: "https://www.youtube.com/watch?v=WsptdUFthWI",
-  },
-];
+import { useAppContext } from "providers/app-provider";
 
 type LocState = {
   wtId: string;
@@ -90,6 +36,15 @@ type LocState = {
 const Assessment = (props: PageProps) => {
   const [data, setData] = useState<QAnsResultT[]>();
   const [docData, setDocData] = useState<DocumentsAnsT[]>();
+  const [loading, setLoading] = useState(false);
+
+  const { location } = props;
+  // const params = new URLSearchParams(location.search);
+  const apptId = (location.state as any).apptId;
+
+  const {
+    appointment: { status, statusData },
+  } = useAppContext();
 
   async function fetchQuestionsAns() {
     try {
@@ -122,6 +77,29 @@ const Assessment = (props: PageProps) => {
     }
   }
 
+  async function updateStatus(to: string) {
+    try {
+      const statueChangeFrom = statusData?.filter((item) => {
+        return item.title === to;
+      });
+
+      const datap = {
+        appointment_status_id: statueChangeFrom![0].id,
+      };
+      setLoading(true);
+      const response = await request<any>({
+        url: APPOINTMENT_LISTING + apptId + "/",
+        method: "patch",
+        data: datap,
+      });
+      toast.success(`${to.toUpperCase()} sucessfully`);
+    } catch (error) {
+      toast(`Problem ${to} Appt`);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   useEffect(() => {
     fetchQuestionsAns();
     fetchDocumentsAns();
@@ -129,7 +107,7 @@ const Assessment = (props: PageProps) => {
 
   return (
     <div className="grow">
-      {/* <pre>{JSON.stringify(data, null, 4)}</pre> */}
+      {apptId + " appt id"}
       <p className={styles.title}>Assessment</p>
 
       <div className="space-y-16 mb-3">
@@ -153,81 +131,29 @@ const Assessment = (props: PageProps) => {
           </FormWraper>
         </FormSection>
 
-        {/* <FormSection title="Questionnaire">
-          <FormWraper>
-            <div className={apptStyle.QACont}>
-              {txtData.map((item) => {
-                if (item.type === "boolean") {
-                  return (
-                    <div>
-                      <p className={apptStyle.questionLabel}>{item.question}</p>
-                      <div className={apptStyle.boolAnswer}>
-                        <Radio label="Yes" checked />
-                        <Radio label="No" />
-                      </div>
-                    </div>
-                  );
-                } else if (item.type === "textarea") {
-                  return (
-                    <div className="w-full mt-10">
-                      <p className={apptStyle.questionLabel}>{item.question}</p>
-                      <div className={apptStyle.tArea}>
-                        <Textarea
-                          placeholder="N/A"
-                          style={{ height: "7rem" }}
-                          value={item.answer}
-                          className={apptStyle.tAreaSt}
-                        />
-                      </div>
-                    </div>
-                  );
-                }
-
-                return null;
-              })}
-            </div>
-          </FormWraper>
-        </FormSection> */}
-
-        {/* <FormSection title="Photos">
-          <div className="flex-1">
-            <FormWraper>
-              <div className={apptStyle.QACont}>
-                {imageData.map((item) => {
-                  return (
-                    <div key={item.id}>
-                      <p className={apptStyle.questionLabel}>{item.question}</p>
-                      <div className={apptStyle.imgCont}>
-                        <img className={apptStyle.img} src={item.img} alt="" />
-                      </div>
-                    </div>
-                  );
-                })}
-
-                {vidData.map((item) => {
-                  return (
-                    <div key={item.id}>
-                      <p className={apptStyle.questionLabel}>{item.question}</p>
-                      <div className={apptStyle.imgCont}>
-                        <video src={item.vid}>
-                          <source
-                            src="assets/Raindrops_Videvo_preview.mp4"
-                            type="video/mp4"
-                          />
-                        </video>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </FormWraper>
-            <div className={apptStyle.btns}>
-              <Button title="Audited" className={apptStyle.audited} />
-              <Button title="Reassessment" className={apptStyle.reassessment} />
-              <Button title="Cancel" className={apptStyle.cancel} />
-            </div>
-          </div>
-        </FormSection> */}
+        <div className={apptStyle.btns}>
+          <Button
+            isLoading={loading}
+            disabled={loading}
+            title="Audited"
+            className={apptStyle.audited}
+            onClick={() => updateStatus("Audited")}
+          />
+          <Button
+            isLoading={loading}
+            disabled={loading}
+            title="Reassessment"
+            className={apptStyle.reassessment}
+            onClick={() => updateStatus("Reassessment")}
+          />
+          <Button
+            title="Cancel"
+            onClick={() => {
+              navigate(-1);
+            }}
+            className={apptStyle.cancel}
+          />
+        </div>
       </div>
     </div>
   );

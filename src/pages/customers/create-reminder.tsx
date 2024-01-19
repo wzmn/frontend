@@ -96,7 +96,7 @@ const CreateReminder = (props: PageProps) => {
       });
       toast.success("Reminder Created");
     } catch (error) {
-      toast.success("Cant Create Reminder at this time try again later ");
+      toast.error("Cant Create Reminder at this time try again later ");
     }
   }
 
@@ -109,6 +109,7 @@ const CreateReminder = (props: PageProps) => {
       const res = await employeeList({
         search: e?.target?.value,
         license_id__company__id: id,
+        role__title: "Agent",
       });
 
       const empFilteredList = res.results?.map((item) => ({
@@ -160,7 +161,7 @@ const CreateReminder = (props: PageProps) => {
                       <ComboBox<Result>
                         data={empListData}
                         handleSelect={(e) => {
-                          setValue("assigned_to", String(e?.user?.id));
+                          setValue("assigned_to", String(e?.id));
                         }}
                         onChange={debounce(handleEmployeeList)}
                       />

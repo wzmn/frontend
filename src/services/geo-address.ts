@@ -40,7 +40,11 @@ export function fillInPrimaryAddress(
       }
       //street name
       case "route": {
-        fileds.street_name = component.long_name;
+        fileds.street_name = component.long_name
+          .split(" ")
+          .slice(0, -1)
+          .join(" ");
+        fileds.street_type = component.long_name.split(" ").pop()!;
         break;
       }
       //suffix
@@ -59,12 +63,12 @@ export function fillInPrimaryAddress(
         break;
       }
       case "administrative_area_level_2": {
-        fileds.lga = component.long_name;
+        fileds.suburb = component.long_name;
         break;
       }
       //suburb
       case "locality": {
-        fileds.suburb = component.long_name;
+        fileds.lga = component.long_name;
         break;
       }
     }

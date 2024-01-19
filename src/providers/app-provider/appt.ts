@@ -11,6 +11,9 @@ export async function fetchApptStatus(): Promise<FetchApptStatus> {
   try {
     const response = await request<ApptStatues>({
       url: APPT_STATUES,
+      params: {
+        limit: 20,
+      },
     });
 
     const status = {} as ApptStateStatus;

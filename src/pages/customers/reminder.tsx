@@ -106,7 +106,7 @@ const Reminder = (props: PageProps) => {
                           : ""
                       } ${
                         custData?.address?.street_name
-                          ? custData.address?.street_name
+                          ? custData?.address?.street_name
                           : ""
                       }
                     
@@ -116,7 +116,7 @@ const Reminder = (props: PageProps) => {
                       custData?.address?.state ? custData.address?.state : ""
                     } ${
                         custData?.address?.pincode
-                          ? custData.address?.pincode
+                          ? custData?.address?.pincode
                           : ""
                       }`}
                     </span>

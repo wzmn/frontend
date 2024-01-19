@@ -59,6 +59,7 @@ const customerRegistration = () => {
   const userRole = UserIdentifyer();
   const id = companyIdFetcher(userRole);
   const methods = useForm<CustomerRegistrationSchemaType>({
+    shouldUseNativeValidation: false,
     resolver: yupResolver(customerRegistrationSchema),
   });
 
@@ -161,18 +162,14 @@ const customerRegistration = () => {
     //     inputElement.focus();
     //   }
     // }
-
-    const tagName = toLoc(Object.entries(errors));
-    if (tagName) {
-      console.log(document.getElementsByName(tagName)[0]);
-
-      (document.getElementsByName(tagName)[0] as HTMLElement).scrollIntoView({
-        behavior: "smooth",
-      });
-      // (
-      //   document.getElementsByTagName(tagName) as unknown as HTMLDivElement
-      // ).scrollIntoView({ behavior: "smooth" });
-    }
+    // const tagName = toLoc(Object.entries(errors));
+    // if (tagName) {
+    //   console.log(document.getElementsByName(tagName)[0]);
+    //   (document.getElementsByName(tagName)[0] as HTMLElement).scrollIntoView();
+    //   // (
+    //   //   document.getElementsByTagName(tagName) as unknown as HTMLDivElement
+    //   // ).scrollIntoView({ behavior: "smooth" });
+    // }
   }, [errors]);
 
   return (

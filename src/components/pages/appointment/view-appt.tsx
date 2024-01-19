@@ -12,7 +12,28 @@ import { TfiEmail } from "react-icons/tfi";
 import * as styles from "styles/pages/view.module.scss";
 import { Result } from "type/appointment";
 
-const ViewAppt = ({ data }: { data: Result }) => {
+const apptStatsuBtn = {
+  waiting: ["schedule"],
+  confirm: [],
+  assessed: [],
+  audited: [],
+  "snippit audited": [],
+  Rescheduled: [],
+  Reassessment: [],
+  installed: [],
+  rejected: [],
+  Cancelled: [],
+};
+
+const ViewAppt = ({
+  data,
+  showAssessment,
+  showSchedule,
+}: {
+  data: Result;
+  showAssessment: boolean;
+  showSchedule: boolean;
+}) => {
   return (
     <div className={styles.view}>
       <Disclosure>
@@ -113,6 +134,22 @@ const ViewAppt = ({ data }: { data: Result }) => {
         <Radio label={data?.appointment_status ?? ""} checked={true} />
       </div>
 
+      {showSchedule && (
+        <Link
+          to={`/jobs/create-appointment/?apptId=${data?.id}`}
+          state={data?.job}
+          className="mt-10"
+        >
+          <Button
+            width="full"
+            title="Schedule Appt"
+            icon={<RiQuestionAnswerLine />}
+            className="flex-row-reverse justify-between"
+          />
+        </Link>
+      )}
+
+      {/* {showAssessment && ( */}
       <Link
         to="assessment"
         state={{
@@ -128,6 +165,7 @@ const ViewAppt = ({ data }: { data: Result }) => {
           className="flex-row-reverse justify-between"
         />
       </Link>
+      {/* )} */}
     </div>
   );
 };

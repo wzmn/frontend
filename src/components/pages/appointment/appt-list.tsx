@@ -29,7 +29,11 @@ export default function ApptList({
         !open && toggle();
 
         setElement(
-          <ViewAppt data={data} />,
+          <ViewAppt
+            data={data}
+            showAssessment={data.appointment_status === "Assessed"}
+            showSchedule={data.appointment_status === "Waiting"}
+          />,
           `Appt ID: ${data.id}`,
           <>
             <IoEyeOutline

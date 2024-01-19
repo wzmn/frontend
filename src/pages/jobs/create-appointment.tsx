@@ -16,7 +16,9 @@ const CreateAppointment = () => {
 
   const { workTypes } = useAppContext();
   let workTypeList = watch("workType");
-  const location = useLocation().state as Result;
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const apptId = params.get("apptId");
 
   // useEffect
 
@@ -45,7 +47,11 @@ const CreateAppointment = () => {
         </FormSection> */}
 
         {/* {workTypeList?.map((_: any, key: number) => ( */}
-        <Schedule item={location} companyId={location.customer?.company?.id!} />
+        <Schedule
+          item={location.state as Result}
+          companyId={(location.state as Result).customer?.company?.id!}
+          apptId={apptId!}
+        />
         {/* ))} */}
 
         {/* <FormSection title="Comments">
