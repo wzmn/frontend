@@ -160,6 +160,32 @@ const Settings = () => {
             </div>
           </FormWraper>
         </FormSection>
+
+
+        <FormSection title="Products">
+          <FormWraper>
+            <div className={settingtyles.profileSetting}>
+              {/* <div className={settingtyles.cont1}></div>
+            <div className={settingtyles.cont2}></div> */}
+              <p className={`${settingtyles.otherUser} ${settingtyles.mtB} grow`}>
+                Add / View Listing for Products
+              </p>
+              <Link
+                to="select-products"
+                className={`${settingtyles.userSettings} ${settingtyles.mtB} mr-2`}
+              >
+                Add 
+              </Link> 
+              /
+              <Link
+                to="my-products"
+                className={`${settingtyles.userSettings} ${settingtyles.mtB} ml-2`}
+              >
+                View 
+              </Link>
+            </div>
+          </FormWraper>
+        </FormSection>
       </div>
     </div>
   );

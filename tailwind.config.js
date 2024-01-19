@@ -9,7 +9,12 @@ module.exports = {
     "bg-red-800",
     "ring-red-300",
     "bg-red-600",
-    "ring-red-900"
+    "ring-red-900",
+    'ml-8',
+    'ml-16',
+    'ml-22',
+    'ml-28',
+    'ml-34',
   ],
   theme: {
     extend: {

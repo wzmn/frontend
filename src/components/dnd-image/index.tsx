@@ -5,6 +5,7 @@ import * as styles from "./styles.module.scss";
 export type DNDImageFileType = File & {
   preview: string;
 };
+
 type Props = {
   setFiles: (file: DNDImageFileType[]) => void;
   maxFiles?: number;
