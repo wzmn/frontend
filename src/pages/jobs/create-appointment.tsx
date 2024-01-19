@@ -25,7 +25,7 @@ const CreateAppointment = () => {
   return (
     <div className="grow">
       {/* <pre>{JSON.stringify(location, null, 4)}</pre> */}
-      <p className={styles.title}>Create Appointment</p>
+      <p className={styles.title}>Schedule Appointment</p>
 
       <div className="space-y-16 mb-3">
         {/* <FormSection title="Work Types">

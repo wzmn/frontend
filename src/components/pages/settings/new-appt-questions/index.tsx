@@ -74,10 +74,15 @@ const Questions = ({
       <form onSubmit={handleSubmit(onSubmit)} className="">
         <div className="flex gap-3">
           <div className="w-80">
-            <Input {...register("content")} placeholder={data.content} />
+            <Input
+              disabled={true}
+              {...register("content")}
+              placeholder={data.content}
+            />
           </div>
           <div className="w-52">
             <SelectBox
+              disabled={true}
               data={questions}
               placeholder={data.question_type}
               onChange={(e) => {
@@ -155,6 +160,7 @@ function Options({
         {/* {JSON.stringify(option)} */}
         <div className="w-48 mt-2 ">
           <Input
+            disabled={true}
             placeholder={option.option_text}
             {...register(`options.${index}.option_text`)}
           />

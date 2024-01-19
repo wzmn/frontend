@@ -40,7 +40,7 @@ const ViewCustomer = ({ data }: { data: CustomerResult }) => {
     {
       url: REMINDER_LISTING,
       params: {
-        customer: data?.user?.id,
+        task_user: data?.id,
       },
     },
     [JSON.stringify(data)]

@@ -135,7 +135,7 @@ const Assessment = (props: PageProps) => {
           <Button
             isLoading={loading}
             disabled={loading}
-            title="Audited"
+            title="Audit Assessment"
             className={apptStyle.audited}
             onClick={() => updateStatus("Audited")}
           />

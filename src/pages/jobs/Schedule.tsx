@@ -26,6 +26,7 @@ import {
   createApptSchema,
 } from "schema/create-schedule-appt";
 import { useAppContext } from "providers/app-provider";
+import { navigate } from "gatsby";
 
 type Props = {
   item: Result;
@@ -178,14 +179,26 @@ const Schedule = ({ item, companyId, apptId }: Props) => {
                   />
                 </div> */}
                 </div>
-                <Button
-                  isLoading={isSubmitting}
-                  disabled={isSubmitting}
-                  className={` mt-5`}
-                  color={"blue"}
-                  title="Schedule"
-                  type="submit"
-                />
+                <div className="flex gap-5">
+                  <Button
+                    isLoading={isSubmitting}
+                    disabled={isSubmitting}
+                    className={` mt-5`}
+                    color={"blue"}
+                    title="Confirm"
+                    type="submit"
+                  />
+                  <Button
+                    disabled={isSubmitting}
+                    className={` mt-5`}
+                    color={"red"}
+                    title="Cancel"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate(-1);
+                    }}
+                  />
+                </div>
               </div>
             </>
           </FormWraper>

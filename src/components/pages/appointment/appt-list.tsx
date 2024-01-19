@@ -9,6 +9,8 @@ import { TfiEmail } from "react-icons/tfi";
 import * as commonStyles from "styles/pages/common.module.scss";
 import Checkbox from "components/checkbox";
 
+const assessmet = ["assessed", "audited", "snippit audited", "Reassessment"];
+const schedule = ["waiting", "rescheduled"];
 export default function ApptList({
   data,
   loading,
@@ -31,8 +33,12 @@ export default function ApptList({
         setElement(
           <ViewAppt
             data={data}
-            showAssessment={data.appointment_status === "Assessed"}
-            showSchedule={data.appointment_status === "Waiting"}
+            showAssessment={assessmet.includes(
+              data.appointment_status.toLowerCase()
+            )}
+            showSchedule={schedule.includes(
+              data.appointment_status.toLowerCase()
+            )}
           />,
           `Appt ID: ${data.id}`,
           <>

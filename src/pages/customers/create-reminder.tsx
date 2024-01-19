@@ -38,7 +38,7 @@ const ReminderSchema = object({
   description: string().trim().required("required"),
   reminder_time: string().trim().required("required"),
   due_date: string().trim().required("required"),
-  assigned_to: string().trim(),
+  assigned_to_id: string().trim(),
   // priority:string().trim().required('required'),
   // status:string().trim().required('required'),
   // task_user:string().trim().required('required'),
@@ -90,7 +90,7 @@ const CreateReminder = (props: PageProps) => {
         data: {
           task_user: customerId,
           priority: "medium",
-          status: "completed",
+          status: "pending",
           ...data,
         },
       });
@@ -161,12 +161,12 @@ const CreateReminder = (props: PageProps) => {
                       <ComboBox<Result>
                         data={empListData}
                         handleSelect={(e) => {
-                          setValue("assigned_to", String(e?.id));
+                          setValue("assigned_to_id", String(e?.id));
                         }}
                         onChange={debounce(handleEmployeeList)}
                       />
                       <p className={styles.errorMessage}>
-                        {errors.assigned_to?.message}
+                        {errors.assigned_to_id?.message}
                       </p>
                     </div>
                   </>

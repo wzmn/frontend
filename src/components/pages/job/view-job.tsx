@@ -122,7 +122,7 @@ ${data.address?.state ? data.address?.state : ""} ${
           data?.job_created_by?.first_name
             ? data?.job_created_by?.first_name +
               " " +
-              data?.job_created_by?.first_name
+              data?.job_created_by?.last_name
             : "N/A"
         }`}{" "}
         &nbsp;

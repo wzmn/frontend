@@ -138,34 +138,34 @@ const ViewAppt = ({
         <Link
           to={`/jobs/create-appointment/?apptId=${data?.id}`}
           state={data?.job}
-          className="mt-10"
+          className="mt-10 "
         >
           <Button
             width="full"
             title="Schedule Appt"
             icon={<RiQuestionAnswerLine />}
-            className="flex-row-reverse justify-between"
+            className="flex-row-reverse justify-between mt-5"
           />
         </Link>
       )}
 
-      {/* {showAssessment && ( */}
-      <Link
-        to="assessment"
-        state={{
-          wtId: data?.job?.work_type?.id,
-          apptId: data?.id,
-        }}
-        className="mt-10"
-      >
-        <Button
-          width="full"
-          title="View Assessment"
-          icon={<RiQuestionAnswerLine />}
-          className="flex-row-reverse justify-between"
-        />
-      </Link>
-      {/* )} */}
+      {showAssessment && (
+        <Link
+          to="assessment"
+          state={{
+            wtId: data?.job?.work_type?.id,
+            apptId: data?.id,
+          }}
+          className="mt-10"
+        >
+          <Button
+            width="full"
+            title="View Assessment"
+            icon={<RiQuestionAnswerLine />}
+            className="flex-row-reverse justify-between mt-5"
+          />
+        </Link>
+      )}
     </div>
   );
 };

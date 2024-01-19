@@ -65,6 +65,8 @@ const sortType = [
   },
 ];
 
+const assessment = ["audited", "reassessment"];
+
 const Appintments = () => {
   const {
     appointment: { status, statusData },
@@ -118,6 +120,15 @@ const Appintments = () => {
       });
       return;
     }
+
+    if (assessment.includes(section.toLowerCase())) {
+      const dt = data[item.section].find((val) => val.id === item.id);
+      navigate(`assessment`, {
+        state: { wtId: dt?.job?.work_type?.id, apptId: dt?.id },
+      });
+      return;
+    }
+
     console.log(item, section);
     if (item.section === section) return;
     const copyData: any = { ...data };
