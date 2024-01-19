@@ -270,7 +270,7 @@ const Company = () => {
           </div>
         </Filterbtn>
         <div className="w-32">
-          <Filterbtn icon={<TbCircuitSwitchClosed />} title="Sort">
+          <Filterbtn icon={<img src="/assets/icons/sort.svg" />} title="Sort">
             <SortFilter
               data={sortType}
               defaultChecked={sort}

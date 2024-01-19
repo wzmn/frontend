@@ -70,7 +70,7 @@ export function List({
         <div className="absolute right-3 top-3">
           <ImSpinner10 className="animate-spin" />
         </div>
-        <div className={styles.header}>
+        <div className={`${styles.header}`}>
           <span className="">ABN No. </span>
           <span>{data.id}</span>
         </div>
@@ -78,7 +78,7 @@ export function List({
           <p className="">{data.company_name}</p>
           <span className="">
             {" "}
-            created on: {moment(data.created_at).format("ddd DD")} at{" "}
+            Created on: <br/>{moment(data.created_at).format("ddd DD")} at{" "}
             {moment(data?.created_at).format("h:mm a")}
           </span>
         </div>

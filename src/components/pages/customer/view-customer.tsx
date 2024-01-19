@@ -71,7 +71,7 @@ const ViewCustomer = ({ data }: { data: CustResultT }) => {
             </Disclosure.Button>
             <Disclosure.Panel className={styles.panel}>
               <div className={styles.contactInfo}>
-                <div className="">
+                <div className="mb-2">
                   <span className={styles.icon}>
                     <TfiEmail className={styles.icon} />
                   </span>
@@ -79,7 +79,7 @@ const ViewCustomer = ({ data }: { data: CustResultT }) => {
                   <span className={styles.contact}>{data?.user?.email}</span>
                 </div>
 
-                <div className="">
+                <div className="mb-2">
                   <span className={styles.icon}>
                     <IoCallOutline className={styles.icon} />
                   </span>
@@ -112,7 +112,7 @@ const ViewCustomer = ({ data }: { data: CustResultT }) => {
                     ${data?.address?.suburb ? data.address?.suburb : ""}
 
                     ${data?.address?.state ? data.address?.state : ""} ${
-                      data.address?.pincode ? data.address?.pincode : ""
+                      data.address?.pincode ? data.address?.pincode : "No Data Available"
                     }`}
                   </span>
                 </div>
@@ -128,16 +128,16 @@ const ViewCustomer = ({ data }: { data: CustResultT }) => {
       <div className="">
         <p className={styles.additionalInfo}>
           <span className={styles.title}>Customer Type: &nbsp;</span>
-          {data?.customer_type ? data?.customer_type : "No data available"}
+          {data?.customer_type ? data?.customer_type : "No Data Available"}
         </p>
 
         <p className={styles.additionalInfo}>
           <span className={styles.title}>State: &nbsp;</span>
-          {data?.address?.state}
+          {data?.address?.state ? data?.address?.state : "No Data Available"}
         </p>
 
         <p className={styles.additionalInfo}>
-          <span className={styles.title}>LGA: &nbsp;</span> {data.address?.lga}
+          <span className={styles.title}>LGA: &nbsp;</span> {data.address?.lga ? data.address?.lga : 'No Data Available'}
         </p>
       </div>
 
@@ -150,7 +150,7 @@ const ViewCustomer = ({ data }: { data: CustResultT }) => {
         {`${
           data?.customer_created_by?.user.first_name
             ? data?.customer_created_by?.user.first_name
-            : "N/A"
+            : ""
         } ${
           data?.customer_created_by?.user.last_name
             ? data?.customer_created_by?.user.last_name
@@ -191,7 +191,7 @@ const ViewCustomer = ({ data }: { data: CustResultT }) => {
                 className={`${open ? "rotate-180 transform" : ""}`}
               />
             </Disclosure.Button>
-            <Disclosure.Panel className={`${styles.panel} mb-5`}>
+            <Disclosure.Panel className={`${styles.panel} mb-1`}>
               {jobResp?.results?.length! > 0 ? (
                 jobResp?.results?.map((item, idx, array) => {
                   return (
@@ -202,13 +202,13 @@ const ViewCustomer = ({ data }: { data: CustResultT }) => {
                           "_blank"
                         );
                       }}
-                      className={styles.job + " mt-1"}
+                      className={styles.job + " mt-1 rounded-sm flex justify-between"}
                     >
-                      <p className={styles.jobTitle}>{item.work_type?.title}</p>
                       <p className="">
+                        <p className={styles.jobTitle}>{item.work_type?.title}</p>
                         Job ID : <span className={styles.tag}>{item.id}</span>
                       </p>
-                      <LuClipboardList />
+                      <img src="/assets/icons/to-do-list.svg" />
                       {/* <p className={styles.count}>3</p> */}
                     </div>
                   );

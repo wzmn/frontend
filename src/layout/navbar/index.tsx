@@ -57,7 +57,7 @@ const Navbar = () => {
         <div className={styles.navbar}>
           <div className={styles.leftSide}>
             <FaGripLines onClick={toggle} className={styles.burger} />
-            <div className="flex-1 ml-1">
+            <div className="ml-1">
               <ComboBox<Result>
                 placeholder={company?.company_name}
                 data={companyListData}

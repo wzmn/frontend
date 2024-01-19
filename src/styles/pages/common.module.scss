@@ -69,19 +69,22 @@
   }
 
   & .header {
-    margin-bottom: 0.8rem;
-    & span:first-child {
+    margin-bottom: 0.5rem;
+    & span {
       font-size: $font-medium;
+    }
+    & span:first-child {
+      // font-size: $font-medium;
     }
 
     & span:last-child {
-      font-weight: lighter;
+      // font-weight: lighter;
     }
   }
 
   & .card-info {
     // line-height: 1rem;
-    margin-bottom: 15px;
+    margin-bottom: 0.5rem;
     & > p {
       letter-spacing: -0.5px;
       font-size: 14px;
