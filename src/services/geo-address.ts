@@ -3,7 +3,7 @@ import { PrimaryAddressFieldsT } from "type/global";
 export function fillInPrimaryAddress(
   address_components: google.maps.GeocoderResult["address_components"]
 ): PrimaryAddressFieldsT {
-  const fileds = {
+  const fields = {
     building_number: "",
     level_number: "",
     unit_type: "",
@@ -25,54 +25,54 @@ export function fillInPrimaryAddress(
     switch (componentType) {
       //building name
       case "premise": {
-        fileds.building_number = component.long_name;
+        fields.building_number = component.long_name;
         break;
       }
       //level_number
       case "subpremise": {
-        fileds.level_number = component.long_name;
+        fields.level_number = component.long_name;
         break;
       }
       //street number
       case "street_number": {
-        fileds.street_number = component.long_name;
+        fields.street_number = component.long_name;
         break;
       }
       //street name
       case "route": {
-        fileds.street_name = component.long_name
+        fields.street_name = component.long_name
           .split(" ")
           .slice(0, -1)
           .join(" ");
-        fileds.street_type = component.long_name.split(" ").pop()!;
+        fields.street_type = component.long_name.split(" ").pop()!;
         break;
       }
       //suffix
       case "postal_code_suffix": {
-        fileds.suffix = component.long_name;
+        fields.suffix = component.long_name;
         break;
       }
       //state
       case "administrative_area_level_1": {
-        fileds.state = component.short_name;
+        fields.state = component.short_name;
         break;
       }
       //pincode
       case "postal_code": {
-        fileds.pincode = component.long_name;
+        fields.pincode = component.long_name;
         break;
       }
       case "administrative_area_level_2": {
-        fileds.suburb = component.long_name;
+        fields.lga = component.long_name;
         break;
       }
       //suburb
       case "locality": {
-        fileds.lga = component.long_name;
+        fields.suburb = component.long_name;
         break;
       }
     }
   }
 
-  return fileds;
+  return fields;
 }

@@ -131,7 +131,7 @@ const Address = ({ wat = "address" }) => {
         </div>
         <div className="max-w-3xl">
           <TextField
-            title={district()}
+            title={city()}
             asterisk
             {...register(`${wat}.suburb`)}
             errormessage={errors[wat]?.suburb?.message}
@@ -149,7 +149,7 @@ const Address = ({ wat = "address" }) => {
 
         <div className="max-w-3xl">
           <TextField
-            title={city()}
+            title={district()}
             asterisk
             {...register(`${wat}.lga`)}
             errormessage={errors[wat]?.lga?.message}
@@ -182,7 +182,6 @@ const Address = ({ wat = "address" }) => {
             color="full-white"
             placeholder="Select Unit Type"
             data={UnitTypes}
-            asterisk
             value={address?.unit_type!}
             onChange={(e) => {
               setValue(`${wat}.unit_type`, e.label);

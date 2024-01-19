@@ -27,11 +27,23 @@ import { set } from "date-fns";
 import AnsQuestion from "components/pages/appointment/assessment/questions";
 import ViewDocuments from "components/pages/appointment/assessment/view-documents";
 import { useAppContext } from "providers/app-provider";
+import UserIdentifyer from "services/user-identifyer";
+import { useAuthContext } from "providers/auth-provider";
 
 type LocState = {
   wtId: string;
   apptId: number;
 };
+
+const snippitAudit = ["superadmin", "snippit auditor"];
+const audit = ["superadmin", "admin", "owner", "auditor", "snippit auditor"];
+const reAssessment = [
+  "superadmin",
+  "snippit auditor",
+  "admin",
+  "owner",
+  "auditor",
+];
 
 const Assessment = (props: PageProps) => {
   const [data, setData] = useState<QAnsResultT[]>();
@@ -41,6 +53,7 @@ const Assessment = (props: PageProps) => {
   const { location } = props;
   // const params = new URLSearchParams(location.search);
   const apptId = (location.state as any).apptId;
+  const userRole = UserIdentifyer();
 
   const {
     appointment: { status, statusData },
@@ -155,20 +168,35 @@ const Assessment = (props: PageProps) => {
         </FormSection> */}
 
         <div className={apptStyle.btns}>
-          <Button
-            isLoading={loading}
-            disabled={loading}
-            title="Audit Assessment"
-            className={apptStyle.audited}
-            onClick={() => updateStatus("Audited")}
-          />
-          <Button
-            isLoading={loading}
-            disabled={loading}
-            title="Reassessment"
-            className={apptStyle.reassessment}
-            onClick={() => updateStatus("Reassessment")}
-          />
+          {audit.includes(userRole?.toLowerCase()) && (
+            <Button
+              isLoading={loading}
+              disabled={loading}
+              title="Audit Assessment"
+              className={apptStyle.audited}
+              onClick={() => updateStatus("Audited")}
+            />
+          )}
+
+          {snippitAudit.includes(userRole?.toLowerCase()) && (
+            <Button
+              isLoading={loading}
+              disabled={loading}
+              title="Snippit Audit"
+              className={apptStyle.snippitAudit}
+              onClick={() => updateStatus("Snippit Audited")}
+            />
+          )}
+
+          {reAssessment.includes(userRole?.toLowerCase()) && (
+            <Button
+              isLoading={loading}
+              disabled={loading}
+              title="Reassessment"
+              className={apptStyle.reassessment}
+              onClick={() => updateStatus("Reassessment")}
+            />
+          )}
           <Button
             title="Cancel"
             onClick={() => {

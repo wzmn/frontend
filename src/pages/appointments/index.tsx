@@ -70,7 +70,7 @@ const sortType = [
   },
 ];
 
-const assessment = ["audited", "reassessment"];
+const assessment = ["audited", "reassessment", "snippit audited"];
 
 const Appintments = () => {
   const {
@@ -311,13 +311,13 @@ const Appintments = () => {
   return (
     <>
       <div className={locStyles.filtersCont}>
-        <Link to="/jobs/create-job/" className={locStyles.alignWithCard}>
+        {/* <Link to="/jobs/create-job/" className={locStyles.alignWithCard}>
           <Button
             title="Create Job"
             icon={<AiOutlinePlus />}
             className="flex-row-reverse"
           />
-        </Link>
+        </Link> */}
 
         <div className={locStyles.alignWithCard}>
           <Input

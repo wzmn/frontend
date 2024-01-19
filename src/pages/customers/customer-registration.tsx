@@ -77,7 +77,6 @@ const customerRegistration = () => {
   const customerType = watch("customer_type");
 
   async function onSubmit(data: CustomerRegistrationSchemaType) {
-    // return;
     try {
       if (!id) {
         alert("Please Select Country");
