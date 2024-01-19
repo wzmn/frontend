@@ -6,15 +6,16 @@ export interface ApptResultT {
   id: number;
   job: Job;
   appointment_status: string;
+  products: Product[];
   ref_id: null;
   created_at: Date;
   updated_at: Date;
   is_active: boolean;
-  assessment_scheduled_on: Date | null;
-  assessment_completed_on: Date | null;
+  assessment_scheduled_on: Date;
+  assessment_completed_on: null;
   self_assessment: boolean;
   assessment_completed: boolean;
-  assessment_assigned_to: number | null;
+  assessment_assigned_to: number;
 }
 
 export interface Job {
@@ -137,6 +138,17 @@ export interface WorkType {
   work_type_image: string;
   global_activity: boolean;
   auth_companies: number[];
+}
+
+export interface Product {
+  id: number;
+  ref_id: null;
+  created_at: Date;
+  updated_at: Date;
+  is_active: boolean;
+  quantity: number;
+  assessment: number;
+  product: number;
 }
 
 export type AppointmentExtraDataType = ApptResultT & {

@@ -50,6 +50,7 @@ export function userAccessRouter(): string[] {
     case "superadmin":
       return superAdmin;
     case "admin":
+    case "owner":
       return admin;
     case "team lead":
       return teamLead;

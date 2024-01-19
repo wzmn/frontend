@@ -7,9 +7,10 @@ import { FilterT } from "type/filters";
 
 type WorkTypeFilterProps = {
   setValue: (e: string) => void;
+  workType: string[];
 };
 
-export const WorkTypeFilter = ({ setValue }: WorkTypeFilterProps) => {
+export const WorkTypeFilter = ({ workType, setValue }: WorkTypeFilterProps) => {
   const { workTypes } = useAppContext();
 
   const Label = ({ title }: { title: string }) => {
@@ -22,6 +23,7 @@ export const WorkTypeFilter = ({ setValue }: WorkTypeFilterProps) => {
         return (
           <Checkbox
             key={item.id}
+            checked={workType.some((value) => item.title === value)}
             id={item.title}
             label={<Label title={item.title} />}
             name="workType"

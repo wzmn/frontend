@@ -426,7 +426,7 @@ function List({
       onClick={() => {
         window.open(`/jobs/job-details/?job=${data.id}`, "_blank");
       }}
-      className={`${styles.card} ${additionalStyles.card}`}
+      className={`${styles.card} ${additionalStyles.cardOther}`}
     >
       <div className={styles.cardInfo}>
         <p className="title">
@@ -487,7 +487,7 @@ function ReminderList({
           "_blank"
         );
       }}
-      className={`${styles.card} ${additionalStyles.card}`}
+      className={`${styles.card} ${additionalStyles.cardOther}`}
     >
       <div className={styles.cardInfo}>
         <p className="title">{`Reminder ID: ${data.id}`}</p>

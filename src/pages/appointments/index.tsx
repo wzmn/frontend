@@ -28,6 +28,8 @@ import companyIdFetcher from "services/company-id-fetcher";
 import { request } from "services/http-request";
 import UserIdentifyer from "services/user-identifyer";
 import * as commonStyles from "styles/pages/common.module.scss";
+import * as styles from "styles/pages/common.module.scss";
+
 import {
   AppointmentDataType,
   AppointmentExtraDataType,
@@ -39,6 +41,9 @@ import cssVar from "utility/css-var";
 import { debounce } from "utility/debounce";
 import { findMatchingId } from "utility/find-matching-id";
 import * as locStyles from "./styles.module.scss";
+import Menu from "components/menu";
+import { WorkTypeFilter } from "services/filters";
+import Badge from "components/badge";
 
 const selectionRangeInit = {
   startDate: undefined,
@@ -90,11 +95,18 @@ const Appintments = () => {
     totalRecords: 0,
   });
 
+  const [workType, setWorkType] = useState<string[]>([]);
+
   const { btnCont, tableCont } = commonStyles;
   const table = useRef<HTMLDivElement>(null);
 
   const userRole = UserIdentifyer();
   const id = companyIdFetcher(userRole);
+
+  function clearFilters() {
+    setSelectionRange(() => selectionRangeInit);
+    setWorkType(() => []);
+  }
 
   function getColumnColor(int: number) {
     const colors = [
@@ -157,6 +169,7 @@ const Appintments = () => {
           ordering: sort,
           created_at__gte: selectionRange.startDate,
           created_at__lte: selectionRange.endDate,
+          job__work_type__title__in: workType.toString(),
           ...params,
         },
       });
@@ -257,6 +270,24 @@ const Appintments = () => {
     setSnippitAudited(() => [...list]);
   }
 
+  function workTypeFilterHandler(value: string) {
+    let idChecker = null;
+    const list = [...workType];
+    for (let i = 0; i < workType.length; i++) {
+      if (workType[i] === value) {
+        list.splice(i, 1);
+        idChecker = i;
+        break;
+      }
+    }
+
+    if (idChecker === null) {
+      list.push(value);
+    }
+
+    setWorkType(() => [...list]);
+  }
+
   useEffect(() => {
     table.current!.addEventListener("wheel", handleScroll);
     return () => {
@@ -274,6 +305,7 @@ const Appintments = () => {
     id,
     sort,
     JSON.stringify(selectionRange),
+    JSON.stringify(workType),
   ]);
 
   return (
@@ -300,13 +332,29 @@ const Appintments = () => {
         </div> */}
         <div className={locStyles.alignWithCard}>
           <Filterbtn icon={<IoIosArrowDown />} title="Filter">
-            <div
-              onClick={() => {
-                setVisible((prev) => !prev);
-              }}
-              className={menuStyle.menu}
-            >
-              <button>Date</button>
+            <div className="relative h-32">
+              <div
+                onClick={() => {
+                  setVisible((prev) => !prev);
+                }}
+                className={menuStyle.menu}
+              >
+                <button>Date</button>
+              </div>
+              <Menu title="Work Type" dropPosition={styles.menuPos}>
+                <WorkTypeFilter
+                  workType={workType}
+                  setValue={workTypeFilterHandler}
+                />
+              </Menu>
+
+              <Badge
+                label="clear"
+                className="absolute bottom-2 left-0 text-blue-600 cursor-pointer"
+                onClick={() => {
+                  clearFilters();
+                }}
+              />
             </div>
           </Filterbtn>
         </div>

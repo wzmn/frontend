@@ -1,3 +1,4 @@
+import Badge from "components/badge";
 import Button from "components/button";
 import { Drop } from "components/drop-zone";
 import { Drage } from "components/drop-zone/drage";
@@ -88,6 +89,11 @@ const Jobs = () => {
   const id = companyIdFetcher(userRole);
 
   // const workType = watchFilters("workType");
+
+  function clearFilters() {
+    setSelectionRange(() => selectionRangeInit);
+    setWorkType(() => []);
+  }
 
   function getColumnColor(int: number) {
     const colors = [
@@ -278,16 +284,28 @@ const Jobs = () => {
           <SelectBox color="full-white" data={dataList} />
         </div> */}
         <Filterbtn icon={<IoIosArrowDown />} title="Filter">
-          <Menu title="Work Type" dropPosition={styles.menuPos}>
-            <WorkTypeFilter setValue={workTypeFilterHandler} />
-          </Menu>
-          <div
-            onClick={() => {
-              setVisible((prev) => !prev);
-            }}
-            className={menuStyle.menu}
-          >
-            <button>Date</button>
+          <div className="relative h-32">
+            <Menu title="Work Type" dropPosition={styles.menuPos}>
+              <WorkTypeFilter
+                workType={workType}
+                setValue={workTypeFilterHandler}
+              />
+            </Menu>
+            <div
+              onClick={() => {
+                setVisible((prev) => !prev);
+              }}
+              className={menuStyle.menu}
+            >
+              <button>Date</button>
+            </div>
+            <Badge
+              label="clear"
+              className="absolute bottom-2 left-0 text-blue-600 cursor-pointer"
+              onClick={() => {
+                clearFilters();
+              }}
+            />
           </div>
         </Filterbtn>
         <div className="w-32">

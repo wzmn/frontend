@@ -107,8 +107,7 @@ const Assessment = (props: PageProps) => {
 
   return (
     <div className="grow">
-      {apptId + " appt id"}
-      <p className={styles.title}>Assessment</p>
+      <p className={styles.title}>Assessment : {apptId}</p>
 
       <div className="space-y-16 mb-3">
         <FormSection title="Questionnaire">
@@ -127,6 +126,30 @@ const Assessment = (props: PageProps) => {
               {docData?.map((docAns, index) => {
                 return <ViewDocuments data={docAns} />;
               })}
+            </div>
+          </FormWraper>
+        </FormSection>
+
+        <FormSection title="Product">
+          <FormWraper>
+            <div className="grid grid-cols-2 gap-4 ">
+              <div className="relative w-96 h-60 rounded-xl border border-1 ">
+                <div className="w-44 h-44 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                  <img
+                    className="w-full h-full object-contain"
+                    src="https://media.istockphoto.com/id/529249803/photo/background-from-leaves-of-bright-green-color.jpg?s=612x612&w=0&k=20&c=K1kzf35nuyNzBVbtfF81jdWqem7W_nqYZJfrAJCAm5o="
+                    alt=""
+                  />
+                </div>
+                <p className="absolute top-0 text-sm left-4 top-1">
+                  Product Name
+                </p>
+                <div className="absolute bottom-0 left-4">
+                  <p className="text-sm">Is Energy Safe</p>
+                  <p className="text-sm">Consumption of Less Energy </p>
+                  <p className="font-bold">$200</p>
+                </div>
+              </div>
             </div>
           </FormWraper>
         </FormSection>
