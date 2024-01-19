@@ -7,9 +7,9 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 
 const MyProducts = () => {
   const [products, setProducts] = useState([]);
-  // useEffect(() => {
-  //   setProducts(Array(10).fill(0) as any);
-  // }, []);
+  useEffect(() => {
+    setProducts(Array(10).fill(0) as any);
+  }, []);
   return (
     <div className="grow">
       <p className={styles.title}>Settings/My Products</p>

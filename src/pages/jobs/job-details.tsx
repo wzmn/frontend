@@ -50,7 +50,7 @@ const JobDetails = (props: PageProps) => {
     {
       url: APPOINTMENT_LISTING,
       params: {
-        job_in: data?.id,
+        job__in: data?.id,
       },
     },
     [JSON.stringify(data)]
