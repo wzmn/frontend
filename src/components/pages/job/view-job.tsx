@@ -48,9 +48,7 @@ const ViewJob = ({ data }: { data: JobResultT }) => {
                   </span>
                 </p>
                 <p className={styles.tag}>
-                  {moment(data?.customer?.user?.created_at).format(
-                    "DD/MM/yyyy hh:mm a"
-                  )}
+                  {moment(data?.created_at).format("DD/MM/yyyy hh:mm a")}
                 </p>
               </div>
               <FaChevronDown

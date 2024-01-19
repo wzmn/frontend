@@ -84,8 +84,34 @@ const ViewAppt = ({
                   </span>
 
                   <span className={styles.contact}>
-                    {`${data?.job?.address?.building_number} ${data?.job?.address?.lga} ${data?.job?.address?.pincode}` ||
-                      "N/A"}
+                    {`
+                    ${
+                      data?.job?.address?.building_number
+                        ? data?.job?.address?.building_number
+                        : ""
+                    } ${
+                      data?.job?.address?.street_number
+                        ? data?.job?.address?.street_number
+                        : ""
+                    } ${
+                      data?.job?.address?.street_name
+                        ? data?.job?.address?.street_name
+                        : ""
+                    }
+                    
+                    ${
+                      data?.job?.address?.suburb
+                        ? data?.job?.address?.suburb
+                        : ""
+                    }
+
+                    ${
+                      data?.job?.address?.state ? data?.job?.address?.state : ""
+                    } ${
+                      data?.job?.address?.pincode
+                        ? data?.job?.address?.pincode
+                        : ""
+                    }`}
                   </span>
                 </div>
               </div>
