@@ -28,6 +28,7 @@ import { debounce } from "utility/debounce";
 import { WorkTypeLabel } from "./create-appointment";
 import * as jobStyles from "./styles.module.scss";
 import { CustResultT } from "type/customer";
+import { useAuthContext } from "providers/auth-provider";
 const showEmpFieldFor = ["superadmin", "admin"];
 
 const CreateJob = (props: PageProps) => {
@@ -36,6 +37,7 @@ const CreateJob = (props: PageProps) => {
   const userRole = UserIdentifyer();
   const { workTypes } = useAppContext();
   const id = companyIdFetcher(userRole);
+  const { userAuth } = useAuthContext();
 
   const { location } = props;
 
@@ -92,7 +94,7 @@ const CreateJob = (props: PageProps) => {
               customer_type: data.customer.customer_type,
             },
             address: data.address,
-            job_assigned_to_id: data.job_assigned_to_id,
+            job_assigned_to_id: data.job_assigned_to_id || userAuth.user_id,
             work_type_id: data.workType,
             ...(!billAddCheck
               ? { billing_address: data.address }

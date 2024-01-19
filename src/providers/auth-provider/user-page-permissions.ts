@@ -7,6 +7,8 @@ const admin = [
   "/appointments",
   "/employees",
   "/settings",
+  "/transactions",
+  "/eft-orders",
 ];
 
 const manager = [
@@ -42,6 +44,8 @@ const superAdmin = [
   "/company",
   "/settings",
   "/publish",
+  "/transactions",
+  "/eft-orders",
 ];
 
 export function userAccessRouter(): string[] {

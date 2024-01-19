@@ -125,11 +125,11 @@ const Settings = () => {
           </FormWraper>
         </FormSection>
 
-        <FormSection title="EFT Orders">
+        {/* <FormSection title="EFT Orders">
           <FormWraper>
             <div className={settingtyles.profileSetting}>
-              {/* <div className={settingtyles.cont1}></div>
-            <div className={settingtyles.cont2}></div> */}
+               //<div className={settingtyles.cont1}></div>
+            //<div className={settingtyles.cont2}></div> 
               <p className={`${settingtyles.otherUser} ${settingtyles.mtB}`}>
                 View Streamline Transactions with EFT Ease
               </p>
@@ -141,13 +141,13 @@ const Settings = () => {
               </Link>
             </div>
           </FormWraper>
-        </FormSection>
+        </FormSection> */}
 
-        <FormSection title="Transactions">
+        {/* <FormSection title="Transactions">
           <FormWraper>
             <div className={settingtyles.profileSetting}>
-              {/* <div className={settingtyles.cont1}></div>
-            <div className={settingtyles.cont2}></div> */}
+              // <div className={settingtyles.cont1}></div>
+            //<div className={settingtyles.cont2}></div> 
               <p className={`${settingtyles.otherUser} ${settingtyles.mtB}`}>
                 View Simplified Transactions
               </p>
@@ -159,29 +159,30 @@ const Settings = () => {
               </Link>
             </div>
           </FormWraper>
-        </FormSection>
-
+        </FormSection> */}
 
         <FormSection title="Products">
           <FormWraper>
             <div className={settingtyles.profileSetting}>
               {/* <div className={settingtyles.cont1}></div>
             <div className={settingtyles.cont2}></div> */}
-              <p className={`${settingtyles.otherUser} ${settingtyles.mtB} grow`}>
+              <p
+                className={`${settingtyles.otherUser} ${settingtyles.mtB} grow`}
+              >
                 Add / View Listing for Products
               </p>
               <Link
                 to="select-products"
                 className={`${settingtyles.userSettings} ${settingtyles.mtB} mr-2`}
               >
-                Add 
-              </Link> 
+                Add
+              </Link>
               /
               <Link
                 to="my-products"
                 className={`${settingtyles.userSettings} ${settingtyles.mtB} ml-2`}
               >
-                View 
+                View
               </Link>
             </div>
           </FormWraper>

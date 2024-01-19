@@ -50,6 +50,16 @@ const sideBarData = [
     link: "/company",
   },
   {
+    svg: "/assets/icons/building.svg",
+    title: "EFT Orders",
+    link: "/eft-orders",
+  },
+  {
+    svg: "/assets/icons/settings.svg",
+    title: "Transactions",
+    link: "/transactions",
+  },
+  {
     svg: "/assets/icons/settings.svg",
     title: "Settings",
     link: "/settings",

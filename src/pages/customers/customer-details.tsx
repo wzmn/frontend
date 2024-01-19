@@ -60,7 +60,7 @@ const CustomerDetails = (props: PageProps) => {
     {
       url: REMINDER_LISTING,
       params: {
-        customer: customerId,
+        task_user: customerId,
       },
     },
     []
