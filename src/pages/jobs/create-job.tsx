@@ -29,7 +29,7 @@ import { WorkTypeLabel } from "./create-appointment";
 import * as jobStyles from "./styles.module.scss";
 import { CustResultT } from "type/customer";
 import { useAuthContext } from "providers/auth-provider";
-const showEmpFieldFor = ["superadmin", "admin"];
+const showEmpFieldFor = ["superadmin", "admin", "owner"];
 
 const CreateJob = (props: PageProps) => {
   const [OTP, setOTP] = useState<string>("");
