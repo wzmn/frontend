@@ -16,15 +16,15 @@ function Dropdown({
   function eventHandler(e: MouseEvent) {
     const node = e.target as Node | null;
     if (elRef.current?.parentElement?.contains(node)) {
-      console.log("parent");
+      // console.log("parent");
     } else {
-      console.log("not parent");
+      // console.log("not parent");
       handleToggle();
     }
   }
 
   useEffect(() => {
-    console.log(elRef.current?.parentElement);
+    // console.log(elRef.current?.parentElement);
     document.addEventListener("click", eventHandler, true);
     return () => {
       document.removeEventListener("click", eventHandler, true);

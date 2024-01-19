@@ -18,6 +18,7 @@ export const COMPANY_STATUS = "/company/status-list";
 //JOB
 export const JOB_LISTING = "/jobs/management/";
 export const WORK_TYPE = "/jobs/work_types/";
+export const CATEGORY = "/product/category/";
 //APPT
 export const APPOINTMENT_LISTING = "/appointments/management/";
 export const APPT_STATUES = "/appointments/appointment_status/";

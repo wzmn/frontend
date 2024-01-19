@@ -7,6 +7,7 @@ import { QuestionsT } from "./questions";
 export type AppProviderType = {
   appointment: FetchApptStatus;
   workTypes: WorkTypeT[];
+  category: WorkTypeT[];
   emp: FetchEmpStatus;
   company: FetchCompanyStatusT;
   questions: QuestionsT;
