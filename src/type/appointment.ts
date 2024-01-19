@@ -1,8 +1,8 @@
 import { PaginationType } from "./global";
 
-export type AppointmentDataType = PaginationType<Result[]>;
+export type AppointmentDataType = PaginationType<ApptResultT[]>;
 
-export interface Result {
+export interface ApptResultT {
   id: number;
   job: Job;
   appointment_status: string;
@@ -139,7 +139,7 @@ export interface WorkType {
   auth_companies: number[];
 }
 
-export type AppointmentExtraDataType = Result & {
+export type AppointmentExtraDataType = ApptResultT & {
   status: boolean;
 };
 

@@ -1,28 +1,25 @@
+import Button from "components/button";
 import Divider from "components/divider";
-import DNDImage, { DNDImageFileType } from "components/dnd-image";
+import { DNDImageFileType } from "components/dnd-image";
 import FormSection from "components/form-sections";
 import FormWraper from "components/form-wrapper";
-import Input from "components/input";
 import Radio from "components/radio";
-import { JOB_LISTING } from "constants/api";
-import { Link, PageProps, navigate } from "gatsby";
+import { APPOINTMENT_LISTING, JOB_LISTING } from "constants/api";
+import { Link, PageProps } from "gatsby";
+import useQuickFetch from "hook/quick-fetch";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import { ImAttachment } from "react-icons/im";
-import { IoCallOutline } from "react-icons/io5";
-import { RiDeleteBin6Line } from "react-icons/ri";
+import { AiOutlinePlus } from "react-icons/ai";
+import { ImSpinner10 } from "react-icons/im";
+import { IoCallOutline, IoLocationOutline } from "react-icons/io5";
+import { LuClipboardList } from "react-icons/lu";
 import { TfiEmail } from "react-icons/tfi";
 import { request } from "services/http-request";
-import * as styles from "styles/pages/common.module.scss";
-import { JobDataType, Result } from "type/job";
-import * as companyStyles from "../company/styles.module.scss";
 import * as additionalStyles from "styles/pages/additional.module.scss";
-import { LuClipboardList } from "react-icons/lu";
-import TextButton from "components/text-button";
-import { GoPlus } from "react-icons/go";
-import { AiOutlinePlus } from "react-icons/ai";
-import Button from "components/button";
+import * as styles from "styles/pages/common.module.scss";
+import { AppointmentDataType, ApptResultT } from "type/appointment";
+import { JobDataType, Result } from "type/job";
 
 const JobDetails = (props: PageProps) => {
   const { location } = props;
@@ -44,6 +41,20 @@ const JobDetails = (props: PageProps) => {
   });
 
   const [files, setFiles] = useState<DNDImageFileType[]>([]);
+
+  const {
+    response: apptResp,
+    error: apptErr,
+    lodaing: apptLoading,
+  } = useQuickFetch<AppointmentDataType>(
+    {
+      url: APPOINTMENT_LISTING,
+      params: {
+        job_in: data?.id,
+      },
+    },
+    [JSON.stringify(data)]
+  );
 
   async function fetchData() {
     try {
@@ -97,6 +108,36 @@ const JobDetails = (props: PageProps) => {
 
                     <span className={styles.contact}>
                       {data?.customer?.user?.phone}
+                    </span>
+                  </div>
+
+                  <div className="">
+                    <span className={styles.icon}>
+                      <IoLocationOutline className={styles.icon} />
+                    </span>
+
+                    <span className={styles.contact}>
+                      {/* {data?.customer?.user?.groups || "N/A"} */}
+                      {`
+                    ${
+                      data?.address.building_number
+                        ? data.address?.building_number
+                        : ""
+                    } ${
+                        data?.address?.street_number
+                          ? data.address?.street_number
+                          : ""
+                      } ${
+                        data?.address?.street_name
+                          ? data.address?.street_name
+                          : ""
+                      }
+                    
+                    ${data?.address?.suburb ? data.address?.suburb : ""}
+
+${data?.address?.state ? data?.address?.state : ""} ${
+                        data?.address?.pincode ? data.address?.pincode : ""
+                      }`}
                     </span>
                   </div>
                 </div>
@@ -216,31 +257,48 @@ const JobDetails = (props: PageProps) => {
         <FormSection title="Appointments">
           <FormWraper>
             <>
-              {/* <div className={additionalStyles.cardCont}>
-                {[1, 2, 3, 4].map((item) => {
-                  return <List key={item} data={{}} index={1} loading />;
-                })}
-              </div>
-              <TextButton
-                className="mt-5"
-                label="Create Appointment"
-                icon={<GoPlus />}
-                onClick={() => {
-                  navigate("/jobs/create-appointment", {
-                    state: data,
-                  });
-                }}
-              /> */}
-              <div className="flex justify-between w-full items-center">
-                No Appointment{" "}
-                {/* <Link to="#">
-                  <Button
-                    width="full"
-                    title="Create Appointment"
-                    icon={<AiOutlinePlus />}
-                    className="flex-row-reverse justify-between"
-                  />
-                </Link> */}
+              <div className={additionalStyles.cardCont + " relative"}>
+                {apptResp?.results?.length! > 0 ? (
+                  <>
+                    {apptResp?.results?.map((item) => {
+                      return (
+                        <List key={item.id} data={item} index={1} loading />
+                      );
+                    })}
+                    <div className="flex justify-between w-full items-center">
+                      <Link to="/jobs/create-appointment" state={data}>
+                        <Button
+                          width="full"
+                          title="Create Appointment"
+                          icon={<AiOutlinePlus />}
+                          className="flex-row-reverse justify-between"
+                        />
+                      </Link>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    {apptLoading ? (
+                      <>
+                        <div className="absolute left-3 top-0 text-blue-500">
+                          <ImSpinner10 className="animate-spin" />
+                        </div>
+                      </>
+                    ) : (
+                      <div className="flex justify-between w-full items-center">
+                        No Appointment{" "}
+                        <Link to="/jobs/create-appointment" state={data}>
+                          <Button
+                            width="full"
+                            title="Create Appointment"
+                            icon={<AiOutlinePlus />}
+                            className="flex-row-reverse justify-between"
+                          />
+                        </Link>
+                      </div>
+                    )}
+                  </>
+                )}
               </div>
             </>
           </FormWraper>
@@ -282,7 +340,7 @@ function List({
 
   return (
     <div>
-      <div className={`${styles.card} ${additionalStyles.card}`}>
+      <div className={`${styles.card} ${additionalStyles.cardOther}`}>
         <div className={styles.cardInfo}>
           <p className="title">
             {/* {data.user?.first_name} */}
@@ -318,7 +376,7 @@ function List({
           </div>
 
           <LuClipboardList className={additionalStyles.absIcon} />
-          <p className={additionalStyles.count}>3</p>
+          {/* <p className={additionalStyles.count}>3</p> */}
         </div>
       </div>
     </div>

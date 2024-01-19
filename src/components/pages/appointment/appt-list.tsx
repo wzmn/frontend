@@ -1,6 +1,6 @@
 import React from "react";
 import { useRightBarContext } from "providers/right-bar-provider";
-import { Result } from "type/appointment";
+import { ApptResultT } from "type/appointment";
 import ViewAppt from "./view-appt";
 import { IoCallOutline, IoEyeOutline } from "react-icons/io5";
 import { ImSpinner10 } from "react-icons/im";
@@ -17,7 +17,7 @@ export default function ApptList({
   snippitAuditedCheckboxHandler,
   snippitAudited,
 }: {
-  data: Result;
+  data: ApptResultT;
   loading: boolean;
   snippitAuditedCheckboxHandler: (val: string) => void;
   snippitAudited: string[];

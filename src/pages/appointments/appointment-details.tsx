@@ -13,10 +13,10 @@ import { ImAttachment } from "react-icons/im";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { request } from "services/http-request";
 import * as styles from "styles/pages/common.module.scss";
-import { Result } from "type/appointment";
+import { ApptResultT } from "type/appointment";
 import * as companyStyles from "../company/styles.module.scss";
 import { TfiEmail } from "react-icons/tfi";
-import { IoCallOutline } from "react-icons/io5";
+import { IoCallOutline, IoLocationOutline } from "react-icons/io5";
 
 const AppointmentDetails = (props: PageProps) => {
   const { location } = props;
@@ -30,7 +30,7 @@ const AppointmentDetails = (props: PageProps) => {
     },
   });
 
-  const [data, setData] = useState<Partial<Result>>({});
+  const [data, setData] = useState<Partial<ApptResultT>>({});
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -41,7 +41,7 @@ const AppointmentDetails = (props: PageProps) => {
 
   async function fetchData() {
     try {
-      const response = await request<Result>({
+      const response = await request<ApptResultT>({
         url: APPOINTMENT_LISTING + apptId,
       });
       setData(() => response.data);
@@ -139,6 +139,42 @@ const AppointmentDetails = (props: PageProps) => {
 
                     <span className={styles.contact}>
                       {data?.job?.customer?.user?.phone}
+                    </span>
+                  </div>
+
+                  <div className="">
+                    <span className={styles.icon}>
+                      <IoLocationOutline className={styles.icon} />
+                    </span>
+
+                    <span className={styles.contact}>
+                      {/* {data?.customer?.user?.groups || "N/A"} */}
+                      {`
+                    ${
+                      data?.job?.address?.building_number
+                        ? data?.job?.address?.building_number
+                        : ""
+                    } ${
+                        data?.job?.address?.street_number
+                          ? data?.job?.address?.street_number
+                          : ""
+                      } ${
+                        data?.job?.address?.street_name
+                          ? data?.job?.address?.street_name
+                          : ""
+                      }
+                    
+                    ${
+                      data?.job?.address?.suburb
+                        ? data?.job?.address?.suburb
+                        : ""
+                    }
+
+${data?.job?.address?.state ? data?.job?.address?.state : ""} ${
+                        data?.job?.address?.pincode
+                          ? data?.job?.address?.pincode
+                          : ""
+                      }`}
                     </span>
                   </div>
                 </div>

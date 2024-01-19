@@ -10,7 +10,7 @@ import { IoCallOutline, IoLocationOutline } from "react-icons/io5";
 import { RiQuestionAnswerLine } from "react-icons/ri";
 import { TfiEmail } from "react-icons/tfi";
 import * as styles from "styles/pages/view.module.scss";
-import { Result } from "type/appointment";
+import { ApptResultT } from "type/appointment";
 
 const apptStatsuBtn = {
   waiting: ["schedule"],
@@ -30,7 +30,7 @@ const ViewAppt = ({
   showAssessment,
   showSchedule,
 }: {
-  data: Result;
+  data: ApptResultT;
   showAssessment: boolean;
   showSchedule: boolean;
 }) => {
