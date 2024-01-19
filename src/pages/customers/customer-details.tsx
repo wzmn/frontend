@@ -142,7 +142,7 @@ const CustomerDetails = (props: PageProps) => {
                     <span className={styles.contact}>{data?.user?.phone}</span>
                   </div>
 
-                  <div className="user-address">
+                  <div className="user-address mb-2">
                     <span className={styles.icon}>
                       <IoLocationOutline className={styles.icon} />
                     </span>
@@ -150,25 +150,21 @@ const CustomerDetails = (props: PageProps) => {
                     <span className={styles.contact}>
                       {/* {data?.user?.groups || "N/A"} */}
                       {`
-                    ${
-                      data?.address?.building_number
-                        ? data?.address?.building_number
-                        : ""
-                    } ${
-                        data?.address?.street_number
+                    ${data?.address?.building_number
+                          ? data?.address?.building_number
+                          : ""
+                        } ${data?.address?.street_number
                           ? data?.address?.street_number
                           : ""
-                      } ${
-                        data?.address?.street_name
+                        } ${data?.address?.street_name
                           ? data.address?.street_name
                           : ""
-                      }
+                        }
                     
                     ${data?.address?.suburb ? data.address?.suburb : ""}
 
-                    ${data?.address?.state ? data.address?.state : ""} ${
-                        data?.address?.pincode ? data.address?.pincode : ""
-                      }`}
+                    ${data?.address?.state ? data.address?.state : ""} ${data?.address?.pincode ? data.address?.pincode : ""
+                        }`}
                     </span>
                   </div>
                 </div>
@@ -179,15 +175,13 @@ const CustomerDetails = (props: PageProps) => {
                   <span className={styles.bold}>
                     Customer Created by: &nbsp;{" "}
                   </span>
-                  {`${
-                    data?.customer_created_by?.user.first_name
-                      ? data?.customer_created_by?.user.first_name
-                      : "N/A"
-                  } ${
-                    data?.customer_created_by?.user.last_name
+                  {`${data?.customer_created_by?.user.first_name
+                    ? data?.customer_created_by?.user.first_name
+                    : ""
+                    } ${data?.customer_created_by?.user.last_name
                       ? data?.customer_created_by?.user.last_name
                       : "N/A"
-                  }`}{" "}
+                    }`}{" "}
                   <span className={styles.tag2}>
                     {moment(data?.user?.created_at).format(
                       "DD/MM/yyyy hh:mm a"
@@ -198,7 +192,7 @@ const CustomerDetails = (props: PageProps) => {
                 <Divider />
 
                 <div className={styles.userRole}>
-                  <p className={styles.name}>
+                  <p className={`${styles.name} flex items-center`}>
                     <span className={styles.bold}>Customer Status</span>
                   </p>
 
@@ -313,13 +307,16 @@ const CustomerDetails = (props: PageProps) => {
                       <Link
                         to={`/jobs/create-job/?custId=${data?.id}`}
                         state={{ custData: data }}
+                        className="flex items-center"
                       >
-                        <Button
+                        <span className="text-blue-500 mr-2">Create Job</span>
+                        <AiOutlinePlus className="text-blue-500 text-xl" />
+                        {/* <Button
                           width="full"
                           title="Create Job"
                           icon={<AiOutlinePlus />}
                           className="flex-row-reverse justify-between"
-                        />
+                        /> */}
                       </Link>
                     </div>
                   </>
@@ -338,12 +335,14 @@ const CustomerDetails = (props: PageProps) => {
                           to={`/jobs/create-job/?custId=${data?.id}`}
                           state={{ custData: data }}
                         >
-                          <Button
+                          <span className="text-blue-500 mr-2">Create Job</span>
+                          <AiOutlinePlus className="text-blue-500 text-xl" />
+                          {/* <Button
                             width="full"
-                            title="Create Job"
-                            icon={<AiOutlinePlus />}
+                            title=""
+                            icon={}
                             className="flex-row-reverse justify-between"
-                          />
+                          /> */}
                         </Link>
                       </div>
                     )}
@@ -356,34 +355,43 @@ const CustomerDetails = (props: PageProps) => {
 
         <FormSection title="Reminders">
           <FormWraper>
-            <div className={additionalStyles.cardCont}>
-              {reminderResp.results?.length! > 0 ? (
-                reminderResp?.results?.map((item) => {
-                  return (
-                    <Link to="/customers/reminder/" key={item.id}>
-                      <ReminderList
-                        data={item}
-                        custData={data!}
-                        index={1}
-                        loading
-                      />
-                    </Link>
-                  );
-                })
-              ) : (
-                <div className="flex justify-between w-full items-center">
-                  No Reminders{" "}
-                  <Link to="/customers/create-reminder">
-                    <Button
+            <>
+              <div className={`${additionalStyles.cardCont} mb-2`}>
+                {reminderResp.results?.length! > 0 ? (
+                  reminderResp?.results?.map((item) => {
+                    return (
+                      <Link to="/customers/reminder/" key={item.id}>
+                        <ReminderList
+                          data={item}
+                          custData={data!}
+                          index={1}
+                          loading
+                        />
+                      </Link>
+                    );
+                  })
+                ) : (
+                  <div className="flex justify-between w-full items-center">
+                    No Reminders{" "}
+                    <Link to="/customers/create-reminder">
+                      <span className="text-blue-500 mr-2">Create Reminder</span>
+                      <AiOutlinePlus className="text-blue-500 text-xl" />
+                      {/* <Button
                       width="full"
                       title="Create Reminder"
                       icon={<AiOutlinePlus />}
                       className="flex-row-reverse justify-between"
-                    />
-                  </Link>
-                </div>
-              )}
-            </div>
+                    /> */}
+                    </Link>
+                  </div>
+                )}
+
+              </div>
+              <Link to="/customers/create-reminder" className="flex items-center">
+                <span className="text-blue-500 mr-2">Create Reminder</span>
+                <AiOutlinePlus className="text-blue-500 text-xl" />
+              </Link>
+            </>
           </FormWraper>
         </FormSection>
 
@@ -437,7 +445,7 @@ function List({
           Created on: {moment(data.created_at).format("ddd, MM hh:mm a")}
         </span>
       </div>
-      <div className={`${styles.contactInfo} ${additionalStyles.contact}`}>
+      <div className={`${styles.contactInfo} ${additionalStyles.contact} flex flex-col items-start`}>
         <div className="flex">
           <span className={styles.icon}>
             <TfiEmail className={styles.icon} />
@@ -446,7 +454,7 @@ function List({
           <span className={styles.contact}>{data.customer?.user?.email}</span>
         </div>
 
-        <div className="">
+        <div className="mb-2">
           <span className={styles.icon}>
             <IoCallOutline className={styles.icon} />
           </span>
@@ -457,8 +465,10 @@ function List({
             {data.customer?.user?.phone}
           </span>
         </div>
-
-        <LuClipboardList className={additionalStyles.absIcon} />
+        <div className="bg-blue-500 py-1 px-4 rounded-md">
+          <span className=" text-white">Appt: 06</span>
+        </div>
+        {/* <LuClipboardList className={additionalStyles.absIcon} /> */}
         {/* <p className={additionalStyles.count}>3</p> */}
       </div>
     </div>
@@ -517,7 +527,7 @@ function ReminderList({
           </span>
         </div>
 
-        <LuClipboardList className={additionalStyles.absIcon} />
+        {/* <LuClipboardList className={additionalStyles.absIcon} /> */}
         {/* <p className={additionalStyles.count}>3</p> */}
       </div>
     </div>

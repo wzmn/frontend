@@ -11,7 +11,8 @@ const useAuth = () => {
     const { userAuth } = useAuthContext();
     if (!userAuth) {
       if (!location.pathname.match(/login/)) {
-        typeof window !== "undefined" && navigate(`/login?redirect=${encodeURIComponent(location.pathname + location.search)}`, { replace: true });
+        typeof window !== "undefined" && navigate(`/login/`, { replace: true });
+        // typeof window !== "undefined" && navigate(`/login?redirect=${encodeURIComponent(location.pathname + location.search)}`, { replace: true });
       }
       return null;
     }

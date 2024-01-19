@@ -29,7 +29,7 @@ $header-height: 3rem;
     transform: translate(0rem, 0%);
     // transform: translate(calc(100vw - 20vw - 25rem), -50%);
     @include md {
-      transform: translate(-1rem, -50%);
+      transform: translate(-1rem, -316px);
     }
   }
 
@@ -92,8 +92,8 @@ $header-height: 3rem;
     $right-bar-width: 26rem !global;
 
     top: 50%;
-    transform: translate(calc($right-bar-width + 1rem), -50%);
+    transform: translate(calc($right-bar-width + 1rem), -316px);
     width: $right-bar-width;
-    max-height: 45rem;
+    max-height: 46.3rem;
   }
 }

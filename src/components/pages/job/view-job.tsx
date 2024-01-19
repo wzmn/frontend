@@ -57,7 +57,7 @@ const ViewJob = ({ data }: { data: JobResultT }) => {
             </Disclosure.Button>
             <Disclosure.Panel className={styles.panel}>
               <div className={styles.contactInfo}>
-                <div className="">
+                <div className="mb-2">
                   <span className={styles.icon}>
                     <TfiEmail className={styles.icon} />
                   </span>
@@ -67,7 +67,7 @@ const ViewJob = ({ data }: { data: JobResultT }) => {
                   </span>
                 </div>
 
-                <div className="">
+                <div className="mb-2">
                   <span className={styles.icon}>
                     <IoCallOutline className={styles.icon} />
                   </span>
@@ -77,7 +77,7 @@ const ViewJob = ({ data }: { data: JobResultT }) => {
                   </span>
                 </div>
 
-                <div className="">
+                <div className="mb-2">
                   <span className={styles.icon}>
                     <IoLocationOutline className={styles.icon} />
                   </span>
@@ -154,9 +154,9 @@ ${data.address?.state ? data.address?.state : ""} ${
             <Disclosure.Button
               className={`${styles.details} ${open ? "" : "mb-1"}`}
             >
-              <div className="">
+              <div className="py-1">
                 <p className={styles.bold}>
-                  Appointments({apptResp?.results?.length})
+                  Appointments ({apptResp?.results?.length})
                 </p>
               </div>
               <FaChevronDown
@@ -166,14 +166,14 @@ ${data.address?.state ? data.address?.state : ""} ${
             <Disclosure.Panel className={`${styles.panel} mb-5`}>
               {apptResp.results?.map((item, idx, array) => {
                 return (
-                  <div className={styles.job}>
-                    <p className={styles.jobTitle}>
-                      {item?.job?.work_type?.title}
-                    </p>
-                    <p className="">
-                      Appt ID : <span className={styles.tag}>{item.id}</span>
-                    </p>
-                    <LuClipboardList />
+                  <div className={`${styles.job} flex justify-between`}>
+                    <div className={`${styles.jobTitle} flex flex-col`}>
+                      <span>{item?.job?.work_type?.title}</span>
+                      <div>Appt ID : <span className={styles.tag}>{item.id}</span></div>
+                    </div>
+                    {/* <p className="">
+                    </p> */}
+                    <img src="/assets/icons/to-do-list.svg" />
                   </div>
                 );
               })}

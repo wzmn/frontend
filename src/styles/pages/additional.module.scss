@@ -64,8 +64,8 @@
 .card-other {
   cursor: pointer;
   position: relative;
-  border: 1px solid var(--color-cloudy_grey);
-
+  border: 1px solid var(--color-cloudy_grey_light);
+  border-radius: 5px;
   & .contact {
     & .abs-icon {
       position: absolute;

@@ -147,12 +147,12 @@ const IndexPage: React.FC<PageProps> = ({ path }) => {
                 <span className="text-center py-1">$ 1200</span>
               </div>
               <div className="cell flex flex-col bg-white text-xs flex-1">
-                <span className="bg-[#99999926] py-1 px-1 text-center">EFT</span>
-                <span className="text-center py-1">$ 1200</span>
+                <span className="bg-[#99999926] py-1 px-1 text-center">Stripe</span>
+                <span className="text-center py-1">$ 522</span>
               </div>
               <div className="cell flex flex-col bg-white text-xs flex-1">
-                <span className="bg-[#99999926] py-1 px-1 text-center">EFT</span>
-                <span className="text-center py-1">$ 1200</span>
+                <span className="bg-[#99999926] py-1 px-1 text-center">Brighte</span>
+                <span className="text-center py-1">$ 1422</span>
               </div>
             </div>
           </div>
@@ -205,7 +205,7 @@ const IndexPage: React.FC<PageProps> = ({ path }) => {
         </div>
         <div className="mb-8">
         <div className="filter flex justify-between">
-            <div className="font-bold">Satistics</div>
+            <div className="font-bold">Statistics</div>
             <div>Date</div>
           </div>
           <canvas id="canvas" ref={bar}></canvas>

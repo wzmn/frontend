@@ -11,7 +11,9 @@
   margin: 0%;
   padding: 0%;
 }
-
+p::first-letter {
+  text-transform:capitalize;
+}
 /* // $test-color: pink;
 // @mixin fun() {
 //   --color-test: #{$test-color};
