@@ -12,6 +12,7 @@ import logo from "./logo.png";
 import user from "./user.png";
 import UserIdentifyer from "services/user-identifyer";
 import { userAccessRouter } from "providers/auth-provider/user-page-permissions";
+import { GrTransaction } from "react-icons/gr";
 
 const sideBarData = [
   {
@@ -50,12 +51,12 @@ const sideBarData = [
     link: "/company",
   },
   {
-    svg: "/assets/icons/building.svg",
+    svg: "/assets/icons/eft.svg",
     title: "EFT Orders",
     link: "/eft-orders",
   },
   {
-    svg: "/assets/icons/settings.svg",
+    svg: "/assets/icons/transactions.svg",
     title: "Transactions",
     link: "/transactions",
   },

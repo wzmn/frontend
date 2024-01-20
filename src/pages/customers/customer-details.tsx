@@ -371,18 +371,8 @@ const CustomerDetails = (props: PageProps) => {
                     );
                   })
                 ) : (
-                  <div className="flex justify-between w-full items-center">
+                  <div className="flex justify-between w-full items-center mb-2">
                     No Reminders{" "}
-                    <Link to="/customers/create-reminder">
-                      <span className="text-blue-500 mr-2">Create Reminder</span>
-                      <AiOutlinePlus className="text-blue-500 text-xl" />
-                      {/* <Button
-                      width="full"
-                      title="Create Reminder"
-                      icon={<AiOutlinePlus />}
-                      className="flex-row-reverse justify-between"
-                    /> */}
-                    </Link>
                   </div>
                 )}
 
