@@ -11,6 +11,9 @@ export async function fetchEmpStatus(): Promise<FetchEmpStatus> {
   try {
     const response = await request<EmpStatusRespT>({
       url: EMPLOYEE_STATUS,
+      params: {
+        limit: 30,
+      },
     });
 
     const status = {} as EmpStateStatus;

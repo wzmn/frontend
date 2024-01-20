@@ -85,7 +85,7 @@ const AppointmentDetails = (props: PageProps) => {
                     Scheduled Date & Time : &nbsp;{" "}
                   </span>
                   {` ${moment(data?.assessment_scheduled_on).format(
-                    "DD/MM/yyyy HH:MM a"
+                    "DD/MM/yyyy hh:mm a"
                   )}`}
                 </p>
 
@@ -188,7 +188,7 @@ ${data?.job?.address?.state ? data?.job?.address?.state : ""} ${
 
                   <span className={styles.tag2}>
                     {moment(data?.job?.customer?.user?.created_at).format(
-                      "DD/MM/yyyy HH:MM a"
+                      "DD/MM/yyyy hh:mm a"
                     )}
                   </span>
                 </p>

@@ -42,7 +42,13 @@ export const jobAssignedSchema = object({
 });
 
 export function conditionalSchema() {
-  const showEmpFieldFor = ["superadmin", "admin", "owner"];
+  const showEmpFieldFor = [
+    "superadmin",
+    "admin",
+    "owner",
+    "manager",
+    "team lead",
+  ];
   const userRole = UserIdentifyer();
 
   if (showEmpFieldFor.includes(userRole)) {
