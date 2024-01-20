@@ -106,6 +106,7 @@ const Assessment = (props: PageProps) => {
         data: datap,
       });
       toast.success(`${to.toUpperCase()} sucessfully`);
+      navigate(-1);
     } catch (error) {
       toast(`Problem ${to} Appt`);
     } finally {
@@ -120,7 +121,7 @@ const Assessment = (props: PageProps) => {
 
   return (
     <div className="grow">
-      <p className={styles.title}>Assessment </p>
+      <p className={styles.title}>Assessment (Appointment ID : {apptId}) </p>
 
       <div className="space-y-16 mb-3">
         <FormSection title="Questionnaire">
