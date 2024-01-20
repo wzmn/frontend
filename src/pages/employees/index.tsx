@@ -127,7 +127,7 @@ const Employees = () => {
         params: {
           limit: pagination.limit,
           offset: pagination.offset,
-          company__id: id,
+          license_id__company__id: id,
           created_at__gte: selectionRange.startDate,
           created_at__lte: selectionRange.endDate,
           ordering: sort,
@@ -271,7 +271,7 @@ const Employees = () => {
           </Menu>
         </Filterbtn>
         <div className="w-32">
-        <Filterbtn icon={<img src="/assets/icons/sort.svg" />} title="Sort">
+          <Filterbtn icon={<img src="/assets/icons/sort.svg" />} title="Sort">
             <SortFilter
               data={sortType}
               defaultChecked={sort}

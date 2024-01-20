@@ -116,7 +116,7 @@ const Jobs = () => {
           limit: pagination.limit,
           offset: pagination.offset,
           work_type__title__in: workType.toString(),
-          company__id: id,
+          customer__company__in: id,
           ordering: sort,
           created_at__gte: selectionRange.startDate,
           created_at__lte: selectionRange.endDate,
