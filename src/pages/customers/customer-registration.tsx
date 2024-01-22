@@ -10,25 +10,18 @@ import {
   CustomerRegistrationSchemaType,
   // companyFieldSchema,
   customerRegistrationSchema,
-  // superAndAdminSchema,
 } from "schema/customer-schema";
 import * as styles from "styles/pages/common.module.scss";
 // https://visgl.github.io/react-google-map
-import ComboBox, { ComboBoxDataT } from "components/combo-box";
-import Label from "components/label";
-import SelectBox from "components/selectBox";
+import { ComboBoxDataT } from "components/combo-box";
 import { CUSTOMER_LISTING } from "constants/api";
 import { navigate } from "gatsby";
-import { toast } from "react-toastify";
 import Address from "services/address";
 import companyIdFetcher from "services/company-id-fetcher";
 import employeeList from "services/employee-list";
 import { request } from "services/http-request";
+import MsgToast from "services/msg-toast";
 import UserIdentifyer from "services/user-identifyer";
-import { Result } from "type/company";
-import { debounce } from "utility/debounce";
-import Checkbox from "components/checkbox";
-import { AxiosError } from "axios";
 
 const countries = [
   { label: "ADMIN" },
@@ -97,11 +90,11 @@ const customerRegistration = () => {
         method: "post",
         data: dt,
       });
-      toast.success("Customer Created Sucessfully!");
+      MsgToast("Customer Created Sucessfully!", "success");
       navigate(-1);
     } catch (error: any) {
       console.log(error.response.data.message);
-      toast.error(error.response.data.message);
+      MsgToast(error.response.data.message, "error");
     }
   }
 

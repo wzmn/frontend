@@ -11,10 +11,10 @@ import { PageProps, navigate } from "gatsby";
 import moment from "moment";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
 import companyIdFetcher from "services/company-id-fetcher";
 import employeeList from "services/employee-list";
 import { request } from "services/http-request";
+import MsgToast from "services/msg-toast";
 import UserIdentifyer from "services/user-identifyer";
 import * as styles from "styles/pages/common.module.scss";
 import { EmpResultT } from "type/employee";
@@ -45,7 +45,7 @@ const ReminderSchema = object({
 });
 
 const ReminderSchemaSomeRoles = object({
-  assigned_to: string().trim().required("required"),
+  assigned_to_id: string().trim().required("required"),
 });
 
 function roleBaseSchema(user: string) {
@@ -94,9 +94,9 @@ const CreateReminder = (props: PageProps) => {
           ...data,
         },
       });
-      toast.success("Reminder Created");
+      MsgToast("Reminder Created", "success");
     } catch (error) {
-      toast.error("Cant Create Reminder at this time try again later ");
+      MsgToast("Cant Create Reminder at this time try again later ", "error");
     }
   }
 
@@ -126,6 +126,10 @@ const CreateReminder = (props: PageProps) => {
   useEffect(() => {
     handleEmployeeList();
   }, []);
+
+  useEffect(() => {
+    console.log(errors);
+  }, [errors]);
 
   return (
     <div className="grow">

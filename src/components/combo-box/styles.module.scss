@@ -22,6 +22,15 @@
     padding-left: 0.75rem;
     padding-right: 2.5rem;
     font-size: $font-base;
+    // background-color: #ddd;
+
+    &.color-v-gray {
+      background-color: #ddd;
+
+      &::placeholder {
+        color: #000;
+      }
+    }
 
     &.large {
       background-color: red;

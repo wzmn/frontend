@@ -3,25 +3,25 @@ import Button from "components/button";
 import ButtonGroup from "components/button-group";
 import FormSection from "components/form-sections";
 import FormWraper from "components/form-wrapper";
+import UploadDoc from "components/pages/company/upload-doc/upload-doc";
 import Radio from "components/radio";
 import TextField from "components/text-field";
 import { COUNTRY_COMPLIANCE, EMPLOYEE_LISTING } from "constants/api";
 import { navigate } from "gatsby";
+import * as companyStyles from "pages/company/styles.module.scss";
 import { useRightBarContext } from "providers/right-bar-provider";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
 import {
   EmployeeRegistrationSchemaType,
   employeeRegistrationSchema,
 } from "schema/employee-schema";
 import companyIdFetcher from "services/company-id-fetcher";
 import { request } from "services/http-request";
+import MsgToast from "services/msg-toast";
 import UserIdentifyer from "services/user-identifyer";
 import * as styles from "styles/pages/common.module.scss";
 import { ComplianceRespT, ComplianceResultT } from "type/global";
-import * as companyStyles from "pages/company/styles.module.scss";
-import UploadDoc from "components/pages/company/upload-doc/upload-doc";
 
 interface FileProps extends File {
   preview: string;
@@ -77,10 +77,10 @@ const EmployeeRegistration = () => {
         data: { ...data, company: id },
       });
       console.log(response);
-      toast.success("Added Sucessfully");
+      MsgToast("Added Sucessfully", "success");
     } catch (error: any) {
       console.log("error");
-      toast.error(error.response.data.error);
+      MsgToast(error.response.data.error, "error");
     }
   }
 

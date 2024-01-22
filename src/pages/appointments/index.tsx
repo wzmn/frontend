@@ -44,6 +44,7 @@ import * as locStyles from "./styles.module.scss";
 import Menu from "components/menu";
 import { WorkTypeFilter } from "services/filters";
 import Badge from "components/badge";
+import CombineCombo from "components/combine-combo";
 
 const selectionRangeInit = {
   startDate: undefined,
@@ -71,6 +72,25 @@ const sortType = [
 ];
 
 const assessment = ["audited", "reassessment", "snippit audited"];
+
+const data1 = [
+  {
+    label: "State",
+    value: "state",
+  },
+  {
+    label: "Suburb",
+    value: "Suburb",
+  },
+  {
+    label: "LGA",
+    value: "LGA",
+  },
+  {
+    label: "Pincode",
+    value: "Pincode",
+  },
+];
 
 const Appintments = () => {
   const {
@@ -358,8 +378,18 @@ const Appintments = () => {
             </div>
           </Filterbtn>
         </div>
+        <CombineCombo
+          data1={data1}
+          data2={[]}
+          handleSelectData1={(e) => {
+            console.log(e);
+          }}
+          handleSelectData2={(e) => {
+            console.log(e);
+          }}
+        />
         <div className="w-32">
-        <Filterbtn icon={<img src="/assets/icons/sort.svg" />} title="Sort">
+          <Filterbtn icon={<img src="/assets/icons/sort.svg" />} title="Sort">
             <SortFilter
               data={sortType}
               defaultChecked={sort}

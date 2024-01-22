@@ -1,34 +1,27 @@
+import Button from "components/button";
 import FormSection from "components/form-sections";
 import FormWraper from "components/form-wrapper";
-import Radio from "components/radio";
-import Textarea from "components/textarea";
-import React, { useEffect, useState } from "react";
-import * as styles from "styles/pages/common.module.scss";
-import * as apptStyle from "./styles.module.scss";
-import Button from "components/button";
-import { request } from "services/http-request";
+import AnsQuestion from "components/pages/appointment/assessment/questions";
+import ViewDocuments from "components/pages/appointment/assessment/view-documents";
 import {
   APPOINTMENT_LISTING,
-  APPT_Q,
   DOCUMENTS_ANS,
   QUESTIONS_ANS,
 } from "constants/api";
-import { toast } from "react-toastify";
+import { PageProps, navigate } from "gatsby";
+import { useAppContext } from "providers/app-provider";
+import React, { useEffect, useState } from "react";
+import { request } from "services/http-request";
+import MsgToast from "services/msg-toast";
+import UserIdentifyer from "services/user-identifyer";
+import * as styles from "styles/pages/common.module.scss";
 import {
   DocumentsAnsRespT,
   DocumentsAnsT,
   QAnsRespT,
   QAnsResultT,
-  WorkTypeQuestionT,
-  WorkTypeRespQuestionT,
 } from "type/global";
-import { PageProps, navigate } from "gatsby";
-import { set } from "date-fns";
-import AnsQuestion from "components/pages/appointment/assessment/questions";
-import ViewDocuments from "components/pages/appointment/assessment/view-documents";
-import { useAppContext } from "providers/app-provider";
-import UserIdentifyer from "services/user-identifyer";
-import { useAuthContext } from "providers/auth-provider";
+import * as apptStyle from "./styles.module.scss";
 
 type LocState = {
   wtId: string;
@@ -71,7 +64,7 @@ const Assessment = (props: PageProps) => {
 
       setData(response.data.results);
     } catch (error) {
-      toast("Problem fetching questions");
+      MsgToast("Problem fetching questions", "error");
     }
   }
 
@@ -86,7 +79,7 @@ const Assessment = (props: PageProps) => {
 
       setDocData(response.data.results);
     } catch (error) {
-      toast("Problem fetching questions");
+      MsgToast("Problem fetching questions", "error");
     }
   }
 
@@ -105,10 +98,10 @@ const Assessment = (props: PageProps) => {
         method: "patch",
         data: datap,
       });
-      toast.success(`${to.toUpperCase()} sucessfully`);
+      MsgToast(`${to.toUpperCase()} sucessfully`, "success");
       navigate(-1);
     } catch (error) {
-      toast(`Problem ${to} Appt`);
+      MsgToast(`Problem ${to} Appt`, "error");
     } finally {
       setLoading(false);
     }

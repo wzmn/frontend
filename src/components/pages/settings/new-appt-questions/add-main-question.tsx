@@ -1,4 +1,5 @@
 import { Switch } from "@headlessui/react";
+import { yupResolver } from "@hookform/resolvers/yup";
 import Button from "components/button";
 import Input from "components/input";
 import SelectBox from "components/selectBox";
@@ -7,16 +8,14 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoMdAdd } from "react-icons/io";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { toast } from "react-toastify";
 import companyIdFetcher from "services/company-id-fetcher";
 import { request } from "services/http-request";
+import MsgToast from "services/msg-toast";
 import UserIdentifyer from "services/user-identifyer";
+import * as commonStyles from "styles/pages/common.module.scss";
+import { InferType, array, boolean, object, string } from "yup";
 import { checkforMultiChecker, questions } from "./helper";
 import * as styles from "./styles.module.scss";
-import { AddQuestionsT } from "type/settings/questions";
-import { InferType, array, boolean, object, string } from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as commonStyles from "styles/pages/common.module.scss";
 
 // this component to create just to handle adding main question
 //single question at a time
@@ -95,12 +94,12 @@ const AddMainQuestion = ({
           is_required: isRequired,
         },
       });
-      toast.success("Question added successfully");
+      MsgToast("Question added successfully", "success");
       await refetch();
       deleteQ(index);
     } catch (error) {
       console.log("inside error");
-      toast.error("failed adding question");
+      MsgToast("failed adding question", "error");
     }
   }
 

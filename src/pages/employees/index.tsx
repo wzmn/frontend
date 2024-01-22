@@ -1,15 +1,13 @@
 import Button from "components/button";
 import { Drop } from "components/drop-zone";
-import { DragProps, Drage } from "components/drop-zone/drage";
+import { Drage } from "components/drop-zone/drage";
 import Filterbtn from "components/filterBtn";
 import Input from "components/input";
 import Menu from "components/menu";
-import { CompanyFilter, DateFilter } from "components/pages/company/helper";
+import { CompanyFilter } from "components/pages/company/helper";
 import Pagination from "components/pagination";
 import { EMPLOYEE_LISTING } from "constants/api";
 import { Link } from "gatsby";
-import moment from "moment";
-import { useRightBarContext } from "providers/right-bar-provider";
 import React, {
   ChangeEvent,
   Fragment,
@@ -18,34 +16,25 @@ import React, {
   useState,
 } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
-import { ImSpinner10 } from "react-icons/im";
-import { IoCallOutline, IoEyeOutline } from "react-icons/io5";
-import { TfiEmail } from "react-icons/tfi";
+import { ToastContainer } from "react-toastify";
 import { request } from "services/http-request";
 import * as commonStyles from "styles/pages/common.module.scss";
-import { toast, ToastContainer } from "react-toastify";
-import {
-  EmpStateStatus,
-  EmployeeDataStateType,
-  EmployeeDataType,
-  EmployeeRole,
-} from "type/employee";
+import { EmpStateStatus, EmployeeDataType, EmployeeRole } from "type/employee";
 import cssVar from "utility/css-var";
 import { findMatchingId } from "utility/find-matching-id";
 // For skeleton
-import Placeholder from "../../components/skeleton";
-import { useAppContext } from "providers/app-provider";
-import Modal from "components/modal";
-import { DateRangePicker } from "react-date-range";
 import * as menuStyle from "components/menu/styles.module.scss";
-import ViewEmp from "components/pages/employee/view-emp";
-import { debounce } from "utility/debounce";
-import UserIdentifyer from "services/user-identifyer";
-import companyIdFetcher from "services/company-id-fetcher";
-import { IoIosArrowDown } from "react-icons/io";
-import { TbCircuitSwitchClosed } from "react-icons/tb";
+import Modal from "components/modal";
 import { SortFilter } from "components/pages/common";
 import { EmpList } from "components/pages/employee/emp-list";
+import { useAppContext } from "providers/app-provider";
+import { DateRangePicker } from "react-date-range";
+import { IoIosArrowDown } from "react-icons/io";
+import companyIdFetcher from "services/company-id-fetcher";
+import MsgToast from "services/msg-toast";
+import UserIdentifyer from "services/user-identifyer";
+import { debounce } from "utility/debounce";
+import Placeholder from "../../components/skeleton";
 
 type DropItemType = { id: number; section: EmployeeRole };
 const selectionRangeInit = {
@@ -160,7 +149,7 @@ const Employees = () => {
       setData(() => filterData);
     } catch (error: any) {
       console.log(" errorrrrrrrrrrrrrrrrr", error);
-      toast.error(error.response?.data?.detail);
+      MsgToast(error.response?.data?.detail, "error");
     } finally {
       setLoading(false);
     }

@@ -6,8 +6,8 @@ import React from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { FaPlus } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { toast } from "react-toastify";
 import { request } from "services/http-request";
+import MsgToast from "services/msg-toast";
 import { AddQuestionsT } from "type/settings/questions";
 import { InferType, array, boolean, number, object, string } from "yup";
 import ArrayQuestionsPallet from "./array-questions-pallet";
@@ -115,12 +115,12 @@ const AddSubQuestions = ({
           answer: qText,
         },
       });
-      toast.success("Sub Question added successfully");
+      MsgToast("Sub Question added successfully", "success");
       reset();
       // await refetch();
       setShowAddQ(false);
     } catch (error) {
-      toast.error("failed adding question");
+      MsgToast("failed adding question", "error");
     }
   }
 

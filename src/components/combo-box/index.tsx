@@ -17,16 +17,36 @@ export type ComboBoxDataT = Partial<
   }
 >;
 
+type ColorVarient = "gray";
+
 type ComboBoxT<T> = React.InputHTMLAttributes<HTMLInputElement> & {
   data: ComboBoxDataT[];
   label?: string;
+  colorVarient?: ColorVarient;
   handleSelect?: (e: T & ComboBoxDataT) => void;
+  contClass?: string;
   // handleInput: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
+function colorVarientFun(color: ColorVarient) {
+  switch (color) {
+    case "gray":
+      return styles.colorVGray;
+    default:
+      return "";
+  }
+}
+
 const ComboBox = forwardRef(
   <T extends unknown>(
-    { data, label, handleSelect, ...props }: ComboBoxT<T>,
+    {
+      data,
+      label,
+      handleSelect,
+      colorVarient,
+      contClass,
+      ...props
+    }: ComboBoxT<T>,
     ref: ForwardedRef<HTMLInputElement>
   ) => {
     // const { data, label, handleSelect } = props;
@@ -46,13 +66,15 @@ const ComboBox = forwardRef(
           }}
         >
           <div className="relative mt-1">
-            <div className={styles.boxInputCont}>
+            <div className={`${styles.boxInputCont} ${contClass}`}>
               <Combobox.Button className="w-full">
                 <Combobox.Input
                   {...props}
                   ref={ref}
                   autoComplete="off"
-                  className={styles.boxInput}
+                  className={`${styles.boxInput} ${
+                    colorVarient && colorVarientFun(colorVarient)
+                  } ${props.className && props.className}`}
                   // displayValue={() => value ?? ""}
                 />
               </Combobox.Button>

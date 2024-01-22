@@ -1,32 +1,27 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import Button from "components/button";
+import ComboBox, { ComboBoxDataT } from "components/combo-box";
 import FormSection from "components/form-sections";
 import FormWraper from "components/form-wrapper";
 import Input from "components/input";
+import Label from "components/label";
 import Radio from "components/radio";
+import { APPOINTMENT_LISTING } from "constants/api";
+import { navigate } from "gatsby";
+import { useAppContext } from "providers/app-provider";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import * as styles from "styles/pages/common.module.scss";
-import * as jobStyles from "./styles.module.scss";
-import moment from "moment";
-import { Result, WorkType } from "type/job";
-import Label from "components/label";
-import ComboBox, { ComboBoxDataT } from "components/combo-box";
-import { EmpResultT } from "type/employee";
-import companyIdFetcher from "services/company-id-fetcher";
-import UserIdentifyer from "services/user-identifyer";
-import employeeList from "services/employee-list";
-import { debounce } from "utility/debounce";
-import { request } from "services/http-request";
-import { APPOINTMENT_LISTING } from "constants/api";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { InferType, boolean, object, string } from "yup";
-import { toast } from "react-toastify";
 import {
   CreateApptSchemaT,
   createApptSchema,
 } from "schema/create-schedule-appt";
-import { useAppContext } from "providers/app-provider";
-import { navigate } from "gatsby";
+import employeeList from "services/employee-list";
+import { request } from "services/http-request";
+import MsgToast from "services/msg-toast";
+import * as styles from "styles/pages/common.module.scss";
+import { EmpResultT } from "type/employee";
+import { Result } from "type/job";
+import { debounce } from "utility/debounce";
 
 type Props = {
   item: Result;
@@ -43,6 +38,9 @@ const Schedule = ({ item, companyId, apptId }: Props) => {
     formState: { errors, isSubmitting },
   } = useForm<CreateApptSchemaT>({
     resolver: yupResolver(createApptSchema),
+    defaultValues: {
+      self_assessment: "false",
+    },
   });
   const [empListData, setEmpListData] = useState<ComboBoxDataT[]>([]);
   const selfAssessment = watch("self_assessment");
@@ -75,10 +73,10 @@ const Schedule = ({ item, companyId, apptId }: Props) => {
         method: apptId ? "patch" : "post",
         data: { ...data, ...exData },
       });
-      toast.success("Appt is created");
+      MsgToast("Appt is created", "success");
       navigate(-1);
     } catch (error) {
-      toast.error("could`t create appt try later");
+      MsgToast("could`t create appt try later", "error");
     }
   }
   async function handleEmployeeList(e?: ChangeEvent<HTMLInputElement>) {
@@ -121,12 +119,12 @@ const Schedule = ({ item, companyId, apptId }: Props) => {
                       <Radio
                         label="Fieldworker"
                         {...register(`self_assessment`)}
-                        value="False"
+                        value={"false"}
                       />
                       <Radio
                         label="Customer"
                         {...register(`self_assessment`)}
-                        value="True"
+                        value={"true"}
                       />
                     </div>
                     <p className={styles.error + " text-xs"}>
@@ -150,7 +148,7 @@ const Schedule = ({ item, companyId, apptId }: Props) => {
                     />
                   </div>
 
-                  {selfAssessment === "False" && (
+                  {JSON.parse(selfAssessment.toString()) === false && (
                     <div className="w-64 ">
                       <Label title="Assign To" />
                       <ComboBox<EmpResultT>
@@ -158,7 +156,7 @@ const Schedule = ({ item, companyId, apptId }: Props) => {
                         handleSelect={(e) => {
                           setValue(
                             "assessment_assigned_to_id",
-                            String(e?.user?.id)
+                            Number(e?.user?.id)
                           );
                         }}
                         onChange={debounce(handleEmployeeList)}

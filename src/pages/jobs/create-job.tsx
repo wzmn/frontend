@@ -7,12 +7,12 @@ import FormWraper from "components/form-wrapper";
 import Label from "components/label";
 import Radio from "components/radio";
 import TextField from "components/text-field";
-import { APPOINTMENT_LISTING, JOB_LISTING } from "constants/api";
+import { APPOINTMENT_LISTING } from "constants/api";
 import { PageProps, navigate } from "gatsby";
 import { useAppContext } from "providers/app-provider";
+import { useAuthContext } from "providers/auth-provider";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { toast } from "react-toastify";
 import {
   JobRegistrationSchemaType,
   conditionalSchema,
@@ -21,14 +21,14 @@ import Address from "services/address";
 import companyIdFetcher from "services/company-id-fetcher";
 import employeeList from "services/employee-list";
 import { request } from "services/http-request";
+import MsgToast from "services/msg-toast";
 import UserIdentifyer from "services/user-identifyer";
 import * as styles from "styles/pages/common.module.scss";
+import { CustResultT } from "type/customer";
 import { EmpResultT } from "type/employee";
 import { debounce } from "utility/debounce";
 import { WorkTypeLabel } from "./create-appointment";
 import * as jobStyles from "./styles.module.scss";
-import { CustResultT } from "type/customer";
-import { useAuthContext } from "providers/auth-provider";
 const showEmpFieldFor = [
   "superadmin",
   "admin",
@@ -111,11 +111,11 @@ const CreateJob = (props: PageProps) => {
           appointment_status: "Waiting",
         },
       });
-      toast.success("Added Sucessfully");
+      MsgToast("Added Sucessfully", "success");
       navigate(-1);
     } catch (error) {
       console.log("error");
-      toast.error("Something went wrong");
+      MsgToast("Something went wrong", "error");
     }
   }
 

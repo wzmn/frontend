@@ -1,15 +1,16 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import TextField from "components/text-field";
-import { Link, navigate } from "gatsby";
+import { RESET_PASSWORD } from "constants/api";
+import { Link } from "gatsby";
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { ToastContainer } from "react-toastify";
+import { usernameSchema } from "schema/auth-schema";
+import { request } from "services/http-request";
+import MsgToast from "services/msg-toast";
+import { InferType } from "yup";
 import Button from "../components/button";
 import * as styles from "../layout/auth-layout/styles.module.scss";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { usernameSchema } from "schema/auth-schema";
-import { InferType } from "yup";
-import { request } from "services/http-request";
-import { RESET_PASSWORD } from "constants/api";
-import { toast, ToastContainer } from "react-toastify";
 //to triger build
 
 type FormType = InferType<typeof usernameSchema>;
@@ -33,7 +34,7 @@ const ForgotPassword = () => {
         },
       });
       console.log(response);
-      toast.success("Please Check Your Email");
+      MsgToast("Please Check Your Email", "success", 400);
     } catch (error: any) {
       setError(error.response.data.email[0]);
     }

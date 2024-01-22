@@ -1,26 +1,24 @@
+import ComboBox from "components/combo-box";
 import FormSection from "components/form-sections";
 import FormWraper from "components/form-wrapper";
 import Input from "components/input";
 import SelectBox from "components/selectBox";
+import TextButton from "components/text-button";
+import { APPT_Q, APPT_Q_OPT } from "constants/api";
+import { useAppContext } from "providers/app-provider";
+import { Questions } from "providers/app-provider/questions";
 import React, { useEffect, useState } from "react";
-import * as styles from "styles/pages/common.module.scss";
-import * as settingStyles from "./styles.module.scss";
-import { RiDeleteBin6Line } from "react-icons/ri";
 import { useFieldArray, useForm } from "react-hook-form";
 import { FaPlus } from "react-icons/fa";
-import { Option, WorkTypeQuestionT } from "type/global";
-import TextButton from "components/text-button";
-import Button from "components/button";
-import { request } from "services/http-request";
-import { APPT_Q, APPT_Q_OPT } from "constants/api";
-import companyIdFetcher from "services/company-id-fetcher";
-import UserIdentifyer from "services/user-identifyer";
-import { toast } from "react-toastify";
 import { ImSpinner10 } from "react-icons/im";
 import { IoIosSend, IoMdAdd } from "react-icons/io";
-import { useAppContext } from "providers/app-provider";
-import ComboBox, { ComboBoxDataT } from "components/combo-box";
-import { Questions, QuestionsT } from "providers/app-provider/questions";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import companyIdFetcher from "services/company-id-fetcher";
+import { request } from "services/http-request";
+import MsgToast from "services/msg-toast";
+import UserIdentifyer from "services/user-identifyer";
+import { Option, WorkTypeQuestionT } from "type/global";
+import * as settingStyles from "./styles.module.scss";
 
 const questions = [
   { label: "Image", value: "image" },
@@ -167,9 +165,9 @@ function Question({
         },
       });
       setQuestion(() => response.data);
-      toast.success("added");
+      MsgToast("added", "success");
     } catch (error) {
-      toast.error("failed adding question");
+      MsgToast("failed adding question", "error");
     }
   }
 
@@ -180,11 +178,11 @@ function Question({
         url: APPT_Q + question.id,
         method: "delete",
       });
-      toast.success("deleted sucessfully");
+      MsgToast("deleted sucessfully", "success");
       removeField(index);
       console.log(index);
     } catch (error) {
-      toast.error("failed adding question");
+      MsgToast("failed adding question", "error");
     } finally {
       setDeleteLoad((prev) => !prev);
     }
@@ -296,10 +294,10 @@ function Options({
         url: APPT_Q_OPT + option.id,
         method: "delete",
       });
-      toast.success("deleted sucessfully");
+      MsgToast("deleted sucessfully", "success");
       remove(index);
     } catch (error) {
-      toast.error("failed adding question");
+      MsgToast("failed adding question", "error");
     } finally {
       setDeleteLoad((prev) => !prev);
     }
@@ -317,9 +315,9 @@ function Options({
         },
       });
       await fetchOtps();
-      toast.success("added");
+      MsgToast("added", "success");
     } catch (error) {
-      toast.error("failed adding question");
+      MsgToast("failed adding question", "error");
     }
   }
 

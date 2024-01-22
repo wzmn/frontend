@@ -1,18 +1,14 @@
+import ComboBox, { ComboBoxDataT } from "components/combo-box";
 import SelectList from "components/select-list";
+import { useCompanyContext } from "providers/company-provider";
 import { useSidebarContext } from "providers/sidebar-provider";
 import React, { ChangeEvent, useEffect, useState } from "react";
-import { FaGripLines, FaRegBell } from "react-icons/fa";
-import { GrCircleQuestion } from "react-icons/gr";
-import * as styles from "./styles.module.scss";
-import SelectBox from "components/selectBox";
-import ComboBox, { ComboBoxDataT } from "components/combo-box";
+import { FaGripLines } from "react-icons/fa";
 import companyList from "services/company-list";
-import { Result } from "type/company";
-import { useForm } from "react-hook-form";
-import { useCompanyContext } from "providers/company-provider";
 import UserIdentifyer from "services/user-identifyer";
-import { resolve } from "path";
+import { Result } from "type/company";
 import { debounce } from "utility/debounce";
+import * as styles from "./styles.module.scss";
 
 const data = [
   { label: "Wade Cooper" },
