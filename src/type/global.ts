@@ -155,3 +155,9 @@ export interface Document {
   is_active: boolean;
   file: string;
 }
+
+export type SelectionRangeInitT = {
+  startDate: undefined | string | Date;
+  endDate: undefined | string | Date;
+  key: string;
+};

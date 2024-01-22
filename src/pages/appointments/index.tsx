@@ -45,6 +45,7 @@ import Menu from "components/menu";
 import { WorkTypeFilter } from "services/filters";
 import Badge from "components/badge";
 import CombineCombo from "components/combine-combo";
+import moment from "moment";
 
 const selectionRangeInit = {
   startDate: undefined,
@@ -92,6 +93,21 @@ const data1 = [
   },
 ];
 
+const custTypeData = [
+  {
+    label: "All",
+    value: "",
+  },
+  {
+    label: "Residential",
+    value: "Residential",
+  },
+  {
+    label: "Business",
+    value: "Business",
+  },
+];
+
 const Appintments = () => {
   const {
     appointment: { status, statusData },
@@ -104,9 +120,12 @@ const Appintments = () => {
   const [visible, setVisible] = useState(false);
   const [publishMod, setPublishMod] = useState(false);
 
-  const [selectionRange, setSelectionRange] = useState(selectionRangeInit);
+  const [selectionRange, setSelectionRange] = useState({
+    ...selectionRangeInit,
+  });
   const [sort, setSort] = useState(sortType[0].value);
   const [snippitAudited, setSnippitAudited] = useState<string[]>([]);
+  const [custType, setCustType] = useState(custTypeData[0].value);
 
   const [pagination, setPagination] = useState({
     page: 1,
@@ -126,6 +145,7 @@ const Appintments = () => {
   function clearFilters() {
     setSelectionRange(() => selectionRangeInit);
     setWorkType(() => []);
+    setCustType(() => custTypeData[0].value);
   }
 
   function getColumnColor(int: number) {
@@ -187,9 +207,14 @@ const Appintments = () => {
           offset: pagination.offset,
           company__id: id,
           ordering: sort,
-          created_at__gte: selectionRange.startDate,
-          created_at__lte: selectionRange.endDate,
+          created_at__gte: selectionRange.startDate
+            ? moment(selectionRange.startDate).format("YYYY-MM-DDTHH:mm")
+            : undefined,
+          created_at__lte: selectionRange.endDate
+            ? moment(selectionRange.endDate).format("YYYY-MM-DDTHH:mm")
+            : undefined,
           job__work_type__title__in: workType.toString(),
+          custType,
           ...params,
         },
       });
@@ -352,7 +377,7 @@ const Appintments = () => {
         </div> */}
         <div className={locStyles.alignWithCard}>
           <Filterbtn icon={<IoIosArrowDown />} title="Filter">
-            <div className="relative h-32">
+            <div className="relative h-40">
               <div
                 onClick={() => {
                   setVisible((prev) => !prev);
@@ -365,6 +390,16 @@ const Appintments = () => {
                 <WorkTypeFilter
                   workType={workType}
                   setValue={workTypeFilterHandler}
+                />
+              </Menu>
+
+              <Menu title="Customer Type" dropPosition={styles.menuPos}>
+                <SortFilter
+                  data={custTypeData}
+                  defaultChecked={custType}
+                  setValue={(e) => {
+                    setCustType(e);
+                  }}
                 />
               </Menu>
 

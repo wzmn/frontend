@@ -1,3 +1,4 @@
+import Badge from "components/badge";
 import Button from "components/button";
 import { Drop } from "components/drop-zone";
 import { Drage } from "components/drop-zone/drage";
@@ -6,8 +7,9 @@ import Input from "components/input";
 import Menu from "components/menu";
 import * as menuStyle from "components/menu/styles.module.scss";
 import Modal from "components/modal";
-import { CompanyFilter } from "components/pages/company/helper";
+import { SortFilter } from "components/pages/common";
 import CustList from "components/pages/customer/cust-card";
+import { usefetchData } from "components/pages/customer/helper";
 import Pagination from "components/pagination";
 import Placeholder from "components/skeleton";
 import { CUSTOMER_LISTING, EXPORT_CUST } from "constants/api";
@@ -22,6 +24,7 @@ import React, {
 import { DateRangePicker } from "react-date-range";
 import { AiOutlinePlus } from "react-icons/ai";
 import { IoIosArrowDown } from "react-icons/io";
+import { toast } from "react-toastify";
 import companyIdFetcher from "services/company-id-fetcher";
 import { request } from "services/http-request";
 import UserIdentifyer from "services/user-identifyer";
@@ -34,12 +37,8 @@ import {
 import cssVar from "utility/css-var";
 import { debounce } from "utility/debounce";
 import { findMatchingId } from "utility/find-matching-id";
-import { TbCircuitSwitchClosed } from "react-icons/tb";
-import { SortFilter } from "components/pages/common";
-import { usefetchData } from "components/pages/customer/helper";
 import * as locStyles from "./styles.module.scss";
-import { CiExport, CiImport } from "react-icons/ci";
-import { toast } from "react-toastify";
+import moment from "moment";
 
 type DropItemType = { id: number; section: CustomerStatus };
 
@@ -64,6 +63,21 @@ const sortType = [
   },
 ];
 
+const custTypeData = [
+  {
+    label: "All",
+    value: "",
+  },
+  {
+    label: "Residential",
+    value: "Residential",
+  },
+  {
+    label: "Business",
+    value: "Business",
+  },
+];
+
 const Customers = () => {
   const [data, setData] = useState<
     Record<CustomerStatus, CustomerDataExtraType[]>
@@ -77,8 +91,11 @@ const Customers = () => {
   // For skeleton
   // const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
-  const [selectionRange, setSelectionRange] = useState(selectionRangeInit);
+  const [selectionRange, setSelectionRange] = useState(
+    JSON.parse(JSON.stringify(selectionRangeInit))
+  );
   const [sort, setSort] = useState(sortType[0].value);
+  const [custType, setCustType] = useState(custTypeData[0].value);
 
   const [pagination, setPagination] = useState({
     page: 1,
@@ -98,8 +115,13 @@ const Customers = () => {
       offset: pagination.offset,
       company__id: id,
       ordering: sort,
-      created_at__gte: selectionRange.startDate,
-      created_at__lte: selectionRange.endDate,
+      created_at__gte: selectionRange.startDate
+        ? moment(selectionRange.startDate).format("YYYY-MM-DDTHH:mm")
+        : undefined,
+      created_at__lte: selectionRange.endDate
+        ? moment(selectionRange.endDate).format("YYYY-MM-DDTHH:mm")
+        : undefined,
+      custType: custType,
     },
     data,
     setData,
@@ -253,6 +275,11 @@ const Customers = () => {
     }
   };
 
+  function clearFilters() {
+    setSelectionRange(() => selectionRangeInit);
+    setCustType(() => custTypeData[0].value);
+  }
+
   useEffect(() => {
     table.current!.addEventListener("wheel", handleScroll);
     return () => {
@@ -268,7 +295,8 @@ const Customers = () => {
     pagination.limit,
     id,
     sort,
-    JSON.stringify(selectionRange),
+    JSON.stringify(selectionRange.endDate),
+    custType,
   ]);
 
   return (
@@ -295,17 +323,33 @@ const Customers = () => {
         </div> */}
         <div className={locStyles.alignWithCard}>
           <Filterbtn icon={<IoIosArrowDown />} title="Filter">
-            <div
-              onClick={() => {
-                setVisible((prev) => !prev);
-              }}
-              className={menuStyle.menu}
-            >
-              <button>Date</button>
+            <div className="relative h-32">
+              <div
+                onClick={() => {
+                  setVisible((prev) => !prev);
+                }}
+                className={menuStyle.menu}
+              >
+                <button>Date</button>
+              </div>
+
+              <Menu title="Customer Type" dropPosition={styles.menuPos}>
+                <SortFilter
+                  data={custTypeData}
+                  defaultChecked={custType}
+                  setValue={(e) => {
+                    setCustType(e);
+                  }}
+                />
+              </Menu>
+              <Badge
+                label="clear"
+                className="absolute bottom-2 left-0 text-blue-600 cursor-pointer"
+                onClick={() => {
+                  clearFilters();
+                }}
+              />
             </div>
-            {/* <Menu title="Company Type" dropPosition={styles.menuPos}>
-            <CompanyFilter />
-          </Menu> */}
           </Filterbtn>
         </div>
 
@@ -414,11 +458,11 @@ const Customers = () => {
         <DateRangePicker
           ranges={[selectionRange]}
           onChange={(e: any) => {
-            // console.log({
-            //   startDate: e.selection.startDate,
-            //   endDate: e.selection.endDate,
-            // });
-            setSelectionRange((prev) => ({
+            console.log({
+              startDate: e.selection.startDate,
+              endDate: e.selection.endDate,
+            });
+            setSelectionRange((prev: any) => ({
               ...prev,
               startDate: e.selection.startDate,
               endDate: e.selection.endDate,

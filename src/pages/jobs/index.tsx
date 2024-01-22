@@ -1,5 +1,6 @@
 import Badge from "components/badge";
 import Button from "components/button";
+import CombineCombo from "components/combine-combo";
 import { Drop } from "components/drop-zone";
 import { Drage } from "components/drop-zone/drage";
 import Filterbtn from "components/filterBtn";
@@ -13,6 +14,7 @@ import Pagination from "components/pagination";
 import Placeholder from "components/skeleton";
 import { JOB_LISTING } from "constants/api";
 import { Link } from "gatsby-link";
+import moment from "moment";
 import React, {
   ChangeEvent,
   Fragment,
@@ -21,17 +23,14 @@ import React, {
   useState,
 } from "react";
 import { DateRangePicker } from "react-date-range";
-import { useForm } from "react-hook-form";
 import { AiOutlinePlus } from "react-icons/ai";
 import { IoIosArrowDown } from "react-icons/io";
-import { TbCircuitSwitchClosed } from "react-icons/tb";
 import companyIdFetcher from "services/company-id-fetcher";
 import { WorkTypeFilter } from "services/filters";
 import { request } from "services/http-request";
 import UserIdentifyer from "services/user-identifyer";
 import * as commonStyles from "styles/pages/common.module.scss";
 import * as styles from "styles/pages/common.module.scss";
-import { FilterT } from "type/filters";
 import { JobDataStateType, JobDataType, JobStatusRole } from "type/job";
 import cssVar from "utility/css-var";
 import { debounce } from "utility/debounce";
@@ -56,6 +55,40 @@ const sortType = [
   },
 ];
 
+const data1 = [
+  {
+    label: "State",
+    value: "state",
+  },
+  {
+    label: "Suburb",
+    value: "Suburb",
+  },
+  {
+    label: "LGA",
+    value: "LGA",
+  },
+  {
+    label: "Pincode",
+    value: "Pincode",
+  },
+];
+
+const custTypeData = [
+  {
+    label: "All",
+    value: "",
+  },
+  {
+    label: "Residential",
+    value: "Residential",
+  },
+  {
+    label: "Business",
+    value: "Business",
+  },
+];
+
 const Jobs = () => {
   const [data, setData] = useState<Record<JobStatusRole, JobDataStateType[]>>({
     waiting: [],
@@ -65,7 +98,9 @@ const Jobs = () => {
 
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
-  const [selectionRange, setSelectionRange] = useState(selectionRangeInit);
+  const [selectionRange, setSelectionRange] = useState({
+    ...selectionRangeInit,
+  });
   const [workType, setWorkType] = useState<string[]>([]);
   const [pagination, setPagination] = useState({
     page: 1,
@@ -74,6 +109,7 @@ const Jobs = () => {
     totalRecords: 0,
   });
   const [sort, setSort] = useState(sortType[0].value);
+  const [custType, setCustType] = useState(custTypeData[0].value);
 
   const { btnCont, tableCont } = commonStyles;
 
@@ -93,6 +129,7 @@ const Jobs = () => {
   function clearFilters() {
     setSelectionRange(() => selectionRangeInit);
     setWorkType(() => []);
+    setCustType(() => custTypeData[0].value);
   }
 
   function getColumnColor(int: number) {
@@ -118,8 +155,14 @@ const Jobs = () => {
           work_type__title__in: workType.toString(),
           customer__company__in: id,
           ordering: sort,
-          created_at__gte: selectionRange.startDate,
-          created_at__lte: selectionRange.endDate,
+          created_at__gte: selectionRange.startDate
+            ? moment(selectionRange.startDate).format("YYYY-MM-DDTHH:mm")
+            : undefined,
+          created_at__lte: selectionRange.endDate
+            ? moment(selectionRange.endDate).format("YYYY-MM-DDTHH:mm")
+            : undefined,
+          custType: custType,
+
           ...params,
         },
       });
@@ -256,6 +299,7 @@ const Jobs = () => {
     JSON.stringify(workType),
     sort,
     JSON.stringify(selectionRange),
+    custType,
   ]);
 
   return (
@@ -284,7 +328,7 @@ const Jobs = () => {
           <SelectBox color="full-white" data={dataList} />
         </div> */}
         <Filterbtn icon={<IoIosArrowDown />} title="Filter">
-          <div className="relative h-32">
+          <div className="relative h-40">
             <Menu title="Work Type" dropPosition={styles.menuPos}>
               <WorkTypeFilter
                 workType={workType}
@@ -299,6 +343,16 @@ const Jobs = () => {
             >
               <button>Date</button>
             </div>
+
+            <Menu title="Customer Type" dropPosition={styles.menuPos}>
+              <SortFilter
+                data={custTypeData}
+                defaultChecked={custType}
+                setValue={(e) => {
+                  setCustType(e);
+                }}
+              />
+            </Menu>
             <Badge
               label="clear"
               className="absolute bottom-2 left-0 text-blue-600 cursor-pointer"
@@ -308,6 +362,18 @@ const Jobs = () => {
             />
           </div>
         </Filterbtn>
+
+        <CombineCombo
+          data1={data1}
+          data2={[]}
+          handleSelectData1={(e) => {
+            console.log(e);
+          }}
+          handleSelectData2={(e) => {
+            console.log(e);
+          }}
+        />
+
         <div className="w-32">
           <Filterbtn icon={<img src="/assets/icons/sort.svg" />} title="Sort">
             <SortFilter

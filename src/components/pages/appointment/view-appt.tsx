@@ -151,6 +151,34 @@ const ViewAppt = ({
           {moment(data?.created_at).format("DD/MM/yyyy hh:mm a")}
         </span>
       </p>
+      {data.appointment_status === "Confirmed" && (
+        <p className={`${styles.name} ${styles.createBy}`}>
+          <span className={styles.bold}>Appt Schedule Date: &nbsp; </span>
+          {/* {data?.company_owner?.first_name} &nbsp; */}
+          <span className={styles.tag}>
+            {moment(data?.assessment_scheduled_on).format("DD/MM/yyyy hh:mm a")}
+          </span>
+        </p>
+      )}
+
+      {data.appointment_status !== "Confirmed" &&
+        data.appointment_status !== "Waiting" && (
+          <p className={`${styles.name} ${styles.createBy}`}>
+            <span className={styles.bold}>Appt Assessed Date: &nbsp; </span>
+            {/* {data?.company_owner?.first_name} &nbsp; */}
+            <span className={styles.tag}>
+              {moment(data?.assessment_completed_on).format(
+                "DD/MM/yyyy hh:mm a"
+              )}
+            </span>
+          </p>
+        )}
+
+      <p className={`${styles.name} ${styles.createBy}`}>
+        <span className={styles.bold}>Job ID: &nbsp; </span>
+        {/* {data?.company_owner?.first_name} &nbsp; */}
+        <span className={styles.tag}>{data.job.id}</span>
+      </p>
       <div className={styles.divider}>
         <Divider />
       </div>
