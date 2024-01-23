@@ -29,6 +29,7 @@ import {
   CustResultT,
 } from "type/customer";
 import { JobDataType, Result as JobResultT } from "type/job";
+import TimeFormat from "services/time-format";
 
 const CustomerDetails = (props: PageProps) => {
   const { location } = props;
@@ -150,21 +151,25 @@ const CustomerDetails = (props: PageProps) => {
                     <span className={styles.contact}>
                       {/* {data?.user?.groups || "N/A"} */}
                       {`
-                    ${data?.address?.building_number
-                          ? data?.address?.building_number
-                          : ""
-                        } ${data?.address?.street_number
+                    ${
+                      data?.address?.building_number
+                        ? data?.address?.building_number
+                        : ""
+                    } ${
+                        data?.address?.street_number
                           ? data?.address?.street_number
                           : ""
-                        } ${data?.address?.street_name
+                      } ${
+                        data?.address?.street_name
                           ? data.address?.street_name
                           : ""
-                        }
+                      }
                     
                     ${data?.address?.suburb ? data.address?.suburb : ""}
 
-                    ${data?.address?.state ? data.address?.state : ""} ${data?.address?.pincode ? data.address?.pincode : ""
-                        }`}
+                    ${data?.address?.state ? data.address?.state : ""} ${
+                        data?.address?.pincode ? data.address?.pincode : ""
+                      }`}
                     </span>
                   </div>
                 </div>
@@ -175,17 +180,17 @@ const CustomerDetails = (props: PageProps) => {
                   <span className={styles.bold}>
                     Customer Created by: &nbsp;{" "}
                   </span>
-                  {`${data?.customer_created_by?.user.first_name
-                    ? data?.customer_created_by?.user.first_name
-                    : ""
-                    } ${data?.customer_created_by?.user.last_name
+                  {`${
+                    data?.customer_created_by?.user.first_name
+                      ? data?.customer_created_by?.user.first_name
+                      : ""
+                  } ${
+                    data?.customer_created_by?.user.last_name
                       ? data?.customer_created_by?.user.last_name
                       : "N/A"
-                    }`}{" "}
+                  }`}{" "}
                   <span className={styles.tag2}>
-                    {moment(data?.user?.created_at).format(
-                      "DD/MM/yyyy hh:mm a"
-                    )}
+                    {TimeFormat(data?.user?.created_at!)}
                   </span>
                 </p>
 
@@ -375,9 +380,11 @@ const CustomerDetails = (props: PageProps) => {
                     No Reminders{" "}
                   </div>
                 )}
-
               </div>
-              <Link to="/customers/create-reminder" className="flex items-center">
+              <Link
+                to="/customers/create-reminder"
+                className="flex items-center"
+              >
                 <span className="text-blue-500 mr-2">Create Reminder</span>
                 <AiOutlinePlus className="text-blue-500 text-xl" />
               </Link>
@@ -430,12 +437,11 @@ function List({
         <p className="title">
           {`${data.customer?.user?.first_name}  ${data.customer?.user?.first_name}`}
         </p>
-        <span className="">
-          {" "}
-          Created on: {moment(data.created_at).format("ddd, MM hh:mm a")}
-        </span>
+        <span className=""> Created on: {TimeFormat(data.created_at)}</span>
       </div>
-      <div className={`${styles.contactInfo} ${additionalStyles.contact} flex flex-col items-start`}>
+      <div
+        className={`${styles.contactInfo} ${additionalStyles.contact} flex flex-col items-start`}
+      >
         <div className="flex">
           <span className={styles.icon}>
             <TfiEmail className={styles.icon} />
@@ -491,10 +497,7 @@ function ReminderList({
     >
       <div className={styles.cardInfo}>
         <p className="title">{`Reminder ID: ${data.id}`}</p>
-        <span className="">
-          {" "}
-          Created on: {moment(data.reminder_time).format("ddd, MM hh:mm a")}
-        </span>
+        <span className=""> Created on: {TimeFormat(data.reminder_time)}</span>
       </div>
       <div className={`${styles.contactInfo} ${additionalStyles.contact}`}>
         <div className="flex">

@@ -6,6 +6,7 @@ import React from "react";
 import { FaChevronDown } from "react-icons/fa";
 import { IoCallOutline, IoLocationOutline } from "react-icons/io5";
 import { TfiEmail } from "react-icons/tfi";
+import TimeFormat from "services/time-format";
 import * as styles from "styles/pages/view.module.scss";
 import { EmpResultT } from "type/employee";
 
@@ -25,7 +26,7 @@ const ViewEmp = ({ data }: { data: EmpResultT }) => {
                   </span>
                 </p>
                 <p className={styles.tag}>
-                  {moment(data?.user?.created_at).format("DD/MM/yyyy hh:mm a")}
+                  {TimeFormat(data?.user?.created_at!)}
                 </p>
               </div>
               <FaChevronDown
@@ -61,9 +62,7 @@ const ViewEmp = ({ data }: { data: EmpResultT }) => {
       <p className={`${styles.name} ${styles.createBy}`}>
         <span className={styles.bold}>Employee Created by: &nbsp; </span>
         {data?.created_by} &nbsp;
-        <p className={styles.tag}>
-          {moment(data?.user?.created_at).format("DD/MM/yyyy hh:mm a")}
-        </p>
+        <p className={styles.tag}>{TimeFormat(data?.user?.created_at!)}</p>
       </p>
       <div className="mt-3">
         <Divider />

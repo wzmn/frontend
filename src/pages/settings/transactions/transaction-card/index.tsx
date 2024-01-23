@@ -81,7 +81,7 @@ function List({ data }: { data: any }) {
         </p>
         <p className="mb-2">
           {" "}
-          {/* Created on: {moment(data.user?.created_at).format("ddd, MM a")} */}
+          {/* Created on: {TimeFormat(data.user?.created_at.'ddd, MM a)} */}
           created on: Mon,3.40 am
         </p>
       </div>

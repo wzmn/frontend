@@ -144,7 +144,7 @@ const Schedule = ({ item, companyId, apptId }: Props) => {
                       errormessage={
                         errors.assessment_scheduled_on?.message as string
                       }
-                      // min={moment(new Date()).format("yyyy-MM-DD") + "T00:00"}
+                      // min={TimeFormat(new Date()).format("yyyy-MM-DD") + "T00:00"}
                     />
                   </div>
 

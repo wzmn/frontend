@@ -39,6 +39,7 @@ import { debounce } from "utility/debounce";
 import { findMatchingId } from "utility/find-matching-id";
 import * as locStyles from "./styles.module.scss";
 import moment from "moment";
+import TimeFormat from "services/time-format";
 
 type DropItemType = { id: number; section: CustomerStatus };
 
@@ -116,10 +117,10 @@ const Customers = () => {
       company__id: id,
       ordering: sort,
       created_at__gte: selectionRange.startDate
-        ? moment(selectionRange.startDate).format("YYYY-MM-DDTHH:mm")
+        ? TimeFormat(selectionRange.startDate)
         : undefined,
       created_at__lte: selectionRange.endDate
-        ? moment(selectionRange.endDate).format("YYYY-MM-DDTHH:mm")
+        ? TimeFormat(selectionRange.endDate)
         : undefined,
       custType: custType,
     },

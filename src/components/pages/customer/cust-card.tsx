@@ -12,6 +12,7 @@ import HLessMenu from "components/h-less-menu";
 import { CUSTOMER_LISTING } from "constants/api";
 import { toast } from "react-toastify";
 import { request } from "services/http-request";
+import TimeFormat from "services/time-format";
 
 const cssStyles: CSSProperties = {
   width: "8rem",
@@ -86,8 +87,8 @@ export default function CustList({
           <span className="">
             {" "}
             <div>
-              Created on: {moment(data?.created_at).format("ddd DD")} at{" "}
-              {moment(data?.created_at).format("h:mm a")}
+              Created on: {TimeFormat(data?.created_at, "ddd DD")} at{" "}
+              {TimeFormat(data?.created_at, "h:mm a")}
             </div>
           </span>
         </div>

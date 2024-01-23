@@ -1,6 +1,6 @@
 import moment from "moment";
 
-export default function utcToLocal(
+export default function TimeFormat(
   date: string | Date,
   format: string = "DD/MM/YYYY hh:mm a"
 ) {

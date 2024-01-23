@@ -11,6 +11,7 @@ import { request } from "services/http-request";
 import { toast } from "react-toastify";
 import HLessMenu from "components/h-less-menu";
 import { JOB_LISTING } from "constants/api";
+import TimeFormat from "services/time-format";
 
 export default function JobList({
   data,
@@ -67,9 +68,11 @@ export default function JobList({
           <p className="title">{data?.customer?.user?.first_name}</p>
           <span className="">
             {" "}
-            created on:{" "}
-            {moment(data?.customer?.user?.created_at).format("ddd DD")} at{" "}
-            {moment(data?.created_at).format("h:mm a")}
+            created on: {TimeFormat(
+              data?.customer?.user?.created_at,
+              "ddd DD"
+            )}{" "}
+            at {TimeFormat(data?.created_at, "h:mm a")}
           </span>
         </div>
         <div className={contactInfo}>

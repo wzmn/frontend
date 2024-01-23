@@ -21,6 +21,7 @@ import cssVar from "utility/css-var";
 import { findMatchingId } from "utility/find-matching-id";
 import Placeholder from "components/skeleton";
 import ViewJob from "components/pages/job/view-job";
+import TimeFormat from "services/time-format";
 
 type DropItemType = { id: number; section: JobStatusRole };
 
@@ -309,7 +310,7 @@ export function List({
           <span className="">
             {" "}
             created on:{" "}
-            {moment(data?.customer?.user?.created_at).format("ddd, MM a")}
+            {TimeFormat(data?.customer?.user?.created_at, "ddd, MM a")}
           </span>
         </div>
         <div className={contactInfo}>

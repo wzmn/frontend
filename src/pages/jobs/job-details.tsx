@@ -16,6 +16,7 @@ import { IoCallOutline, IoLocationOutline } from "react-icons/io5";
 import { LuClipboardList } from "react-icons/lu";
 import { TfiEmail } from "react-icons/tfi";
 import { request } from "services/http-request";
+import TimeFormat from "services/time-format";
 import * as additionalStyles from "styles/pages/additional.module.scss";
 import * as styles from "styles/pages/common.module.scss";
 import { AppointmentDataType, ApptResultT } from "type/appointment";
@@ -155,9 +156,7 @@ ${data?.address?.state ? data?.address?.state : ""} ${
                   }`}{" "}
                   &nbsp;
                   <span className={styles.tag2}>
-                    {moment(data?.customer?.user?.created_at).format(
-                      "DD/MM/yyyy hh:mm a"
-                    )}
+                    {TimeFormat(data?.customer?.user?.created_at!)}
                   </span>
                 </p>
 
@@ -347,7 +346,7 @@ function List({
           </p>
           <span className="">
             {" "}
-            Created on: {moment(data?.created_at).format("ddd, MM a")}
+            Created on: {TimeFormat(data?.created_at, "ddd, MM a")}
           </span>
         </div>
         <div className={`${styles.contactInfo} ${additionalStyles.contact}`}>

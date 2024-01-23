@@ -11,6 +11,7 @@ import { request } from "services/http-request";
 import { toast } from "react-toastify";
 import { EMPLOYEE_LISTING } from "constants/api";
 import HLessMenu from "components/h-less-menu";
+import TimeFormat from "services/time-format";
 
 export function EmpList({
   data,
@@ -67,8 +68,8 @@ export function EmpList({
           <p className="title">{data.user?.first_name}</p>
           <span className="">
             {" "}
-            created on: {moment(data.user?.created_at).format("ddd DD")} at{" "}
-            {moment(data?.user?.created_at).format("h:mm a")}
+            created on: {TimeFormat(data.user?.created_at!, "ddd DD")} at{" "}
+            {TimeFormat(data?.user?.created_at!, "h:mm a")}
           </span>
         </div>
         <div className={contactInfo}>

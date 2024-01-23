@@ -8,6 +8,7 @@ import moment from "moment";
 import { TfiEmail } from "react-icons/tfi";
 import * as commonStyles from "styles/pages/common.module.scss";
 import Checkbox from "components/checkbox";
+import TimeFormat from "services/time-format";
 
 const assessmet = ["assessed", "audited", "snippit audited", "Reassessment"];
 const schedule = ["waiting", "rescheduled"];
@@ -78,10 +79,10 @@ export default function ApptList({
           <span className="">
             {" "}
             created on:{" "}
-            {moment(data?.job?.customer?.user?.created_at).format(
-              "ddd DD"
-            )} at{" "}
-            {moment(data?.job?.customer?.user?.created_at).format("h:mm a")}
+            {TimeFormat(
+              data?.job?.customer?.user?.created_at,
+              "ddd, DD"
+            )} at {TimeFormat(data?.job?.customer?.user?.created_at, "hh:mm a")}
           </span>
         </div>
         <div className={contactInfo}>

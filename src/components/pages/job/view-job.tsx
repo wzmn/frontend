@@ -12,6 +12,7 @@ import { FaChevronDown } from "react-icons/fa";
 import { IoCallOutline, IoLocationOutline } from "react-icons/io5";
 import { LuClipboardList } from "react-icons/lu";
 import { TfiEmail } from "react-icons/tfi";
+import TimeFormat from "services/time-format";
 import * as styles from "styles/pages/view.module.scss";
 import { AppointmentDataType } from "type/appointment";
 import { Result as JobResultT } from "type/job";
@@ -47,9 +48,7 @@ const ViewJob = ({ data }: { data: JobResultT }) => {
                       data?.customer?.user?.last_name}
                   </span>
                 </p>
-                <p className={styles.tag}>
-                  {moment(data?.created_at).format("DD/MM/yyyy hh:mm a")}
-                </p>
+                <p className={styles.tag}>{TimeFormat(data?.created_at)}</p>
               </div>
               <FaChevronDown
                 className={`${open ? "rotate-180 transform" : ""}`}
@@ -125,9 +124,7 @@ ${data.address?.state ? data.address?.state : ""} ${
         }`}{" "}
         &nbsp;
         <p className={styles.tag}>
-          {moment(data?.customer?.user?.created_at).format(
-            "DD/MM/yyyy hh:mm a"
-          )}
+          {TimeFormat(data?.customer?.user?.created_at)}
         </p>
       </p>
 
@@ -169,7 +166,9 @@ ${data.address?.state ? data.address?.state : ""} ${
                   <div className={`${styles.job} flex justify-between`}>
                     <div className={`${styles.jobTitle} flex flex-col`}>
                       <span>{item?.job?.work_type?.title}</span>
-                      <div>Appt ID : <span className={styles.tag}>{item.id}</span></div>
+                      <div>
+                        Appt ID : <span className={styles.tag}>{item.id}</span>
+                      </div>
                     </div>
                     {/* <p className="">
                     </p> */}

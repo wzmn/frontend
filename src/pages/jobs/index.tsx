@@ -28,6 +28,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import companyIdFetcher from "services/company-id-fetcher";
 import { WorkTypeFilter } from "services/filters";
 import { request } from "services/http-request";
+import TimeFormat from "services/time-format";
 import UserIdentifyer from "services/user-identifyer";
 import * as commonStyles from "styles/pages/common.module.scss";
 import * as styles from "styles/pages/common.module.scss";
@@ -156,10 +157,10 @@ const Jobs = () => {
           customer__company__in: id,
           ordering: sort,
           created_at__gte: selectionRange.startDate
-            ? moment(selectionRange.startDate).format("YYYY-MM-DDTHH:mm")
+            ? TimeFormat(selectionRange.startDate)
             : undefined,
           created_at__lte: selectionRange.endDate
-            ? moment(selectionRange.endDate).format("YYYY-MM-DDTHH:mm")
+            ? TimeFormat(selectionRange.endDate)
             : undefined,
           custType: custType,
 

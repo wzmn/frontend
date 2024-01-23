@@ -19,11 +19,11 @@ const ViewPublish = ({ data }: { data: any }) => {
             <span className={styles.normal}>CLU ASSESSMENT</span>
           </p>
           <p className={styles.tag}>
-            {/* {moment(data.user?.created_at).format("DD-MM-yyyy HH:MM a")} */}
+            {/* {TimeFormat(data.user?.created_at)} */}
             Start Date: 26-12-23 | 4.30 AM
           </p>
           <p className={styles.tag}>
-            {/* {moment(data.user?.created_at).format("DD-MM-yyyy HH:MM a")} */}
+            {/* {TimeFormat(data.user?.created_at)} */}
             End Date: 29-12-23 | 15.30 PM
           </p>
         </div>
@@ -46,7 +46,7 @@ const ViewPublish = ({ data }: { data: any }) => {
           <span className={styles.tag}> Superadmin/Jackson</span>
         </p>
         <p className={styles.tag}>
-          {/* {moment(data.user?.created_at).format("DD-MM-yyyy HH:MM a")} */}
+          {/* {TimeFormat(data.user?.created_at)} */}
           01-08-2023 at 7.00 am
         </p>
       </div>

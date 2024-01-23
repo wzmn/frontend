@@ -17,6 +17,7 @@ import { ApptResultT } from "type/appointment";
 import * as companyStyles from "../company/styles.module.scss";
 import { TfiEmail } from "react-icons/tfi";
 import { IoCallOutline, IoLocationOutline } from "react-icons/io5";
+import TimeFormat from "services/time-format";
 
 const AppointmentDetails = (props: PageProps) => {
   const { location } = props;
@@ -84,9 +85,7 @@ const AppointmentDetails = (props: PageProps) => {
                   <span className={styles.bold}>
                     Scheduled Date & Time : &nbsp;{" "}
                   </span>
-                  {` ${moment(data?.assessment_scheduled_on).format(
-                    "DD/MM/yyyy hh:mm a"
-                  )}`}
+                  {` ${TimeFormat(data?.assessment_scheduled_on!)}`}
                 </p>
 
                 <Divider />
@@ -187,9 +186,7 @@ ${data?.job?.address?.state ? data?.job?.address?.state : ""} ${
                   </span>
 
                   <span className={styles.tag2}>
-                    {moment(data?.job?.customer?.user?.created_at).format(
-                      "DD/MM/yyyy hh:mm a"
-                    )}
+                    {TimeFormat(data?.job?.customer?.user?.created_at!)}
                   </span>
                 </p>
 

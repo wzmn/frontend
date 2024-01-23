@@ -205,7 +205,7 @@ const CreateReminder = (props: PageProps) => {
                       data={reminder}
                       asterisk
                       onChange={(e) => {
-                        const dueDate = moment(reminderTime)
+                        const dueDate = TimeFormat(reminderTime)
                           .subtract(e.value)
                           .toString();
 

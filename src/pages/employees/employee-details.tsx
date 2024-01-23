@@ -13,10 +13,11 @@ import { TfiEmail } from "react-icons/tfi";
 import * as styles from "styles/pages/common.module.scss";
 import * as companyStyles from "../company/styles.module.scss";
 import { PageProps } from "gatsby";
-import { EmployeeDataType, Result } from "type/employee";
+import { EmployeeDataType, EmpResultT } from "type/employee";
 import moment from "moment";
 import { EMPLOYEE_LISTING } from "constants/api";
 import { request } from "services/http-request";
+import TimeFormat from "services/time-format";
 
 const EmployeeDetails = (props: PageProps) => {
   const { location } = props;
@@ -30,7 +31,7 @@ const EmployeeDetails = (props: PageProps) => {
     },
   });
 
-  const [data, setData] = useState<Result>({});
+  const [data, setData] = useState<EmpResultT>({});
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -41,7 +42,7 @@ const EmployeeDetails = (props: PageProps) => {
 
   async function fetchData() {
     try {
-      const response = await request<Result>({
+      const response = await request<EmpResultT>({
         url: EMPLOYEE_LISTING + employeeId,
       });
       setData(() => response.data);
@@ -99,9 +100,7 @@ const EmployeeDetails = (props: PageProps) => {
                   </span>
                   {data.created_by} &nbsp;
                   <span className={styles.tag2}>
-                    {moment(data?.user?.created_at).format(
-                      "DD/MM/yyyy hh:mm a"
-                    )}
+                    {TimeFormat(data?.user?.created_at!)}
                   </span>
                 </p>
 

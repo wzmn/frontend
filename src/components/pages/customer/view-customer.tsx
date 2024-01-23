@@ -17,6 +17,7 @@ import { JobDataType } from "type/job";
 import { Link } from "gatsby";
 import Button from "components/button";
 import { AiOutlinePlus } from "react-icons/ai";
+import TimeFormat from "services/time-format";
 
 const ViewCustomer = ({ data }: { data: CustResultT }) => {
   const {
@@ -62,7 +63,7 @@ const ViewCustomer = ({ data }: { data: CustResultT }) => {
                   </span>
                 </p>
                 <p className={styles.tag}>
-                  {moment(data.user?.created_at).format("DD/MM/yyyy hh:mm a")}
+                  {TimeFormat(data.user?.created_at)}
                 </p>
               </div>
               <FaChevronDown
@@ -112,7 +113,9 @@ const ViewCustomer = ({ data }: { data: CustResultT }) => {
                     ${data?.address?.suburb ? data.address?.suburb : ""}
 
                     ${data?.address?.state ? data.address?.state : ""} ${
-                      data.address?.pincode ? data.address?.pincode : "No Data Available"
+                      data.address?.pincode
+                        ? data.address?.pincode
+                        : "No Data Available"
                     }`}
                   </span>
                 </div>
@@ -137,7 +140,8 @@ const ViewCustomer = ({ data }: { data: CustResultT }) => {
         </p>
 
         <p className={styles.additionalInfo}>
-          <span className={styles.title}>LGA: &nbsp;</span> {data.address?.lga ? data.address?.lga : 'No Data Available'}
+          <span className={styles.title}>LGA: &nbsp;</span>{" "}
+          {data.address?.lga ? data.address?.lga : "No Data Available"}
         </p>
       </div>
 
@@ -158,8 +162,7 @@ const ViewCustomer = ({ data }: { data: CustResultT }) => {
         }`}{" "}
         <br />
         <span className={styles.tag}>
-          Created on:{" "}
-          {moment(data.user?.created_at).format("DD/MM/yyyy hh:mm a")}
+          Created on: {TimeFormat(data.user?.created_at)}
         </span>
       </p>
 
@@ -202,10 +205,14 @@ const ViewCustomer = ({ data }: { data: CustResultT }) => {
                           "_blank"
                         );
                       }}
-                      className={styles.job + " mt-1 rounded-sm flex justify-between"}
+                      className={
+                        styles.job + " mt-1 rounded-sm flex justify-between"
+                      }
                     >
                       <p className="">
-                        <p className={styles.jobTitle}>{item.work_type?.title}</p>
+                        <p className={styles.jobTitle}>
+                          {item.work_type?.title}
+                        </p>
                         Job ID : <span className={styles.tag}>{item.id}</span>
                       </p>
                       <img src="/assets/icons/to-do-list.svg" />
@@ -253,11 +260,7 @@ const ViewCustomer = ({ data }: { data: CustResultT }) => {
                         </p>
                         <p className={styles.reminderId}>
                           Reminber By :{" "}
-                          <span>
-                            {moment(item.reminder_time).format(
-                              "DD-MM-yyyy hh:mm a"
-                            )}
-                          </span>
+                          <span>{TimeFormat(item.reminder_time)}</span>
                         </p>
                       </div>
                       <SlBell className={styles.reminderIcon} />

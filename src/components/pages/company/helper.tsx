@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import { request } from "services/http-request";
 import { COMPANY_LISTING } from "constants/api";
 import HLessMenu from "components/h-less-menu";
+import TimeFormat from "services/time-format";
 
 export function List({
   data,
@@ -78,8 +79,9 @@ export function List({
           <p className="">{data.company_name}</p>
           <span className="">
             {" "}
-            Created on: <br/>{moment(data.created_at).format("ddd DD")} at{" "}
-            {moment(data?.created_at).format("h:mm a")}
+            Created on: <br />
+            {TimeFormat(data.created_at!, "ddd DD")} at{" "}
+            {TimeFormat(data?.created_at!, "h:mm a")}
           </span>
         </div>
         <div className={styles.contactInfo}>

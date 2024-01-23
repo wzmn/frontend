@@ -18,6 +18,7 @@ import * as companyStyles from "../company/styles.module.scss";
 import { request } from "services/http-request";
 import { COMPANY_LISTING } from "constants/api";
 import { AxiosError } from "axios";
+import TimeFormat from "services/time-format";
 
 const CompanyDetails = (props: PageProps) => {
   const { control, setValue, handleSubmit } = useForm<any>({
@@ -116,7 +117,7 @@ const CompanyDetails = (props: PageProps) => {
                   </span>
                   {/* &nbsp; */}
                   <span className={styles.tag2}>
-                    {moment(data?.created_at).format("DD/MM/yyyy hh:mm a")}
+                    {TimeFormat(data?.created_at!)}
                   </span>
                 </p>
 

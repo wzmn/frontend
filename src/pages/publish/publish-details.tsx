@@ -15,7 +15,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { TfiEmail } from "react-icons/tfi";
 import { request } from "services/http-request";
 import * as styles from "styles/pages/common.module.scss";
-import { EmployeeDataType, Result } from "type/employee";
+import { EmployeeDataType, EmpResultT } from "type/employee";
 import * as additionalStyles from "styles/pages/additional.module.scss";
 import { LuClipboardList } from "react-icons/lu";
 import * as publishStyles from "components/pages/publish/styles.module.scss";
@@ -33,7 +33,7 @@ const PublishDetails = (props: PageProps) => {
   //     },
   //   });
 
-  const [data, setData] = useState<Result>({});
+  const [data, setData] = useState<EmpResultT>({});
 
   //   const { fields, append, remove } = useFieldArray({
   //     control,
@@ -44,7 +44,7 @@ const PublishDetails = (props: PageProps) => {
 
   async function fetchData() {
     try {
-      const response = await request<Result>({
+      const response = await request<EmpResultT>({
         url: CUSTOMER_LISTING + publishId,
       });
       setData(() => response.data);
@@ -77,11 +77,11 @@ const PublishDetails = (props: PageProps) => {
 
                 <div className="flex gap-7 mt-3 mb-6">
                   <p className={styles.tag}>
-                    {/* {moment(data.user?.created_at).format("DD-MM-yyyy HH:MM a")} */}
+                    {/* {TimeFormat(data.user?.created_at)} */}
                     Start Date: 26-12-23 | 4.30 AM
                   </p>
                   <p className={styles.tag}>
-                    {/* {moment(data.user?.created_at).format("DD-MM-yyyy HH:MM a")} */}
+                    {/* {TimeFormat(data.user?.created_at)} */}
                     End Date: 29-12-23 | 15.30 PM
                   </p>
                 </div>
@@ -92,9 +92,7 @@ const PublishDetails = (props: PageProps) => {
                   <span className={styles.bold}>Batch Created by: &nbsp; </span>
                   Superadmin/Jackson &nbsp;
                   <span className={styles.tag2}>
-                    {/* {moment(data?.user?.created_at).format(
-                      "DD-MM-yyyy HH:MM a"
-                    )} */}
+                    {/* {TimeFormat(data?.user?.created_at)} */}
                     01-08-2023 at 7.00 am
                   </span>
                 </p>
@@ -201,7 +199,7 @@ function List({
         </p>
         <span className="">
           {" "}
-          {/* Created on: {moment(data.user?.created_at).format("ddd, MM a")} */}
+          {/* Created on: {TimeFormat(data.user?.created_at,'ddd, MM a)} */}
           created on: Mon,3.40 am
         </span>
       </div>

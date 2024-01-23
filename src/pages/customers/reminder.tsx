@@ -13,6 +13,7 @@ import React from "react";
 import { GoPlus } from "react-icons/go";
 import { IoCallOutline, IoLocationOutline } from "react-icons/io5";
 import { TfiEmail } from "react-icons/tfi";
+import TimeFormat from "services/time-format";
 import * as styles from "styles/pages/common.module.scss";
 import { ReminderResultT, CustResultT } from "type/customer";
 
@@ -131,7 +132,7 @@ const Reminder = (props: PageProps) => {
                   </span>
                   Superadmin/Jackson &nbsp;
                   <span className={styles.tag2}>
-                    {moment(custData?.created_at).format("DD-MM-yyyy HH:MM a")}
+                    {TimeFormat(custData?.created_at)}
                   </span>
                 </p>
 
@@ -162,7 +163,8 @@ const Reminder = (props: PageProps) => {
                 <div className="flex items-center justify-between">
                   <div className="w-72">
                     <Input
-                      defaultValue={moment(reminderResp.reminder_time).format(
+                      defaultValue={TimeFormat(
+                        reminderResp.reminder_time,
                         "YYYY-MM-DD"
                       )}
                       type="date"

@@ -46,6 +46,7 @@ import { WorkTypeFilter } from "services/filters";
 import Badge from "components/badge";
 import CombineCombo from "components/combine-combo";
 import moment from "moment";
+import TimeFormat from "services/time-format";
 
 const selectionRangeInit = {
   startDate: undefined,
@@ -208,10 +209,10 @@ const Appintments = () => {
           company__id: id,
           ordering: sort,
           created_at__gte: selectionRange.startDate
-            ? moment(selectionRange.startDate).format("YYYY-MM-DDTHH:mm")
+            ? TimeFormat(selectionRange.startDate)
             : undefined,
           created_at__lte: selectionRange.endDate
-            ? moment(selectionRange.endDate).format("YYYY-MM-DDTHH:mm")
+            ? TimeFormat(selectionRange.endDate)
             : undefined,
           job__work_type__title__in: workType.toString(),
           custType,

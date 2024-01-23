@@ -10,6 +10,7 @@ import Radio from "components/radio";
 import { LuClipboardList } from "react-icons/lu";
 import { SlBell } from "react-icons/sl";
 import { CompanyExtraDataType } from "type/company";
+import TimeFormat from "services/time-format";
 
 const ViewCompany = ({ data }: { data: CompanyExtraDataType }) => {
   return (
@@ -24,9 +25,7 @@ const ViewCompany = ({ data }: { data: CompanyExtraDataType }) => {
                   <span className={styles.bold}>Company Name:</span>{" "}
                   <span className={styles.normal}>{data?.company_name}</span>
                 </p>
-                <p className={styles.tag}>
-                  {moment(data?.created_at).format("DD/MM/yyyy hh:mm a")}
-                </p>
+                <p className={styles.tag}>{TimeFormat(data?.created_at!)}</p>
               </div>
               <FaChevronDown
                 className={`${open ? "rotate-180 transform" : ""}`}
@@ -96,9 +95,7 @@ const ViewCompany = ({ data }: { data: CompanyExtraDataType }) => {
       <p className={`${styles.name} ${styles.createBy}`}>
         <span className={styles.bold}>Company Created by: &nbsp; </span>
         {data?.company_owner?.first_name} &nbsp;
-        <span className={styles.tag}>
-          {moment(data?.created_at).format("DD/MM/yyyy hh:mm a")}
-        </span>
+        <span className={styles.tag}>{TimeFormat(data?.created_at!)}</span>
       </p>
       <div className={styles.divider}>
         <Divider />

@@ -9,6 +9,7 @@ import { FaChevronDown } from "react-icons/fa";
 import { IoCallOutline, IoLocationOutline } from "react-icons/io5";
 import { RiQuestionAnswerLine } from "react-icons/ri";
 import { TfiEmail } from "react-icons/tfi";
+import TimeFormat from "services/time-format";
 import * as styles from "styles/pages/view.module.scss";
 import { ApptResultT } from "type/appointment";
 
@@ -48,9 +49,7 @@ const ViewAppt = ({
                     {data.job?.work_type?.title}
                   </span>
                 </p>
-                <p className={styles.tag}>
-                  {moment(data?.created_at).format("DD-MM-yyyy HH:MM a")}
-                </p>
+                <p className={styles.tag}>{TimeFormat(data?.created_at)}</p>
               </div>
               <FaChevronDown
                 className={`${open ? "rotate-180 transform" : ""}`}
@@ -147,16 +146,14 @@ const ViewAppt = ({
       <p className={`${styles.name} ${styles.createBy}`}>
         <span className={styles.bold}>Appt Created by: &nbsp; </span>
         {/* {data?.company_owner?.first_name} &nbsp; */}
-        <span className={styles.tag}>
-          {moment(data?.created_at).format("DD/MM/yyyy hh:mm a")}
-        </span>
+        <span className={styles.tag}>{TimeFormat(data?.created_at)}</span>
       </p>
       {data.appointment_status === "Confirmed" && (
         <p className={`${styles.name} ${styles.createBy}`}>
           <span className={styles.bold}>Appt Schedule Date: &nbsp; </span>
           {/* {data?.company_owner?.first_name} &nbsp; */}
           <span className={styles.tag}>
-            {moment(data?.assessment_scheduled_on).format("DD/MM/yyyy hh:mm a")}
+            {TimeFormat(data?.assessment_scheduled_on)}
           </span>
         </p>
       )}
@@ -167,9 +164,7 @@ const ViewAppt = ({
             <span className={styles.bold}>Appt Assessed Date: &nbsp; </span>
             {/* {data?.company_owner?.first_name} &nbsp; */}
             <span className={styles.tag}>
-              {moment(data?.assessment_completed_on).format(
-                "DD/MM/yyyy hh:mm a"
-              )}
+              {TimeFormat(data?.assessment_completed_on!)}
             </span>
           </p>
         )}
