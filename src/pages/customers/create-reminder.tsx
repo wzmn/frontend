@@ -8,6 +8,7 @@ import Label from "components/label";
 import SelectBox from "components/selectBox";
 import { REMINDER_LISTING } from "constants/api";
 import { PageProps, navigate } from "gatsby";
+import moment from "moment";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import companyIdFetcher from "services/company-id-fetcher";
@@ -204,7 +205,7 @@ const CreateReminder = (props: PageProps) => {
                       data={reminder}
                       asterisk
                       onChange={(e) => {
-                        const dueDate = TimeFormat(reminderTime)
+                        const dueDate = moment(reminderTime)
                           .subtract(e.value)
                           .toString();
 
