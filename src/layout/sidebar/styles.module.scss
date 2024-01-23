@@ -53,15 +53,16 @@ $shrink-sidebar-width: 5rem;
     justify-content: space-between;
     position: absolute;
     padding-bottom: 15px;
-    padding-top: 50px;
-    padding-left: 38px;
+    padding-left: 15px;
+    padding-right: 15px;
     box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1607843137);
     background-color: var(--color-base-grey);
 
     .sidebar-links {
       display: flex;
       flex-direction: column;
-      row-gap: 22px;
+      row-gap: min(2.5vh, 2rem);
+      $icon-size: min(3.5vh, 2rem);
       & > .link {
         display: flex;
         align-items: center;
@@ -74,13 +75,11 @@ $shrink-sidebar-width: 5rem;
         &::after {
           content: "";
           width: 8.438rem;
-          // height: 1px;
           border-bottom: 1px solid var(--color-cloudy_grey);
           transition: border 0.5s ease;
-          // background-color: var(--color-cloudy_grey);
           position: absolute;
           bottom: 0rem;
-          left: 44px;
+          left: calc($icon-size + 0.6rem);
         }
 
         &:hover::after, &.active::after{
@@ -89,10 +88,12 @@ $shrink-sidebar-width: 5rem;
         &.active::after {
           width: 9rem;
         }
-
+        &.active {
+          font-weight: 500;
+        }
         & > .img {
-          width: 2rem;
-          height: 2rem;
+          width: $icon-size;
+          height: $icon-size;
         }
 
         & > p {
@@ -125,12 +126,15 @@ $shrink-sidebar-width: 5rem;
 }
 .menu {
   flex: 1;
-  margin-top: 3.8rem;
+  // margin-top: 3.8rem;
   padding-left: 5px;
+  display: flex;
+  align-items: center;
 }
 
 .logo {
-  max-width: 199px;
+  max-width: 150px;
+  margin: 0 auto;
 }
 
 .user-details {
@@ -138,6 +142,7 @@ $shrink-sidebar-width: 5rem;
   display: flex;
   gap: 1rem;
   width: 12.063rem;
+  margin-top: 2rem;
 }
 
 .user-details > .user-img {

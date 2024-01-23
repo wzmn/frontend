@@ -172,7 +172,7 @@ const ViewCustomer = ({ data }: { data: CustResultT }) => {
         <p className={styles.bold}>Customer Status</p>
         <Radio
           label={data?.cust_status?.toUpperCase()?.replace("_", " ")}
-          checked={true}
+          defaultChecked={true}
         />
       </div>
 
@@ -197,6 +197,7 @@ const ViewCustomer = ({ data }: { data: CustResultT }) => {
                 jobResp?.results?.map((item, idx, array) => {
                   return (
                     <div
+                      key={item.id}
                       onClick={() => {
                         window.open(
                           `/jobs/job-details/?job=${item.id}`,

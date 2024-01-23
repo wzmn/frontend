@@ -3,14 +3,15 @@ import type { HeadFC, PageProps } from "gatsby";
 import Notifcations from "../components/notifications";
 import * as styles from '../styles/dashboard.module.scss';
 import { PiCurrencyCircleDollarThin } from "react-icons/pi";
-import Chart, { LinearScale, CategoryScale } from 'chart.js/auto';
+import ChartContext, { Chart, ChartConfiguration, ChartArea, LinearScale, CategoryScale } from 'chart.js/auto';
 import { FunnelController, TrapezoidElement } from 'chartjs-chart-funnel';
 import { IoPeopleOutline } from "react-icons/io5";
 import { IoMdPaperPlane } from "react-icons/io";
+// import { Chart, ChartConfiguration, ChartArea, ChartContext } from 'chart.js';
 
 
 
-function getGradientBlue(ctx, chartArea) {
+function getGradientBlue(ctx: CanvasRenderingContext2D, chartArea: ChartArea) {
   let width, height, gradient;
   const chartWidth = chartArea.right - chartArea.left;
   const chartHeight = chartArea.bottom - chartArea.top;
@@ -27,7 +28,7 @@ function getGradientBlue(ctx, chartArea) {
 
   return gradient;
 }
-function getGradientYellow(ctx, chartArea) {
+function getGradientYellow(ctx: CanvasRenderingContext2D, chartArea: ChartArea) {
   let width, height, gradient;
   const chartWidth = chartArea.right - chartArea.left;
   const chartHeight = chartArea.bottom - chartArea.top;
@@ -45,9 +46,11 @@ function getGradientYellow(ctx, chartArea) {
   return gradient;
 }
 
-const IndexPage: React.FC<PageProps> = ({ path }) => {
-  const bar = useRef(null);
-  const funnel = useRef(null);
+const IndexPage: React.FC<PageProps> = () => {
+  const bar = React.useRef<HTMLCanvasElement>(null);
+
+  const funnel = React.useRef<HTMLCanvasElement>(null);
+
 
   const data = {
     labels: ["Week 1", "Week 2", "week 3", "week 4"],
@@ -55,7 +58,7 @@ const IndexPage: React.FC<PageProps> = ({ path }) => {
       {
         label: 'Customers',
         data: [10, 20, 45, 77],
-        backgroundColor: function (context) {
+        backgroundColor: function (context: ChartContext<'bar', number[], string>) {
           const chart = context.chart;
           const { ctx, chartArea } = chart;
 
@@ -73,7 +76,7 @@ const IndexPage: React.FC<PageProps> = ({ path }) => {
         data: [53, 37, 100, 40],
         barThickness: 45,
         borderRadius: 5,
-        backgroundColor: function (context) {
+        backgroundColor: function (context: ChartContext<'bar', number[], string>) {
           const chart = context.chart;
           const { ctx, chartArea } = chart;
 
@@ -86,7 +89,7 @@ const IndexPage: React.FC<PageProps> = ({ path }) => {
       },
     ]
   };
-  const config = {
+  const config: ChartConfiguration<'bar', number[], string> = {
     type: 'bar',
     data: data,
     options: {
@@ -109,31 +112,33 @@ const IndexPage: React.FC<PageProps> = ({ path }) => {
   };
   Chart.register(FunnelController, TrapezoidElement, LinearScale, CategoryScale);
   useEffect(() => {
-    new Chart(bar.current?.getContext("2d"), config);
-    new Chart(funnel.current?.getContext("2d"), {
-      type: 'funnel',
-      data: {
-        labels: ['Step 1', 'Step 2', 'Step 3', 'Step 4'],
-        datasets: [
-          {
-            data: [200, 41, 10, 10, 22],
-            datalabels: {
-              formatter: (v) => v.toLocaleString(),
+    if (bar.current && funnel.current) {
+      new Chart(bar.current?.getContext("2d"), config);
+      new Chart(funnel.current?.getContext("2d"), {
+        type: 'funnel',
+        data: {
+          labels: ['Step 1', 'Step 2', 'Step 3', 'Step 4'],
+          datasets: [
+            {
+              data: [200, 41, 10, 10, 22],
+              datalabels: {
+                formatter: (v) => v.toLocaleString(),
+              },
             },
-          },
-        ],
-      },
-      options: {
-        indexAxis: 'y',
-      },
-    });
+          ],
+        },
+        options: {
+          indexAxis: 'y',
+        },
+      });
+    }
   }, [])
 
   return <main className="flex items-center justify-center grow">
     <div className="flex h-full w-full justify-between">
-      <div className="left grow px-4">
+      <div className="max-w-full grow px-4">
         <div className={`${styles.topbar} gap-x-8 mb-14`}>
-          <div className={styles.topbarLeft}>
+          <div className={`${styles.topbarLeft} flex-1 py-8 px-6 shadow-lg rounded-md flex flex-col justify-between`}>
             <div className="flex mb-4 justify-between">
               <div className="border-0 border-l-4 pl-2 text-white border-white text-sm font-light">
                 Total Sales <br />
@@ -156,7 +161,7 @@ const IndexPage: React.FC<PageProps> = ({ path }) => {
               </div>
             </div>
           </div>
-          <div className={styles.topbarCenter}>
+          <div className={`${styles.topbarCenter} flex-1 py-8 px-6 shadow-lg rounded-md flex flex-col justify-between`}>
             <div className="flex mb-4 justify-between">
               <div className="border-0 border-l-4 pl-2 text-white border-white text-sm font-light">
                 Total Customers <br />
@@ -179,7 +184,7 @@ const IndexPage: React.FC<PageProps> = ({ path }) => {
               </div>
             </div>
           </div>
-          <div className={styles.topbarRight}>
+          <div className={`${styles.topbarRight} flex-1 py-8 px-6 shadow-lg rounded-md flex flex-col justify-between`}>
             <div className="flex mb-4 justify-between">
               <div className="border-0 border-l-4 pl-2 text-white border-white text-sm font-light">
                 Total Published <br />
@@ -220,7 +225,7 @@ const IndexPage: React.FC<PageProps> = ({ path }) => {
           </div>
         </div>
       </div>
-      <div className="border p-4">
+      <div className="border p-4 hidden lg:flex flex-col">
         <h3 className="font-semibold mb-4">Active Employees</h3>
         <div className="flex justify-between text-center mb-4">
           <div className="max-w-[50px] text-sm">

@@ -34,6 +34,8 @@ const ViewAppt = ({
   showAssessment: boolean;
   showSchedule: boolean;
 }) => {
+
+  console.log(data)
   return (
     <div className={styles.view}>
       <Disclosure>
@@ -42,13 +44,15 @@ const ViewAppt = ({
           <>
             <Disclosure.Button className={styles.details}>
               <div className="">
-                <p className="">
-                  <span className={styles.bold}>Appt Name:</span>{" "}
-                  <span className={styles.normal}>
+                <div className="flex mb-2">
+                  <span className={styles.bold}>Appt. Name:</span>
+                  <span className={`${styles.normal} text-left`}>
                     {data.job?.work_type?.title}
                   </span>
-                </p>
-                <p className={styles.tag}>{TimeFormat(data?.created_at)}</p>
+                </div>
+                <div className={styles.tag}>
+                  Created on: {TimeFormat(data?.created_at)}
+                </div>
               </div>
               <FaChevronDown
                 className={`${open ? "rotate-180 transform" : ""}`}
@@ -56,7 +60,7 @@ const ViewAppt = ({
             </Disclosure.Button>
             <Disclosure.Panel className={styles.panel}>
               <div className={styles.contactInfo}>
-                <div className="">
+                <div className="mb-2">
                   <span className={styles.icon}>
                     <TfiEmail className={styles.icon} />
                   </span>
@@ -66,7 +70,7 @@ const ViewAppt = ({
                   </span>
                 </div>
 
-                <div className="">
+                <div className="mb-2">
                   <span className={styles.icon}>
                     <IoCallOutline className={styles.icon} />
                   </span>
@@ -76,7 +80,7 @@ const ViewAppt = ({
                   </span>
                 </div>
 
-                <div className="">
+                <div className="mb-2">
                   <span className={styles.icon}>
                     <IoLocationOutline className={styles.icon} />
                   </span>
@@ -145,7 +149,7 @@ const ViewAppt = ({
       <p className={`${styles.name} ${styles.createBy}`}>
         <span className={styles.bold}>Appt Created by: &nbsp; </span>
         {/* {data?.company_owner?.first_name} &nbsp; */}
-        <span className={styles.tag}>{TimeFormat(data?.created_at)}</span>
+        <span className={styles.tag}>{data?.job?.job_created_by?.first_name + " " + data?.job?.job_created_by?.last_name}</span>
       </p>
       {data.appointment_status === "Confirmed" && (
         <p className={`${styles.name} ${styles.createBy}`}>

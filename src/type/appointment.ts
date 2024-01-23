@@ -31,7 +31,7 @@ export interface Job {
   job_status: string;
   job_type: string;
   billing_address: number | null;
-  job_created_by: number | null;
+  job_created_by: User | null;
 }
 
 export interface Address {
