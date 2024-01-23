@@ -1,23 +1,19 @@
 import Divider from "components/divider";
-import DNDImage, { DNDImageFileType } from "components/dnd-image";
+import { DNDImageFileType } from "components/dnd-image";
 import FormSection from "components/form-sections";
 import FormWraper from "components/form-wrapper";
-import Input from "components/input";
 import Radio from "components/radio";
+import { EMPLOYEE_LISTING } from "constants/api";
+import { PageProps } from "gatsby";
 import React, { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import { ImAttachment } from "react-icons/im";
 import { IoCallOutline } from "react-icons/io5";
-import { RiDeleteBin6Line } from "react-icons/ri";
 import { TfiEmail } from "react-icons/tfi";
-import * as styles from "styles/pages/common.module.scss";
-import * as companyStyles from "../company/styles.module.scss";
-import { PageProps } from "gatsby";
-import { EmployeeDataType, EmpResultT } from "type/employee";
-import moment from "moment";
-import { EMPLOYEE_LISTING } from "constants/api";
 import { request } from "services/http-request";
 import TimeFormat from "services/time-format";
+import * as styles from "styles/pages/common.module.scss";
+import { EmpResultT } from "type/employee";
+import * as companyStyles from "../company/styles.module.scss";
 
 const EmployeeDetails = (props: PageProps) => {
   const { location } = props;

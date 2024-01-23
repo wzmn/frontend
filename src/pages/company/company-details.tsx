@@ -1,24 +1,21 @@
+import { AxiosError } from "axios";
 import Divider from "components/divider";
-import DNDImage, { DNDImageFileType } from "components/dnd-image";
+import { DNDImageFileType } from "components/dnd-image";
 import FormSection from "components/form-sections";
 import FormWraper from "components/form-wrapper";
-import Input from "components/input";
 import Radio from "components/radio";
+import { COMPANY_LISTING } from "constants/api";
 import { PageProps, navigate } from "gatsby";
-import moment from "moment";
 import React, { Fragment, useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import { ImAttachment } from "react-icons/im";
 import { IoCallOutline, IoLocationOutline } from "react-icons/io5";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { TfiEmail } from "react-icons/tfi";
-import * as styles from "styles/pages/common.module.scss";
-import { CompanyDataType, Result } from "type/company";
-import * as companyStyles from "../company/styles.module.scss";
 import { request } from "services/http-request";
-import { COMPANY_LISTING } from "constants/api";
-import { AxiosError } from "axios";
 import TimeFormat from "services/time-format";
+import * as styles from "styles/pages/common.module.scss";
+import { Result } from "type/company";
+import * as companyStyles from "../company/styles.module.scss";
 
 const CompanyDetails = (props: PageProps) => {
   const { control, setValue, handleSubmit } = useForm<any>({

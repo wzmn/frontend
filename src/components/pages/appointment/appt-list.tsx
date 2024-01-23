@@ -1,14 +1,13 @@
-import React from "react";
+import Checkbox from "components/checkbox";
 import { useRightBarContext } from "providers/right-bar-provider";
+import React from "react";
+import { ImSpinner10 } from "react-icons/im";
+import { IoCallOutline, IoEyeOutline } from "react-icons/io5";
+import { TfiEmail } from "react-icons/tfi";
+import TimeFormat from "services/time-format";
+import * as commonStyles from "styles/pages/common.module.scss";
 import { ApptResultT } from "type/appointment";
 import ViewAppt from "./view-appt";
-import { IoCallOutline, IoEyeOutline } from "react-icons/io5";
-import { ImSpinner10 } from "react-icons/im";
-import moment from "moment";
-import { TfiEmail } from "react-icons/tfi";
-import * as commonStyles from "styles/pages/common.module.scss";
-import Checkbox from "components/checkbox";
-import TimeFormat from "services/time-format";
 
 const assessmet = ["assessed", "audited", "snippit audited", "Reassessment"];
 const schedule = ["waiting", "rescheduled"];
@@ -81,7 +80,7 @@ export default function ApptList({
             created on:{" "}
             {TimeFormat(
               data?.job?.customer?.user?.created_at,
-              "ddd, DD"
+              "ddd DD"
             )} at {TimeFormat(data?.job?.customer?.user?.created_at, "hh:mm a")}
           </span>
         </div>

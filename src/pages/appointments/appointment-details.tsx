@@ -1,23 +1,18 @@
 import Divider from "components/divider";
-import DNDImage, { DNDImageFileType } from "components/dnd-image";
+import { DNDImageFileType } from "components/dnd-image";
 import FormSection from "components/form-sections";
 import FormWraper from "components/form-wrapper";
-import Input from "components/input";
 import Radio from "components/radio";
 import { APPOINTMENT_LISTING } from "constants/api";
 import { PageProps } from "gatsby";
-import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import { ImAttachment } from "react-icons/im";
-import { RiDeleteBin6Line } from "react-icons/ri";
+import { IoCallOutline, IoLocationOutline } from "react-icons/io5";
+import { TfiEmail } from "react-icons/tfi";
 import { request } from "services/http-request";
+import TimeFormat from "services/time-format";
 import * as styles from "styles/pages/common.module.scss";
 import { ApptResultT } from "type/appointment";
-import * as companyStyles from "../company/styles.module.scss";
-import { TfiEmail } from "react-icons/tfi";
-import { IoCallOutline, IoLocationOutline } from "react-icons/io5";
-import TimeFormat from "services/time-format";
 
 const AppointmentDetails = (props: PageProps) => {
   const { location } = props;

@@ -14,7 +14,6 @@ import Pagination from "components/pagination";
 import Placeholder from "components/skeleton";
 import { JOB_LISTING } from "constants/api";
 import { Link } from "gatsby-link";
-import moment from "moment";
 import React, {
   ChangeEvent,
   Fragment,

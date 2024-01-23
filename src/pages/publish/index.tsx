@@ -1,26 +1,14 @@
-import Button from "components/button";
 import { Drop } from "components/drop-zone";
 import { Drage } from "components/drop-zone/drage";
-import Input from "components/input";
 import Pagination from "components/pagination";
-import SelectBox from "components/selectBox";
 import { JOB_LISTING } from "constants/api";
-import { Link } from "gatsby-link";
-import moment from "moment";
-import { useRightBarContext } from "providers/right-bar-provider";
 import React, { Fragment, useEffect, useRef, useState } from "react";
-import { AiOutlinePlus } from "react-icons/ai";
-import { ImSpinner10 } from "react-icons/im";
-import { IoCallOutline, IoEyeOutline } from "react-icons/io5";
-import { TfiEmail } from "react-icons/tfi";
 import { request } from "services/http-request";
 import * as commonStyles from "styles/pages/common.module.scss";
-import * as styles from "styles/pages/common.module.scss";
 import { JobDataStateType, JobDataType, JobStatusRole } from "type/job";
 import cssVar from "utility/css-var";
 import { findMatchingId } from "utility/find-matching-id";
 // import View from "pages/jobs/view";
-import Placeholder from "components/skeleton";
 import { PublishList } from "components/pages/publish";
 
 type DropItemType = { id: number; section: JobStatusRole };

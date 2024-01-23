@@ -1,16 +1,13 @@
-import React from "react";
 import { Disclosure } from "@headlessui/react";
-import { FaChevronDown } from "react-icons/fa";
-import * as styles from "styles/pages/view.module.scss";
-import { TfiEmail } from "react-icons/tfi";
-import { IoCallOutline, IoLocationOutline } from "react-icons/io5";
 import Divider from "components/divider";
-import moment from "moment";
 import Radio from "components/radio";
-import { LuClipboardList } from "react-icons/lu";
-import { SlBell } from "react-icons/sl";
-import { CompanyExtraDataType } from "type/company";
+import React from "react";
+import { FaChevronDown } from "react-icons/fa";
+import { IoCallOutline, IoLocationOutline } from "react-icons/io5";
+import { TfiEmail } from "react-icons/tfi";
 import TimeFormat from "services/time-format";
+import * as styles from "styles/pages/view.module.scss";
+import { CompanyExtraDataType } from "type/company";
 
 const ViewCompany = ({ data }: { data: CompanyExtraDataType }) => {
   return (

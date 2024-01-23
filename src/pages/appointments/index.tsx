@@ -11,7 +11,7 @@ import { SortFilter } from "components/pages/common";
 import Pagination from "components/pagination";
 import Placeholder from "components/skeleton";
 import { APPOINTMENT_LISTING } from "constants/api";
-import { Link, navigate } from "gatsby";
+import { navigate } from "gatsby";
 import { useAppContext } from "providers/app-provider";
 import React, {
   ChangeEvent,
@@ -21,15 +21,18 @@ import React, {
   useState,
 } from "react";
 import { DateRangePicker } from "react-date-range";
-import { AiOutlinePlus } from "react-icons/ai";
 import { IoIosArrowDown } from "react-icons/io";
-import { TbCircuitSwitchClosed } from "react-icons/tb";
 import companyIdFetcher from "services/company-id-fetcher";
 import { request } from "services/http-request";
 import UserIdentifyer from "services/user-identifyer";
 import * as commonStyles from "styles/pages/common.module.scss";
 import * as styles from "styles/pages/common.module.scss";
 
+import Badge from "components/badge";
+import CombineCombo from "components/combine-combo";
+import Menu from "components/menu";
+import { WorkTypeFilter } from "services/filters";
+import TimeFormat from "services/time-format";
 import {
   AppointmentDataType,
   AppointmentExtraDataType,
@@ -41,12 +44,6 @@ import cssVar from "utility/css-var";
 import { debounce } from "utility/debounce";
 import { findMatchingId } from "utility/find-matching-id";
 import * as locStyles from "./styles.module.scss";
-import Menu from "components/menu";
-import { WorkTypeFilter } from "services/filters";
-import Badge from "components/badge";
-import CombineCombo from "components/combine-combo";
-import moment from "moment";
-import TimeFormat from "services/time-format";
 
 const selectionRangeInit = {
   startDate: undefined,

@@ -1,18 +1,17 @@
-import moment from "moment";
+import HLessMenu from "components/h-less-menu";
+import { COMPANY_LISTING } from "constants/api";
 import * as companyStyles from "pages/company/styles.module.scss";
 import { useRightBarContext } from "providers/right-bar-provider";
 import React from "react";
 import { ImSpinner10 } from "react-icons/im";
 import { IoCallOutline, IoEyeOutline } from "react-icons/io5";
 import { TfiEmail } from "react-icons/tfi";
+import { toast } from "react-toastify";
+import { request } from "services/http-request";
+import TimeFormat from "services/time-format";
 import * as styles from "styles/pages/common.module.scss";
 import { CompanyExtraDataType } from "type/company";
 import ViewCompany from "./view-company";
-import { toast } from "react-toastify";
-import { request } from "services/http-request";
-import { COMPANY_LISTING } from "constants/api";
-import HLessMenu from "components/h-less-menu";
-import TimeFormat from "services/time-format";
 
 export function List({
   data,

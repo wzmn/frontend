@@ -7,7 +7,6 @@ import Radio from "components/radio";
 import { APPOINTMENT_LISTING, JOB_LISTING } from "constants/api";
 import { Link, PageProps } from "gatsby";
 import useQuickFetch from "hook/quick-fetch";
-import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { AiOutlinePlus } from "react-icons/ai";
@@ -20,7 +19,7 @@ import TimeFormat from "services/time-format";
 import * as additionalStyles from "styles/pages/additional.module.scss";
 import * as styles from "styles/pages/common.module.scss";
 import { AppointmentDataType, ApptResultT } from "type/appointment";
-import { JobDataType, Result } from "type/job";
+import { Result } from "type/job";
 
 const JobDetails = (props: PageProps) => {
   const { location } = props;

@@ -1,17 +1,16 @@
+import HLessMenu from "components/h-less-menu";
+import { EMPLOYEE_LISTING } from "constants/api";
 import { useRightBarContext } from "providers/right-bar-provider";
 import React from "react";
+import { ImSpinner10 } from "react-icons/im";
+import { IoCallOutline, IoEyeOutline } from "react-icons/io5";
+import { TfiEmail } from "react-icons/tfi";
+import { toast } from "react-toastify";
+import { request } from "services/http-request";
+import TimeFormat from "services/time-format";
+import * as commonStyles from "styles/pages/common.module.scss";
 import { EmployeeDataStateType } from "type/employee";
 import ViewEmp from "./view-emp";
-import { IoCallOutline, IoEyeOutline } from "react-icons/io5";
-import { ImSpinner10 } from "react-icons/im";
-import moment from "moment";
-import { TfiEmail } from "react-icons/tfi";
-import * as commonStyles from "styles/pages/common.module.scss";
-import { request } from "services/http-request";
-import { toast } from "react-toastify";
-import { EMPLOYEE_LISTING } from "constants/api";
-import HLessMenu from "components/h-less-menu";
-import TimeFormat from "services/time-format";
 
 export function EmpList({
   data,

@@ -27,6 +27,7 @@ import { IoIosArrowDown } from "react-icons/io";
 import { toast } from "react-toastify";
 import companyIdFetcher from "services/company-id-fetcher";
 import { request } from "services/http-request";
+import TimeFormat from "services/time-format";
 import UserIdentifyer from "services/user-identifyer";
 import * as styles from "styles/pages/common.module.scss";
 import {
@@ -38,8 +39,6 @@ import cssVar from "utility/css-var";
 import { debounce } from "utility/debounce";
 import { findMatchingId } from "utility/find-matching-id";
 import * as locStyles from "./styles.module.scss";
-import moment from "moment";
-import TimeFormat from "services/time-format";
 
 type DropItemType = { id: number; section: CustomerStatus };
 

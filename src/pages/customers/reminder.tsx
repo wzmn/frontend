@@ -8,14 +8,13 @@ import TextButton from "components/text-button";
 import { CUSTOMER_LISTING, REMINDER_LISTING } from "constants/api";
 import { PageProps, navigate } from "gatsby";
 import useQuickFetch from "hook/quick-fetch";
-import moment from "moment";
 import React from "react";
 import { GoPlus } from "react-icons/go";
 import { IoCallOutline, IoLocationOutline } from "react-icons/io5";
 import { TfiEmail } from "react-icons/tfi";
 import TimeFormat from "services/time-format";
 import * as styles from "styles/pages/common.module.scss";
-import { ReminderResultT, CustResultT } from "type/customer";
+import { CustResultT, ReminderResultT } from "type/customer";
 
 const reminder = [
   { label: "15 mins Before" },

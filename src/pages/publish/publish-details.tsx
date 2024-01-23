@@ -1,25 +1,19 @@
+import Button from "components/button";
 import Divider from "components/divider";
-import DNDImage, { DNDImageFileType } from "components/dnd-image";
 import FormSection from "components/form-sections";
 import FormWraper from "components/form-wrapper";
-import Input from "components/input";
+import * as publishStyles from "components/pages/publish/styles.module.scss";
 import Radio from "components/radio";
 import { CUSTOMER_LISTING } from "constants/api";
 import { Link, PageProps } from "gatsby";
-import moment from "moment";
 import React, { useEffect, useState } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
-import { ImAttachment } from "react-icons/im";
 import { IoCallOutline } from "react-icons/io5";
-import { RiDeleteBin6Line } from "react-icons/ri";
+import { LuClipboardList } from "react-icons/lu";
 import { TfiEmail } from "react-icons/tfi";
 import { request } from "services/http-request";
-import * as styles from "styles/pages/common.module.scss";
-import { EmployeeDataType, EmpResultT } from "type/employee";
 import * as additionalStyles from "styles/pages/additional.module.scss";
-import { LuClipboardList } from "react-icons/lu";
-import * as publishStyles from "components/pages/publish/styles.module.scss";
-import Button from "components/button";
+import * as styles from "styles/pages/common.module.scss";
+import { EmpResultT } from "type/employee";
 
 const PublishDetails = (props: PageProps) => {
   const { location } = props;

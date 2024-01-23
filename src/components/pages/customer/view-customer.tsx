@@ -1,21 +1,19 @@
-import React, { useEffect } from "react";
 import { Disclosure } from "@headlessui/react";
-import { FaChevronDown } from "react-icons/fa";
-import * as styles from "styles/pages/view.module.scss";
-import { TfiEmail } from "react-icons/tfi";
-import { IoCallOutline, IoLocationOutline } from "react-icons/io5";
 import Divider from "components/divider";
-import moment from "moment";
 import Radio from "components/radio";
-import { LuClipboardList } from "react-icons/lu";
-import { SlBell } from "react-icons/sl";
-import { CustResultT, ReminderRespT } from "type/customer";
-import useQuickFetch from "hook/quick-fetch";
 import { JOB_LISTING, REMINDER_LISTING } from "constants/api";
+import useQuickFetch from "hook/quick-fetch";
+import React from "react";
+import { FaChevronDown } from "react-icons/fa";
+import { IoCallOutline, IoLocationOutline } from "react-icons/io5";
+import { SlBell } from "react-icons/sl";
+import { TfiEmail } from "react-icons/tfi";
+import * as styles from "styles/pages/view.module.scss";
+import { CustResultT, ReminderRespT } from "type/customer";
 import { JobDataType } from "type/job";
 
-import { Link } from "gatsby";
 import Button from "components/button";
+import { Link } from "gatsby";
 import { AiOutlinePlus } from "react-icons/ai";
 import TimeFormat from "services/time-format";
 

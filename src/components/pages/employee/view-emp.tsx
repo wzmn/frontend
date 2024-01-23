@@ -1,10 +1,9 @@
 import { Disclosure } from "@headlessui/react";
 import Divider from "components/divider";
 import Radio from "components/radio";
-import moment from "moment";
 import React from "react";
 import { FaChevronDown } from "react-icons/fa";
-import { IoCallOutline, IoLocationOutline } from "react-icons/io5";
+import { IoCallOutline } from "react-icons/io5";
 import { TfiEmail } from "react-icons/tfi";
 import TimeFormat from "services/time-format";
 import * as styles from "styles/pages/view.module.scss";

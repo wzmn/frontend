@@ -1,35 +1,21 @@
 import Divider from "components/divider";
-import DNDImage, { DNDImageFileType } from "components/dnd-image";
 import FormSection from "components/form-sections";
 import FormWraper from "components/form-wrapper";
-import Input from "components/input";
 import Radio from "components/radio";
-import { CUSTOMER_LISTING } from "constants/api";
+import { CUSTOMER_LISTING, JOB_LISTING, REMINDER_LISTING } from "constants/api";
 import { Link, PageProps } from "gatsby";
-import moment from "moment";
+import useQuickFetch from "hook/quick-fetch";
 import React, { useEffect, useState } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
-import { ImAttachment, ImSpinner10 } from "react-icons/im";
+import { AiOutlinePlus } from "react-icons/ai";
+import { ImSpinner10 } from "react-icons/im";
 import { IoCallOutline, IoLocationOutline } from "react-icons/io5";
-import { RiDeleteBin6Line } from "react-icons/ri";
 import { TfiEmail } from "react-icons/tfi";
 import { request } from "services/http-request";
-import * as styles from "styles/pages/common.module.scss";
-import { EmployeeDataType } from "type/employee";
-import * as additionalStyles from "styles/pages/additional.module.scss";
-import { LuClipboardList } from "react-icons/lu";
-import { JOB_LISTING, REMINDER_LISTING } from "constants/api";
-import useQuickFetch from "hook/quick-fetch";
-import Button from "components/button";
-import { AiOutlinePlus } from "react-icons/ai";
-import {
-  CustomerDataType,
-  ReminderRespT,
-  ReminderResultT,
-  CustResultT,
-} from "type/customer";
-import { JobDataType, Result as JobResultT } from "type/job";
 import TimeFormat from "services/time-format";
+import * as additionalStyles from "styles/pages/additional.module.scss";
+import * as styles from "styles/pages/common.module.scss";
+import { CustResultT, ReminderRespT, ReminderResultT } from "type/customer";
+import { JobDataType, Result as JobResultT } from "type/job";
 
 const CustomerDetails = (props: PageProps) => {
   const { location } = props;

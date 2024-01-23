@@ -1,13 +1,11 @@
-import React from "react";
-import { JobDataStateType } from "type/job";
-import * as commonStyles from "styles/pages/common.module.scss";
-import * as publishStyles from "./styles.module.scss";
-import { useRightBarContext } from "providers/right-bar-provider";
-import { IoCallOutline, IoEyeOutline } from "react-icons/io5";
-import { ImSpinner10 } from "react-icons/im";
-import moment from "moment";
-import { TfiEmail } from "react-icons/tfi";
 import Badge from "components/badge";
+import { useRightBarContext } from "providers/right-bar-provider";
+import React from "react";
+import { ImSpinner10 } from "react-icons/im";
+import { IoEyeOutline } from "react-icons/io5";
+import * as commonStyles from "styles/pages/common.module.scss";
+import { JobDataStateType } from "type/job";
+import * as publishStyles from "./styles.module.scss";
 import ViewPublish from "./view-publish";
 
 export function PublishList({

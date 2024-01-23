@@ -1,15 +1,13 @@
 import { Disclosure } from "@headlessui/react";
+import Button from "components/button";
+import Divider from "components/divider";
 import React from "react";
 import { FaChevronDown } from "react-icons/fa";
-import { LuClipboardList } from "react-icons/lu";
-import * as styles from "../../styles.module.scss";
-import * as commonStyles from "styles/pages/common.module.scss";
-import { ImSpinner10 } from "react-icons/im";
-import moment from "moment";
-import { TfiEmail } from "react-icons/tfi";
 import { IoCallOutline } from "react-icons/io5";
-import Divider from "components/divider";
-import Button from "components/button";
+import { LuClipboardList } from "react-icons/lu";
+import { TfiEmail } from "react-icons/tfi";
+import * as commonStyles from "styles/pages/common.module.scss";
+import * as styles from "../../styles.module.scss";
 
 const TransactionCard = () => {
   return (
