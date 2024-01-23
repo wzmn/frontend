@@ -71,7 +71,11 @@ const Schedule = ({ item, companyId, apptId }: Props) => {
       const response = await request({
         url: url,
         method: apptId ? "patch" : "post",
-        data: { ...data, ...exData },
+        data: {
+          ...data,
+          ...exData,
+          self_assessment: JSON.parse(selfAssessment),
+        },
       });
       MsgToast("Appt is created", "success");
       navigate(-1);
