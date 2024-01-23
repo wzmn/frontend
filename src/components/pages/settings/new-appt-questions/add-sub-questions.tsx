@@ -135,6 +135,8 @@ const AddSubQuestions = ({
               content: "",
               question_type: "text",
               options: [],
+              company,
+              work_type,
             });
             // addNewQ();
             // setViewModal((prev) => !prev);

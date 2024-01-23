@@ -149,7 +149,6 @@ function Options({
   return (
     <>
       <div className="flex gap-3">
-        {/* {JSON.stringify(option)} */}
         <div className="w-48 mt-1 ">
           <Checkbox
             disabled={true}

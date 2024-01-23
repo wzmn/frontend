@@ -44,6 +44,7 @@ import cssVar from "utility/css-var";
 import { debounce } from "utility/debounce";
 import { findMatchingId } from "utility/find-matching-id";
 import * as locStyles from "./styles.module.scss";
+import { CustTypeData } from ".././../constants";
 
 const selectionRangeInit = {
   startDate: undefined,
@@ -91,21 +92,6 @@ const data1 = [
   },
 ];
 
-const custTypeData = [
-  {
-    label: "All",
-    value: "",
-  },
-  {
-    label: "Residential",
-    value: "Residential",
-  },
-  {
-    label: "Business",
-    value: "Business",
-  },
-];
-
 const Appintments = () => {
   const {
     appointment: { status, statusData },
@@ -123,7 +109,7 @@ const Appintments = () => {
   });
   const [sort, setSort] = useState(sortType[0].value);
   const [snippitAudited, setSnippitAudited] = useState<string[]>([]);
-  const [custType, setCustType] = useState(custTypeData[0].value);
+  const [custType, setCustType] = useState(CustTypeData[0].value);
 
   const [pagination, setPagination] = useState({
     page: 1,
@@ -143,7 +129,7 @@ const Appintments = () => {
   function clearFilters() {
     setSelectionRange(() => selectionRangeInit);
     setWorkType(() => []);
-    setCustType(() => custTypeData[0].value);
+    setCustType(() => CustTypeData[0].value);
   }
 
   function getColumnColor(int: number) {
@@ -212,7 +198,7 @@ const Appintments = () => {
             ? TimeFormat(selectionRange.endDate)
             : undefined,
           job__work_type__title__in: workType.toString(),
-          custType,
+          customer__customer_type: custType,
           ...params,
         },
       });
@@ -393,7 +379,7 @@ const Appintments = () => {
 
               <Menu title="Customer Type" dropPosition={styles.menuPos}>
                 <SortFilter
-                  data={custTypeData}
+                  data={CustTypeData}
                   defaultChecked={custType}
                   setValue={(e) => {
                     setCustType(e);

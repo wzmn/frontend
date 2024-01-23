@@ -39,6 +39,7 @@ import cssVar from "utility/css-var";
 import { debounce } from "utility/debounce";
 import { findMatchingId } from "utility/find-matching-id";
 import * as locStyles from "./styles.module.scss";
+import { CustTypeData } from ".././../constants";
 
 type DropItemType = { id: number; section: CustomerStatus };
 
@@ -63,21 +64,6 @@ const sortType = [
   },
 ];
 
-const custTypeData = [
-  {
-    label: "All",
-    value: "",
-  },
-  {
-    label: "Residential",
-    value: "Residential",
-  },
-  {
-    label: "Business",
-    value: "Business",
-  },
-];
-
 const Customers = () => {
   const [data, setData] = useState<
     Record<CustomerStatus, CustomerDataExtraType[]>
@@ -95,7 +81,7 @@ const Customers = () => {
     JSON.parse(JSON.stringify(selectionRangeInit))
   );
   const [sort, setSort] = useState(sortType[0].value);
-  const [custType, setCustType] = useState(custTypeData[0].value);
+  const [custType, setCustType] = useState(CustTypeData[0].value);
 
   const [pagination, setPagination] = useState({
     page: 1,
@@ -121,7 +107,7 @@ const Customers = () => {
       created_at__lte: selectionRange.endDate
         ? TimeFormat(selectionRange.endDate)
         : undefined,
-      custType: custType,
+      customer_type: custType,
     },
     data,
     setData,
@@ -277,7 +263,7 @@ const Customers = () => {
 
   function clearFilters() {
     setSelectionRange(() => selectionRangeInit);
-    setCustType(() => custTypeData[0].value);
+    setCustType(() => CustTypeData[0].value);
   }
 
   useEffect(() => {
@@ -335,7 +321,7 @@ const Customers = () => {
 
               <Menu title="Customer Type" dropPosition={styles.menuPos}>
                 <SortFilter
-                  data={custTypeData}
+                  data={CustTypeData}
                   defaultChecked={custType}
                   setValue={(e) => {
                     setCustType(e);

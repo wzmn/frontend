@@ -1,27 +1,42 @@
 import Input from "components/input";
 import SelectBox from "components/selectBox";
 import TextButton from "components/text-button";
-import { SUB_Q_CONDITIONS } from "constants/api";
+import { APPT_Q, APPT_Q_OPT, SUB_Q_CONDITIONS } from "constants/api";
 import React, { useEffect, useState } from "react";
-import { UseFormRegister, useFieldArray, useForm } from "react-hook-form";
+import {
+  UseFieldArrayRemove,
+  UseFormRegister,
+  useFieldArray,
+  useForm,
+} from "react-hook-form";
 import { ImSpinner10 } from "react-icons/im";
 import { request } from "services/http-request";
 import { Option, SubQuestionRespT, WorkTypeQuestionT } from "type/global";
 import AddSubQuestions from "./add-sub-questions";
 import { questions } from "./helper";
 import * as styles from "./styles.module.scss";
+import { FaDumpster } from "react-icons/fa";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { RxCross2 } from "react-icons/rx";
+import MsgToast from "services/msg-toast";
 
 const Questions = ({
   data,
   appendInParentState,
   setLoading,
+  refetchData,
+  qIndex,
 }: {
   data: WorkTypeQuestionT;
   appendInParentState: React.Dispatch<
     React.SetStateAction<WorkTypeQuestionT[][]>
   >;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  refetchData: () => Promise<void>;
+  qIndex: number;
 }) => {
+  const [delLoading, setDelLoading] = useState(false);
+
   const { control, register, setValue, handleSubmit } = useForm<{
     options: Partial<Option>[];
     content: string;
@@ -39,7 +54,7 @@ const Questions = ({
     name: "options", // unique name for your Field Array
   });
 
-  async function fetchNestQ(qText: string) {
+  async function fetchNestQ(qText: string, refetch: boolean = false) {
     try {
       setLoading((prev) => !prev);
       const response = await request<SubQuestionRespT>({
@@ -50,11 +65,12 @@ const Questions = ({
         },
       });
       let qArr: WorkTypeQuestionT[] = [];
-      response.data?.results!?.length > 0 &&
+      if (response.data?.results!?.length > 0) {
         response.data?.results!?.map((nxtQList) => {
           qArr.push(...nxtQList.next_subquestions);
         });
-      appendInParentState((prev) => [...prev, qArr]);
+        appendInParentState((prev) => [...prev, qArr]);
+      }
     } catch (error) {
     } finally {
       setLoading((prev) => !prev);
@@ -65,13 +81,35 @@ const Questions = ({
     console.log(data);
   }
 
+  async function deteleQuestion(id: number) {
+    try {
+      setDelLoading((prev) => !prev);
+      const response = await request({
+        url: APPT_Q + id + "/",
+        method: "delete",
+      });
+      MsgToast("Deleted", "success");
+      appendInParentState((prev) => {
+        const list = [...prev];
+        list[prev.length - 1].splice(qIndex, 1);
+        console.log(list);
+        return list;
+      });
+      // await refetchData();
+    } catch (error) {
+      MsgToast("Try Again later", "error");
+    } finally {
+      setDelLoading((prev) => !prev);
+    }
+  }
+
   useEffect(() => {
     setValue("options", data.options);
   }, [JSON.stringify(data)]);
 
   return (
     <div>
-      <form onSubmit={handleSubmit(onSubmit)} className="">
+      <form onSubmit={handleSubmit(onSubmit)} className="relative">
         <div className="flex gap-3">
           <div className="w-80">
             <Input
@@ -80,7 +118,7 @@ const Questions = ({
               placeholder={data.content}
             />
           </div>
-          <div className="w-52">
+          <div className="w-52 relative">
             <SelectBox
               disabled={true}
               data={questions}
@@ -89,6 +127,16 @@ const Questions = ({
                 // setValue("question_type", e.value);
               }}
             />
+            {delLoading ? (
+              <ImSpinner10 className="absolute top-3 -right-10 animate-spin text-lg" />
+            ) : (
+              <RiDeleteBin6Line
+                className="absolute top-3 -right-10 text-rose-500 cursor-pointer text-lg"
+                onClick={() => {
+                  deteleQuestion(data.id);
+                }}
+              />
+            )}
           </div>
 
           {/* {checkforMultiChecker.includes(data.question_type) && (
@@ -115,6 +163,7 @@ const Questions = ({
                 register={register}
                 index={index}
                 hasSubQ={data.has_sub_question}
+                removeOpt={remove}
               />
             );
           })}
@@ -138,6 +187,7 @@ function Options({
   register,
   index,
   hasSubQ,
+  removeOpt,
 }: {
   option: Partial<Option>;
   fetchNestQ: (e: any) => Promise<void>;
@@ -151,19 +201,39 @@ function Options({
     question_type: string;
   }>;
   index: number;
+  removeOpt: UseFieldArrayRemove;
 }) {
   const [showAddQ, setShowAddQ] = useState(false);
+  const [delOpt, setDelOpt] = useState(false);
+
+  async function deteleQuestion(id: number) {
+    try {
+      setDelOpt((prev) => !prev);
+      const response = await request({
+        url: APPT_Q_OPT + id + "/",
+        method: "delete",
+      });
+      MsgToast("Deleted", "success");
+      removeOpt(index);
+    } catch (error) {
+      MsgToast("Try Again later", "error");
+    } finally {
+      setDelOpt((prev) => !prev);
+    }
+  }
 
   return (
     <>
-      <div className="flex gap-3">
+      <div className="flex gap-3 items-center">
         {/* {JSON.stringify(option)} */}
         <div className="w-48 mt-2 ">
-          <Input
-            disabled={true}
-            placeholder={option.option_text}
-            {...register(`options.${index}.option_text`)}
-          />
+          <div className="flex items-center gap-3">
+            <Input
+              disabled={true}
+              placeholder={option.option_text}
+              {...register(`options.${index}.option_text`)}
+            />
+          </div>
         </div>
         {hasSubQ && (
           <>
@@ -184,6 +254,17 @@ function Options({
               }}
             />
           </>
+        )}
+
+        {delOpt ? (
+          <ImSpinner10 className="absolute top-3 -right-10 animate-spin text-lg" />
+        ) : (
+          <RxCross2
+            className=" text-rose-500 cursor-pointer text-lg"
+            onClick={() => {
+              deteleQuestion(option.id!);
+            }}
+          />
         )}
       </div>
 
@@ -207,9 +288,11 @@ function Options({
 export function QuestionTabWrapper({
   qIndex,
   data,
+  reFetchData,
 }: {
   qIndex: number;
   data: Array<WorkTypeQuestionT[]>;
+  reFetchData: () => Promise<void>;
 }) {
   const [state, setState] = useState<Array<WorkTypeQuestionT[]>>(data);
   const [loading, setLoading] = useState(false);
@@ -224,7 +307,6 @@ export function QuestionTabWrapper({
 
   return (
     <>
-      {/* <pre>{JSON.stringify(state, null, 4)}</pre> */}
       <div className="mb-3 flex gap-2">
         {state.map((item, index) => {
           return (
@@ -254,6 +336,8 @@ export function QuestionTabWrapper({
                   setLoading={setLoading}
                   data={question}
                   appendInParentState={setState}
+                  refetchData={reFetchData}
+                  qIndex={index}
                 />
               </div>
             );

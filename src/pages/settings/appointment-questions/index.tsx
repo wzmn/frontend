@@ -182,7 +182,11 @@ const AppointmentQuestions = () => {
             >
               <FormWraper>
                 <>
-                  <QuestionTabWrapper qIndex={index} data={[[item]]} />
+                  <QuestionTabWrapper
+                    reFetchData={fetchWTQ}
+                    qIndex={index}
+                    data={[[item]]}
+                  />
                   {/* <Questions data={item} /> */}
                 </>
               </FormWraper>

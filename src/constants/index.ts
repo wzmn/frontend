@@ -559,3 +559,18 @@ export const States = [
   { value: "ACT", label: "Australian Capital Territory (ACT)" },
   { value: "NT", label: "Northern Territory (NT)" },
 ];
+
+export const CustTypeData = [
+  {
+    label: "All",
+    value: "",
+  },
+  {
+    label: "Residential",
+    value: "residential",
+  },
+  {
+    label: "Business",
+    value: "business",
+  },
+];

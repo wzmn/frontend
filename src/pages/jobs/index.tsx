@@ -35,6 +35,7 @@ import { JobDataStateType, JobDataType, JobStatusRole } from "type/job";
 import cssVar from "utility/css-var";
 import { debounce } from "utility/debounce";
 import { findMatchingId } from "utility/find-matching-id";
+import { CustTypeData } from ".././../constants";
 
 type DropItemType = { id: number; section: JobStatusRole };
 
@@ -74,21 +75,6 @@ const data1 = [
   },
 ];
 
-const custTypeData = [
-  {
-    label: "All",
-    value: "",
-  },
-  {
-    label: "Residential",
-    value: "Residential",
-  },
-  {
-    label: "Business",
-    value: "Business",
-  },
-];
-
 const Jobs = () => {
   const [data, setData] = useState<Record<JobStatusRole, JobDataStateType[]>>({
     waiting: [],
@@ -109,7 +95,7 @@ const Jobs = () => {
     totalRecords: 0,
   });
   const [sort, setSort] = useState(sortType[0].value);
-  const [custType, setCustType] = useState(custTypeData[0].value);
+  const [custType, setCustType] = useState(CustTypeData[0].value);
 
   const { btnCont, tableCont } = commonStyles;
 
@@ -129,7 +115,7 @@ const Jobs = () => {
   function clearFilters() {
     setSelectionRange(() => selectionRangeInit);
     setWorkType(() => []);
-    setCustType(() => custTypeData[0].value);
+    setCustType(() => CustTypeData[0].value);
   }
 
   function getColumnColor(int: number) {
@@ -161,7 +147,7 @@ const Jobs = () => {
           created_at__lte: selectionRange.endDate
             ? TimeFormat(selectionRange.endDate)
             : undefined,
-          custType: custType,
+          customer__customer_type: custType,
 
           ...params,
         },
@@ -346,7 +332,7 @@ const Jobs = () => {
 
             <Menu title="Customer Type" dropPosition={styles.menuPos}>
               <SortFilter
-                data={custTypeData}
+                data={CustTypeData}
                 defaultChecked={custType}
                 setValue={(e) => {
                   setCustType(e);
