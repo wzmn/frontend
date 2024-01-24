@@ -14,25 +14,14 @@ const PublishModal = () => {
       </div>
       <div className={locStyles.publishGrid}>
         <div className="">
-          <Label title="Start Date" />
+          <Label title="Start Date/Time" />
 
-          <Input type="date" />
+          <Input type="datetime-local" />
         </div>
         <div className="">
-          <Label title="End Date" />
+          <Label title="End Date/Time" />
 
-          <Input type="date" />
-        </div>
-        <div className="">
-          <Label title="Start Time" />
-
-          <Input type="time" />
-        </div>
-        <div className="">
-          <Label title="End Time" />
-          <label htmlFor="end_time">
-            <Input id="end_time" type="time" />
-          </label>
+          <Input type="datetime-local" />
         </div>
       </div>
     </div>

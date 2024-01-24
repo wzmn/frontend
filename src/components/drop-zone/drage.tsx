@@ -12,16 +12,19 @@ export type DragProps = {
 };
 
 export function Drage({ children, id, section, accept, loading }: DragProps) {
-  const [{ isDragging }, drag] = useDrag(() => ({
-    type: accept,
-    item: { id, section },
-    collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
+  const [{ isDragging }, drag] = useDrag(
+    () => ({
+      type: accept,
+      item: { id, section },
+      collect: (monitor) => ({
+        isDragging: !!monitor.isDragging(),
+      }),
+      // canDrag(monitor) {
+      //   return !!isEnabled;
+      // },
     }),
-    // canDrag(monitor) {
-    //   return !!isEnabled;
-    // },
-  }));
+    [section, accept]
+  );
 
   return (
     <div

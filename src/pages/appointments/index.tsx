@@ -10,7 +10,7 @@ import PublishModal from "components/pages/appointment/publish-modal";
 import { SortFilter } from "components/pages/common";
 import Pagination from "components/pagination";
 import Placeholder from "components/skeleton";
-import { APPOINTMENT_LISTING } from "constants/api";
+import { APPOINTMENT_LISTING, REQUEST_QUOTE } from "constants/api";
 import { navigate } from "gatsby";
 import { useAppContext } from "providers/app-provider";
 import React, {
@@ -45,6 +45,8 @@ import { debounce } from "utility/debounce";
 import { findMatchingId } from "utility/find-matching-id";
 import * as locStyles from "./styles.module.scss";
 import { CustTypeData } from ".././../constants";
+import { colAccepList } from "components/pages/appointment/helper";
+import MsgToast from "services/msg-toast";
 
 const selectionRangeInit = {
   startDate: undefined,
@@ -110,6 +112,7 @@ const Appintments = () => {
   const [sort, setSort] = useState(sortType[0].value);
   const [snippitAudited, setSnippitAudited] = useState<string[]>([]);
   const [custType, setCustType] = useState(CustTypeData[0].value);
+  const [quoteReqLoading, setQuoteReqLoading] = useState(false);
 
   const [pagination, setPagination] = useState({
     page: 1,
@@ -212,10 +215,10 @@ const Appintments = () => {
 
       response?.data?.results?.forEach((item) => {
         item?.appointment_status &&
-        filterData[item?.appointment_status! as AppointmentStatusType].push({
-          ...item,
-          status: false,
-        });
+          filterData[item?.appointment_status! as AppointmentStatusType].push({
+            ...item,
+            status: false,
+          });
       });
 
       setData(() => filterData);
@@ -270,6 +273,26 @@ const Appintments = () => {
   const handleSearch = debounce((e: ChangeEvent<HTMLInputElement>) => {
     fetchData({ search: e.target.value });
   });
+
+  async function requestQuote() {
+    try {
+      setQuoteReqLoading((prev) => !prev);
+      const res = await request({
+        url: REQUEST_QUOTE,
+        method: "post",
+        data: {
+          assessments: snippitAudited,
+          description: "Requested Quote",
+        },
+      });
+      MsgToast("Quote Send!", "success");
+      await fetchData();
+    } catch (error) {
+      MsgToast("Try Again Later", "error");
+    } finally {
+      setQuoteReqLoading((prev) => !prev);
+    }
+  }
 
   const handleScroll = (evt: any) => {
     console.log(evt.deltaY);
@@ -422,8 +445,10 @@ const Appintments = () => {
         {snippitAudited.length > 0 && (
           <div className={locStyles.publishBtn}>
             <Button
-              title="Publish"
-              onClick={() => setPublishMod((prev) => !prev)}
+              title="Request Quote"
+              isLoading={quoteReqLoading}
+              disabled={quoteReqLoading}
+              onClick={() => requestQuote()}
             />
           </div>
         )}
@@ -436,22 +461,19 @@ const Appintments = () => {
               <Drop
                 key={dropName}
                 titleRingColor={getColumnColor(index)}
-                accept={"all"}
+                accept={colAccepList[dropName] || []}
                 handleDrop={handleDrop}
                 section={dropName}
                 title={dropName.toLocaleUpperCase()}
               >
                 <>
-                  {/* {JSON.stringify(
-                    index > 0 ? Object.keys(data)[index - 1] : ""
-                  )} */}
                   {!loading ? (
                     data?.[dropName]?.map((dragItem) => {
                       return (
                         <Fragment key={dragItem.id}>
                           <Drage
                             key={dragItem.id} //you can`t use index from map id should be unique
-                            accept={"all"}
+                            accept={dropName}
                             section={dropName}
                             id={dragItem.id as number}
                             loading={dragItem.status}
@@ -528,11 +550,12 @@ const Appintments = () => {
 
       <Modal
         options={{
-          title: "Publish",
+          title: "Request Quote",
           toggle: [publishMod, setPublishMod],
           buttons: [
             {
-              title: "Publish",
+              type: "info",
+              title: "Send",
               action: () => console.log("hi"),
             },
           ],

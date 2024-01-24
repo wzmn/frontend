@@ -32,3 +32,5 @@ export const DOCUMENTS_ANS = "/appointments/documents/";
 export const CHANGE_EMAIL = "/users/management/";
 // Reminder
 export const REMINDER_LISTING = "/employee/tasks/";
+//Quote
+export const REQUEST_QUOTE = "/quote/request/";

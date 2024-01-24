@@ -26,7 +26,7 @@ const dataList = [
 
 const Publish = () => {
   const [data, setData] = useState<Record<any, any[]>>({
-    "quote requested": [{ id: 1, status: false }],
+    "quote requested": [],
     "quote received": [],
     "quote accepted": [],
     "installation done": [],
