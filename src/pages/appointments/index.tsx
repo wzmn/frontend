@@ -281,7 +281,7 @@ const Appintments = () => {
         url: REQUEST_QUOTE,
         method: "post",
         data: {
-          assessments: snippitAudited,
+          assessments_id: snippitAudited,
           description: "Requested Quote",
         },
       });

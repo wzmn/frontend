@@ -7,13 +7,22 @@ import * as commonStyles from "styles/pages/common.module.scss";
 import { JobDataStateType } from "type/job";
 import * as publishStyles from "./styles.module.scss";
 import ViewPublish from "./view-publish";
+import { ApptResultT } from "type/appointment";
+import TimeFormat from "services/time-format";
+import { QuoteStatusT } from "type/quotes";
 
 export function PublishList({
   data,
   loading,
+  acceptedDate,
+  quoteCount,
+  quoteStatus,
 }: {
-  data: JobDataStateType;
+  data: ApptResultT;
   loading: boolean;
+  acceptedDate: string;
+  quoteCount: number;
+  quoteStatus: QuoteStatusT;
 }) {
   const { card, cardInfo, contactInfo, icon, contact } = commonStyles;
   const { open, setElement, toggle } = useRightBarContext();
@@ -40,29 +49,44 @@ export function PublishList({
         <div className="absolute right-3 top-1">
           <ImSpinner10 className="animate-spin text-xs" />
         </div>
-        <p className={publishStyles.listHeader}>HWS ASSESSMENT</p>
+        <p className={publishStyles.listHeader}>{data.job.work_type.title}</p>
 
         <p className={`${publishStyles.dates} mt1`}>
-          Start Date: 26-12-23 | 4.30 AM
+          Accepted: {TimeFormat(acceptedDate)}
         </p>
         <p className={`${publishStyles.dates} mt1`}>
-          Start Date: 26-12-23 | 4.30 AM
+          Created By:{" "}
+          {`${data.job.job_created_by?.first_name} ${data.job.job_created_by?.last_name}`}
         </p>
 
         <p className={publishStyles.state}>
           STATE: <span>VIC</span>
         </p>
-        <p className={`${publishStyles.state} mt-1`}>
-          BASE PRICE:{" "}
-          <span>
-            <Badge
-              label="$1200"
-              className={`${publishStyles.badge} ${publishStyles.priceBadge}`}
-            />
-          </span>
-        </p>
+        {quoteStatus === "quote accepted" && (
+          <p className={`${publishStyles.state} mt-1`}>
+            Paid Quote::{" "}
+            <span>
+              <Badge
+                label="$1200"
+                className={`${publishStyles.badge} ${publishStyles.priceBadge}`}
+              />
+            </span>
+          </p>
+        )}
 
-        <div className="mt-2">
+        {quoteStatus === "quote accepted" && (
+          <p className={`${publishStyles.state} mt-1`}>
+            Payment Status::{" "}
+            <span>
+              <Badge
+                label="Successful"
+                className={`${publishStyles.badge} ${publishStyles.bidBadge}`}
+              />
+            </span>
+          </p>
+        )}
+
+        {/* <div className="mt-2">
           <Badge
             label="APPTS:03"
             className={`${publishStyles.badge} ${publishStyles.apptBadge} mr-2`}
@@ -72,7 +96,7 @@ export function PublishList({
             label="BIDS:03"
             className={`${publishStyles.badge} ${publishStyles.bidBadge}`}
           />
-        </div>
+        </div> */}
       </div>
     </div>
   );

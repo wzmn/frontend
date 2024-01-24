@@ -9,13 +9,22 @@ export type DragProps = {
   isEnabled?: boolean;
   loading: boolean;
   children: JSX.Element;
+  canDrag?: boolean;
 };
 
-export function Drage({ children, id, section, accept, loading }: DragProps) {
+export function Drage({
+  children,
+  id,
+  section,
+  accept,
+  loading,
+  canDrag = true,
+}: DragProps) {
   const [{ isDragging }, drag] = useDrag(
     () => ({
       type: accept,
       item: { id, section },
+      canDrag: canDrag,
       collect: (monitor) => ({
         isDragging: !!monitor.isDragging(),
       }),
