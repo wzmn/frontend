@@ -38,7 +38,7 @@ const ViewJob = ({ data }: { data: JobResultT }) => {
           <>
             <Disclosure.Button className={styles.details}>
               <div className="">
-                <p className="">
+                <p className="text-left">
                   <span className={styles.bold}>Customer Name:</span>{" "}
                   <span className={styles.normal}>
                     {data?.customer?.user?.first_name +

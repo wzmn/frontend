@@ -9,6 +9,7 @@ import Radio from "components/radio";
 import { APPOINTMENT_LISTING } from "constants/api";
 import { navigate } from "gatsby";
 import { useAppContext } from "providers/app-provider";
+import { useAuthContext } from "providers/auth-provider";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
@@ -18,6 +19,7 @@ import {
 import employeeList from "services/employee-list";
 import { request } from "services/http-request";
 import MsgToast from "services/msg-toast";
+import UserIdentifyer from "services/user-identifyer";
 import * as styles from "styles/pages/common.module.scss";
 import { EmpResultT } from "type/employee";
 import { Result } from "type/job";
@@ -47,6 +49,10 @@ const Schedule = ({ item, companyId, apptId }: Props) => {
   const {
     appointment: { status, statusData },
   } = useAppContext();
+
+  const { userAuth } = useAuthContext();
+
+  const userRole = UserIdentifyer();
 
   async function onSubmit(data: CreateApptSchemaT) {
     try {
@@ -102,6 +108,9 @@ const Schedule = ({ item, companyId, apptId }: Props) => {
 
   useEffect(() => {
     handleEmployeeList();
+    if (userRole === "agent") {
+      setValue("assessment_assigned_to_id", userAuth.user_id);
+    }
   }, []);
 
   return (
@@ -152,24 +161,25 @@ const Schedule = ({ item, companyId, apptId }: Props) => {
                     />
                   </div>
 
-                  {JSON.parse(selfAssessment.toString()) === false && (
-                    <div className="w-64 ">
-                      <Label title="Assign To" />
-                      <ComboBox<EmpResultT>
-                        data={empListData}
-                        handleSelect={(e) => {
-                          setValue(
-                            "assessment_assigned_to_id",
-                            Number(e?.user?.id)
-                          );
-                        }}
-                        onChange={debounce(handleEmployeeList)}
-                      />
-                      <p className={styles.error + " text-xs"}>
-                        {errors.assessment_assigned_to_id?.message as string}
-                      </p>
-                    </div>
-                  )}
+                  {JSON.parse(selfAssessment.toString()) === false &&
+                    userRole !== "agent" && (
+                      <div className="w-64 ">
+                        <Label title="Assign To" />
+                        <ComboBox<EmpResultT>
+                          data={empListData}
+                          handleSelect={(e) => {
+                            setValue(
+                              "assessment_assigned_to_id",
+                              Number(e?.user?.id)
+                            );
+                          }}
+                          onChange={debounce(handleEmployeeList)}
+                        />
+                        <p className={styles.error + " text-xs"}>
+                          {errors.assessment_assigned_to_id?.message as string}
+                        </p>
+                      </div>
+                    )}
                   {/* <p className="font-bold">TO</p>
                 <div className="w-72">
                   <Input

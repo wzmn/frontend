@@ -19,7 +19,7 @@ export function EmpList({
   data: EmployeeDataStateType;
   loading: boolean;
 }) {
-  const { card, cardInfo, contactInfo, icon, contact } = commonStyles;
+  const { card, cardInfo, contactInfo, icon, contact, header } = commonStyles;
   const { open, setElement, toggle } = useRightBarContext();
 
   async function deleteEmp() {
@@ -62,6 +62,10 @@ export function EmpList({
       <div className={card}>
         <div className="absolute right-3 top-1">
           <ImSpinner10 className="animate-spin" />
+        </div>
+        <div className={`${header}`}>
+          <span className="">Emp ID </span>
+          <span>{data.id}</span>
         </div>
         <div className={cardInfo}>
           <p className="title">{data.user?.first_name}</p>

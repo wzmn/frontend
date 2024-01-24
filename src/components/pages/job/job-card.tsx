@@ -19,7 +19,7 @@ export default function JobList({
   data: JobDataStateType;
   loading: boolean;
 }) {
-  const { card, cardInfo, contactInfo, icon, contact } = commonStyles;
+  const { card, cardInfo, contactInfo, icon, contact, header } = commonStyles;
   const { open, setElement, toggle } = useRightBarContext();
 
   async function deleteJob() {
@@ -62,6 +62,10 @@ export default function JobList({
       <div className={card}>
         <div className="absolute right-3 top-1">
           <ImSpinner10 className="animate-spin" />
+        </div>
+        <div className={`${header}`}>
+          <span className="">Job ID </span>
+          <span>{data.id}</span>
         </div>
         <div className={cardInfo}>
           <p className="title">{data?.customer?.user?.first_name}</p>

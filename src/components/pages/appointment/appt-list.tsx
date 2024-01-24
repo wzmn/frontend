@@ -22,7 +22,7 @@ export default function ApptList({
   snippitAuditedCheckboxHandler: (val: string) => void;
   snippitAudited: string[];
 }) {
-  const { card, cardInfo, contactInfo, icon, contact } = commonStyles;
+  const { card, cardInfo, contactInfo, icon, contact, header } = commonStyles;
   const { open, setElement, toggle } = useRightBarContext();
 
   return (
@@ -73,6 +73,11 @@ export default function ApptList({
             />
           </div>
         )}
+
+        <div className={`${header}`}>
+          <span className="">Appt No. </span>
+          <span>{data.id}</span>
+        </div>
         <div className={cardInfo}>
           <p className="title">{data?.job?.customer?.user?.first_name}</p>
           <span className="">

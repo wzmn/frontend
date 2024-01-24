@@ -71,7 +71,7 @@ export function List({
           <ImSpinner10 className="animate-spin" />
         </div>
         <div className={`${styles.header}`}>
-          <span className="">ABN No. </span>
+          <span className="">ID </span>
           <span>{data.id}</span>
         </div>
         <div className={styles.cardInfo}>

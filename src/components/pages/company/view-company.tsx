@@ -18,7 +18,7 @@ const ViewCompany = ({ data }: { data: CompanyExtraDataType }) => {
           <>
             <Disclosure.Button className={styles.details}>
               <div className="">
-                <p className="">
+                <p className="text-left">
                   <span className={styles.bold}>Company Name:</span>{" "}
                   <span className={styles.normal}>{data?.company_name}</span>
                 </p>

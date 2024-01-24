@@ -10,6 +10,8 @@ import cssVar from "utility/css-var";
 import { findMatchingId } from "utility/find-matching-id";
 // import View from "pages/jobs/view";
 import { PublishList } from "components/pages/publish";
+import * as styles from "styles/pages/common.module.scss";
+import Placeholder from "components/skeleton";
 
 type DropItemType = { id: number; section: JobStatusRole };
 
@@ -23,10 +25,11 @@ const dataList = [
 ];
 
 const Publish = () => {
-  const [data, setData] = useState<Record<JobStatusRole, JobDataStateType[]>>({
-    waiting: [],
-    open: [],
-    close: [],
+  const [data, setData] = useState<Record<any, any[]>>({
+    "quote requested": [{ id: 1, status: false }],
+    "quote received": [],
+    "quote accepted": [],
+    "installation done": [],
   });
 
   const [loading, setLoading] = useState(false);
@@ -130,7 +133,7 @@ const Publish = () => {
 
   async function handleDrop(
     item: DropItemType,
-    section: JobStatusRole,
+    section: any,
     make: boolean = true
   ) {
     console.log(item, section);
@@ -188,86 +191,48 @@ const Publish = () => {
   }, [table]);
 
   useEffect(() => {
-    fetchData();
+    // fetchData();
   }, [pagination.page, pagination.limit]);
 
   return (
     <>
       {/* <p className={styles.title}>Settings/EFT Orders</p> */}
 
-      <div className={`${tableCont} drop-container`} ref={table}>
-        {/* {(Object.keys(data) as JobStatusRole[]).map((dropName, index) => {
-          console.log(dropName);
-          return ( */}
-        <Drop
-          // key={dropName}
-          titleRingColor={getColumnColor(1)}
-          accept="job"
-          handleDrop={handleDrop}
-          section={"up"}
-          title={"up".toLocaleUpperCase()}
-        >
-          <>
-            {/* {!loading ? ( */}
-            {/* data[dropName].map((dragItem) => { */}
-            {/* return ( */}
-            <Fragment key={"dragItem.id"}>
-              <Drage
-                key={"dragItem.id"} //you can`t use index from map id should be unique
-                accept={"job"}
-                section={"up"}
-                id={1}
-                loading={false}
-              >
-                <>
-                  <PublishList loading={false} data={{} as any} />
-                </>
-              </Drage>
-            </Fragment>
-            {/* ); */}
-            {/* }) */}
-            {/* ) : (
-                  // For skeleton
+      <div className={`${styles.tableCont} drop-container`} ref={table}>
+        {(Object.keys(data) as any[]).map((dropName, index) => {
+          return (
+            <Drop
+              key={dropName}
+              titleRingColor={getColumnColor(index)}
+              accept="company"
+              handleDrop={handleDrop}
+              section={dropName}
+              title={dropName?.toLocaleUpperCase()?.replace("_", " ")}
+            >
+              <>
+                {!loading ? (
+                  data[dropName].map((dragItem: any, index: number) => {
+                    return (
+                      <Fragment key={dragItem.id}>
+                        <Drage
+                          key={dragItem.id} //you can`t use index from map id should be unique
+                          accept={"company"}
+                          section={dropName}
+                          id={dragItem.id as number}
+                          loading={dragItem.status}
+                        >
+                          <PublishList data={{} as any} loading={false} />
+                        </Drage>
+                      </Fragment>
+                    );
+                  })
+                ) : (
                   <Placeholder />
-                )} */}
-          </>
-        </Drop>
-
-        <Drop
-          // key={dropName}
-          titleRingColor={getColumnColor(5)}
-          accept="job"
-          handleDrop={handleDrop}
-          section={"down"}
-          title={"down".toLocaleUpperCase()}
-        >
-          <>
-            {/* {!loading ? ( */}
-            {/* data[dropName].map((dragItem) => { */}
-            {/* return ( */}
-            <Fragment key={"dragItem.id"}>
-              <Drage
-                key={"dragItem.id"} //you can`t use index from map id should be unique
-                accept={"job"}
-                section={"down"}
-                id={1}
-                loading={false}
-              >
-                <>
-                  <PublishList loading={false} data={{} as any} />
-                </>
-              </Drage>
-            </Fragment>
-            {/* ); */}
-            {/* }) */}
-            {/* ) : (
-                  // For skeleton
-                  <Placeholder />
-                )} */}
-          </>
-        </Drop>
-        {/* );
-        })} */}
+                )}
+              </>
+            </Drop>
+          );
+        })}
       </div>
 
       <Pagination

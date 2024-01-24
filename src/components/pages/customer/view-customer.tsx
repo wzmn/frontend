@@ -54,7 +54,7 @@ const ViewCustomer = ({ data }: { data: CustResultT }) => {
           <>
             <Disclosure.Button className={styles.details}>
               <div className="">
-                <p className="mb-1">
+                <p className="mb-1 text-left">
                   <span className={styles.bold}>Customer Name:</span>{" "}
                   <span className={styles.normal}>
                     {data?.user?.first_name}&nbsp;{data?.user?.last_name}

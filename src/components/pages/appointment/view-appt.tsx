@@ -34,8 +34,7 @@ const ViewAppt = ({
   showAssessment: boolean;
   showSchedule: boolean;
 }) => {
-
-  console.log(data)
+  console.log(data);
   return (
     <div className={styles.view}>
       <Disclosure>
@@ -149,7 +148,11 @@ const ViewAppt = ({
       <p className={`${styles.name} ${styles.createBy}`}>
         <span className={styles.bold}>Appt Created by: &nbsp; </span>
         {/* {data?.company_owner?.first_name} &nbsp; */}
-        <span className={styles.tag}>{data?.job?.job_created_by?.first_name + " " + data?.job?.job_created_by?.last_name}</span>
+        <span className={styles.tag}>
+          {data?.job?.job_created_by?.first_name +
+            " " +
+            data?.job?.job_created_by?.last_name}
+        </span>
       </p>
       {data.appointment_status === "Confirmed" && (
         <p className={`${styles.name} ${styles.createBy}`}>

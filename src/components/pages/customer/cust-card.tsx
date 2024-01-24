@@ -81,6 +81,10 @@ export default function CustList({
         <div className="absolute right-3 top-1">
           <ImSpinner10 className="animate-spin" />
         </div>
+        <div className={`${styles.header}`}>
+          <span className="">ID </span>
+          <span>{data.id}</span>
+        </div>
         <div className={styles.cardInfo}>
           <p className="title">{data.user?.first_name}</p>
           <span className="">
