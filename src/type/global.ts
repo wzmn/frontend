@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export type ComplianceRespT = PaginationType<ComplianceResultT[]>;
 
 export interface ComplianceResultT {
@@ -56,6 +58,7 @@ export type PrimaryAddressFieldsT = {
 export type WorkTypeRespT = PaginationType<WorkTypeT[]>;
 
 export interface WorkTypeT {
+  category: ReactNode;
   id: number;
   ref_id: null | string;
   created_at: Date;
