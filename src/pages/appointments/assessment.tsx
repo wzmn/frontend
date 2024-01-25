@@ -8,7 +8,7 @@ import {
   DOCUMENTS_ANS,
   QUESTIONS_ANS,
 } from "constants/api";
-import { PageProps, navigate } from "gatsby";
+import { Link, PageProps, navigate } from "gatsby";
 import { useAppContext } from "providers/app-provider";
 import React, { useEffect, useState } from "react";
 import { request } from "services/http-request";
@@ -22,6 +22,7 @@ import {
   QAnsResultT,
 } from "type/global";
 import * as apptStyle from "./styles.module.scss";
+import { ApptResultT } from "type/appointment";
 
 type LocState = {
   wtId: string;
@@ -42,6 +43,7 @@ const Assessment = (props: PageProps) => {
   const [data, setData] = useState<QAnsResultT[]>();
   const [docData, setDocData] = useState<DocumentsAnsT[]>();
   const [loading, setLoading] = useState(false);
+  const [apptDetails, setApptDetails] = useState<ApptResultT>();
 
   const { location } = props;
   // const params = new URLSearchParams(location.search);
@@ -51,6 +53,15 @@ const Assessment = (props: PageProps) => {
   const {
     appointment: { status, statusData },
   } = useAppContext();
+
+  async function fetchAppt() {
+    try {
+      const resp = await request<ApptResultT>({
+        url: APPOINTMENT_LISTING + apptId + "/",
+      });
+      setApptDetails(() => resp.data);
+    } catch (error) {}
+  }
 
   async function fetchQuestionsAns() {
     try {
@@ -110,6 +121,7 @@ const Assessment = (props: PageProps) => {
   useEffect(() => {
     fetchQuestionsAns();
     fetchDocumentsAns();
+    fetchAppt();
   }, []);
 
   return (
@@ -137,29 +149,35 @@ const Assessment = (props: PageProps) => {
           </FormWraper>
         </FormSection>
 
-        {/* <FormSection title="Product">
+        <FormSection title="Product">
           <FormWraper>
             <div className="grid grid-cols-2 gap-4 ">
-              <div className="relative w-96 h-60 rounded-xl border border-1 ">
-                <div className="w-44 h-44 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-                  <img
-                    className="w-full h-full object-contain"
-                    src="https://media.istockphoto.com/id/529249803/photo/background-from-leaves-of-bright-green-color.jpg?s=612x612&w=0&k=20&c=K1kzf35nuyNzBVbtfF81jdWqem7W_nqYZJfrAJCAm5o="
-                    alt=""
-                  />
-                </div>
-                <p className="absolute top-0 text-sm left-4 top-1">
-                  Product Name
-                </p>
-                <div className="absolute bottom-0 left-4">
-                  <p className="text-sm">Is Energy Safe</p>
-                  <p className="text-sm">Consumption of Less Energy </p>
-                  <p className="font-bold">$200</p>
-                </div>
-              </div>
+              {apptDetails?.products.map((item) => {
+                return (
+                  <Link to="/settings/view-product">
+                    <div className="relative w-96 h-60 rounded-xl border border-1 ">
+                      <div className="w-44 h-44 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                        <img
+                          className="w-full h-full object-contain"
+                          src={item.product.primary_image.file}
+                          alt=""
+                        />
+                      </div>
+                      <p className="absolute truncate  text-ellipsis overflow-hidden text-sm left-4 top-1 w-80">
+                        {item.product.name}
+                      </p>
+                      <div className="absolute bottom-0 left-4">
+                        {/* <p className="text-sm">Is Energy Safe</p>
+                      <p className="text-sm">Consumption of Less Energy </p> */}
+                        <p className="font-bold">${item?.product?.price}</p>
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
           </FormWraper>
-        </FormSection> */}
+        </FormSection>
 
         <div className={apptStyle.btns}>
           {audit.includes(userRole?.toLowerCase()) && (
