@@ -71,7 +71,7 @@ $shrink-sidebar-width: 5rem;
         cursor: pointer;
         font-size: 0.9rem;
         line-height: 1;
-       
+
         &::after {
           content: "";
           width: 8.438rem;
@@ -82,7 +82,8 @@ $shrink-sidebar-width: 5rem;
           left: calc($icon-size + 0.6rem);
         }
 
-        &:hover::after, &.active::after{
+        &:hover::after,
+        &.active::after {
           border-bottom: 2px solid var(--color-blue_dress);
         }
         &.active::after {
@@ -126,10 +127,10 @@ $shrink-sidebar-width: 5rem;
 }
 .menu {
   flex: 1;
-  // margin-top: 3.8rem;
+  margin-top: 2rem;
   padding-left: 5px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .logo {
