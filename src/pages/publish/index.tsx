@@ -88,6 +88,8 @@ const Publish = () => {
               // status: false,
               acceptedDate: String(item.created_at),
               quoteCount: item.quote_count,
+              suburb: item.suburb,
+              best_quote: item.best_quote,
             });
           });
         } else {
@@ -97,6 +99,8 @@ const Publish = () => {
               // status: false,
               acceptedDate: String(item.created_at),
               quoteCount: item.quote_count,
+              suburb: item.suburb,
+              best_quote: item.best_quote,
             });
           });
         }
@@ -246,6 +250,8 @@ const Publish = () => {
                               data={dragItem}
                               loading={false}
                               quoteStatus={dropName}
+                              suburb={dragItem.suburb}
+                              bestQuote={dragItem.best_quote}
                             />
                           </Drage>
                         </Fragment>

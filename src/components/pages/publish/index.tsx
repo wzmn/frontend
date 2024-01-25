@@ -17,12 +17,16 @@ export function PublishList({
   acceptedDate,
   quoteCount,
   quoteStatus,
+  suburb,
+  bestQuote,
 }: {
   data: ApptResultT;
   loading: boolean;
   acceptedDate: string;
   quoteCount: number;
   quoteStatus: QuoteStatusT;
+  suburb: string;
+  bestQuote: number;
 }) {
   const { card, cardInfo, contactInfo, icon, contact } = commonStyles;
   const { open, setElement, toggle } = useRightBarContext();
@@ -60,14 +64,14 @@ export function PublishList({
         </p>
 
         <p className={publishStyles.state}>
-          STATE: <span>VIC</span>
+          SUBURB: <span>{suburb}</span>
         </p>
         {quoteStatus === "quote accepted" && (
           <p className={`${publishStyles.state} mt-1`}>
             Paid Quote::{" "}
             <span>
               <Badge
-                label="$1200"
+                label={String(bestQuote)}
                 className={`${publishStyles.badge} ${publishStyles.priceBadge}`}
               />
             </span>

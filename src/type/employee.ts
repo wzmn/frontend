@@ -3,13 +3,59 @@ import { PaginationType } from "./global";
 export type EmployeeDataType = PaginationType<EmpResultT[]>;
 
 export interface EmpResultT {
-  id?: number;
-  user?: User;
-  role?: string;
-  ref_id?: null;
-  license_id?: number;
-  reports_to?: null;
-  created_by?: null;
+  id: number;
+  user: User;
+  role: string;
+  employee_created_by: null | string;
+  company: number;
+  documents: EmpResultDocumentT[];
+  ref_id: null;
+  created_at: Date;
+  updated_at: Date;
+  is_active: boolean;
+  is_verified: boolean;
+  license_id: number;
+  created_by: null;
+  reports_to: null;
+}
+
+export interface EmpResultDocumentT {
+  id: number;
+  detail: EmpDetailT;
+  documents: EmpDocumentDocumentT[];
+  ref_id: null;
+  created_at: Date;
+  updated_at: Date;
+  is_active: boolean;
+  info: null;
+  is_verified: boolean;
+  comments: null;
+  employee: number;
+}
+
+export interface EmpDetailT {
+  id: number;
+  ref_id: null;
+  created_at: Date;
+  updated_at: Date;
+  is_active: boolean;
+  compliance_country: string;
+  compliance_item: string;
+  compliance_help_text: string;
+  item_type: string;
+  allow_multiple_docs: boolean;
+  points: number;
+  is_required: boolean;
+  priority: string;
+}
+
+export interface EmpDocumentDocumentT {
+  id: number;
+  ref_id: null;
+  created_at: Date;
+  updated_at: Date;
+  is_active: boolean;
+  file: string;
 }
 
 export interface User {

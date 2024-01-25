@@ -13,11 +13,15 @@ export type QuoteResultT = {
   updated_at: Date;
   is_active: boolean;
   description: string;
+  suburb: string;
+  best_quote: number;
 };
 
 export type QuoteResultExtraT = {
   acceptedDate: string;
   quoteCount: number;
+  suburb: string;
+  best_quote: number;
 } & ApptResultT;
 
 export type QuoteStatusT =

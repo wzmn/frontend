@@ -9,8 +9,8 @@ import * as commonStyles from "styles/pages/common.module.scss";
 import { ApptResultT } from "type/appointment";
 import ViewAppt from "./view-appt";
 
-const assessmet = ["assessed", "audited", "snippit audited", "Reassessment"];
-const schedule = ["waiting", "rescheduled"];
+const assessmet = ["assessed", "audited", "snippit audited", "reassessment"];
+const schedule = ["waiting", "rescheduled", "reassessment"];
 export default function ApptList({
   data,
   loading,

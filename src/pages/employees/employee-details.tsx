@@ -27,7 +27,7 @@ const EmployeeDetails = (props: PageProps) => {
     },
   });
 
-  const [data, setData] = useState<EmpResultT>({});
+  const [data, setData] = useState<Partial<EmpResultT>>({});
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -116,16 +116,17 @@ const EmployeeDetails = (props: PageProps) => {
           </div>
         </FormSection>
 
-        <FormSection title="Attachments">
-          <form className="flex-1" onSubmit={handleSubmit(onSubmit)}>
-            <FormWraper>
-              <>
-                <div className={styles.attachments}>
-                  {fields.map((item, index: number) => {
-                    return (
-                      <>
-                        {/* <div className={styles.file}> */}
-                        {/* <DNDImage
+        {data?.documents?.length !== 0 && (
+          <FormSection title="Attachments">
+            <form className="flex-1" onSubmit={handleSubmit(onSubmit)}>
+              <FormWraper>
+                <>
+                  <div className={styles.attachments}>
+                    {fields.map((item, index: number) => {
+                      return (
+                        <>
+                          {/* <div className={styles.file}> */}
+                          {/* <DNDImage
                           setFiles={(e) => {
                             setValue(`attachments.${index}.file`, e);
                             const list = [...files];
@@ -133,50 +134,56 @@ const EmployeeDetails = (props: PageProps) => {
                             setFiles(() => list);
                           }}
                         /> */}
-                        {/* </div> */}
+                          {/* </div> */}
 
-                        <aside className={companyStyles.preview}>
-                          {files[index] ? (
-                            <div className="">
-                              <img
-                                src={files?.[index]?.preview}
-                                alt="/assets/images/picture.svg"
-                                // Revoke data uri after image is loaded
-                                onLoad={() => {
-                                  URL.revokeObjectURL(files?.[index]?.preview);
-                                }}
-                              />
-                              {/* <RiDeleteBin6Line
+                          {data.documents?.map(() => {
+                            return (
+                              <aside className={companyStyles.preview}>
+                                {files[index] ? (
+                                  <div className="">
+                                    <img
+                                      src={files?.[index]?.preview}
+                                      alt="/assets/images/picture.svg"
+                                      // Revoke data uri after image is loaded
+                                      onLoad={() => {
+                                        URL.revokeObjectURL(
+                                          files?.[index]?.preview
+                                        );
+                                      }}
+                                    />
+                                    {/* <RiDeleteBin6Line
                                 className="w-5 h-5 cursor-pointer absolute top-1 right-4"
                                 onClick={() => {
                                   files.splice(index, 1);
                                   remove(index);
                                 }}
                               /> */}
-                            </div>
-                          ) : (
-                            <div className="">
-                              <img
-                                src="/assets/images/picture.svg"
+                                  </div>
+                                ) : (
+                                  <div className="">
+                                    <img
+                                      src="/assets/images/picture.svg"
 
-                                // alt="/assets/images/picture.svg"
-                                // Revoke data uri after image is loaded
-                              />
-                              {/* <RiDeleteBin6Line
+                                      // alt="/assets/images/picture.svg"
+                                      // Revoke data uri after image is loaded
+                                    />
+                                    {/* <RiDeleteBin6Line
                                 className="w-5 h-5 cursor-pointer absolute top-1 right-4"
                                 onClick={() => {
                                   files.splice(index, 1);
                                   remove(index);
                                 }}
                               /> */}
-                            </div>
-                          )}
-                        </aside>
-                      </>
-                    );
-                  })}
-                </div>
-                {/* <p
+                                  </div>
+                                )}
+                              </aside>
+                            );
+                          })}
+                        </>
+                      );
+                    })}
+                  </div>
+                  {/* <p
                   className={styles.addAttachments}
                   onClick={() => append({ file: null })}
                 >
@@ -185,10 +192,11 @@ const EmployeeDetails = (props: PageProps) => {
                     <ImAttachment />
                   </span>
                 </p> */}
-              </>
-            </FormWraper>
-          </form>
-        </FormSection>
+                </>
+              </FormWraper>
+            </form>
+          </FormSection>
+        )}
 
         {/* <FormSection title="Comments">
           <div className="flex-1">
