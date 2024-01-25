@@ -382,7 +382,12 @@ const CreateJob = (props: PageProps) => {
             </FormSection>
           )}
           <div className="flex justify-center gap-36 mt-10">
-            <Button title="Submit" type="submit" isLoading={isSubmitting} />
+            <Button
+              title="Submit"
+              type="submit"
+              isLoading={isSubmitting}
+              disabled={isSubmitting}
+            />
 
             <Button
               title="Cancel"

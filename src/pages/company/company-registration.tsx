@@ -575,6 +575,7 @@ const CompanyRegistration = () => {
                     title="Submit"
                     type="submit"
                     isLoading={isSubmitting}
+                    disabled={isSubmitting}
                   />
 
                   <Button
