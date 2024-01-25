@@ -29,6 +29,8 @@ import { EmpResultT } from "type/employee";
 import { debounce } from "utility/debounce";
 import { WorkTypeLabel } from "./create-appointment";
 import * as jobStyles from "./styles.module.scss";
+import PhoneInput from "react-phone-number-input";
+
 const showEmpFieldFor = [
   "superadmin",
   "admin",
@@ -79,6 +81,8 @@ const CreateJob = (props: PageProps) => {
     watch,
     formState: { isSubmitting, errors },
   } = methods;
+
+  const userPhone = watch("customer.user.phone");
 
   const customerType = watch("customer.customer_type");
   const billAddCheck = watch("billAddCheck");
@@ -224,13 +228,21 @@ const CreateJob = (props: PageProps) => {
                     </div>
 
                     <div className="max-w-3xl">
-                      <TextField
-                        disabled={!!custData}
-                        title="Mobile Number"
-                        asterisk
-                        {...register("customer.user.phone")}
-                        errormessage={errors.customer?.user?.phone?.message}
+                      <PhoneInput
+                        defaultCountry="AU"
+                        countryCallingCodeEditable={false}
+                        international
+                        className="w-full"
+                        placeholder="Enter phone number"
+                        value={userPhone}
+                        onChange={(val) =>
+                          setValue("customer.user.phone", val!)
+                        }
+                        inputComponent={TextField}
                       />
+                      <p className={styles.errorMessage}>
+                        {errors.customer?.user?.phone?.message}
+                      </p>
                     </div>
 
                     {/* <div className="max-w-3xl">

@@ -22,6 +22,7 @@ import employeeList from "services/employee-list";
 import { request } from "services/http-request";
 import MsgToast from "services/msg-toast";
 import UserIdentifyer from "services/user-identifyer";
+import PhoneInput from "react-phone-number-input";
 
 const countries = [
   { label: "ADMIN" },
@@ -68,6 +69,7 @@ const customerRegistration = () => {
   } = methods;
 
   const customerType = watch("customer_type");
+  const userPhone = watch("user.phone");
 
   async function onSubmit(data: CustomerRegistrationSchemaType) {
     try {
@@ -227,12 +229,19 @@ const customerRegistration = () => {
                     </div>
 
                     <div className="max-w-3xl">
-                      <TextField
-                        title="Mobile Number"
-                        asterisk
-                        {...register("user.phone")}
-                        errormessage={errors.user?.phone?.message}
+                      <PhoneInput
+                        defaultCountry="AU"
+                        countryCallingCodeEditable={false}
+                        international
+                        className="w-full"
+                        placeholder="Enter phone number"
+                        value={userPhone}
+                        onChange={(val) => setValue("user.phone", val!)}
+                        inputComponent={TextField}
                       />
+                      <p className={styles.errorMessage}>
+                        {errors.user?.phone?.message}
+                      </p>
                     </div>
 
                     {customerType === "Business" && (

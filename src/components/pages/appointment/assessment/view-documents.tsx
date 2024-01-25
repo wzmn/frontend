@@ -8,9 +8,9 @@ const ViewDocuments = ({ data }: { data: DocumentsAnsT }) => {
         return (
           <div className="" key={index}>
             <p className="mb-4">{data?.question?.content}</p>
-            <div className="border w-80 h-44 rounded-xl relative">
+            <div className="border w-80 h-52 rounded-xl relative">
               {/* <p className="absolute top-0 left-0">switch</p> */}
-              <div className="flex justify-center items-center h-full">
+              <div className="flex flex-col justify-center items-center h-full">
                 <div className="w-60 h-32 flex ">
                   {doc?.file?.includes(".png") && (
                     <a
@@ -46,6 +46,7 @@ const ViewDocuments = ({ data }: { data: DocumentsAnsT }) => {
                     </video>
                   )}
                 </div>
+                <p className="self-start mt-5 ml-2">{data.formatted_address}</p>
               </div>
             </div>
           </div>

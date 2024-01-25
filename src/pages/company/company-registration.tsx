@@ -28,6 +28,7 @@ import * as styles from "styles/pages/common.module.scss";
 import { CompanyDataType } from "type/company";
 import { ComplianceRespT, ComplianceResultT } from "type/global";
 import * as companyStyles from "./styles.module.scss";
+import PhoneInput from "react-phone-number-input";
 
 function objectToFormData(
   obj: Record<any, any>,
@@ -109,8 +110,12 @@ const CompanyRegistration = () => {
     setValue,
     trigger,
     getValues,
+    watch,
     formState: { isSubmitting, errors },
   } = methods;
+
+  const userPhone = watch("company_owner.phone");
+  const companyLandline = watch("company_landline");
 
   async function sendOtp(value: string) {
     try {
@@ -262,27 +267,39 @@ const CompanyRegistration = () => {
                   </div>
 
                   <div className="max-w-3xl flex gap-2">
-                    <TextField
-                      title="Mobile Number"
-                      asterisk
-                      type="number"
-                      {...register("company_owner.phone")}
-                      errormessage={errors.company_owner?.phone?.message}
-                    />
+                    <div className="">
+                      <PhoneInput
+                        defaultCountry="AU"
+                        countryCallingCodeEditable={false}
+                        international
+                        className="w-full"
+                        placeholder="Enter phone number"
+                        value={userPhone}
+                        onChange={(val) =>
+                          setValue("company_owner.phone", val!)
+                        }
+                        inputComponent={TextField}
+                      />
+                      <p className={styles.errorMessage}>
+                        {errors.company_owner?.phone?.message}
+                      </p>
+                    </div>
 
-                    <Button
-                      type="button"
-                      title="Send"
-                      height="fit"
-                      onClick={async () => {
-                        const ifValidated = await trigger(
-                          "company_owner.phone"
-                        );
-                        if (!ifValidated) return;
-                        const value = getValues("company_owner.phone");
-                        sendOtp(value);
-                      }}
-                    />
+                    <div className={companyStyles.otpBtn}>
+                      <Button
+                        type="button"
+                        title="Send"
+                        height="fit"
+                        onClick={async () => {
+                          const ifValidated = await trigger(
+                            "company_owner.phone"
+                          );
+                          if (!ifValidated) return;
+                          const value = getValues("company_owner.phone");
+                          sendOtp(value);
+                        }}
+                      />
+                    </div>
                   </div>
                   <div className="max-w-3xl">
                     <InputOtp
@@ -302,19 +319,21 @@ const CompanyRegistration = () => {
                       {...register("company_owner.email")}
                       errormessage={errors.company_owner?.email?.message}
                     />
-                    <Button
-                      type="button"
-                      title="Send"
-                      height="fit"
-                      onClick={async () => {
-                        const ifValidated = await trigger(
-                          "company_owner.email"
-                        );
-                        if (!ifValidated) return;
-                        const value = getValues("company_owner.email");
-                        sendOtp(value!);
-                      }}
-                    />
+                    <div className={companyStyles.otpBtn}>
+                      <Button
+                        type="button"
+                        title="Send"
+                        height="fit"
+                        onClick={async () => {
+                          const ifValidated = await trigger(
+                            "company_owner.email"
+                          );
+                          if (!ifValidated) return;
+                          const value = getValues("company_owner.email");
+                          sendOtp(value!);
+                        }}
+                      />
+                    </div>
                   </div>
                   <div className="max-w-3xl">
                     <InputOtp
@@ -371,13 +390,23 @@ const CompanyRegistration = () => {
                   </div>
 
                   <div className="max-w-3xl">
-                    <TextField
-                      title="Landline Number"
-                      asterisk
-                      {...register("company_landline")}
-                      errormessage={errors.company_landline?.message}
-                    />
+                    <div className="">
+                      <PhoneInput
+                        defaultCountry="AU"
+                        countryCallingCodeEditable={false}
+                        international
+                        className="w-full"
+                        placeholder="Enter phone number"
+                        value={companyLandline!}
+                        onChange={(val) => setValue("company_landline", val!)}
+                        inputComponent={TextField}
+                      />
+                      <p className={styles.errorMessage}>
+                        {errors.company_landline?.message}
+                      </p>
+                    </div>
                   </div>
+
                   <div className="max-w-3xl">
                     <TextField
                       title="Company E-mail ID"
@@ -429,7 +458,12 @@ const CompanyRegistration = () => {
                   <Label title="Preview" htmlFor="" />
 
                   <div className={styles.file}>
-                    <DNDImage setFiles={setFiles} />
+                    <DNDImage
+                      setFiles={(files) => {
+                        setFiles(files);
+                        setValue("logoImg", files[0]);
+                      }}
+                    />
                   </div>
 
                   <aside className={companyStyles.preview}>
@@ -462,6 +496,10 @@ const CompanyRegistration = () => {
                     )}
                   </aside>
                 </div>
+
+                <p className={styles.error + " text-xs"}>
+                  {errors.logoImg?.message}
+                </p>
               </>
             </FormWraper>
           </FormSection>

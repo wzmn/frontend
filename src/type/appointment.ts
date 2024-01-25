@@ -6,16 +6,39 @@ export interface ApptResultT {
   id: number;
   job: Job;
   appointment_status: string;
-  products: Product[];
+  products: ProductElement[];
+  assessment_assigned_to: AssessmentAssignedTo | null;
   ref_id: null;
   created_at: Date;
   updated_at: Date;
   is_active: boolean;
-  assessment_scheduled_on: Date;
-  assessment_completed_on: null;
+  assessment_scheduled_on: Date | null;
+  assessment_completed_on: Date | null;
   self_assessment: boolean;
   assessment_completed: boolean;
-  assessment_assigned_to: number;
+}
+
+export interface AssessmentAssignedTo {
+  id: number;
+  ref_id: null;
+  created_at: Date;
+  updated_at: Date;
+  is_active: boolean;
+  username: null | string;
+  email: string;
+  phone: string;
+  first_name: string;
+  last_name: string;
+  profile_pic: null | string;
+  is_superuser: boolean;
+  is_staff: boolean;
+  is_verified: boolean;
+  is_password_set: boolean;
+  last_login: Date;
+  fcm_token: null | string;
+  is_surveyed: boolean;
+  groups: any[];
+  user_permissions: any[];
 }
 
 export interface Job {
@@ -42,7 +65,7 @@ export interface Address {
   is_active: boolean;
   building_number: string;
   level_number: string;
-  unit_type: null | string;
+  unit_type: string;
   unit_number: string;
   lot_number: string;
   street_number: string;
@@ -51,10 +74,13 @@ export interface Address {
   suffix: string;
   suburb: string;
   state: string;
-  lat: string;
-  long: string;
+  lat: null | string;
+  long: null | string;
   lga: string;
   pincode: string;
+  formatted_address: string;
+  property_type: string;
+  user: number;
 }
 
 export interface Customer {
@@ -138,6 +164,60 @@ export interface WorkType {
   work_type_image: string;
   global_activity: boolean;
   auth_companies: number[];
+}
+
+export interface ProductElement {
+  id: number;
+  product: ProductProduct;
+  ref_id: null;
+  created_at: Date;
+  updated_at: Date;
+  is_active: boolean;
+  quantity: number;
+  assessment: number;
+}
+
+export interface ProductProduct {
+  id: number;
+  images: Image[];
+  primary_image: Image;
+  ref_id: null;
+  created_at: Date;
+  updated_at: Date;
+  is_active: boolean;
+  name: string;
+  price: string;
+  details: Details | null;
+  certificates: Certificates;
+  description: string;
+  start_date: Date;
+  end_date: null;
+  regions: string;
+  work_type: number;
+  category: number;
+  supplier_company: number;
+}
+
+export interface Certificates {
+  stc?: number;
+  veecs: number;
+}
+
+export interface Details {
+  Split?: string;
+  Weight?: string;
+  Tonnage?: string;
+  size?: string;
+  color?: string;
+}
+
+export interface Image {
+  id: number;
+  ref_id: null;
+  created_at: Date;
+  updated_at: Date;
+  is_active: boolean;
+  file: string;
 }
 
 export interface Product {

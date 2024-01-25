@@ -22,6 +22,7 @@ import MsgToast from "services/msg-toast";
 import UserIdentifyer from "services/user-identifyer";
 import * as styles from "styles/pages/common.module.scss";
 import { ComplianceRespT, ComplianceResultT } from "type/global";
+import PhoneInput from "react-phone-number-input";
 
 interface FileProps extends File {
   preview: string;
@@ -57,11 +58,14 @@ const EmployeeRegistration = () => {
     register,
     handleSubmit,
     getValues,
+    setValue,
     watch,
     formState: { isSubmitting, errors },
   } = useForm<EmployeeRegistrationSchemaType>({
     resolver: yupResolver(employeeRegistrationSchema),
   });
+
+  const userPhone = watch("user.phone");
 
   const empRole = watch("role");
 
@@ -143,12 +147,19 @@ const EmployeeRegistration = () => {
                     />
                   </div>
                   <div className="max-w-3xl">
-                    <TextField
-                      title="Mobile Number"
-                      asterisk
-                      {...register("user.phone")}
-                      errormessage={errors.user?.phone?.message}
+                    <PhoneInput
+                      defaultCountry="AU"
+                      countryCallingCodeEditable={false}
+                      international
+                      className="w-full"
+                      placeholder="Enter phone number"
+                      value={userPhone}
+                      onChange={(val) => setValue("user.phone", val!)}
+                      inputComponent={TextField}
                     />
+                    <p className={styles.errorMessage}>
+                      {errors.user?.phone?.message}
+                    </p>
                   </div>
                   <div className="max-w-3xl">
                     <TextField

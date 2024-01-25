@@ -1,5 +1,3 @@
-import { CompanyStatus } from "type/company";
-
 export function findMatchingId(
   data: any,
   id: number,

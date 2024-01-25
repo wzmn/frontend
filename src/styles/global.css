@@ -12,7 +12,7 @@
   padding: 0%;
 }
 p::first-letter {
-  text-transform:capitalize;
+  text-transform: capitalize;
 }
 /* // $test-color: pink;
 // @mixin fun() {

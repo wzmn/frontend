@@ -1,14 +1,11 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { ApptStateStatus } from "type/appointment";
-import { AppProviderType } from "./type";
 import { fetchApptStatus } from "./appt";
-import { fetchWorkTypes } from "./work-types";
-import { fetchEmpStatus } from "./emp";
 import { fetchCategory } from "./category";
-import { EmpStateStatus } from "type/employee";
-import { FetchCompanyStatusT, fetchCompanyStatus } from "./company";
-import { CompanyStateStatus } from "type/company";
+import { fetchCompanyStatus } from "./company";
+import { fetchEmpStatus } from "./emp";
 import { fetchQuestionsList } from "./questions";
+import { AppProviderType } from "./type";
+import { fetchWorkTypes } from "./work-types";
 
 const AppContext = createContext({} as AppProviderType);
 
@@ -42,7 +39,7 @@ function AppProvider({ children }: { children: JSX.Element }) {
       fetchEmpStatus,
       fetchCompanyStatus,
       fetchQuestionsList,
-      fetchCategory
+      fetchCategory,
     ])
       .then(async (values) => {
         const appt = await values[0]();
@@ -59,7 +56,7 @@ function AppProvider({ children }: { children: JSX.Element }) {
           emp,
           company,
           questions,
-          category
+          category,
         }));
       })
       .catch(() => {

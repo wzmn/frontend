@@ -8,16 +8,37 @@ const Footer = () => {
       </div>
       <ul className={styles.footerList}>
         <li>
-          <a href="https://snippit.com.au/?post_type=page&p=698">Terms & Conditions</a>
+          <a
+            href="https://snippit.com.au/?post_type=page&p=698"
+            target="_blank"
+          >
+            Terms & Conditions
+          </a>
         </li>
         <li>
-          <a href="https://snippit.com.au/?post_type=page&p=3">Privacy Policy</a>
+          <a href="https://snippit.com.au/?post_type=page&p=3" target="_blank">
+            Privacy Policy
+          </a>
         </li>
-        <li>Contact Us</li>
+        <li>
+          <a href="mailto:support@snippit.com.au" className="" target="_blank">
+            Contact Us
+          </a>
+        </li>
       </ul>
       <div className={styles.mobileLinks}>
-        <img src="/assets/icons/apple-logo.svg" alt="" />
-        <img src="/assets/icons/google-play.svg" alt="" />
+        <a
+          href="https://apps.apple.com/au/app/snippit/id6446515712"
+          target="_black"
+        >
+          <img src="/assets/icons/apple-logo.svg" alt="" />
+        </a>
+        <a
+          href="https://play.google.com/store/apps/details?id=com.snippit.snippit_app&pli=1"
+          target="_blank"
+        >
+          <img src="/assets/icons/google-play.svg" alt="" />
+        </a>
       </div>
     </div>
   );

@@ -192,7 +192,7 @@ const Appintments = () => {
         params: {
           limit: pagination.limit,
           offset: pagination.offset,
-          company__id: id,
+          job__customer__company__in: id,
           ordering: sort,
           created_at__gte: selectionRange.startDate
             ? TimeFormat(selectionRange.startDate)

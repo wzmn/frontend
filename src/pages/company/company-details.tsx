@@ -14,7 +14,7 @@ import { TfiEmail } from "react-icons/tfi";
 import { request } from "services/http-request";
 import TimeFormat from "services/time-format";
 import * as styles from "styles/pages/common.module.scss";
-import { Result } from "type/company";
+import { ComResultT } from "type/company";
 import * as companyStyles from "../company/styles.module.scss";
 
 const CompanyDetails = (props: PageProps) => {
@@ -30,7 +30,7 @@ const CompanyDetails = (props: PageProps) => {
   });
 
   const [files, setFiles] = useState<DNDImageFileType[]>([]);
-  const [data, setData] = useState<Result>({});
+  const [data, setData] = useState<Partial<ComResultT>>({});
 
   const { location } = props;
   const params = new URLSearchParams(location.search);
@@ -38,7 +38,7 @@ const CompanyDetails = (props: PageProps) => {
 
   async function fetchData() {
     try {
-      const response = await request<Result>({
+      const response = await request<ComResultT>({
         url: COMPANY_LISTING + companyId,
       });
       setData(() => response.data);

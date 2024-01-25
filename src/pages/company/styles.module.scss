@@ -43,3 +43,9 @@
   color: var(--color-blue_dress);
   text-decoration: underline;
 }
+
+.otp-btn {
+  & button {
+    width: 4rem !important;
+  }
+}
