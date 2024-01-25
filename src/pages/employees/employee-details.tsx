@@ -67,7 +67,7 @@ const EmployeeDetails = (props: PageProps) => {
                 <p className={styles.name}>
                   <span className={styles.bold}>Employee name: &nbsp; </span>
                   {data?.user?.first_name} &nbsp;
-                  <span className={styles.tag}>(Company Owner)</span>
+                  {/* <span className={styles.tag}>(Company Owner)</span> */}
                 </p>
 
                 <div className={styles.contactInfo}>
@@ -122,76 +122,25 @@ const EmployeeDetails = (props: PageProps) => {
               <FormWraper>
                 <>
                   <div className={styles.attachments}>
-                    {fields.map((item, index: number) => {
-                      return (
-                        <>
-                          {/* <div className={styles.file}> */}
-                          {/* <DNDImage
-                          setFiles={(e) => {
-                            setValue(`attachments.${index}.file`, e);
-                            const list = [...files];
-                            list[index] = e[0];
-                            setFiles(() => list);
-                          }}
-                        /> */}
-                          {/* </div> */}
-
-                          {data.documents?.map(() => {
-                            return (
-                              <aside className={companyStyles.preview}>
-                                {files[index] ? (
-                                  <div className="">
-                                    <img
-                                      src={files?.[index]?.preview}
-                                      alt="/assets/images/picture.svg"
-                                      // Revoke data uri after image is loaded
-                                      onLoad={() => {
-                                        URL.revokeObjectURL(
-                                          files?.[index]?.preview
-                                        );
-                                      }}
-                                    />
-                                    {/* <RiDeleteBin6Line
-                                className="w-5 h-5 cursor-pointer absolute top-1 right-4"
-                                onClick={() => {
-                                  files.splice(index, 1);
-                                  remove(index);
+                    {data?.documents?.map((docs, index: number) => {
+                      return docs.documents?.map((doc) => {
+                        return (
+                          <aside className={companyStyles.preview}>
+                            <div className="">
+                              <img
+                                src={doc.file || "/assets/images/picture.svg"}
+                                alt="N/A"
+                                // Revoke data uri after image is loaded
+                                onLoad={() => {
+                                  URL.revokeObjectURL(files?.[index]?.preview);
                                 }}
-                              /> */}
-                                  </div>
-                                ) : (
-                                  <div className="">
-                                    <img
-                                      src="/assets/images/picture.svg"
-
-                                      // alt="/assets/images/picture.svg"
-                                      // Revoke data uri after image is loaded
-                                    />
-                                    {/* <RiDeleteBin6Line
-                                className="w-5 h-5 cursor-pointer absolute top-1 right-4"
-                                onClick={() => {
-                                  files.splice(index, 1);
-                                  remove(index);
-                                }}
-                              /> */}
-                                  </div>
-                                )}
-                              </aside>
-                            );
-                          })}
-                        </>
-                      );
+                              />
+                            </div>
+                          </aside>
+                        );
+                      });
                     })}
                   </div>
-                  {/* <p
-                  className={styles.addAttachments}
-                  onClick={() => append({ file: null })}
-                >
-                  Add Attachments
-                  <span className="icon">
-                    <ImAttachment />
-                  </span>
-                </p> */}
                 </>
               </FormWraper>
             </form>
