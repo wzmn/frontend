@@ -66,7 +66,7 @@ const EmployeeDetails = (props: PageProps) => {
               <>
                 <p className={styles.name}>
                   <span className={styles.bold}>Employee name: &nbsp; </span>
-                  {data?.user?.first_name} &nbsp;
+                  {data?.user?.first_name} &nbsp;cccc
                   {/* <span className={styles.tag}>(Company Owner)</span> */}
                 </p>
 
@@ -117,34 +117,54 @@ const EmployeeDetails = (props: PageProps) => {
         </FormSection>
 
         {data?.documents?.length !== 0 && (
-          <FormSection title="Attachments">
-            <form className="flex-1" onSubmit={handleSubmit(onSubmit)}>
-              <FormWraper>
-                <>
-                  <div className={styles.attachments}>
-                    {data?.documents?.map((docs, index: number) => {
-                      return docs.documents?.map((doc) => {
-                        return (
-                          <aside className={companyStyles.preview}>
-                            <div className="">
-                              <img
-                                src={doc.file || "/assets/images/picture.svg"}
-                                alt="N/A"
-                                // Revoke data uri after image is loaded
-                                onLoad={() => {
-                                  URL.revokeObjectURL(files?.[index]?.preview);
-                                }}
-                              />
-                            </div>
-                          </aside>
-                        );
-                      });
-                    })}
-                  </div>
-                </>
-              </FormWraper>
-            </form>
-          </FormSection>
+          <form className="flex-1" onSubmit={handleSubmit(onSubmit)}>
+            <>
+              {data?.documents?.map((docs, index: number) => {
+                return (
+                  <FormSection
+                    title={
+                      docs.detail.priority +
+                      " (Points " +
+                      docs.detail.points +
+                      ")"
+                    }
+                  >
+                    <>
+                      <FormWraper>
+                        <>
+                          <p className="mb-3 font-medium ">
+                            {docs?.detail?.compliance_item}
+                          </p>
+                          {docs.documents?.map((doc) => {
+                            return (
+                              <div className={styles.attachments}>
+                                <aside className={companyStyles.preview}>
+                                  <div className="">
+                                    <img
+                                      src={
+                                        doc.file || "/assets/images/picture.svg"
+                                      }
+                                      alt="N/A"
+                                      // Revoke data uri after image is loaded
+                                      onLoad={() => {
+                                        URL.revokeObjectURL(
+                                          files?.[index]?.preview
+                                        );
+                                      }}
+                                    />
+                                  </div>
+                                </aside>
+                              </div>
+                            );
+                          })}
+                        </>
+                      </FormWraper>
+                    </>
+                  </FormSection>
+                );
+              })}
+            </>
+          </form>
         )}
 
         {/* <FormSection title="Comments">

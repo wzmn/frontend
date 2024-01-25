@@ -6,6 +6,7 @@ import {
   CustomerDataType,
   CustomerStatus,
 } from "type/customer";
+import { EmpStatusRespT } from "type/employee";
 
 type CustFetchDataT = {
   params?: Record<any, any>;

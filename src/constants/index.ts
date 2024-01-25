@@ -571,6 +571,6 @@ export const CustTypeData = [
   },
   {
     label: "Business",
-    value: "business",
+    value: "commercial",
   },
 ];
