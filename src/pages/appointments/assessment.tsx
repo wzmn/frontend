@@ -141,7 +141,7 @@ const Assessment = (props: PageProps) => {
 
         <FormSection title="Photos">
           <FormWraper>
-            <div className="grid grid-cols-2 gap-4 ">
+            <div className="grid grid-cols-2 gap-8 ">
               {docData?.map((docAns, index) => {
                 return <ViewDocuments data={docAns} />;
               })}
