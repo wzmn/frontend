@@ -3,7 +3,7 @@ import FormSection from "components/form-sections";
 import FormWraper from "components/form-wrapper";
 import { Link } from "gatsby";
 import * as styles from "styles/pages/common.module.scss";
-import { RiDeleteBin6Line } from "react-icons/ri";
+import { RiDeleteBin6Line, RiEdit2Line, RiEyeLine } from "react-icons/ri";
 
 const MyProducts = () => {
   const [products, setProducts] = useState([]);
@@ -15,7 +15,7 @@ const MyProducts = () => {
       <p className={styles.title}>Settings/My Products</p>
       <FormSection title="My Products">
         <FormWraper>
-          <div className="flex gap-4 flex-wrap justify-center">
+          <div className="flex gap-4 flex-wrap justify-center md:justify-between">
             {products?.map((s) => (
               <Card productID={1} />
             ))}
@@ -28,7 +28,7 @@ const MyProducts = () => {
 function Card({ productID }: any) {
   const [isDeleting, setIsDeleting] = useState(false);
   return (
-    <div className="rounded-lg w-[calc(25%-1rem)] bg-slate-100">
+    <div className="rounded-lg w-48 bg-slate-100 shadow-md">
       <div className="w-full p-4">
         <img src="/assets/images/product.png" alt="Product Image" />
       </div>
@@ -42,21 +42,27 @@ function Card({ productID }: any) {
       </div>
       <div className="flex">
         <Link
-          to={`view?product=${productID}`}
-          className="bg-[#0A84FF] text-white grow py-2 px-2 text-center rounded-bl-lg"
+          to={`/settings/view-product?product=${productID}`}
+          className="bg-[#0A84FF] rounded-bl-lg cursor-pointer flex-1 flex justify-center py-3"
         >
-          View
+            <RiEyeLine className="text-white text-xl" />
+        </Link>
+        <Link
+          to={`/settings/edit-product?product=${productID}`}
+          className="bg-[#97dc21] cursor-pointer flex-1 flex justify-center py-3"
+        >
+          <RiEdit2Line className="text-white text-xl" />
         </Link>
         <div
-          className="bg-red w-12 flex items-center justify-center rounded-br-lg cursor-pointer"
+          className="bg-red cursor-pointer rounded-br-lg flex-1 flex justify-center py-3"
           onClick={() => {
             setIsDeleting(!isDeleting);
           }}
         >
           {isDeleting ? (
-            <img src="/assets/loader/Spinner.svg" className="w-10" />
+            <img src="/assets/loader/Spinner.svg" className="w-5" />
           ) : (
-            <RiDeleteBin6Line className="text-white" />
+            <RiDeleteBin6Line className="text-white text-xl" />
           )}
         </div>
       </div>
