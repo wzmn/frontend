@@ -69,7 +69,7 @@ const sideBarData = [
 
 const Sidebar = () => {
   const { sidebarFlag, toggle } = useSidebarContext();
-  const { setUserAuth, userAuth } = useAuthContext();
+  const { setUserAuth, userAuth, setCompanyAuth } = useAuthContext();
 
   const routeAccess = userAccessRouter();
 
@@ -89,7 +89,13 @@ const Sidebar = () => {
             <p>{`${userAuth.first_name} ${userAuth.last_name}`}</p>
             <div className={styles.userRole}>
               <p>{UserIdentifyer()}</p>
-              <span className={styles.icon} onClick={() => setUserAuth(null)}>
+              <span
+                className={styles.icon}
+                onClick={() => {
+                  setUserAuth(null);
+                  setCompanyAuth(null);
+                }}
+              >
                 <AiOutlinePoweroff />
               </span>
             </div>

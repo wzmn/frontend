@@ -8,7 +8,9 @@ type Props = {
 
 const useAuth = () => {
   const ProtectedRoutes = ({ children }: Props) => {
-    const { userAuth } = useAuthContext();
+    const { userAuth, companyAuth } = useAuthContext();
+
+    // console.log("Helo World", companyAuth?.company_verified);
     if (!userAuth) {
       if (!location.pathname.match(/login/)) {
         typeof window !== "undefined" && navigate(`/login/`, { replace: true });
@@ -16,19 +18,31 @@ const useAuth = () => {
       }
       return null;
     }
+    if (!companyAuth?.company_verified) {
+      // if (!location.pathname.match(/upload-company-details/)) {
+      navigate("/upload-company-details");
+      // }
+    }
+
+    console.log("diredjbhg ", companyAuth?.company_verified);
+
+    // if (!companyAuth?.company_verified) {
+    //   typeof window !== "undefined" && navigate("/upload-company-details");
+    //   // return null;
+    // }
     return <>{children}</>;
   };
 
   const HandleRedirect = ({ children }: Props) => {
-    const { userAuth } = useAuthContext();
+    const { userAuth, companyAuth } = useAuthContext();
 
     if (!!userAuth) {
       // If user is logged in then redirect to dashboard or navigate to a redirect from login
-      if (location.search.match(/\?redirect\=(.*)/)) {
-        navigate(decodeURIComponent(location?.search.match(/\?redirect\=(.*)/)[1]))
-      } else {
-        typeof window !== "undefined" && navigate("/");
-      }
+      // if (location.search.match(/\?redirect\=(.*)/)) {
+      //   navigate(decodeURIComponent(location?.search.match(/\?redirect\=(.*)/)[1]))
+      // } else {
+      typeof window !== "undefined" && navigate("/");
+      // }
       return null;
     }
     return <>{children}</>;

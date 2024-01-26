@@ -8,6 +8,8 @@ export type LoginResType = {
   staff: string;
   first_name: string;
   last_name: string;
+  fcm_token: null;
+  is_password_set: boolean;
   emp: Emp;
   emp_license_info: EmpLicenseInfo;
 };
@@ -31,4 +33,4 @@ export interface Company {
   company_name: string;
   company_country: string;
 }
-export type UseLocalStorageP1Type = "user";
+export type UseLocalStorageP1Type = "user" | "company";

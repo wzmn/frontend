@@ -14,7 +14,7 @@ const AddressLabels = ({ children }: { children: JSX.Element }) => {
   const { userAuth } = useAuthContext();
   function district() {
     switch (
-      userAuth.emp_license_info?.company?.company_country?.toLocaleLowerCase()
+      userAuth?.emp_license_info?.company?.company_country?.toLocaleLowerCase()
     ) {
       case "united states":
         return "county";
@@ -27,7 +27,7 @@ const AddressLabels = ({ children }: { children: JSX.Element }) => {
 
   function city() {
     switch (
-      userAuth.emp_license_info?.company?.company_country?.toLocaleLowerCase()
+      userAuth?.emp_license_info?.company?.company_country?.toLocaleLowerCase()
     ) {
       case "united states":
         return "city";
@@ -40,7 +40,7 @@ const AddressLabels = ({ children }: { children: JSX.Element }) => {
 
   function postcode() {
     switch (
-      userAuth.emp_license_info?.company?.company_country?.toLocaleLowerCase()
+      userAuth?.emp_license_info?.company?.company_country?.toLocaleLowerCase()
     ) {
       case "united states":
         return "Zipcode";

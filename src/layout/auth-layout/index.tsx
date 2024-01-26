@@ -6,9 +6,7 @@ type Props = {
 const AuthLayout = ({ children }: Props) => {
   return (
     <div className={styles.authLayout}>
-      <div className="c-container">
-        {children}
-      </div>
+      <div className="c-container">{children}</div>
     </div>
   );
 };

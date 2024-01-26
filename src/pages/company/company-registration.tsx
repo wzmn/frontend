@@ -68,7 +68,7 @@ interface FileProps extends File {
   preview: string;
 }
 
-type ComplianceState = {
+export type ComplianceState = {
   primary: ComplianceResultT[];
   secondary: ComplianceResultT[];
   additional: ComplianceResultT[];
@@ -203,7 +203,7 @@ const CompanyRegistration = () => {
     }
   }
 
-  async function fetchCountryCompliance() {
+  async function fetchCompanyCompliance() {
     try {
       const response = await request<ComplianceRespT>({
         url: COUNTRY_COMPLIANCE,
@@ -234,7 +234,7 @@ const CompanyRegistration = () => {
   }, [emailOTP]);
 
   useEffect(() => {
-    fetchCountryCompliance();
+    fetchCompanyCompliance();
     // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
     return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
   }, []);

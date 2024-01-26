@@ -2,13 +2,15 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useState } from "react";
 import Button from "components/button";
 import TextField from "components/text-field";
-import { Link, PageProps } from "gatsby";
+import { Link, PageProps, navigate } from "gatsby";
 import { useForm } from "react-hook-form";
 import { loginSchema } from "schema/auth-schema";
 import * as styles from "../layout/auth-layout/styles.module.scss";
 import { request } from "services/http-request";
 import { LoginResType } from "type/auth";
 import { useAuthContext } from "providers/auth-provider";
+import { ComResultT } from "type/company";
+import { COMPANY_LISTING } from "constants/api";
 
 const Login = (props: any) => {
   const {
@@ -20,7 +22,7 @@ const Login = (props: any) => {
   });
 
   const [formError, setFormError] = useState("");
-  const { setUserAuth } = useAuthContext();
+  const { setUserAuth, setCompanyAuth } = useAuthContext();
 
   async function onSubmit(data: any) {
     try {
@@ -29,8 +31,23 @@ const Login = (props: any) => {
         data,
         method: "post",
       })
-        .then((s) => {
+        .then(async (s) => {
           setUserAuth(s?.data);
+
+          if (s.data.staff === "false") {
+            if (s.data.emp.role.toLowerCase() === "owner") {
+              try {
+                const ownerResp = await request<ComResultT>({
+                  url: COMPANY_LISTING + s?.data?.emp_license_info?.company?.id,
+                  method: "GET",
+                });
+                setCompanyAuth(ownerResp.data);
+                // if (!ownerResp.data?.company_verified) {
+                //   navigate("/upload-company-details");
+                // }
+              } catch (error) {}
+            }
+          }
         })
         .catch((s) => {
           setFormError(s.response.data.detail);
