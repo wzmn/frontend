@@ -8,27 +8,31 @@ const Transactions = () => {
   return (
     <div className="grow">
       <p className={styles.title}>Settings/Transactions</p>
-
       <div className="space-y-16 mb-3">
         <FormSection title="Completed">
-          <div className="grow space-y-5">
-            <FormWraper>
-              <TransactionCard />
-            </FormWraper>
-            <FormWraper>
-              <TransactionCard />
-            </FormWraper>
+          <div className="flex flex-col gap-y-8 w-full">
+            {
+              Array(5).fill(0).map((_, i) => (
+                <FormWraper>
+                  <div className="grow space-y-5">
+                    <TransactionCard />
+                  </div>
+                </FormWraper>
+              ))
+            }
           </div>
         </FormSection>
-
         <FormSection title="Failed">
-          <div className="grow space-y-5">
-            <FormWraper>
-              <TransactionCard />
-            </FormWraper>
-            <FormWraper>
-              <TransactionCard />
-            </FormWraper>
+          <div className="flex flex-col gap-y-8 w-full">
+            {
+              Array(3).fill(0).map((_, i) => (
+                <FormWraper>
+                  <div className="grow space-y-5">
+                    <TransactionCard />
+                  </div>
+                </FormWraper>
+              ))
+            }
           </div>
         </FormSection>
       </div>

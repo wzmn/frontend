@@ -172,15 +172,15 @@ const Settings = () => {
                 Add / View Listing for Products
               </p>
               <Link
-                to="select-products"
+                to="add-product"
                 className={`${settingtyles.userSettings} ${settingtyles.mtB} mr-2`}
               >
                 Add
               </Link>
               /
               <Link
-                to="my-products"
-                className={`${settingtyles.userSettings} ${settingtyles.mtB} ml-2`}
+                to="list-products"
+                className={`${settingtyles.userSettings} ${settingtyles.mtB} ml-2 mr-2`}
               >
                 View
               </Link>

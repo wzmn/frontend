@@ -10,7 +10,7 @@ import * as styles from "styles/pages/common.module.scss";
 import Label from "components/label";
 import DNDImage from "components/dnd-image";
 import * as pageStyles from "./styles.module.scss";
-import { RiDeleteBin6Line } from "react-icons/ri";
+import { RiDeleteBin6Line, RiUpload2Line  } from "react-icons/ri";
 import { FaPlus } from "react-icons/fa";
 import Dropdown from "components/dropdown";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
@@ -25,7 +25,7 @@ interface FileProps extends File {
   preview: string;
 }
 
-const Products = () => {
+const AddProducts = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [files, setFiles] = useState([]);
   const { workTypes, category } = useAppContext();
@@ -47,11 +47,11 @@ const Products = () => {
           <div className={`flex flex-col`}>
             <div className="mb-4">Tell the Customer about the Product</div>
             <div className="flex flex-wrap gap-8">
-              <div className="flex flex-col w-[calc(50%-1rem)] rounded-sm">
+              <div className="flex flex-col w-full md:w-[calc(50%-0.5rem)] rounded-sm">
                 <div className="mb-2">Name</div>
                 <input placeholder="Product Name" className="border px-4 py-2" />
               </div>
-              <div className="flex flex-col w-[calc(50%-1rem)] rounded-sm">
+              <div className="flex flex-col w-full md:w-[calc(50%-0.5rem)] rounded-sm">
                 <div className="mb-2">Work Type</div>
                 <div className={`${styles.dropdownCont} border py-2 px-4`}>
                   <button
@@ -82,7 +82,7 @@ const Products = () => {
                   )}
                 </div>
               </div>
-              <div className="flex flex-col w-[calc(50%-1rem)] rounded-sm">
+              <div className="flex flex-col w-full md:w-[calc(50%-0.5rem)] rounded-sm">
                 <div className="mb-2">Category</div>
                 <div className={`${styles.dropdownCont} border py-2 px-4`}>
                   <button
@@ -110,11 +110,11 @@ const Products = () => {
                   )}
                 </div>
               </div>
-              <div className="flex flex-col w-[calc(50%-1rem)] rounded-sm">
+              <div className="flex flex-col w-full md:w-[calc(50%-0.5rem)] rounded-sm">
                 <div className="mb-2">Price</div>
                 <input placeholder="Enter Price for the Product" className="border px-4 py-2" />
               </div>
-              <div className="flex flex-col w-[calc(50%-1rem)] rounded-sm">
+              <div className="flex flex-col w-full md:w-[calc(50%-0.5rem)] rounded-sm">
                 <div className="mb-2">Supplier Company</div>
                 <div className={`${styles.dropdownCont} border py-2 px-4`}>
                   <button
@@ -149,7 +149,7 @@ const Products = () => {
       <FormSection title="Validity">
         <FormWraper>
           <div>
-            <div className={`flex gap-x-4`}>
+            <div className={`flex gap-x-4 flex-wrap`}>
               <div className="flex-1">
                 <div className="mb-2">From</div>
                 <input type="datetime-local" name="valid-from" className="border px-4 py-2 w-full mb-4 rounded-sm" />
@@ -166,19 +166,19 @@ const Products = () => {
         <FormWraper>
           <div>
             <div className={`flex gap-x-4 flex-wrap`}>
-              <div className="mb-4 w-[calc(50%-0.5rem)]">
+              <div className="mb-4 w-full md:w-[calc(50%-0.5rem)]">
                 <div className="mb-2">Region</div>
                 <div>
                   <input type="text" className="border px-4 py-2 w-full mb-4 rounded-sm" placeholder="Enter Region" />
                 </div>
               </div>
-              <div className="mb-4 w-[calc(50%-0.5rem)]">
+              <div className="mb-4 w-full md:w-[calc(50%-0.5rem)]">
                 <div className="mb-2">Suburb</div>
                 <div>
                   <input type="text" className="border px-4 py-2 w-full mb-4 rounded-sm" placeholder="Enter Suburb" />
                 </div>
               </div>
-              <div className="mb-4 w-[calc(50%-0.5rem)]">
+              <div className="mb-4 w-full md:w-[calc(50%-0.5rem)]">
                 <div className="mb-2">LGA</div>
                 <div>
                   <input type="text" className="border px-4 py-2 w-full mb-4 rounded-sm" placeholder="Enter LGA" />
@@ -207,7 +207,7 @@ const Products = () => {
                   return (
                     <div
                       key={idx}
-                      className={"mb-8 pb-8 border-b-2 w-[calc(50%-0.5rem)]"}
+                      className={"mb-8 pb-8 border-b-2  w-full md:w-[calc(50%-0.5rem)]"}
                     >
                       <input
                         placeholder="Image Title"
@@ -265,7 +265,7 @@ const Products = () => {
               Enter Description of the Product for Detailed View
             </div>
             <div className="flex gap-x-4 flex-wrap">
-              <div className="flex flex-col w-[calc(50%-0.5rem)] mb-8">
+              <div className="flex flex-col  w-full md:w-[calc(50%-0.5rem)] mb-8">
                 <div className="flex items-center mb-4">
                   <svg className="mr-4 h-12" xmlns="http://www.w3.org/2000/svg" width="29.055" height="30.149" viewBox="0 0 29.055 30.149">
                     <g id="task" transform="translate(-19.713 -18.045)">
@@ -289,7 +289,7 @@ const Products = () => {
                   placeholder="Card Description"
                 ></textarea>
               </div>
-              <div className="flex flex-col w-[calc(50%-0.5rem)] mb-8">
+              <div className="flex flex-col  w-full md:w-[calc(50%-0.5rem)] mb-8">
                 <div className="flex items-center mb-4">
                   <svg className="mr-4 h-12" xmlns="http://www.w3.org/2000/svg" width="35.404" height="34.224" viewBox="0 0 35.404 34.224">
                     <g id="website" transform="translate(-16 -24)">
@@ -315,7 +315,7 @@ const Products = () => {
                   placeholder="Deatiled Description"
                 ></textarea>
               </div>
-              <div className="flex flex-col w-[calc(50%-0.5rem)] mb-8">
+              <div className="flex flex-col  w-full md:w-[calc(50%-0.5rem)] mb-8">
                 <div className="flex items-center mb-4">
                   <svg className="mr-4 h-12" xmlns="http://www.w3.org/2000/svg" width="39.686" height="39.686" viewBox="0 0 39.686 39.686">
                     <path id="inspection" d="M34.288,8H30.234a1.171,1.171,0,0,0-1.169,1.169v4.054a1.171,1.171,0,0,0,1.169,1.169h4.054a1.171,1.171,0,0,0,1.169-1.169V9.168A1.171,1.171,0,0,0,34.288,8Zm-.111,5.112H30.345V9.279h3.832v3.832ZM30.73,11.543a.64.64,0,1,1,.905-.905l.386.386.821-1.015a.64.64,0,1,1,1,.805l-1.268,1.568a.64.64,0,0,1-.464.237h-.034a.64.64,0,0,1-.453-.187Zm16.956,1.11a.64.64,0,0,1-.64.64h-9a.64.64,0,0,1,0-1.28h9A.64.64,0,0,1,47.686,12.653ZM37.407,9.737a.64.64,0,0,1,.64-.64h9a.64.64,0,0,1,0,1.28h-9A.64.64,0,0,1,37.407,9.737Zm-3.119,6.019H30.234a1.171,1.171,0,0,0-1.169,1.169v4.054a1.171,1.171,0,0,0,1.169,1.169h4.054a1.171,1.171,0,0,0,1.169-1.169V16.925a1.171,1.171,0,0,0-1.169-1.169Zm-.111,5.112H30.345V17.036h3.832v3.832ZM30.73,19.3a.64.64,0,1,1,.905-.905l.386.386.821-1.015a.64.64,0,1,1,1,.805l-1.268,1.568a.64.64,0,0,1-.464.237h-.034a.64.64,0,0,1-.453-.187ZM47.686,20.41a.64.64,0,0,1-.64.64h-9a.64.64,0,0,1,0-1.28h9A.64.64,0,0,1,47.686,20.41Zm0-2.917a.64.64,0,0,1-.64.64h-9a.64.64,0,0,1,0-1.28h9A.64.64,0,0,1,47.686,17.494Zm-13.4,6.019H30.234a1.171,1.171,0,0,0-1.169,1.169v4.054a1.171,1.171,0,0,0,1.169,1.169h4.054a1.171,1.171,0,0,0,1.169-1.169V24.682a1.171,1.171,0,0,0-1.169-1.169Zm-.111,5.112H30.345V24.793h3.832v3.832ZM30.73,27.057a.64.64,0,1,1,.905-.905l.386.386.821-1.015a.64.64,0,1,1,1,.805L32.568,27.9a.64.64,0,0,1-.464.237h-.034a.64.64,0,0,1-.453-.187Zm16.956-1.806a.64.64,0,0,1-.64.64h-9a.64.64,0,0,1,0-1.28h9A.64.64,0,0,1,47.686,25.251Zm0,2.917a.64.64,0,0,1-.64.64h-9a.64.64,0,0,1,0-1.28h9A.64.64,0,0,1,47.686,28.167Zm-13.4,3.1H30.234a1.171,1.171,0,0,0-1.169,1.169v4.054a1.171,1.171,0,0,0,1.169,1.169h4.054a1.171,1.171,0,0,0,1.169-1.169V32.439A1.171,1.171,0,0,0,34.288,31.27Zm-.111,5.112H30.345V32.55h3.832v3.832ZM30.73,34.814a.64.64,0,1,1,.905-.905l.386.386.821-1.015a.64.64,0,1,1,1,.805l-1.268,1.568a.64.64,0,0,1-.464.237h-.034a.64.64,0,0,1-.453-.187Zm16.956-1.806a.64.64,0,0,1-.64.64h-9a.64.64,0,0,1,0-1.28h9A.64.64,0,0,1,47.686,33.008Zm0,2.917a.64.64,0,0,1-.64.64h-9a.64.64,0,0,1,0-1.28h9A.64.64,0,0,1,47.686,35.925ZM26.195,39.861a1.328,1.328,0,0,0-1.436-.27l-1.6-1.553a8.183,8.183,0,1,0-2.144,2.349l1.531,1.485a1.328,1.328,0,0,0,.313,1.427l4.134,4.012a1.326,1.326,0,0,0,1.873-.028h0l1.493-1.538a1.326,1.326,0,0,0-.028-1.873Zm-2.4.575-.431.444-1.376-1.335q.217-.221.418-.457ZM9.28,33.816A6.888,6.888,0,1,1,16.168,40.7,6.9,6.9,0,0,1,9.28,33.816ZM29.438,44.853l-1.493,1.538a.047.047,0,0,1-.063,0l-4.134-4.012a.047.047,0,0,1,0-.063l1.493-1.538a.042.042,0,0,1,.031-.013h0a.042.042,0,0,1,.031.012l4.134,4.012a.047.047,0,0,1,0,.063ZM16.168,27.77a6.046,6.046,0,1,0,6.046,6.046A6.053,6.053,0,0,0,16.168,27.77Zm0,10.811a4.766,4.766,0,1,1,4.766-4.766A4.771,4.771,0,0,1,16.168,38.581Zm-7.691-16.3,12.191,3.2a.64.64,0,0,0,.481-.064l5.572-3.2a.64.64,0,0,0,.321-.555V11.84a.64.64,0,0,0-.478-.619L14.375,8.02a.64.64,0,0,0-.416.031l-5.573,2.4A.64.64,0,0,0,8,11.04V21.667a.64.64,0,0,0,.478.619Zm.8-10.417,10.911,2.864v9.3L9.28,21.173ZM21.471,23.762v-9.1l4.292-1.849V21.3ZM14.263,9.314l10.18,2.673L20.78,13.565,10.6,10.892Z" transform="translate(-8 -7.999)" fill="#0a84ff" />
@@ -329,7 +329,7 @@ const Products = () => {
                   placeholder="Techinical Specification"
                 ></textarea>
               </div>
-              <div className="flex flex-col w-[calc(50%-0.5rem)] mb-8">
+              <div className="flex flex-col  w-full md:w-[calc(50%-0.5rem)] mb-8">
                 <div className="flex items-center mb-4">
                   <svg className="mr-4 h-12" xmlns="http://www.w3.org/2000/svg" width="27.86" height="32.947" viewBox="0 0 27.86 32.947">
                     <g id="questions" transform="translate(-39.182 0)">
@@ -428,7 +428,7 @@ const Products = () => {
               <span className="text-red">PDF format</span>
             </div>
             <div className="flex gap-x-4 flex-wrap">
-              <div className="flex flex-col w-[calc(50%-1rem)] rounded-sm">
+              <div className="flex flex-col w-full md:w-[calc(50%-0.5rem)] rounded-sm mb-2">
                 <div className="mb-2">Work Type</div>
                 <div className={`${styles.dropdownCont} border py-2 px-4`}>
                   <button
@@ -459,16 +459,17 @@ const Products = () => {
                   )}
                 </div>
               </div>
-              <div className="flex flex-col w-[calc(50%-0.5rem)] mb-8">
+              <div className="flex flex-col w-full md:w-[calc(50%-0.5rem)] mb-8">
                 <div className="flex items-center mb-2">
                   <span className="">Document</span>
                 </div>
                 <div className="flex">
                   <label
                     htmlFor="user_manual"
-                    className=" py-2 px-4 flex border w-full items-center pl-2 text-gray-400"
+                    className=" py-2 px-4 flex border w-full items-center justify-between pl-2 text-gray-400"
                   >
                     Factsheet (pdf)
+                    <RiUpload2Line /> 
                     <input
                       type="file"
                       className="hidden"
@@ -506,4 +507,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default AddProducts;
