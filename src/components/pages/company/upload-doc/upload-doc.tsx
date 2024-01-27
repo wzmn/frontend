@@ -7,6 +7,7 @@ import DNDImage, { DNDImageFileType } from "components/dnd-image";
 import { ComplianceResultT } from "type/global";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useUploadContext } from "providers/upload-doc-provider";
+import { acceptedFileType } from "../../../../constants";
 
 const UploadDoc = ({
   data,
@@ -73,6 +74,10 @@ function Upload({ data, index }: { data: ComplianceResultT; index: number }) {
                     list[data.priority!][index] = dt;
 
                     setFiles(() => list);
+                  }}
+                  accept={{
+                    "image/*": [],
+                    "application/*": acceptedFileType,
                   }}
                 />
               </div>
