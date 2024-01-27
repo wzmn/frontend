@@ -16,6 +16,8 @@ import { EmpResultT } from "type/employee";
 import * as companyStyles from "../company/styles.module.scss";
 import { StringInBetweenReg } from "constants/regex";
 import { acceptedFileType } from "../../constants";
+import Button from "components/button";
+import MsgToast from "services/msg-toast";
 
 const EmployeeDetails = (props: PageProps) => {
   const { location } = props;
@@ -30,6 +32,7 @@ const EmployeeDetails = (props: PageProps) => {
   });
 
   const [data, setData] = useState<Partial<EmpResultT>>({});
+  const [docVerifyStatus, setDocVerifyStatus] = useState(false);
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -46,6 +49,24 @@ const EmployeeDetails = (props: PageProps) => {
       setData(() => response.data);
     } catch (error) {
       console.log(error);
+    }
+  }
+
+  async function fieldworkerVerification() {
+    try {
+      setDocVerifyStatus((prev) => !prev);
+      const resp = await request({
+        url: EMPLOYEE_LISTING + data.id + "/",
+        method: "patch",
+        data: {
+          is_verified: !data.is_verified,
+        },
+      });
+      await fetchData();
+    } catch (error) {
+      MsgToast("Cant verify try later", "error");
+    } finally {
+      setDocVerifyStatus((prev) => !prev);
     }
   }
 
@@ -112,6 +133,27 @@ const EmployeeDetails = (props: PageProps) => {
                   <div className={styles.roles}>
                     <Radio label={data?.role?.toUpperCase()!} checked={true} />
                   </div>
+                </div>
+
+                <div className="mt-8">
+                  {data.role?.toLowerCase() === "field worker" ? (
+                    data.is_verified ? (
+                      <Button
+                        isLoading={docVerifyStatus}
+                        disabled={docVerifyStatus}
+                        onClick={() => fieldworkerVerification()}
+                        color="red"
+                        title="Documents Reject"
+                      />
+                    ) : (
+                      <Button
+                        isLoading={docVerifyStatus}
+                        disabled={docVerifyStatus}
+                        onClick={() => fieldworkerVerification()}
+                        title="Documents Verify"
+                      />
+                    )
+                  ) : null}
                 </div>
               </>
             </FormWraper>

@@ -171,10 +171,14 @@ const Company = () => {
   ) {
     const datap = {
       company_status: to,
+      company_verified: ["verified", "operational"].includes(
+        to.toLocaleLowerCase()
+      ),
     };
     try {
       const response = await request<CompanyDataType[]>({
-        url: COMPANY_LISTING + item.id + "/approval/",
+        // url: COMPANY_LISTING + item.id + "/approval/",
+        url: COMPANY_LISTING + item.id + "/",
         method: "patch",
         data: datap,
       });
