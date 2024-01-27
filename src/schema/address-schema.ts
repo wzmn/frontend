@@ -16,6 +16,7 @@ export type AddressSchemaT = {
   long: string | null;
   lga: string;
   pincode: string;
+  country: string | null;
 };
 
 export const addressSchema = object({
@@ -34,4 +35,5 @@ export const addressSchema = object({
   long: string().trim().nullable(),
   lga: string().trim().required("Required"),
   pincode: string().trim().required("Required"),
+  country: string().trim().nullable(),
 }) as ObjectSchema<AddressSchemaT>;

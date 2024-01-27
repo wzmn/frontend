@@ -17,6 +17,7 @@ export function fillInPrimaryAddress(
     state: "",
     pincode: "",
     lga: "",
+    country: "",
   };
   for (const component of address_components) {
     // @ts-ignore remove once typings fixed
@@ -69,6 +70,11 @@ export function fillInPrimaryAddress(
       //suburb
       case "locality": {
         fields.suburb = component.long_name;
+        break;
+      }
+
+      case "country": {
+        fields.country = component.long_name;
         break;
       }
     }

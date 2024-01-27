@@ -135,28 +135,31 @@ const EmployeeDetails = (props: PageProps) => {
                           <p className="mb-3 font-medium ">
                             {docs?.detail?.compliance_item}
                           </p>
-                          {docs.documents?.map((doc) => {
-                            return (
-                              <div className={styles.attachments}>
-                                <aside className={companyStyles.preview}>
-                                  <div className="">
-                                    <img
-                                      src={
-                                        doc.file || "/assets/images/picture.svg"
-                                      }
-                                      alt="N/A"
-                                      // Revoke data uri after image is loaded
-                                      onLoad={() => {
-                                        URL.revokeObjectURL(
-                                          files?.[index]?.preview
-                                        );
-                                      }}
-                                    />
-                                  </div>
-                                </aside>
-                              </div>
-                            );
-                          })}
+                          <div className="grid grid-cols-2 gap-4">
+                            {docs.documents?.map((doc) => {
+                              return (
+                                <div className={styles.attachments}>
+                                  <aside className={companyStyles.preview}>
+                                    <div className="">
+                                      <img
+                                        src={
+                                          doc.file ||
+                                          "/assets/images/picture.svg"
+                                        }
+                                        alt="N/A"
+                                        // Revoke data uri after image is loaded
+                                        onLoad={() => {
+                                          URL.revokeObjectURL(
+                                            files?.[index]?.preview
+                                          );
+                                        }}
+                                      />
+                                    </div>
+                                  </aside>
+                                </div>
+                              );
+                            })}
+                          </div>
                         </>
                       </FormWraper>
                     </>

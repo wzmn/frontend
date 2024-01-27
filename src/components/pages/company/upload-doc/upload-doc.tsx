@@ -76,7 +76,7 @@ function Upload({ data, index }: { data: ComplianceResultT; index: number }) {
                   }}
                 />
               </div>
-              {files[data.priority!]?.[index]?.documents?.length > 0 && (
+              {files?.[data?.priority!]?.[index]?.documents?.length > 0 && (
                 <>
                   {files[data.priority!][index]?.documents?.map((item, idx) => {
                     return (

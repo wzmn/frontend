@@ -12,7 +12,7 @@ export const EMPLOYEE_STATUS = "/employee/list-roles/";
 export const CUSTOMER_LISTING = "customer/management/";
 export const EXPORT_CUST = "/customer/export_data/";
 //COMPANY
-export const CONPAMY_UPLOAD_DOCS = "/company/info/?expand=detail";
+export const CONPAMY_UPLOAD_DOCS = "/company/info/";
 export const COMPANY_LISTING = "/company/basic/";
 export const COMPANY_STATUS = "/company/status-list";
 //JOB

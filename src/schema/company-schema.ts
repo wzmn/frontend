@@ -16,8 +16,7 @@ function isValidFileType(fileName: string, fileType: string) {
   );
 }
 
-export const companyRegistrationSchema = object({
-  // abnNo: string().trim().required("Required"),
+export const companyDetailsSchema = object({
   company_name: string().trim().required("Required"),
   abn: string().trim().required("Required"),
   company_mobile_phone: string().trim().required("Required"),
@@ -25,6 +24,17 @@ export const companyRegistrationSchema = object({
   company_email: string().trim().matches(EmailReg, "Invalid email"),
   company_country: string().trim().required("Required"),
   company_type: string().trim().required("Required"),
+});
+
+export const companyRegistrationSchema = object({
+  // abnNo: string().trim().required("Required"),
+  // company_name: string().trim().required("Required"),
+  // abn: string().trim().required("Required"),
+  // company_mobile_phone: string().trim().required("Required"),
+  // company_landline: string().trim().nullable(),
+  // company_email: string().trim().matches(EmailReg, "Invalid email"),
+  // company_country: string().trim().required("Required"),
+  // company_type: string().trim().required("Required"),
 
   logoImg: mixed()
     .required("Required")
@@ -51,7 +61,7 @@ export const companyRegistrationSchema = object({
 
   mobile_otp: string().required("Required"),
   email_otp: string().required("Required"),
-});
+}).concat(companyDetailsSchema);
 
 export type CompanyRegistrationSchemaType = InferType<
   typeof companyRegistrationSchema

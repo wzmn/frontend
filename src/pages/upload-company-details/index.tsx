@@ -22,7 +22,7 @@ function initialState() {
 }
 
 const UploadCompanyDetails = () => {
-  const { setCompanyAuth, setUserAuth } = useAuthContext();
+  const { setCompanyAuth, setUserAuth, companyAuth } = useAuthContext();
   const [compliance, setCompliance] = useState<ComplianceState>(initialState());
 
   async function fetchCompanyCompliance() {
@@ -31,7 +31,7 @@ const UploadCompanyDetails = () => {
         url: COUNTRY_COMPLIANCE,
         params: {
           company_country: "Australia",
-          item_type: "company",
+          // item_type: "company",
         },
       });
       const list = initialState();
@@ -55,7 +55,9 @@ const UploadCompanyDetails = () => {
   return (
     <div className="grow">
       <div className="flex justify-between items-center">
-        <p className={styles.title}>Upload Company Document</p>
+        <p className={styles.title}>
+          Company Status : ({companyAuth?.company_status.toUpperCase()})
+        </p>
         <p
           className="text-red cursor-pointer"
           onClick={() => {
@@ -68,7 +70,10 @@ const UploadCompanyDetails = () => {
         </p>
       </div>
 
-      {/* <CompanyDetails /> */}
+      <CompanyDetails />
+
+      <p className={styles.title}>Upload Company Documents</p>
+
       <UploadDocuments />
     </div>
   );

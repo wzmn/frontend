@@ -116,6 +116,8 @@ const CompanyRegistration = () => {
 
   const userPhone = watch("company_owner.phone");
   const companyLandline = watch("company_landline");
+  const phoneNumber = watch("company_mobile_phone");
+  const country = watch("address.country");
 
   async function sendOtp(value: string) {
     try {
@@ -196,9 +198,10 @@ const CompanyRegistration = () => {
     } catch (error: any) {
       if (error.response.data.company_owner.hasOwnProperty("email")) {
         MsgToast(error.response.data.company_owner.email[0], "error");
-      }
-      if (error.response.data.company_owner.hasOwnProperty("phone")) {
+      } else if (error.response.data.company_owner.hasOwnProperty("phone")) {
         MsgToast(error.response.data.company_owner.phone[0], "error");
+      } else {
+        MsgToast("Try Again Later", "error");
       }
     }
   }
@@ -224,6 +227,10 @@ const CompanyRegistration = () => {
       console.log(error);
     }
   }
+
+  useEffect(() => {
+    setValue("company_country", country!);
+  }, [country]);
 
   useEffect(() => {
     setValue("mobile_otp", mobileOTP);
@@ -381,12 +388,24 @@ const CompanyRegistration = () => {
                     />
                   </div>
                   <div className="max-w-3xl">
-                    <TextField
-                      title="Mobile Number"
-                      asterisk
-                      {...register("company_mobile_phone")}
-                      errormessage={errors.company_mobile_phone?.message}
-                    />
+                    <Label title="Phone No." />
+                    <div className="">
+                      <PhoneInput
+                        defaultCountry="AU"
+                        countryCallingCodeEditable={false}
+                        international
+                        className="w-full"
+                        placeholder="Enter phone number"
+                        value={phoneNumber!}
+                        onChange={(val) =>
+                          setValue("company_mobile_phone", val!)
+                        }
+                        inputComponent={TextField}
+                      />
+                      <p className={styles.errorMessage}>
+                        {errors.company_mobile_phone?.message}
+                      </p>
+                    </div>
                   </div>
 
                   <div className="max-w-3xl">
@@ -416,7 +435,14 @@ const CompanyRegistration = () => {
                     />
                   </div>
                   <div className="max-w-3xl">
-                    <SelectBox
+                    <TextField
+                      disabled
+                      title="Company Country"
+                      asterisk
+                      {...register("company_country")}
+                      errormessage={errors.company_country?.message}
+                    />
+                    {/* <SelectBox
                       placeholder="Company Country"
                       data={countries}
                       asterisk
@@ -426,7 +452,7 @@ const CompanyRegistration = () => {
                     />
                     <p className={styles.error + " text-xs"}>
                       {errors.company_country?.message}
-                    </p>
+                    </p> */}
                   </div>
 
                   <div className="max-w-3xl">

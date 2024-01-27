@@ -39,7 +39,7 @@ const LocationAutocomplete = ({
       address: dt.description,
     });
     const cords = getLatLng(result[0]);
-
+    console.log(result[0].address_components);
     const fillAddress = fillInPrimaryAddress(result[0].address_components);
 
     if (setFields) setFields(fillAddress);

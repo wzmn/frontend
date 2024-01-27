@@ -6,10 +6,9 @@ import FormWraper from "components/form-wrapper";
 import Radio from "components/radio";
 import { COMPANY_LISTING } from "constants/api";
 import { PageProps, navigate } from "gatsby";
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { IoCallOutline, IoLocationOutline } from "react-icons/io5";
-import { RiDeleteBin6Line } from "react-icons/ri";
 import { TfiEmail } from "react-icons/tfi";
 import { request } from "services/http-request";
 import TimeFormat from "services/time-format";
@@ -138,79 +137,59 @@ const CompanyDetails = (props: PageProps) => {
           </div>
         </FormSection>
 
-        <FormSection title="Attachments">
+        {data?.info?.length !== 0 && (
           <form className="flex-1" onSubmit={handleSubmit(onSubmit)}>
-            <FormWraper>
-              <>
-                <div className={styles.attachments}>
-                  {fields.map((item, index: number) => {
-                    return (
-                      <Fragment key={item.id}>
-                        {/* <div className={styles.file}> */}
-                        {/* <DNDImage
-                          setFiles={(e) => {
-                            setValue(`attachments.${index}.file`, e);
-                            const list = [...files];
-                            list[index] = e[0];
-                            setFiles(() => list);
-                          }}
-                        /> */}
-                        {/* </div> */}
-
-                        <aside className={companyStyles.preview}>
-                          {files[index] ? (
-                            <div className="">
-                              <img
-                                src={files?.[index]?.preview}
-                                alt="/assets/images/picture.svg"
-                                // Revoke data uri after image is loaded
-                                onLoad={() => {
-                                  URL.revokeObjectURL(files?.[index]?.preview);
-                                }}
-                              />
-                              <RiDeleteBin6Line
-                                className="w-5 h-5 cursor-pointer absolute top-1 right-4"
-                                onClick={() => {
-                                  files.splice(index, 1);
-                                  remove(index);
-                                }}
-                              />
-                            </div>
-                          ) : (
-                            <div className="">
-                              <img
-                                src="/assets/images/picture.svg"
-
-                                // alt="/assets/images/picture.svg"
-                                // Revoke data uri after image is loaded
-                              />
-                              {/* <RiDeleteBin6Line
-                                className="w-5 h-5 cursor-pointer absolute top-1 right-4"
-                                onClick={() => {
-                                  files.splice(index, 1);
-                                  remove(index);
-                                }}
-                              /> */}
-                            </div>
-                          )}
-                        </aside>
-                      </Fragment>
-                    );
-                  })}
-                </div>
-                {/* <p
-                  className={styles.addAttachments}
-                  onClick={() => append({ file: null })}
-                >
-                  Add Attachments
-                  <span className="icon">
-                    <ImAttachment />
-                  </span>
-                </p> */}
-              </>
-            </FormWraper>
+            <>
+              {data?.info?.map((docs, index: number) => {
+                return (
+                  <FormSection
+                    title={
+                      docs.detail.priority +
+                      " (Points " +
+                      docs.detail.points +
+                      ")"
+                    }
+                  >
+                    <>
+                      <FormWraper>
+                        <>
+                          <p className="mb-3 font-medium ">
+                            {docs?.detail?.compliance_item}
+                          </p>
+                          <div className="grid grid-cols-2 gap-4">
+                            {docs.documents?.map((doc) => {
+                              return (
+                                <div className={styles.attachments}>
+                                  <aside className={companyStyles.preview}>
+                                    <div className="">
+                                      <img
+                                        src={
+                                          doc.file ||
+                                          "/assets/images/picture.svg"
+                                        }
+                                        alt="N/A"
+                                        // Revoke data uri after image is loaded
+                                        onLoad={() => {
+                                          URL.revokeObjectURL(
+                                            files?.[index]?.preview
+                                          );
+                                        }}
+                                      />
+                                    </div>
+                                  </aside>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </>
+                      </FormWraper>
+                    </>
+                  </FormSection>
+                );
+              })}
+            </>
           </form>
-        </FormSection>
+        )}
 
         {/* <FormSection title="Comments">
           <div className="flex-1">

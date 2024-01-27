@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import { request } from "services/http-request";
 import { ComplianceRespT } from "type/global";
 import UploadDoc from "../company/upload-doc/upload-doc";
+import { UploadSingleDoc } from "./upload-single-doc";
 
 function initialState() {
   return JSON.parse(
@@ -43,17 +44,42 @@ const UploadDocuments = () => {
   }
 
   useEffect(() => {
-    // fetchCompanyCompliance();
+    fetchCompanyCompliance();
     console.log("hi");
   }, []);
 
   return (
     <div className="grow">
-      <div className="space-y-16 mb-3">
+      <div className="space-y-16 mb-3 px-56">
         <FormSection title="Primary Documents">
           <FormWraper>
             <>
-              <UploadDoc title="Primary Documents" data={compliance.primary} />
+              <UploadSingleDoc
+                title="Primary Documents"
+                data={compliance.primary}
+              />
+            </>
+          </FormWraper>
+        </FormSection>
+
+        <FormSection title="Secoundry Documents">
+          <FormWraper>
+            <>
+              <UploadSingleDoc
+                title="Secoundry Documents"
+                data={compliance.secondary}
+              />
+            </>
+          </FormWraper>
+        </FormSection>
+
+        <FormSection title="Additional Documents">
+          <FormWraper>
+            <>
+              <UploadSingleDoc
+                title="Additional Documents"
+                data={compliance.additional}
+              />
             </>
           </FormWraper>
         </FormSection>

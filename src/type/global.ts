@@ -20,6 +20,33 @@ export interface ComplianceResultT {
 
 export type PriorityT = "primary" | "secondary" | "additional";
 
+export type ComplianceUploadedDocRespT = PaginationType<
+  ComplianceUploadedDocResultT[]
+>;
+
+export interface ComplianceUploadedDocResultT {
+  id: number;
+  documents: ComplianceDocument[];
+  detail: ComplianceResultT;
+  ref_id: null;
+  created_at: Date;
+  updated_at: Date;
+  is_active: boolean;
+  info: null;
+  is_verified: boolean;
+  comments: null;
+  company: number;
+}
+
+export interface ComplianceDocument {
+  id: number;
+  ref_id: null;
+  created_at: Date;
+  updated_at: Date;
+  is_active: boolean;
+  file: string;
+}
+
 export interface PaginationType<T> {
   count?: number;
   next?: null;

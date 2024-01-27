@@ -55,83 +55,91 @@ const Layout = ({ children }: Props) => {
 
   return (
     <>
-      {!routeNotToInclude.includes(pathname) ? (
-        <div className="c-container">
-          <AppProvider>
-            <UploadDocProvider>
-              <ProtectedRoutes>
-                <GoogleMapProvider>
-                  <DndProvider backend={HTML5Backend}>
-                    <RightBarProvider>
-                      <SidebarContext>
-                        <>
-                          <div className={`${styles.layout} `}>
-                            <Sidebar />
-                            <div className={styles.children}>
-                              <div className={styles.mainContent}>
-                                <Navbar />
-                                {children}
-                                {/* <Footer /> */}
+      <UploadDocProvider>
+        <GoogleMapProvider>
+          <>
+            {!routeNotToInclude.includes(pathname) ? (
+              <div className="c-container">
+                <AppProvider>
+                  <ProtectedRoutes>
+                    <DndProvider backend={HTML5Backend}>
+                      <RightBarProvider>
+                        <SidebarContext>
+                          <>
+                            <div className={`${styles.layout} `}>
+                              <Sidebar />
+                              <div className={styles.children}>
+                                <div className={styles.mainContent}>
+                                  <Navbar />
+                                  {children}
+                                  {/* <Footer /> */}
+                                </div>
                               </div>
+                              <RightBar /> {/* has absolute position */}
                             </div>
-                            <RightBar /> {/* has absolute position */}
-                          </div>
-                          {/* <ConfirmDialog /> */}
-                        </>
-                      </SidebarContext>
-                    </RightBarProvider>
-                  </DndProvider>
-                </GoogleMapProvider>
-              </ProtectedRoutes>
-            </UploadDocProvider>
-          </AppProvider>
-        </div>
-      ) : (
-        <div className="">
-          {!notToIncludeInReDirect.includes(pathname) ? (
-            <HandleRedirect>
-              <AuthLayout>
-                <div className="flex flex-column">
-                  <div className="items-center flex-1 flex justify-center">
-                    {children}
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                    }}
-                  >
-                    <img style={{ maxWidth: 199 }} src="/assets/logo.png" />
-                    <Footer />
-                  </div>
-                </div>
-              </AuthLayout>
-            </HandleRedirect>
-          ) : (
-            <>
-              <AuthLayout>
-                <div className="flex flex-column">
-                  <div className="items-center flex-1 flex justify-center">
-                    {children}
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                    }}
-                  >
-                    <img style={{ maxWidth: 199 }} src="/assets/logo.png" />
-                    <Footer />
-                  </div>
-                </div>
-              </AuthLayout>
-            </>
-          )}
-        </div>
-      )}
-      <ToastContainer />
+                            {/* <ConfirmDialog /> */}
+                          </>
+                        </SidebarContext>
+                      </RightBarProvider>
+                    </DndProvider>
+                  </ProtectedRoutes>
+                </AppProvider>
+              </div>
+            ) : (
+              <div className="">
+                {!notToIncludeInReDirect.includes(pathname) ? (
+                  <HandleRedirect>
+                    <AuthLayout>
+                      <div className="flex flex-column">
+                        <div className="items-center flex-1 flex justify-center">
+                          {children}
+                        </div>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                          }}
+                        >
+                          <img
+                            style={{ maxWidth: 199 }}
+                            src="/assets/logo.png"
+                          />
+                          <Footer />
+                        </div>
+                      </div>
+                    </AuthLayout>
+                  </HandleRedirect>
+                ) : (
+                  <>
+                    <AuthLayout>
+                      <div className="flex flex-column">
+                        <div className="items-center flex-1 flex justify-center">
+                          {children}
+                        </div>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                          }}
+                        >
+                          <img
+                            style={{ maxWidth: 199 }}
+                            src="/assets/logo.png"
+                          />
+                          <Footer />
+                        </div>
+                      </div>
+                    </AuthLayout>
+                  </>
+                )}
+              </div>
+            )}
+            <ToastContainer />
+          </>
+        </GoogleMapProvider>
+      </UploadDocProvider>
     </>
   );
 };

@@ -1,5 +1,5 @@
 import React from "react";
-import { navigate } from "gatsby";
+import { PageProps, navigate } from "gatsby";
 import { useAuthContext } from "providers/auth-provider";
 
 type Props = {
@@ -12,16 +12,19 @@ const useAuth = () => {
 
     // console.log("Helo World", companyAuth?.company_verified);
     if (!userAuth) {
-      if (!location.pathname.match(/login/)) {
-        typeof window !== "undefined" && navigate(`/login/`, { replace: true });
-        // typeof window !== "undefined" && navigate(`/login?redirect=${encodeURIComponent(location.pathname + location.search)}`, { replace: true });
-      }
+      if (typeof window !== "undefined")
+        if (!location.pathname.match(/login/)) {
+          typeof window !== "undefined" &&
+            navigate(`/login/`, { replace: true });
+          // typeof window !== "undefined" && navigate(`/login?redirect=${encodeURIComponent(location.pathname + location.search)}`, { replace: true });
+        }
       return null;
     }
-    if (!companyAuth?.company_verified) {
-      // if (!location.pathname.match(/upload-company-details/)) {
-      navigate("/upload-company-details");
-      // }
+    if (!JSON.parse(userAuth?.staff)) {
+      if (!companyAuth?.company_verified) {
+        navigate("/upload-company-details");
+        return null;
+      }
     }
 
     console.log("diredjbhg ", companyAuth?.company_verified);
