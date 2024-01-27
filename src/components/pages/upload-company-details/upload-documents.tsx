@@ -62,11 +62,11 @@ const UploadDocuments = () => {
           </FormWraper>
         </FormSection>
 
-        <FormSection title="Secoundry Documents">
+        <FormSection title="Secondary Documents">
           <FormWraper>
             <>
               <UploadSingleDoc
-                title="Secoundry Documents"
+                title="Secondary Documents"
                 data={compliance.secondary}
               />
             </>

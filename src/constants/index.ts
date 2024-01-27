@@ -574,3 +574,5 @@ export const CustTypeData = [
     value: "commercial",
   },
 ];
+
+export const acceptedFileType = [".pdf", ".doc", ".docx", ".plainText", ".txt"];

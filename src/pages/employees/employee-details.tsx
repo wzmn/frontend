@@ -14,6 +14,8 @@ import TimeFormat from "services/time-format";
 import * as styles from "styles/pages/common.module.scss";
 import { EmpResultT } from "type/employee";
 import * as companyStyles from "../company/styles.module.scss";
+import { StringInBetweenReg } from "constants/regex";
+import { acceptedFileType } from "../../constants";
 
 const EmployeeDetails = (props: PageProps) => {
   const { location } = props;
@@ -141,19 +143,29 @@ const EmployeeDetails = (props: PageProps) => {
                                 <div className={styles.attachments}>
                                   <aside className={companyStyles.preview}>
                                     <div className="">
-                                      <img
-                                        src={
-                                          doc.file ||
-                                          "/assets/images/picture.svg"
-                                        }
-                                        alt="N/A"
-                                        // Revoke data uri after image is loaded
-                                        onLoad={() => {
-                                          URL.revokeObjectURL(
-                                            files?.[index]?.preview
-                                          );
-                                        }}
-                                      />
+                                      {acceptedFileType.includes(
+                                        "." +
+                                          doc.file.match(StringInBetweenReg)![0]
+                                      ) ? (
+                                        <div className="text-gray-700">
+                                          <a href={doc.file} target="_blank">
+                                            View Document
+                                          </a>
+                                        </div>
+                                      ) : (
+                                        <>
+                                          <a
+                                            href={doc.file}
+                                            className="w-full h-full"
+                                            target="_blank"
+                                          >
+                                            <img
+                                              src={doc.file}
+                                              alt="/assets/images/picture.svg"
+                                            />
+                                          </a>
+                                        </>
+                                      )}
                                     </div>
                                   </aside>
                                 </div>

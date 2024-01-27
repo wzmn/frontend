@@ -18,6 +18,7 @@ import Button from "components/button";
 import { StringInBetweenReg } from "constants/regex";
 import { ImSpinner10 } from "react-icons/im";
 import MsgToast from "services/msg-toast";
+import { acceptedFileType } from "../../../../constants";
 
 export const UploadSingleDoc = ({
   data,
@@ -158,7 +159,7 @@ function SingleUploadHandler({
                       }}
                       accept={{
                         "image/*": [],
-                        "application/pdf": [],
+                        "application/*": acceptedFileType,
                       }}
                     />
                   </div>
@@ -265,17 +266,19 @@ function ExistingDocumentsHandler({
 
   return (
     <div className={styles.preview}>
-      {doc.file.match(StringInBetweenReg)![0] !== "pdf" ? (
-        <a href={doc.file} className="w-full h-full" target="_blank">
-          <img src={doc.file} alt="/assets/images/picture.svg" />
-        </a>
+      {acceptedFileType.includes(
+        "." + doc.file.match(StringInBetweenReg)![0]
+      ) ? (
+        <div className="text-gray-700">
+          <a href={doc.file} target="_blank">
+            View Document
+          </a>
+        </div>
       ) : (
         <>
-          <div className="text-gray-700">
-            <a href={doc.file} target="_blank">
-              View Document
-            </a>
-          </div>
+          <a href={doc.file} className="w-full h-full" target="_blank">
+            <img src={doc.file} alt="/assets/images/picture.svg" />
+          </a>
         </>
       )}
       {loading ? (
