@@ -2,12 +2,14 @@ import Checkbox from "components/checkbox";
 import Input from "components/input";
 import { checkforMultiChecker } from "components/pages/settings/new-appt-questions/helper";
 import TextButton from "components/text-button";
-import { QUESTIONS_ANS, SUB_Q_CONDITIONS } from "constants/api";
+import { DOCUMENTS_ANS, QUESTIONS_ANS, SUB_Q_CONDITIONS } from "constants/api";
 import React, { useEffect, useState } from "react";
 import { UseFormRegister, useFieldArray, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { request } from "services/http-request";
 import {
+  DocumentsAnsRespT,
+  DocumentsAnsT,
   Option,
   QAnsRespT,
   QAnsResultT,
@@ -125,6 +127,7 @@ function Options({
   const [showAddQ, setShowAddQ] = useState(false);
   const [loading, setLoading] = useState(false);
   const [subQ, setSubQ] = useState<QAnsResultT[]>();
+  const [docAns, setDocAns] = useState<DocumentsAnsT[]>();
 
   async function fetchQuestionsAns() {
     try {
@@ -142,8 +145,25 @@ function Options({
     }
   }
 
+  async function fetchDocQuestionsAns() {
+    try {
+      const response = await request<DocumentsAnsRespT>({
+        url: DOCUMENTS_ANS,
+        params: {
+          question__parent_question: parentQId,
+          question__parent_question__subquestion_conditions__answer:
+            option.option_text,
+        },
+      });
+      setDocAns(() => response?.data?.results!);
+    } catch (error) {
+      toast("Problem fetching questions");
+    }
+  }
+
   useEffect(() => {
     hasSubQ && fetchQuestionsAns();
+    hasSubQ && fetchDocQuestionsAns();
   }, []);
 
   return (
@@ -167,6 +187,16 @@ function Options({
           return (
             <div className="my-6 ml-10  " key={key}>
               <AnsQuestion data={item} />
+            </div>
+          );
+        })}
+
+      {!!docAns &&
+        docAns?.map((item, key) => {
+          return (
+            <div className="my-6 ml-10  " key={key}>
+              {/* <AnsQuestion data={item} /> */}
+              {item?.question?.content}
             </div>
           );
         })}

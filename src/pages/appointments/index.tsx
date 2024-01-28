@@ -168,8 +168,8 @@ const Appintments = () => {
       return;
     }
 
-    console.log(item, section);
-    if (item.section === section) return;
+    // console.log(item, section);
+    // if (item.section === section) return;
     const copyData: any = { ...data };
     let idx = findMatchingId(data, item.id, item.section);
     console.log(idx, " idddx");
@@ -461,7 +461,8 @@ const Appintments = () => {
               <Drop
                 key={dropName}
                 titleRingColor={getColumnColor(index)}
-                accept={colAccepList[dropName] || []}
+                // accept={colAccepList[dropName] || []}
+                accept={"all"}
                 handleDrop={handleDrop}
                 section={dropName}
                 title={dropName.toLocaleUpperCase()}
@@ -473,7 +474,8 @@ const Appintments = () => {
                         <Fragment key={dragItem.id}>
                           <Drage
                             key={dragItem.id} //you can`t use index from map id should be unique
-                            accept={dropName}
+                            // accept={dropName}
+                            accept={"all"}
                             section={dropName}
                             id={dragItem.id as number}
                             loading={dragItem.status}
