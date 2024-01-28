@@ -62,7 +62,6 @@ const UploadCompanyDetails = () => {
 
   return (
     <div className="grow">
-      {JSON.stringify(companyAuth.company_verified)}
       <div className="flex justify-between items-center">
         <p className={styles.title}>
           Company Status : ({companyAuth?.company_status.toUpperCase()})

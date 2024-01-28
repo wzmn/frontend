@@ -57,13 +57,13 @@ const Layout = ({ children }: Props) => {
     <>
       <UploadDocProvider>
         <GoogleMapProvider>
-          <>
-            {!routeNotToInclude.includes(pathname) ? (
-              <div className="c-container">
-                <AppProvider>
-                  <ProtectedRoutes>
-                    <DndProvider backend={HTML5Backend}>
-                      <RightBarProvider>
+          <RightBarProvider>
+            <>
+              {!routeNotToInclude.includes(pathname) ? (
+                <div className="c-container">
+                  <AppProvider>
+                    <ProtectedRoutes>
+                      <DndProvider backend={HTML5Backend}>
                         <SidebarContext>
                           <>
                             <div className={`${styles.layout} `}>
@@ -80,64 +80,64 @@ const Layout = ({ children }: Props) => {
                             {/* <ConfirmDialog /> */}
                           </>
                         </SidebarContext>
-                      </RightBarProvider>
-                    </DndProvider>
-                  </ProtectedRoutes>
-                </AppProvider>
-              </div>
-            ) : (
-              <div className="">
-                {!notToIncludeInReDirect.includes(pathname) ? (
-                  <HandleRedirect>
-                    <AuthLayout>
-                      <div className="flex flex-column">
-                        <div className="items-center flex-1 flex justify-center">
-                          {children}
+                      </DndProvider>
+                    </ProtectedRoutes>
+                  </AppProvider>
+                </div>
+              ) : (
+                <div className="">
+                  {!notToIncludeInReDirect.includes(pathname) ? (
+                    <HandleRedirect>
+                      <AuthLayout>
+                        <div className="flex flex-column">
+                          <div className="items-center flex-1 flex justify-center">
+                            {children}
+                          </div>
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              alignItems: "center",
+                            }}
+                          >
+                            <img
+                              style={{ maxWidth: 199 }}
+                              src="/assets/logo.png"
+                            />
+                            <Footer />
+                          </div>
                         </div>
-                        <div
-                          style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                          }}
-                        >
-                          <img
-                            style={{ maxWidth: 199 }}
-                            src="/assets/logo.png"
-                          />
-                          <Footer />
+                      </AuthLayout>
+                    </HandleRedirect>
+                  ) : (
+                    <>
+                      <AuthLayout>
+                        <div className="flex flex-column">
+                          <div className="items-center flex-1 flex justify-center">
+                            {children}
+                          </div>
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              alignItems: "center",
+                            }}
+                          >
+                            <img
+                              style={{ maxWidth: 199 }}
+                              src="/assets/logo.png"
+                            />
+                            <Footer />
+                          </div>
                         </div>
-                      </div>
-                    </AuthLayout>
-                  </HandleRedirect>
-                ) : (
-                  <>
-                    <AuthLayout>
-                      <div className="flex flex-column">
-                        <div className="items-center flex-1 flex justify-center">
-                          {children}
-                        </div>
-                        <div
-                          style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                          }}
-                        >
-                          <img
-                            style={{ maxWidth: 199 }}
-                            src="/assets/logo.png"
-                          />
-                          <Footer />
-                        </div>
-                      </div>
-                    </AuthLayout>
-                  </>
-                )}
-              </div>
-            )}
-            <ToastContainer />
-          </>
+                      </AuthLayout>
+                    </>
+                  )}
+                </div>
+              )}
+              <ToastContainer />
+            </>
+          </RightBarProvider>
         </GoogleMapProvider>
       </UploadDocProvider>
     </>

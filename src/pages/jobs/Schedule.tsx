@@ -118,7 +118,7 @@ const Schedule = ({ item, companyId, apptId }: Props) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <FormSection
-        title={`Schedule Appt${apptId && "(" + apptId + ")"}`}
+        title={`Schedule Appt${apptId ? "(" + apptId + ")" : ""}`}
         style={{ zIndex: "1" }}
       >
         <div className="flex-1 z-10">

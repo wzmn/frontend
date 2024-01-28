@@ -11,7 +11,12 @@ import cssVar from "utility/css-var";
 import { PublishList } from "components/pages/publish";
 import Placeholder from "components/skeleton";
 import * as styles from "styles/pages/common.module.scss";
-import { QuoteRespT, QuoteResultExtraT, QuoteStatusT } from "type/quotes";
+import {
+  QuoteRespT,
+  QuoteResultExtraT,
+  QuoteResultT,
+  QuoteStatusT,
+} from "type/quotes";
 import { ApptResultT } from "type/appointment";
 
 type DropItemType = { id: number; section: JobStatusRole };
@@ -26,7 +31,7 @@ const dataList = [
 ];
 
 const Publish = () => {
-  const [data, setData] = useState<Record<QuoteStatusT, QuoteResultExtraT[]>>({
+  const [data, setData] = useState<Record<QuoteStatusT, QuoteResultT[]>>({
     "quote requested": [],
     "quote accepted": [],
     "installation done": [],
@@ -68,7 +73,7 @@ const Publish = () => {
         },
       });
 
-      const filterData: Record<QuoteStatusT, QuoteResultExtraT[]> = { ...data };
+      const filterData: Record<QuoteStatusT, QuoteResultT[]> = { ...data };
 
       //this is to make all record empty before calling this function otherwise it will stack
       (Object.keys(data) as QuoteStatusT[]).map(
@@ -82,27 +87,9 @@ const Publish = () => {
 
       response?.data.results?.forEach((item) => {
         if (item.selected) {
-          item.assessments.map((appt) => {
-            filterData["quote accepted"].push({
-              ...appt,
-              // status: false,
-              acceptedDate: String(item.created_at),
-              quoteCount: item.quote_count,
-              suburb: item.suburb,
-              best_quote: item.best_quote,
-            });
-          });
+          filterData["quote accepted"].push(item);
         } else {
-          item.assessments.map((appt) => {
-            filterData["quote requested"].push({
-              ...appt,
-              // status: false,
-              acceptedDate: String(item.created_at),
-              quoteCount: item.quote_count,
-              suburb: item.suburb,
-              best_quote: item.best_quote,
-            });
-          });
+          filterData["quote requested"].push(item);
         }
       });
 
@@ -232,7 +219,7 @@ const Publish = () => {
               <>
                 {!loading ? (
                   data[dropName].map(
-                    (dragItem: QuoteResultExtraT, index: number) => {
+                    (dragItem: QuoteResultT, index: number) => {
                       return (
                         <Fragment key={dragItem.id}>
                           <Drage
@@ -245,13 +232,9 @@ const Publish = () => {
                             loading={false}
                           >
                             <PublishList
-                              acceptedDate={dragItem.acceptedDate}
-                              quoteCount={dragItem.quoteCount}
                               data={dragItem}
                               loading={false}
                               quoteStatus={dropName}
-                              suburb={dragItem.suburb}
-                              bestQuote={dragItem.best_quote}
                             />
                           </Drage>
                         </Fragment>

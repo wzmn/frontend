@@ -7,26 +7,17 @@ import * as commonStyles from "styles/pages/common.module.scss";
 import { JobDataStateType } from "type/job";
 import * as publishStyles from "./styles.module.scss";
 import ViewPublish from "./view-publish";
-import { ApptResultT } from "type/appointment";
 import TimeFormat from "services/time-format";
-import { QuoteStatusT } from "type/quotes";
+import { QuoteResultT, QuoteStatusT } from "type/quotes";
 
 export function PublishList({
   data,
   loading,
-  acceptedDate,
-  quoteCount,
   quoteStatus,
-  suburb,
-  bestQuote,
 }: {
-  data: ApptResultT;
+  data: QuoteResultT;
   loading: boolean;
-  acceptedDate: string;
-  quoteCount: number;
-  quoteStatus: QuoteStatusT;
-  suburb: string;
-  bestQuote: number;
+  quoteStatus: string;
 }) {
   const { card, cardInfo, contactInfo, icon, contact } = commonStyles;
   const { open, setElement, toggle } = useRightBarContext();
@@ -37,14 +28,14 @@ export function PublishList({
         !open && toggle();
 
         setElement(
-          <ViewPublish data={data} />,
-          `Publish ID: ${data.id}`,
+          <ViewPublish data={data} status={quoteStatus} />,
+          `Quote ID: ${data.id}`,
           <>
-            <IoEyeOutline
+            {/* <IoEyeOutline
               onClick={() => {
                 window.open(`publish-details/?publish=${data.id}`, "_blank");
               }}
-            />
+            /> */}
           </>
         );
       }}
@@ -53,25 +44,21 @@ export function PublishList({
         <div className="absolute right-3 top-1">
           <ImSpinner10 className="animate-spin text-xs" />
         </div>
-        <p className={publishStyles.listHeader}>{data.job.work_type.title}</p>
+        <p className={publishStyles.listHeader}>Quote ID : {data?.id}</p>
 
         <p className={`${publishStyles.dates} mt1`}>
-          Accepted: {TimeFormat(acceptedDate)}
-        </p>
-        <p className={`${publishStyles.dates} mt1`}>
-          Created By:{" "}
-          {`${data.job.job_created_by?.first_name} ${data.job.job_created_by?.last_name}`}
+          Accepted: {TimeFormat(data?.created_at)}
         </p>
 
         <p className={publishStyles.state}>
-          SUBURB: <span>{suburb}</span>
+          SUBURB: <span>{data?.suburb}</span>
         </p>
         {quoteStatus === "quote accepted" && (
           <p className={`${publishStyles.state} mt-1`}>
-            Paid Quote::{" "}
+            Paid Quote:{" "}
             <span>
               <Badge
-                label={String(bestQuote)}
+                label={String(data?.best_quote)}
                 className={`${publishStyles.badge} ${publishStyles.priceBadge}`}
               />
             </span>

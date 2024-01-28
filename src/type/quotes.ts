@@ -22,7 +22,7 @@ export type QuoteResultExtraT = {
   quoteCount: number;
   suburb: string;
   best_quote: number;
-} & ApptResultT;
+} & QuoteResultT;
 
 export type QuoteStatusT =
   | "quote requested"
