@@ -9,6 +9,7 @@ const admin = [
   "/settings",
   "/transactions",
   "/eft-orders",
+  "/publish",
 ];
 
 const manager = [

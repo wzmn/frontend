@@ -349,7 +349,7 @@ const Jobs = () => {
           </div>
         </Filterbtn>
 
-        <CombineCombo
+        {/* <CombineCombo
           data1={data1}
           data2={[]}
           handleSelectData1={(e) => {
@@ -358,7 +358,7 @@ const Jobs = () => {
           handleSelectData2={(e) => {
             console.log(e);
           }}
-        />
+        /> */}
 
         <div className="w-32">
           <Filterbtn icon={<img src="/assets/icons/sort.svg" />} title="Sort">

@@ -18,6 +18,7 @@ import {
 } from "type/global";
 
 import * as locStyles from "./styles.module.scss";
+import ViewDocuments from "./view-documents";
 
 const AnsQuestion = ({
   data,
@@ -151,7 +152,7 @@ function Options({
         url: DOCUMENTS_ANS,
         params: {
           question__parent_question: parentQId,
-          question__parent_question__subquestion_conditions__answer:
+          question__parent_question__appointmentanswers__answer:
             option.option_text,
         },
       });
@@ -162,8 +163,12 @@ function Options({
   }
 
   useEffect(() => {
-    hasSubQ && fetchQuestionsAns();
-    hasSubQ && fetchDocQuestionsAns();
+    hasSubQ &&
+      selectedOpt.some((item) => item.id === option.id) &&
+      fetchQuestionsAns();
+    hasSubQ &&
+      selectedOpt.some((item) => item.id === option.id) &&
+      fetchDocQuestionsAns();
   }, []);
 
   return (
@@ -195,8 +200,8 @@ function Options({
         docAns?.map((item, key) => {
           return (
             <div className="my-6 ml-10  " key={key}>
-              {/* <AnsQuestion data={item} /> */}
-              {item?.question?.content}
+              <ViewDocuments data={item} />
+              {/* {item?.question?.content} */}
             </div>
           );
         })}

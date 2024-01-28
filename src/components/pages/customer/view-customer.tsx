@@ -156,11 +156,11 @@ const ViewCustomer = ({ data }: { data: CustResultT }) => {
         } ${
           data?.customer_created_by?.user.last_name
             ? data?.customer_created_by?.user.last_name
-            : "N/A"
+            : `${data?.user?.first_name} ${data?.user?.last_name}`
         }`}{" "}
         <br />
         <span className={styles.tag}>
-          Created on: {TimeFormat(data.user?.created_at)}
+          Last Updated on: {TimeFormat(data.user?.last_login)}
         </span>
       </p>
 

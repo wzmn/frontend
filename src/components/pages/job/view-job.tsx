@@ -111,6 +111,22 @@ ${data.address?.state ? data.address?.state : ""} ${
         <Divider />
       </div>
 
+      <div className="">
+        {/* <p className={styles.additionalInfo}>
+          <span className={styles.title}>Appt Type: &nbsp;</span>
+          {data?.company_type}
+        </p> */}
+
+        <p className={styles.additionalInfo}>
+          <span className={styles.title}>State: &nbsp;</span>{" "}
+          {data?.address?.state || "N/A"}
+        </p>
+
+        <p className={styles.additionalInfo}>
+          <span className={styles.title}>LGA: &nbsp;</span> {data?.address?.lga}
+        </p>
+      </div>
+
       <p className={`${styles.name} ${styles.createBy}`}>
         <span className={styles.bold}>Job Created by: &nbsp; </span>
         {`${
@@ -122,7 +138,7 @@ ${data.address?.state ? data.address?.state : ""} ${
         }`}{" "}
         &nbsp;
         <p className={styles.tag}>
-          {TimeFormat(data?.customer?.user?.created_at)}
+          Last Updated on: {TimeFormat(data?.customer?.user?.last_login)}
         </p>
       </p>
 

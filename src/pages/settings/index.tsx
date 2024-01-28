@@ -11,12 +11,15 @@ import { useAuthContext } from "providers/auth-provider";
 import { RESET_PASSWORD } from "constants/api";
 import { toast } from "react-toastify";
 import { request } from "services/http-request";
+import UserIdentifyer from "services/user-identifyer";
 
 const Settings = () => {
   const [chageEmail, setChangeEmail] = useState(false);
   const [chagePhone, setChangePhone] = useState(false);
 
-  const { userAuth } = useAuthContext();
+  const { userAuth, setUserAuth, setCompanyAuth } = useAuthContext();
+
+  const userRole = UserIdentifyer();
 
   const changePassword = async () => {
     try {
@@ -99,6 +102,10 @@ const Settings = () => {
                 </p>
                 <p
                   className={`${settingtyles.userSettings} ${settingtyles.mtB} ${styles.error}`}
+                  onClick={() => {
+                    setUserAuth(null);
+                    setCompanyAuth(null);
+                  }}
                 >
                   Sign Out
                 </p>
@@ -161,32 +168,34 @@ const Settings = () => {
           </FormWraper>
         </FormSection> */}
 
-        <FormSection title="Products">
-          <FormWraper>
-            <div className={settingtyles.profileSetting}>
-              {/* <div className={settingtyles.cont1}></div>
+        {userRole === "superadmin" && (
+          <FormSection title="Products">
+            <FormWraper>
+              <div className={settingtyles.profileSetting}>
+                {/* <div className={settingtyles.cont1}></div>
             <div className={settingtyles.cont2}></div> */}
-              <p
-                className={`${settingtyles.otherUser} ${settingtyles.mtB} grow`}
-              >
-                Add / View Listing for Products
-              </p>
-              <Link
-                to="add-product"
-                className={`${settingtyles.userSettings} ${settingtyles.mtB} mr-2`}
-              >
-                Add
-              </Link>
-              /
-              <Link
-                to="list-products"
-                className={`${settingtyles.userSettings} ${settingtyles.mtB} ml-2 mr-2`}
-              >
-                View
-              </Link>
-            </div>
-          </FormWraper>
-        </FormSection>
+                <p
+                  className={`${settingtyles.otherUser} ${settingtyles.mtB} grow`}
+                >
+                  Add / View Listing for Products
+                </p>
+                <Link
+                  to="add-product"
+                  className={`${settingtyles.userSettings} ${settingtyles.mtB} mr-2`}
+                >
+                  Add
+                </Link>
+                /
+                <Link
+                  to="list-products"
+                  className={`${settingtyles.userSettings} ${settingtyles.mtB} ml-2 mr-2`}
+                >
+                  View
+                </Link>
+              </div>
+            </FormWraper>
+          </FormSection>
+        )}
       </div>
     </div>
   );

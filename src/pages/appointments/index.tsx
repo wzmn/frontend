@@ -359,6 +359,7 @@ const Appintments = () => {
     sort,
     JSON.stringify(selectionRange),
     JSON.stringify(workType),
+    custType,
   ]);
 
   return (
@@ -421,7 +422,7 @@ const Appintments = () => {
             </div>
           </Filterbtn>
         </div>
-        <CombineCombo
+        {/* <CombineCombo
           data1={data1}
           data2={[]}
           handleSelectData1={(e) => {
@@ -430,7 +431,7 @@ const Appintments = () => {
           handleSelectData2={(e) => {
             console.log(e);
           }}
-        />
+        /> */}
         <div className="w-32">
           <Filterbtn icon={<img src="/assets/icons/sort.svg" />} title="Sort">
             <SortFilter
@@ -461,8 +462,7 @@ const Appintments = () => {
               <Drop
                 key={dropName}
                 titleRingColor={getColumnColor(index)}
-                // accept={colAccepList[dropName] || []}
-                accept={"all"}
+                accept={colAccepList[dropName] || []}
                 handleDrop={handleDrop}
                 section={dropName}
                 title={dropName.toLocaleUpperCase()}
@@ -474,8 +474,7 @@ const Appintments = () => {
                         <Fragment key={dragItem.id}>
                           <Drage
                             key={dragItem.id} //you can`t use index from map id should be unique
-                            // accept={dropName}
-                            accept={"all"}
+                            accept={dropName}
                             section={dropName}
                             id={dragItem.id as number}
                             loading={dragItem.status}

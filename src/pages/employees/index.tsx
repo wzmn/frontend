@@ -54,6 +54,8 @@ const sortType = [
   },
 ];
 
+const createEmpRole = ["superadmin", "admin", "owner"];
+
 const Employees = () => {
   const {
     emp: { status },
@@ -231,16 +233,18 @@ const Employees = () => {
   return (
     <>
       <div className={btnCont}>
-        <div className="">
-          <Link to="employee-registration">
-            <Button
-              width="full"
-              title="Create Employee"
-              icon={<AiOutlinePlus />}
-              className="flex-row-reverse"
-            />
-          </Link>
-        </div>
+        {createEmpRole.includes(userRole) && (
+          <div className="">
+            <Link to="employee-registration">
+              <Button
+                width="full"
+                title="Create Employee"
+                icon={<AiOutlinePlus />}
+                className="flex-row-reverse"
+              />
+            </Link>
+          </div>
+        )}
 
         <div className="">
           <Input placeholder="Search" onChange={handleSearch} />

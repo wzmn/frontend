@@ -173,10 +173,11 @@ const CustomerDetails = (props: PageProps) => {
                   } ${
                     data?.customer_created_by?.user.last_name
                       ? data?.customer_created_by?.user.last_name
-                      : "N/A"
+                      : `${data?.user?.first_name} ${data?.user?.last_name}`
                   }`}{" "}
+                  <br />
                   <span className={styles.tag2}>
-                    {TimeFormat(data?.user?.created_at!)}
+                    Last Updated on: {TimeFormat(data?.user?.last_login!)}
                   </span>
                 </p>
 
@@ -421,7 +422,7 @@ function List({
     >
       <div className={styles.cardInfo}>
         <p className="title">
-          {`${data.customer?.user?.first_name}  ${data.customer?.user?.first_name}`}
+          {`${data.customer?.user?.first_name}  ${data.customer?.user?.last_name}`}
         </p>
         <span className=""> Created on: {TimeFormat(data.created_at)}</span>
       </div>

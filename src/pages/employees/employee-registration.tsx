@@ -44,6 +44,38 @@ function initialState() {
   );
 }
 
+const roleBaseList: Record<any, string[]> = {
+  Manager: ["Admin"],
+  "Team Lead": ["Admin", "Manager"],
+};
+
+const empRoleList = [
+  {
+    label: "ADMIN",
+    value: "Admin",
+  },
+  {
+    label: "MANAGER",
+    value: "Manager",
+  },
+  {
+    label: "TEAM LEAD",
+    value: "Team Lead",
+  },
+  {
+    label: "FIELDWORKER",
+    value: "Field Worker",
+  },
+  {
+    label: "AUDITOR",
+    value: "Auditor",
+  },
+  {
+    label: "AGENT",
+    value: "Agent",
+  },
+];
+
 const EmployeeRegistration = () => {
   const [OTP, setOTP] = useState<string>("");
   const [files, setFiles] = useState<FileProps[]>([]);
@@ -175,28 +207,18 @@ const EmployeeRegistration = () => {
                     <span className={styles.bold}>Employee Role</span>
                   </p>
                   <div className={styles.roles}>
-                    <Radio label="ADMIN" value="Admin" {...register("role")} />
-                    <Radio
-                      label="MANAGER"
-                      value="Manager"
-                      {...register("role")}
-                    />
-                    <Radio
-                      label="TEAM LEAD"
-                      value="Team Lead"
-                      {...register("role")}
-                    />
-                    <Radio label="AGENT" value="Agent" {...register("role")} />
-                    <Radio
-                      label="FIELDWORKER"
-                      value="Field Worker"
-                      {...register("role")}
-                    />
-                    <Radio
-                      label="AUDITOR"
-                      value="Auditor"
-                      {...register("role")}
-                    />
+                    {empRoleList.map((role) => {
+                      // if (roleBaseList?.[role?.value]?.includes(role.value)) {
+                      //   return null;
+                      // }
+                      return (
+                        <Radio
+                          label={role.value}
+                          value={role.value}
+                          {...register("role")}
+                        />
+                      );
+                    })}
                   </div>
                 </div>
                 <p className={styles.errorMessage}>{errors.role?.message}</p>

@@ -1,5 +1,3 @@
-import FormSection from "components/form-sections";
-import FormWraper from "components/form-wrapper";
 import CompanyDetails from "components/pages/upload-company-details/company-details";
 import UploadDocuments from "components/pages/upload-company-details/upload-documents";
 import { COUNTRY_COMPLIANCE } from "constants/api";
@@ -22,7 +20,8 @@ function initialState() {
 }
 
 const UploadCompanyDetails = () => {
-  const { setCompanyAuth, setUserAuth, companyAuth } = useAuthContext();
+  const { setCompanyAuth, setUserAuth, userAuth, companyAuth } =
+    useAuthContext();
   const [compliance, setCompliance] = useState<ComplianceState>(initialState());
 
   async function fetchCompanyCompliance() {
@@ -49,11 +48,21 @@ const UploadCompanyDetails = () => {
   }
 
   useEffect(() => {
+    if (userAuth.emp.role === "Owner" && companyAuth.company_verified) {
+      typeof window !== "undefined" && navigate("/");
+      return;
+    }
+
     fetchCompanyCompliance();
-  }, []);
+  }, [companyAuth]);
+
+  if (companyAuth.company_verified) {
+    return null;
+  }
 
   return (
     <div className="grow">
+      {JSON.stringify(companyAuth.company_verified)}
       <div className="flex justify-between items-center">
         <p className={styles.title}>
           Company Status : ({companyAuth?.company_status.toUpperCase()})

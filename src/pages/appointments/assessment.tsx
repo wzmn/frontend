@@ -85,6 +85,7 @@ const Assessment = (props: PageProps) => {
         url: DOCUMENTS_ANS,
         params: {
           appointment: (props.location.state as LocState).apptId,
+          is_sub_question: false,
         },
       });
 

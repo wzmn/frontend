@@ -90,8 +90,9 @@ export default function CustList({
           <span className="">
             {" "}
             <div>
+              {/* <p className="">{data?.created_at + ""}</p> */}
               Created on: {TimeFormat(data?.created_at, "ddd DD")} at{" "}
-              {TimeFormat(data?.created_at, "h:mm a")}
+              {TimeFormat(data?.created_at, "hh:mm a")}
             </div>
           </span>
         </div>

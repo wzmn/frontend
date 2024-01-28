@@ -154,9 +154,11 @@ ${data?.address?.state ? data?.address?.state : ""} ${
                       : "N/A"
                   }`}{" "}
                   &nbsp;
-                  <span className={styles.tag2}>
-                    {TimeFormat(data?.customer?.user?.created_at!)}
-                  </span>
+                  <br />
+                  <p className={styles.tag2}>
+                    Last Updated on:{" "}
+                    {TimeFormat(data?.customer?.user?.last_login!)}
+                  </p>
                 </p>
 
                 <Divider />

@@ -186,12 +186,12 @@ const customerRegistration = () => {
                         className={`${styles.roles}`}
                       >
                         <Radio
-                          value="Business"
+                          value="commercial"
                           label="Business"
                           {...register("customer_type")}
                         />
                         <Radio
-                          value="Residential"
+                          value="residential"
                           label="Residential"
                           {...register("customer_type")}
                         />

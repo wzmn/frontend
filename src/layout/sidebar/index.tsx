@@ -36,8 +36,8 @@ const sideBarData = [
     link: "/appointments",
   },
   {
-    svg: "/assets/icons/paper-plane.svg",
-    title: "Quote",
+    svg: "/assets/icons/quote.svg",
+    title: "Quotes",
     link: "/publish",
   },
   {
@@ -50,16 +50,16 @@ const sideBarData = [
     title: "Company",
     link: "/company",
   },
-  {
-    svg: "/assets/icons/eft.svg",
-    title: "EFT Orders",
-    link: "/eft-orders",
-  },
-  {
-    svg: "/assets/icons/transactions.svg",
-    title: "Transactions",
-    link: "/transactions",
-  },
+  // {
+  //   svg: "/assets/icons/eft.svg",
+  //   title: "EFT Orders",
+  //   link: "/eft-orders",
+  // },
+  // {
+  //   svg: "/assets/icons/transactions.svg",
+  //   title: "Transactions",
+  //   link: "/transactions",
+  // },
   {
     svg: "/assets/icons/settings.svg",
     title: "Settings",

@@ -8,6 +8,7 @@ import Label from "components/label";
 import Radio from "components/radio";
 import { APPOINTMENT_LISTING } from "constants/api";
 import { navigate } from "gatsby";
+import moment from "moment";
 import { useAppContext } from "providers/app-provider";
 import { useAuthContext } from "providers/auth-provider";
 import React, { ChangeEvent, useEffect, useState } from "react";
@@ -19,6 +20,7 @@ import {
 import employeeList from "services/employee-list";
 import { request } from "services/http-request";
 import MsgToast from "services/msg-toast";
+import TimeFormat from "services/time-format";
 import UserIdentifyer from "services/user-identifyer";
 import * as styles from "styles/pages/common.module.scss";
 import { EmpResultT } from "type/employee";
@@ -115,7 +117,10 @@ const Schedule = ({ item, companyId, apptId }: Props) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <FormSection title="Schedule Appt(s)" style={{ zIndex: "1" }}>
+      <FormSection
+        title={`Schedule Appt${apptId && "(" + apptId + ")"}`}
+        style={{ zIndex: "1" }}
+      >
         <div className="flex-1 z-10">
           <FormWraper>
             <>
@@ -157,7 +162,7 @@ const Schedule = ({ item, companyId, apptId }: Props) => {
                       errormessage={
                         errors.assessment_scheduled_on?.message as string
                       }
-                      // min={TimeFormat(new Date()).format("yyyy-MM-DD") + "T00:00"}
+                      min={TimeFormat(new Date(), "yyyy-MM-DD") + "T00:00"}
                     />
                   </div>
 

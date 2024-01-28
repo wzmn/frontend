@@ -20,11 +20,12 @@ const useAuth = () => {
         }
       return null;
     }
-    if (!JSON.parse(userAuth?.staff)) {
-      if (!companyAuth?.company_verified) {
-        navigate("/upload-company-details");
-        return null;
-      }
+
+    if (
+      userAuth?.emp?.role === "Owner" &&
+      companyAuth?.company_verified === false
+    ) {
+      typeof window !== "undefined" && navigate("/upload-company-details");
     }
 
     console.log("diredjbhg ", companyAuth?.company_verified);
@@ -44,7 +45,14 @@ const useAuth = () => {
       // if (location.search.match(/\?redirect\=(.*)/)) {
       //   navigate(decodeURIComponent(location?.search.match(/\?redirect\=(.*)/)[1]))
       // } else {
-      typeof window !== "undefined" && navigate("/");
+      if (
+        userAuth?.emp?.role === "Owner" &&
+        companyAuth?.company_verified === false
+      ) {
+        typeof window !== "undefined" && navigate("/upload-company-details");
+      } else {
+        typeof window !== "undefined" && navigate("/");
+      }
       // }
       return null;
     }

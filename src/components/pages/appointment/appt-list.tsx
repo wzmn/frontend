@@ -75,7 +75,7 @@ export default function ApptList({
         )}
 
         <div className={`${header}`}>
-          <span className="">Appt No. </span>
+          <span className="">Appt ID. </span>
           <span>{data.id}</span>
         </div>
         <div className={cardInfo}>
