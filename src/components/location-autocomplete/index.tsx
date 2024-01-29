@@ -26,7 +26,13 @@ const LocationAutocomplete = ({
     value,
     suggestions: { status, data },
     setValue,
-  } = usePlacesAutocomplete();
+  } = usePlacesAutocomplete({
+    requestOptions: {
+      componentRestrictions: {
+        country: ["au"],
+      },
+    },
+  });
 
   const handleInput = (e: any) => {
     setValue(e.target.value);
