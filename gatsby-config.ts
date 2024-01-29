@@ -32,7 +32,7 @@ const config: GatsbyConfig = {
         cache_busting_mode: 'none',
         icon: `src/images/icon.png`,
         theme_color_in_head: false,
-        'gcm_sender_id': '676256783802'
+        // 'gcm_sender_id': '676256783802'
       },
     },
     {
