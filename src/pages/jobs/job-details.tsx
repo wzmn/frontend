@@ -50,7 +50,7 @@ const JobDetails = (props: PageProps) => {
     {
       url: APPOINTMENT_LISTING,
       params: {
-        job__in: data?.id,
+        job__in: jobId,
       },
     },
     [JSON.stringify(data)]
@@ -86,7 +86,8 @@ const JobDetails = (props: PageProps) => {
               <>
                 <p className={styles.name}>
                   <span className={styles.bold}>Customer name: &nbsp; </span>
-                  {data?.customer?.user?.first_name} &nbsp;
+                  {`${data?.customer?.user?.first_name} ${data?.customer?.user?.last_name}`}{" "}
+                  &nbsp;
                   <span className={styles.tag}></span>
                 </p>
 
@@ -150,7 +151,7 @@ ${data?.address?.state ? data?.address?.state : ""} ${
                     data?.job_created_by?.first_name
                       ? data?.job_created_by?.first_name +
                         " " +
-                        data?.job_created_by?.first_name
+                        data?.job_created_by?.last_name
                       : "N/A"
                   }`}{" "}
                   &nbsp;
@@ -159,6 +160,11 @@ ${data?.address?.state ? data?.address?.state : ""} ${
                     Last Updated on:{" "}
                     {TimeFormat(data?.customer?.user?.last_login!)}
                   </p>
+                </p>
+                <Divider />
+                <p className={`${styles.name} ${styles.createBy}`}>
+                  <span className={styles.bold}>LGA: &nbsp; </span>
+                  {`${data?.address?.lga}`} <br />
                 </p>
 
                 <Divider />
@@ -339,11 +345,14 @@ function List({
   // target="_blank" href={`customer-details/?customer=${data.id}`}
 
   return (
-    <div>
+    <Link
+      to={`/appointments/appointment-details/?appointment=${data?.id}`}
+      target="_blank"
+    >
       <div className={`${styles.card} ${additionalStyles.cardOther} w-56`}>
         <div className={styles.cardInfo}>
           <p className="title">
-            {`${data?.job?.customer?.user?.first_name} ${data?.job?.customer?.user?.last_name}`}
+            {`${data?.job?.customer?.user?.first_name} ${data?.job?.customer?.user?.last_name} (Appt ID ${data?.id})`}
           </p>
           <span className="">
             {" "}
@@ -375,7 +384,7 @@ function List({
           {/* <p className={additionalStyles.count}>3</p> */}
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 

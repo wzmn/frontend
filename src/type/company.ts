@@ -15,8 +15,8 @@ export interface ComResultT {
   company_email: string;
   company_mobile_phone: string;
   company_landline: string;
-  company_country: CompCountry;
-  company_status: CompanyStatus;
+  company_country: string;
+  company_status: string;
   company_type: string;
   primary: boolean;
   company_logo: null | string;
@@ -46,15 +46,10 @@ export interface CompanyAddress {
   long: string;
   lga: string;
   pincode: string;
+  country: null;
   formatted_address: string;
   property_type: string;
   user: null;
-}
-
-export enum CompCountry {
-  Aus = "AUS",
-  Australia = "Australia",
-  India = "India",
 }
 
 export interface CompanyOwner {
@@ -97,7 +92,7 @@ export interface Detail {
   created_at: Date;
   updated_at: Date;
   is_active: boolean;
-  compliance_country: CompCountry;
+  compliance_country: string;
   compliance_item: string;
   compliance_help_text: string;
   item_type: string;

@@ -55,9 +55,9 @@ const ViewCompany = ({ data }: { data: CompanyExtraDataType }) => {
                     <IoLocationOutline className={styles.icon} />
                   </span>
 
-                  {/* <span className={styles.contact}>
-                    {data?.company_address || "N/A"}
-                  </span> */}
+                  <span className={styles.contact}>
+                    {data?.company_address?.formatted_address || "N/A"}
+                  </span>
                 </div>
               </div>
             </Disclosure.Panel>

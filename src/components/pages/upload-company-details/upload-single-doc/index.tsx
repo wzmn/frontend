@@ -104,7 +104,7 @@ function SingleUploadHandler({
           "Content-Type": "multipart/form-data",
         },
       });
-      MsgToast("Added", "success");
+      MsgToast("Document Uploaded Successfully", "success");
       setFiles(() => []);
       await fetch();
     } catch (error) {

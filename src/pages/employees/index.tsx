@@ -259,9 +259,9 @@ const Employees = () => {
           >
             <button>Date</button>
           </div>
-          <Menu title="Manager">
+          {/* <Menu title="Manager">
             <CompanyFilter />
-          </Menu>
+          </Menu> */}
         </Filterbtn>
         <div className="w-32">
           <Filterbtn icon={<img src="/assets/icons/sort.svg" />} title="Sort">

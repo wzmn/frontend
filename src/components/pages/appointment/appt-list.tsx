@@ -8,9 +8,12 @@ import TimeFormat from "services/time-format";
 import * as commonStyles from "styles/pages/common.module.scss";
 import { ApptResultT } from "type/appointment";
 import ViewAppt from "./view-appt";
+import UserIdentifyer from "services/user-identifyer";
 
 const assessmet = ["assessed", "audited", "snippit audited", "reassessment"];
 const schedule = ["waiting", "rescheduled", "reassessment"];
+const checkBoxRole = ["superadmin", "admin", "owner"];
+
 export default function ApptList({
   data,
   loading,
@@ -24,7 +27,7 @@ export default function ApptList({
 }) {
   const { card, cardInfo, contactInfo, icon, contact, header } = commonStyles;
   const { open, setElement, toggle } = useRightBarContext();
-
+  const userRole = UserIdentifyer();
   return (
     <div
       onClick={() => {
@@ -58,21 +61,22 @@ export default function ApptList({
         <div className="absolute right-8 top-1">
           <ImSpinner10 className="animate-spin" />
         </div>
-        {data?.appointment_status?.toLowerCase() === "snippit audited" && (
-          <div className="flex justify-end mr-2">
-            <Checkbox
-              defaultChecked={snippitAudited.some(
-                (item) => item === String(data.id)
-              )}
-              name=""
-              value={data.id}
-              id={data.id.toString()}
-              onChange={(e) => {
-                snippitAuditedCheckboxHandler(e.target.value);
-              }}
-            />
-          </div>
-        )}
+        {checkBoxRole.includes(userRole) &&
+          data?.appointment_status?.toLowerCase() === "snippit audited" && (
+            <div className="flex justify-end mr-2">
+              <Checkbox
+                defaultChecked={snippitAudited.some(
+                  (item) => item === String(data.id)
+                )}
+                name=""
+                value={data.id}
+                id={data.id.toString()}
+                onChange={(e) => {
+                  snippitAuditedCheckboxHandler(e.target.value);
+                }}
+              />
+            </div>
+          )}
 
         <div className={`${header}`}>
           <span className="">Appt ID. </span>

@@ -101,8 +101,7 @@ const CompanyDetails = (props: PageProps) => {
                     </span>
 
                     <span className={styles.contact}>
-                      {/* {data?.company_address || "N/A"} */}
-                      N/A
+                      {data?.company_address?.formatted_address || "N/A"}
                     </span>
                   </div>
                 </div>

@@ -27,7 +27,7 @@ interface FileProps extends File {
 }
 
 const schema = object({
-  address: addressSchema,
+  company_address: addressSchema,
 }).concat(companyDetailsSchema);
 
 type SchemaT = InferType<typeof schema>;
@@ -64,9 +64,10 @@ const CompanyDetails = () => {
 
   const companyLandline = watch("company_landline");
   const phoneNumber = watch("company_mobile_phone");
+  const companyType = watch("company_type");
 
   // const [files, setFiles] = useState<FileProps[]>([]);
-  const country = watch("address.country");
+  const country = watch("company_address.country");
 
   async function onSubmit(data: SchemaT) {
     try {
@@ -105,7 +106,7 @@ const CompanyDetails = () => {
         company_type: resp?.data?.company_type,
         company_email: resp?.data?.company_email,
         company_landline: resp?.data?.company_landline,
-        address: resp?.data?.company_address! as any,
+        company_address: resp?.data?.company_address! as any,
       };
 
       reset(defaultData);
@@ -125,7 +126,7 @@ const CompanyDetails = () => {
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)} className="px-56">
-        <FormSection title="Company Details">
+        <FormSection title="Company Details" style={{ zIndex: 2 }}>
           <FormWraper>
             <div className="flex-1">
               <div className={styles.formGrid}>
@@ -217,8 +218,10 @@ const CompanyDetails = () => {
 
                 <div className="max-w-3xl">
                   <SelectBox
+                    disabled
                     placeholder="Company Type"
                     data={type}
+                    value={companyType}
                     asterisk
                     onChange={(e) => {
                       setValue("company_type", e.label);
@@ -292,7 +295,7 @@ const CompanyDetails = () => {
         <FormSection title="Address Details">
           <FormWraper>
             <div className="flex-1">
-              <Address />
+              <Address wat="company_address" />
               <div className="flex justify-center gap-36 mt-10">
                 <Button
                   title="Submit"

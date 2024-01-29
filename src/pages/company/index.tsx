@@ -38,6 +38,21 @@ import { IoIosArrowDown } from "react-icons/io";
 import { TbCircuitSwitchClosed } from "react-icons/tb";
 import { SortFilter } from "components/pages/common";
 
+export const CompanyTypeData = [
+  {
+    label: "All",
+    value: "",
+  },
+  {
+    label: "Buyer",
+    value: "buyer",
+  },
+  {
+    label: "Seller",
+    value: "seller",
+  },
+];
+
 type DropItemType = { id: number; section: CompanyStatus };
 
 const dataList = [
@@ -73,6 +88,7 @@ const Company = () => {
 
   const [data, setData] = useState({} as CompanyStateStatus);
   const [selectionRange, setSelectionRange] = useState(selectionRangeInit);
+  const [comType, setComType] = useState(CompanyTypeData[0].value);
 
   // For skeleton
   const [loading, setLoading] = useState(false);
@@ -132,6 +148,7 @@ const Company = () => {
           ordering: sort,
           created_at__gte: selectionRange.startDate,
           created_at__lte: selectionRange.endDate,
+          company_type: comType,
           ...params,
         },
       });
@@ -235,6 +252,7 @@ const Company = () => {
     id,
     sort,
     JSON.stringify(selectionRange),
+    comType,
   ]);
 
   return (
@@ -272,6 +290,15 @@ const Company = () => {
           >
             <button>Date</button>
           </div>
+          <Menu title="Customer Type" dropPosition={styles.menuPos}>
+            <SortFilter
+              data={CompanyTypeData}
+              defaultChecked={comType}
+              setValue={(e) => {
+                setComType(e);
+              }}
+            />
+          </Menu>
         </Filterbtn>
         <div className="w-32">
           <Filterbtn icon={<img src="/assets/icons/sort.svg" />} title="Sort">

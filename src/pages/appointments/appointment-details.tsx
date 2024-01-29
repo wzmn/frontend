@@ -56,10 +56,10 @@ const AppointmentDetails = (props: PageProps) => {
 
   return (
     <div className="grow">
-      <p className={styles.title}>Appointmet ID: {data?.id}</p>
+      <p className={styles.title}>Appointment ID: {data?.id}</p>
 
       <div className="space-y-16 mb-3">
-        <FormSection title="Appointmet Details">
+        <FormSection title="Appointment Details">
           <div className="flex-1">
             <FormWraper>
               <>
@@ -71,7 +71,7 @@ const AppointmentDetails = (props: PageProps) => {
                 <Divider />
                 <p className={`${styles.name} ${styles.createBy}`}>
                   <span className={styles.bold}>Assigned to : &nbsp; </span>
-                  {` ${data?.job?.job_assigned_to?.role}/${data?.job?.job_assigned_to?.user?.first_name} ${data?.job?.job_assigned_to?.user?.last_name}`}
+                  {`${data?.job?.job_assigned_to?.first_name} ${data?.job?.job_assigned_to?.last_name}`}
                 </p>
 
                 <Divider />
@@ -80,7 +80,11 @@ const AppointmentDetails = (props: PageProps) => {
                   <span className={styles.bold}>
                     Scheduled Date & Time : &nbsp;{" "}
                   </span>
-                  {` ${TimeFormat(data?.assessment_scheduled_on!)}`}
+                  {` ${
+                    data?.assessment_scheduled_on
+                      ? TimeFormat(data?.assessment_scheduled_on!)
+                      : "N/A"
+                  } `}
                 </p>
 
                 <Divider />

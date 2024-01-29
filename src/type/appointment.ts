@@ -14,6 +14,8 @@ export interface ApptResultT {
   is_active: boolean;
   assessment_scheduled_on: Date | null;
   assessment_completed_on: Date | null;
+  installation_requested_on: Date | null;
+  installation_completed_on: null;
   self_assessment: boolean;
   assessment_completed: boolean;
 }
@@ -29,7 +31,7 @@ export interface AssessmentAssignedTo {
   phone: string;
   first_name: string;
   last_name: string;
-  profile_pic: null | string;
+  profile_pic: null;
   is_superuser: boolean;
   is_staff: boolean;
   is_verified: boolean;
@@ -44,17 +46,18 @@ export interface AssessmentAssignedTo {
 export interface Job {
   id: number;
   work_type: WorkType;
-  job_assigned_to: JobAssignedTo | null;
+  job_assigned_to: AssessmentAssignedTo | null;
   address: Address;
+  billing_address: Address;
   customer: Customer;
+  total_appointments: number;
+  job_created_by: AssessmentAssignedTo;
   ref_id: null;
   created_at: Date;
   updated_at: Date;
   is_active: boolean;
   job_status: string;
   job_type: string;
-  billing_address: number | null;
-  job_created_by: User | null;
 }
 
 export interface Address {
@@ -78,6 +81,7 @@ export interface Address {
   long: null | string;
   lga: string;
   pincode: string;
+  country: string | null;
   formatted_address: string;
   property_type: string;
   user: number;
@@ -85,23 +89,26 @@ export interface Address {
 
 export interface Customer {
   id: number;
-  user: User;
+  user: AssessmentAssignedTo;
   company: Company;
-  assigned_to: null;
   role: string;
+  address: null;
+  customer_created_by: null;
   ref_id: null;
   created_at: Date;
   updated_at: Date;
   customer_type: string;
   cust_status: string;
   is_active: boolean;
-  company_name: null;
-  abn: null;
+  company_name: null | string;
+  abn: null | string;
+  sms_consent_type: string;
+  customer_source: string;
 }
 
 export interface Company {
   id: number;
-  company_owner: User;
+  company_owner: AssessmentAssignedTo;
   company_address: null;
   info: any[];
   ref_id: null;
@@ -117,53 +124,23 @@ export interface Company {
   company_type: string;
   primary: boolean;
   company_logo: null;
-}
-
-export interface User {
-  id: number;
-  ref_id: null;
-  created_at: Date;
-  updated_at: Date;
-  is_active: boolean;
-  username: null;
-  email: string;
-  phone: string;
-  first_name: string;
-  last_name: string;
-  profile_pic: null | string;
-  is_superuser: boolean;
-  is_staff: boolean;
-  is_verified: boolean;
-  is_password_set: boolean;
-  last_login: Date;
-  fcm_token: null | string;
-  groups: any[];
-  user_permissions: any[];
-}
-
-export interface JobAssignedTo {
-  id: number;
-  user: User;
-  role: string;
-  ref_id: null;
-  created_at: Date;
-  updated_at: Date;
-  is_active: boolean;
-  license_id: number;
-  created_by: null;
-  reports_to: null;
+  company_abn: null;
+  company_verified: boolean;
+  company_created_by: null;
 }
 
 export interface WorkType {
   id: number;
-  ref_id: string;
+  ref_id: null;
   created_at: Date;
   updated_at: Date;
   is_active: boolean;
   title: string;
+  fact_sheet: null | string;
   work_type_image: string;
   global_activity: boolean;
-  auth_companies: number[];
+  work_type_for: string;
+  auth_companies: any[];
 }
 
 export interface ProductElement {
@@ -181,6 +158,9 @@ export interface ProductProduct {
   id: number;
   images: Image[];
   primary_image: Image;
+  work_type: WorkType;
+  category: Category;
+  supplier_company: Company;
   ref_id: null;
   created_at: Date;
   updated_at: Date;
@@ -191,15 +171,24 @@ export interface ProductProduct {
   certificates: Certificates;
   description: string;
   start_date: Date;
-  end_date: null;
+  end_date: Date | null;
   regions: string;
+}
+
+export interface Category {
+  id: number;
+  ref_id: null;
+  created_at: Date;
+  updated_at: Date;
+  is_active: boolean;
+  category: string;
+  detail_fields: string;
   work_type: number;
-  category: number;
-  supplier_company: number;
+  parent_category: number | null;
 }
 
 export interface Certificates {
-  stc?: number;
+  stc: number;
   veecs: number;
 }
 
@@ -207,8 +196,8 @@ export interface Details {
   Split?: string;
   Weight?: string;
   Tonnage?: string;
-  size?: string;
-  color?: string;
+  Head?: string;
+  flowrate?: string;
 }
 
 export interface Image {
@@ -218,17 +207,6 @@ export interface Image {
   updated_at: Date;
   is_active: boolean;
   file: string;
-}
-
-export interface Product {
-  id: number;
-  ref_id: null;
-  created_at: Date;
-  updated_at: Date;
-  is_active: boolean;
-  quantity: number;
-  assessment: number;
-  product: number;
 }
 
 export type AppointmentExtraDataType = ApptResultT & {

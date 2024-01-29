@@ -20,7 +20,7 @@ export const companyDetailsSchema = object({
   company_name: string().trim().required("Required"),
   abn: string().trim().required("Required"),
   company_mobile_phone: string().trim().required("Required"),
-  company_landline: string().trim().nullable(),
+  company_landline: string().trim().required("Required"),
   company_email: string().trim().matches(EmailReg, "Invalid email"),
   company_country: string().trim().required("Required"),
   company_type: string().trim().required("Required"),

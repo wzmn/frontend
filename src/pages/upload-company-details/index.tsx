@@ -48,7 +48,7 @@ const UploadCompanyDetails = () => {
   }
 
   useEffect(() => {
-    if (userAuth.emp.role === "Owner" && companyAuth.company_verified) {
+    if (userAuth?.emp?.role === "Owner" && companyAuth?.company_verified) {
       typeof window !== "undefined" && navigate("/");
       return;
     }
@@ -56,7 +56,7 @@ const UploadCompanyDetails = () => {
     fetchCompanyCompliance();
   }, [companyAuth]);
 
-  if (companyAuth.company_verified) {
+  if (companyAuth?.company_verified) {
     return null;
   }
 
@@ -64,7 +64,7 @@ const UploadCompanyDetails = () => {
     <div className="grow">
       <div className="flex justify-between items-center">
         <p className={styles.title}>
-          Company Status : ({companyAuth?.company_status.toUpperCase()})
+          Company Status : ({companyAuth?.company_status?.toUpperCase()})
         </p>
         <p
           className="text-red cursor-pointer"

@@ -7,6 +7,9 @@ import { request } from "services/http-request";
 import { ComplianceRespT } from "type/global";
 import UploadDoc from "../company/upload-doc/upload-doc";
 import { UploadSingleDoc } from "./upload-single-doc";
+import Button from "components/button";
+import { navigate } from "gatsby";
+import { useAuthContext } from "providers/auth-provider";
 
 function initialState() {
   return JSON.parse(
@@ -20,6 +23,8 @@ function initialState() {
 
 const UploadDocuments = () => {
   const [compliance, setCompliance] = useState<ComplianceState>(initialState());
+
+  const { setCompanyAuth, setUserAuth } = useAuthContext();
 
   async function fetchCompanyCompliance() {
     try {
@@ -83,6 +88,21 @@ const UploadDocuments = () => {
             </>
           </FormWraper>
         </FormSection>
+        <p className="text-center text-sm">
+          <span className="text-red">Note</span>: We will update you via email
+          once the documents are verified.
+        </p>
+        <div className="flex  justify-center gap-3 mt-2">
+          <Button
+            title="Submit"
+            type="submit"
+            onClick={() => {
+              setUserAuth(null);
+              setCompanyAuth(null);
+              navigate("/login", { replace: true });
+            }}
+          />
+        </div>
       </div>
     </div>
   );
