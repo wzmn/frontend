@@ -2,13 +2,11 @@ import Badge from "components/badge";
 import { useRightBarContext } from "providers/right-bar-provider";
 import React from "react";
 import { ImSpinner10 } from "react-icons/im";
-import { IoEyeOutline } from "react-icons/io5";
+import TimeFormat from "services/time-format";
 import * as commonStyles from "styles/pages/common.module.scss";
-import { JobDataStateType } from "type/job";
+import { QuoteResultT } from "type/quotes";
 import * as publishStyles from "./styles.module.scss";
 import ViewPublish from "./view-publish";
-import TimeFormat from "services/time-format";
-import { QuoteResultT, QuoteStatusT } from "type/quotes";
 
 export function PublishList({
   data,
@@ -55,7 +53,7 @@ export function PublishList({
         </p>
         {quoteStatus === "quote accepted" && (
           <p className={`${publishStyles.state} mt-1`}>
-            Paid Quote:{" "}
+            Paid :{" "}
             <span>
               <Badge
                 label={String(data?.best_quote)}
@@ -67,7 +65,7 @@ export function PublishList({
 
         {quoteStatus === "quote accepted" && (
           <p className={`${publishStyles.state} mt-1`}>
-            Payment Status::{" "}
+            Payment Status:{" "}
             <span>
               <Badge
                 label="Successful"

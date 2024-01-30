@@ -26,7 +26,7 @@ import * as styles from "styles/pages/common.module.scss";
 import { EmpResultT } from "type/employee";
 import { Result } from "type/job";
 import { debounce } from "utility/debounce";
-
+import momentTz from "moment-timezone";
 type Props = {
   item: Result;
   companyId: number;
@@ -59,6 +59,9 @@ const Schedule = ({ item, companyId, apptId }: Props) => {
   async function onSubmit(data: CreateApptSchemaT) {
     try {
       let exData = {};
+      const tZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      console.log(tZone);
+
       if (apptId) {
         const statueChangeFrom = statusData?.filter((item) => {
           return item.title === "Confirmed";
@@ -82,6 +85,9 @@ const Schedule = ({ item, companyId, apptId }: Props) => {
         data: {
           ...data,
           ...exData,
+          assessment_scheduled_on: momentTz(
+            moment(data.assessment_scheduled_on)
+          ).tz(tZone),
           self_assessment: JSON.parse(selfAssessment),
         },
       });
