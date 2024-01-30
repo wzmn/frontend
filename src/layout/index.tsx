@@ -57,12 +57,12 @@ const Layout = ({ children }: Props) => {
     <>
       <UploadDocProvider>
         <GoogleMapProvider>
-          <RightBarProvider>
-            <>
-              {!routeNotToInclude.includes(pathname) ? (
-                <div className="c-container">
-                  <AppProvider>
-                    <ProtectedRoutes>
+          <>
+            {!routeNotToInclude.includes(pathname) ? (
+              <div className="c-container">
+                <AppProvider>
+                  <ProtectedRoutes>
+                    <RightBarProvider>
                       <DndProvider backend={HTML5Backend}>
                         <SidebarContext>
                           <>
@@ -81,15 +81,40 @@ const Layout = ({ children }: Props) => {
                           </>
                         </SidebarContext>
                       </DndProvider>
-                    </ProtectedRoutes>
-                  </AppProvider>
-                </div>
-              ) : (
-                <div className="">
-                  {!notToIncludeInReDirect.includes(pathname) ? (
-                    <HandleRedirect>
+                    </RightBarProvider>
+                  </ProtectedRoutes>
+                </AppProvider>
+              </div>
+            ) : (
+              <div className="">
+                {!notToIncludeInReDirect.includes(pathname) ? (
+                  <HandleRedirect>
+                    <AuthLayout>
+                      <div className="flex flex-column">
+                        <div className="items-center flex-1 flex justify-center">
+                          {children}
+                        </div>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                          }}
+                        >
+                          <img
+                            style={{ maxWidth: 199 }}
+                            src="/assets/logo.png"
+                          />
+                          <Footer />
+                        </div>
+                      </div>
+                    </AuthLayout>
+                  </HandleRedirect>
+                ) : (
+                  <>
+                    <RightBarProvider>
                       <AuthLayout>
-                        <div className="flex flex-column">
+                        <div className="flex flex-column ">
                           <div className="items-center flex-1 flex justify-center">
                             {children}
                           </div>
@@ -106,38 +131,16 @@ const Layout = ({ children }: Props) => {
                             />
                             <Footer />
                           </div>
+                          <RightBar /> {/* has absolute position */}
                         </div>
                       </AuthLayout>
-                    </HandleRedirect>
-                  ) : (
-                    <>
-                      <AuthLayout>
-                        <div className="flex flex-column">
-                          <div className="items-center flex-1 flex justify-center">
-                            {children}
-                          </div>
-                          <div
-                            style={{
-                              display: "flex",
-                              flexDirection: "column",
-                              alignItems: "center",
-                            }}
-                          >
-                            <img
-                              style={{ maxWidth: 199 }}
-                              src="/assets/logo.png"
-                            />
-                            <Footer />
-                          </div>
-                        </div>
-                      </AuthLayout>
-                    </>
-                  )}
-                </div>
-              )}
-              <ToastContainer />
-            </>
-          </RightBarProvider>
+                    </RightBarProvider>
+                  </>
+                )}
+              </div>
+            )}
+            <ToastContainer />
+          </>
         </GoogleMapProvider>
       </UploadDocProvider>
     </>

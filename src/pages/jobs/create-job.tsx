@@ -289,6 +289,7 @@ const CreateJob = (props: PageProps) => {
                         <div className="max-w-3xl">
                           <Label title="Job Assign To" />
                           <ComboBox<EmpResultT>
+                            placeholder="Field Worker"
                             data={empListData}
                             handleSelect={(e) => {
                               setValue(

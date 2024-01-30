@@ -71,12 +71,14 @@ const ViewPublish = ({
 
       <Divider />
 
-      <div className={`${styles.status} mt-4`}>
-        <p className={styles.bold}>Base Price</p>
-        <div className={publishStyles.priceViewBtn}>
-          <Button title={`$ ${data?.best_quote}`} />
+      {status.toLowerCase() === "quote accepted" && (
+        <div className={`${styles.status} mt-4`}>
+          <p className={styles.bold}>Total</p>
+          <div className={publishStyles.priceViewBtn}>
+            <Button title={`$ ${data?.best_quote}`} />
+          </div>
         </div>
-      </div>
+      )}
 
       <Divider />
 

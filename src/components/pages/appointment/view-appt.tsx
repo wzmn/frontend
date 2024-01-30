@@ -159,7 +159,7 @@ const ViewAppt = ({
           <span className={styles.bold}>Appt Schedule Date: &nbsp; </span>
           {/* {data?.company_owner?.first_name} &nbsp; */}
           <span className={styles.tag}>
-            {TimeFormat(data?.assessment_scheduled_on)}
+            {TimeFormat(data?.assessment_scheduled_on!)}
           </span>
         </p>
       )}
