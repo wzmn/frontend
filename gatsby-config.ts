@@ -36,14 +36,22 @@ const config: GatsbyConfig = {
       },
     },
     {
-      resolve: `gatsby-plugin-offline`,
+      resolve: 'gatsby-plugin-offline-next',
       options: {
-        precachePages: [`/dashboard/`, `/settings/`],
-        workboxConfig: {
-          globPatterns: ['**/src/images*']
-       }
-      },
-    },
+         workboxConfig: {
+            globPatterns: ['**/src/images*', '*.html']
+         }
+      }
+   }
+    // {
+    //   resolve: `gatsby-plugin-offline`,
+    //   options: {
+    //     precachePages: [`/dashboard/`, `/settings/`],
+    //     workboxConfig: {
+    //       globPatterns: ['**/src/images*', '*.html']
+    //    }
+    //   },
+    // },
   ],
 };
 
