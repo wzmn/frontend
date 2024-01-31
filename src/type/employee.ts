@@ -79,6 +79,7 @@ export interface User {
 }
 
 export type EmployeeRole =
+  | "Owner"
   | "Admin"
   | "Super Admin"
   | "Agent"

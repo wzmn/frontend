@@ -136,7 +136,7 @@ function Options({
         url: QUESTIONS_ANS,
         params: {
           question__parent_question: parentQId,
-          question__parent_question__subquestion_conditions__answer:
+          question__parent_question__appointmentanswers__answer:
             option.option_text,
         },
       });

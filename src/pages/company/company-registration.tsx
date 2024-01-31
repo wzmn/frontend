@@ -62,7 +62,10 @@ const countries = [
   { label: "NZL" },
 ];
 
-const type = [{ label: "buyer" }, { label: "seller" }];
+const type = [
+  { label: "Installer", value: "buyer" },
+  { label: "Seller", value: "seller" },
+];
 
 interface FileProps extends File {
   preview: string;
@@ -461,7 +464,7 @@ const CompanyRegistration = () => {
                       data={type}
                       asterisk
                       onChange={(e) => {
-                        setValue("company_type", e.label);
+                        setValue("company_type", e.value);
                       }}
                     />
                     <p className={styles.error + " text-xs"}>

@@ -45,7 +45,7 @@ export const CompanyTypeData = [
     value: "",
   },
   {
-    label: "Buyer",
+    label: "Installer",
     value: "buyer",
   },
   {

@@ -185,7 +185,7 @@ const Appintments = () => {
     }
   }
 
-  async function fetchData(params?: Record<any, any>) {
+  async function fetchData(params?: Record<any, any>, companyId?: number) {
     try {
       setLoading(true);
       const response = await request<AppointmentDataType>({
@@ -193,7 +193,7 @@ const Appintments = () => {
         params: {
           limit: pagination.limit,
           offset: pagination.offset,
-          job__customer__company__in: id,
+          job__customer__company__in: companyId || id,
           ordering: sort,
           created_at__gte: selectionRange.startDate
             ? moment(selectionRange.startDate).format("YYYY-MM-DDTHH:mm")
