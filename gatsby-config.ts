@@ -18,6 +18,7 @@ const config: GatsbyConfig = {
     "gatsby-plugin-postcss",
     "gatsby-plugin-resolve-src",
     "gatsby-plugin-sass",
+    "gatsby-plugin-remove-serviceworker",
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
@@ -35,14 +36,14 @@ const config: GatsbyConfig = {
         // 'gcm_sender_id': '676256783802'
       },
     },
-    {
-      resolve: 'gatsby-plugin-offline-next',
-      options: {
-         workboxConfig: {
-            globPatterns: ['**/src/images*', '*.html']
-         }
-      }
-   }
+  //   {
+  //     resolve: 'gatsby-plugin-offline-next',
+  //     options: {
+  //        workboxConfig: {
+  //           globPatterns: ['**/src/images*', '*.html']
+  //        }
+  //     }
+  //  }
     // {
     //   resolve: `gatsby-plugin-offline`,
     //   options: {
