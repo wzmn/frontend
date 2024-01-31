@@ -287,7 +287,7 @@ const Employees = () => {
             <Drop
               key={dropName}
               titleRingColor={getColumnColor(index)}
-              accept="company"
+              accept={dropName === "Owner" ? "false" : "company"}
               handleDrop={handleDrop}
               section={dropName}
               title={dropName.toLocaleUpperCase()}
@@ -298,8 +298,9 @@ const Employees = () => {
                     return (
                       <Fragment key={dragItem.id}>
                         <Drage
+                          canDrag={dropName === "Owner" ? false : true}
                           key={dragItem.id} //you can`t use index from map id should be unique
-                          accept={"company"}
+                          accept={dropName === "Owner" ? "false" : "company"}
                           section={dropName}
                           id={dragItem.id as number}
                           loading={dragItem.status}

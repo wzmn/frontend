@@ -117,7 +117,7 @@ const selectionRange = {
   endDate: new Date(),
   key: "selection",
 };
-const companyType = ["All", "Buyer", "Seller"];
+const companyType = ["All", "Installer", "Seller"];
 
 export function DateFilter() {
   return (

@@ -1,26 +1,23 @@
-import DNDImage from "components/dnd-image";
+import { yupResolver } from "@hookform/resolvers/yup";
+import Button from "components/button";
 import FormSection from "components/form-sections";
 import FormWraper from "components/form-wrapper";
 import Label from "components/label";
 import SelectBox from "components/selectBox";
 import TextField from "components/text-field";
-import React, { useEffect, useState } from "react";
-import { FormProvider, useForm } from "react-hook-form";
-import { RiDeleteBin6Line } from "react-icons/ri";
-import * as styles from "styles/pages/common.module.scss";
-import PhoneInput from "react-phone-number-input";
-import * as companyStyles from "pages/company/styles.module.scss";
-import Button from "components/button";
-import Address from "services/address";
-import { InferType, object } from "yup";
-import { addressSchema } from "schema/address-schema";
-import { companyDetailsSchema } from "schema/company-schema";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { request } from "services/http-request";
-import MsgToast from "services/msg-toast";
 import { COMPANY_LISTING } from "constants/api";
 import { useAuthContext } from "providers/auth-provider";
+import React, { useEffect } from "react";
+import { FormProvider, useForm } from "react-hook-form";
+import PhoneInput from "react-phone-number-input";
+import { addressSchema } from "schema/address-schema";
+import { companyDetailsSchema } from "schema/company-schema";
+import Address from "services/address";
+import { request } from "services/http-request";
+import MsgToast from "services/msg-toast";
+import * as styles from "styles/pages/common.module.scss";
 import { ComResultT } from "type/company";
+import { InferType, object } from "yup";
 
 interface FileProps extends File {
   preview: string;
@@ -43,7 +40,10 @@ const countries = [
   { label: "NZL" },
 ];
 
-const type = [{ label: "buyer" }, { label: "seller" }];
+const type = [
+  { label: "Installer", value: "buyer" },
+  { label: "Seller", value: "seller" },
+];
 
 const CompanyDetails = () => {
   const { userAuth } = useAuthContext();
@@ -224,7 +224,7 @@ const CompanyDetails = () => {
                     value={companyType}
                     asterisk
                     onChange={(e) => {
-                      setValue("company_type", e.label);
+                      setValue("company_type", e.value);
                     }}
                   />
                   <p className={styles.error + " text-xs"}>
