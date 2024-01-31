@@ -32,18 +32,26 @@ const config: GatsbyConfig = {
         cache_busting_mode: 'none',
         icon: `src/images/icon.png`,
         theme_color_in_head: false,
-        'gcm_sender_id': '676256783802'
+        // 'gcm_sender_id': '676256783802'
       },
     },
     {
-      resolve: `gatsby-plugin-offline`,
+      resolve: 'gatsby-plugin-offline-next',
       options: {
-        precachePages: [`/dashboard/`, `/settings/`],
-        workboxConfig: {
-          globPatterns: ['**/src/images*']
-       }
-      },
-    },
+         workboxConfig: {
+            globPatterns: ['**/src/images*', '*.html']
+         }
+      }
+   }
+    // {
+    //   resolve: `gatsby-plugin-offline`,
+    //   options: {
+    //     precachePages: [`/dashboard/`, `/settings/`],
+    //     workboxConfig: {
+    //       globPatterns: ['**/src/images*', '*.html']
+    //    }
+    //   },
+    // },
   ],
 };
 
