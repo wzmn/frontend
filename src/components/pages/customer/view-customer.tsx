@@ -60,9 +60,7 @@ const ViewCustomer = ({ data }: { data: CustResultT }) => {
                     {data?.user?.first_name}&nbsp;{data?.user?.last_name}
                   </span>
                 </p>
-                <p className={styles.tag}>
-                  {TimeFormat(data.user?.created_at)}
-                </p>
+                <p className={styles.tag}>{TimeFormat(data?.created_at)}</p>
               </div>
               <FaChevronDown
                 className={`${open ? "rotate-180 transform" : ""}`}

@@ -139,7 +139,13 @@ const CreateJob = (props: PageProps) => {
       });
 
       const empFilteredList = res.results?.map((item) => ({
-        label: item.user?.first_name + " " + item.user?.last_name,
+        label:
+          item.user?.first_name +
+          " " +
+          item.user?.last_name +
+          " (" +
+          item.role +
+          ")",
         ...item,
       })) as ComboBoxDataT[];
 
@@ -227,8 +233,11 @@ const CreateJob = (props: PageProps) => {
                       />
                     </div>
 
-                    <div className="max-w-3xl">
+                    <div className="max-w-3xl w-full">
                       <PhoneInput
+                        style={{
+                          width: "100%",
+                        }}
                         defaultCountry="AU"
                         countryCallingCodeEditable={false}
                         international
@@ -289,7 +298,7 @@ const CreateJob = (props: PageProps) => {
                         <div className="max-w-3xl">
                           <Label title="Job Assign To" />
                           <ComboBox<EmpResultT>
-                            placeholder="Field Worker"
+                            placeholder="Employee"
                             data={empListData}
                             handleSelect={(e) => {
                               setValue(

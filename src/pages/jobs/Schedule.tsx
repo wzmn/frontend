@@ -27,13 +27,15 @@ import { EmpResultT } from "type/employee";
 import { Result } from "type/job";
 import { debounce } from "utility/debounce";
 import momentTz from "moment-timezone";
+import { ApptStateStatus } from "type/appointment";
 type Props = {
   item: Result;
   companyId: number;
   apptId?: string;
+  apptStatus?: ApptStateStatus;
 };
 
-const Schedule = ({ item, companyId, apptId }: Props) => {
+const Schedule = ({ item, companyId, apptId, apptStatus }: Props) => {
   const {
     register,
     handleSubmit,
@@ -64,7 +66,7 @@ const Schedule = ({ item, companyId, apptId }: Props) => {
 
       if (apptId) {
         const statueChangeFrom = statusData?.filter((item) => {
-          return item.title === "Confirmed";
+          return item.title === (apptStatus as any);
         });
         exData = {
           appointment_status_id: statueChangeFrom![0].id,
@@ -72,7 +74,7 @@ const Schedule = ({ item, companyId, apptId }: Props) => {
       } else {
         exData = {
           job_id: item.id,
-          appointment_status: "Confirmed",
+          appointment_status: apptStatus || "Confirmed",
         };
       }
 
@@ -116,9 +118,9 @@ const Schedule = ({ item, companyId, apptId }: Props) => {
 
   useEffect(() => {
     handleEmployeeList();
-    if (userRole === "agent") {
-      setValue("assessment_assigned_to_id", userAuth.user_id);
-    }
+    // if (userRole === "agent") {
+    //   setValue("assessment_assigned_to_id", userAuth.user_id);
+    // }
   }, []);
 
   return (
@@ -158,7 +160,7 @@ const Schedule = ({ item, companyId, apptId }: Props) => {
                 </div>{" "}
                 <div className="flex items-start gap-5 mt-8">
                   <div className="w-72">
-                    <Label title="assessment scheduled" />
+                    <Label title="Assessment Scheduled" />
                     <Input
                       type="datetime-local"
                       className={styles.input}
@@ -172,25 +174,25 @@ const Schedule = ({ item, companyId, apptId }: Props) => {
                     />
                   </div>
 
-                  {JSON.parse(selfAssessment.toString()) === false &&
-                    userRole !== "agent" && (
-                      <div className="w-64 ">
-                        <Label title="Assign To" />
-                        <ComboBox<EmpResultT>
-                          data={empListData}
-                          handleSelect={(e) => {
-                            setValue(
-                              "assessment_assigned_to_id",
-                              Number(e?.user?.id)
-                            );
-                          }}
-                          onChange={debounce(handleEmployeeList)}
-                        />
-                        <p className={styles.error + " text-xs"}>
-                          {errors.assessment_assigned_to_id?.message as string}
-                        </p>
-                      </div>
-                    )}
+                  {JSON.parse(selfAssessment.toString()) === false && (
+                    <div className="w-64 ">
+                      <Label title="Assign To" />
+                      <ComboBox<EmpResultT>
+                        placeholder="Field Worker"
+                        data={empListData}
+                        handleSelect={(e) => {
+                          setValue(
+                            "assessment_assigned_to_id",
+                            Number(e?.user?.id)
+                          );
+                        }}
+                        onChange={debounce(handleEmployeeList)}
+                      />
+                      <p className={styles.error + " text-xs"}>
+                        {errors.assessment_assigned_to_id?.message as string}
+                      </p>
+                    </div>
+                  )}
                   {/* <p className="font-bold">TO</p>
                 <div className="w-72">
                   <Input
