@@ -18,6 +18,7 @@ const config: GatsbyConfig = {
     "gatsby-plugin-postcss",
     "gatsby-plugin-resolve-src",
     "gatsby-plugin-sass",
+    "gatsby-plugin-remove-serviceworker",
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
@@ -32,18 +33,26 @@ const config: GatsbyConfig = {
         cache_busting_mode: 'none',
         icon: `src/images/icon.png`,
         theme_color_in_head: false,
-        'gcm_sender_id': '676256783802'
+        // 'gcm_sender_id': '676256783802'
       },
     },
-    {
-      resolve: `gatsby-plugin-offline`,
-      options: {
-        precachePages: [`/dashboard/`, `/settings/`],
-        workboxConfig: {
-          globPatterns: ['**/src/images*']
-       }
-      },
-    },
+  //   {
+  //     resolve: 'gatsby-plugin-offline-next',
+  //     options: {
+  //        workboxConfig: {
+  //           globPatterns: ['**/src/images*', '*.html']
+  //        }
+  //     }
+  //  }
+    // {
+    //   resolve: `gatsby-plugin-offline`,
+    //   options: {
+    //     precachePages: [`/dashboard/`, `/settings/`],
+    //     workboxConfig: {
+    //       globPatterns: ['**/src/images*', '*.html']
+    //    }
+    //   },
+    // },
   ],
 };
 

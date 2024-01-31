@@ -55,7 +55,7 @@ const Jobs = () => {
       cssVar("--color-aqua_blue"),
       cssVar("--color-salad_green"),
       cssVar("--color-red"),
-      cssVar("--color-blue_dress"),
+      // cssVar("--color-blue_dress"),
     ];
     return colors[int % colors.length];
   }
