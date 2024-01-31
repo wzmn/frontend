@@ -5,7 +5,7 @@ export const colAccepList: any = {
   Audited: ["Assessed"],
   "Snippit Audited": ["Audited", "Assessed"],
   Reassessment: ["Assessed", "Audited", "Snippit Audited"],
-  Rescheduled: ["Confirmed", "Assessed"],
+  Rescheduled: ["Confirmed", "Assessed", "Published"],
   Rejected: [],
   Cancelled: [],
   Installed: [],

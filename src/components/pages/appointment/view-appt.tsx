@@ -154,6 +154,17 @@ const ViewAppt = ({
             data?.job?.job_created_by?.last_name}
         </span>
       </p>
+
+      <p className={`${styles.name} ${styles.createBy}`}>
+        <span className={styles.bold}>Appt Assigned To: &nbsp; </span>
+        {/* {data?.company_owner?.first_name} &nbsp; */}
+        <span className={styles.tag}>
+          {`${data?.assessment_assigned_to?.first_name || "N/A"} ${
+            data?.assessment_assigned_to?.last_name || "N/A"
+          }`}
+        </span>
+      </p>
+
       {data.appointment_status === "Confirmed" && (
         <p className={`${styles.name} ${styles.createBy}`}>
           <span className={styles.bold}>Appt Schedule Date: &nbsp; </span>

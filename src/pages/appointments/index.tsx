@@ -63,6 +63,8 @@ let apptStatusState = {} as Record<
   AppointmentExtraDataType[]
 >;
 
+const schedulingAppt = ["confirmed", "rescheduled"];
+
 const sortType = [
   {
     label: "Created On",
@@ -153,9 +155,9 @@ const Appintments = () => {
     section: AppointmentStatusType,
     make: boolean = true
   ) {
-    if (section === "Confirmed") {
+    if (schedulingAppt.includes(section?.toLowerCase())) {
       const dt = data[item.section].find((val) => val.id === item.id);
-      navigate(`/jobs/create-appointment/?apptId=${dt?.id}`, {
+      navigate(`/jobs/create-appointment/?apptId=${dt?.id}&status=${section}`, {
         state: dt?.job,
       });
       return;
@@ -196,10 +198,10 @@ const Appintments = () => {
           job__customer__company__in: companyId || id,
           ordering: sort,
           created_at__gte: selectionRange.startDate
-            ? moment(selectionRange.startDate).format("YYYY-MM-DDTHH:mm")
+            ? moment(selectionRange.startDate).format("YYYY-MM-DDT00:00")
             : undefined,
           created_at__lte: selectionRange.endDate
-            ? moment(selectionRange.endDate).format("YYYY-MM-DDTHH:mm")
+            ? moment(selectionRange.endDate).format("YYYY-MM-DDT23:59")
             : undefined,
           job__work_type__title__in: workType.toString(),
           customer__customer_type: custType,

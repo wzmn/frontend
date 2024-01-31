@@ -71,8 +71,8 @@ export function EmpList({
           <p className="title">{data.user?.first_name}</p>
           <span className="">
             {" "}
-            created on: {TimeFormat(data.user?.created_at!, "ddd DD")} at{" "}
-            {TimeFormat(data?.user?.created_at!, "h:mm a")}
+            created on: {TimeFormat(data?.created_at!, "ddd DD")} at{" "}
+            {TimeFormat(data?.created_at!, "h:mm a")}
           </span>
         </div>
         <div className={contactInfo}>

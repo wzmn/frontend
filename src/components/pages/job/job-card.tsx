@@ -71,11 +71,8 @@ export default function JobList({
           <p className="title">{data?.customer?.user?.first_name}</p>
           <span className="">
             {" "}
-            created on: {TimeFormat(
-              data?.customer?.user?.created_at,
-              "ddd DD"
-            )}{" "}
-            at {TimeFormat(data?.created_at, "h:mm a")}
+            created on: {TimeFormat(data?.created_at, "ddd DD")} at{" "}
+            {TimeFormat(data?.created_at, "h:mm a")}
           </span>
         </div>
         <div className={contactInfo}>

@@ -86,11 +86,8 @@ export default function ApptList({
           <p className="title">{data?.job?.customer?.user?.first_name}</p>
           <span className="">
             {" "}
-            created on:{" "}
-            {TimeFormat(
-              data?.job?.customer?.user?.created_at,
-              "ddd DD"
-            )} at {TimeFormat(data?.job?.customer?.user?.created_at, "hh:mm a")}
+            created on: {TimeFormat(data?.created_at, "ddd DD")} at{" "}
+            {TimeFormat(data?.created_at, "hh:mm a")}
           </span>
         </div>
         <div className={contactInfo}>

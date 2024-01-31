@@ -10,6 +10,7 @@ import Input from "components/input";
 import { useAppContext } from "providers/app-provider";
 import { useLocation } from "@reach/router";
 import { Result, WorkType } from "type/job";
+import { ApptStateStatus } from "type/appointment";
 
 const CreateAppointment = () => {
   const { register, watch } = useForm();
@@ -19,6 +20,7 @@ const CreateAppointment = () => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const apptId = params.get("apptId");
+  const apptStatus: ApptStateStatus = params.get("status") as any;
 
   // useEffect
 
@@ -51,6 +53,7 @@ const CreateAppointment = () => {
           item={location.state as Result}
           companyId={(location.state as Result).customer?.company?.id!}
           apptId={apptId!}
+          apptStatus={apptStatus}
         />
         {/* ))} */}
 

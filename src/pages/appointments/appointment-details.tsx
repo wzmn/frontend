@@ -70,7 +70,9 @@ const AppointmentDetails = (props: PageProps) => {
 
                 <Divider />
                 <p className={`${styles.name} ${styles.createBy}`}>
-                  <span className={styles.bold}>Assigned to : &nbsp; </span>
+                  <span className={styles.bold}>
+                    Appt Assigned to : &nbsp;{" "}
+                  </span>
                   {`${data?.assessment_assigned_to?.first_name || "N/A"} ${
                     data?.assessment_assigned_to?.last_name || "N/A"
                   }`}
