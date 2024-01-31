@@ -27,7 +27,7 @@ const PublishDetails = (props: PageProps) => {
   //     },
   //   });
 
-  const [data, setData] = useState<EmpResultT>({});
+  const [data, setData] = useState<Partial<EmpResultT>>({});
 
   //   const { fields, append, remove } = useFieldArray({
   //     control,

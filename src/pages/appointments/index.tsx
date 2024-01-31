@@ -47,6 +47,7 @@ import * as locStyles from "./styles.module.scss";
 import { CustTypeData } from ".././../constants";
 import { colAccepList } from "components/pages/appointment/helper";
 import MsgToast from "services/msg-toast";
+import moment from "moment";
 
 const selectionRangeInit = {
   startDate: undefined,
@@ -195,10 +196,10 @@ const Appintments = () => {
           job__customer__company__in: id,
           ordering: sort,
           created_at__gte: selectionRange.startDate
-            ? TimeFormat(selectionRange.startDate)
+            ? moment(selectionRange.startDate).format("YYYY-MM-DDTHH:mm")
             : undefined,
           created_at__lte: selectionRange.endDate
-            ? TimeFormat(selectionRange.endDate)
+            ? moment(selectionRange.endDate).format("YYYY-MM-DDTHH:mm")
             : undefined,
           job__work_type__title__in: workType.toString(),
           customer__customer_type: custType,

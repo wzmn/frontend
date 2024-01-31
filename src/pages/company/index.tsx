@@ -37,6 +37,7 @@ import companyIdFetcher from "services/company-id-fetcher";
 import { IoIosArrowDown } from "react-icons/io";
 import { TbCircuitSwitchClosed } from "react-icons/tb";
 import { SortFilter } from "components/pages/common";
+import moment from "moment";
 
 export const CompanyTypeData = [
   {
@@ -146,8 +147,12 @@ const Company = () => {
           offset: pagination.offset,
           company__id: id,
           ordering: sort,
-          created_at__gte: selectionRange.startDate,
-          created_at__lte: selectionRange.endDate,
+          created_at__gte: selectionRange.startDate
+            ? moment(selectionRange.startDate).format("YYYY-MM-DDTHH:mm")
+            : undefined,
+          created_at__lte: selectionRange.endDate
+            ? moment(selectionRange.endDate).format("YYYY-MM-DDTHH:mm")
+            : undefined,
           company_type: comType,
           ...params,
         },

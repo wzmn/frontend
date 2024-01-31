@@ -35,6 +35,7 @@ import MsgToast from "services/msg-toast";
 import UserIdentifyer from "services/user-identifyer";
 import { debounce } from "utility/debounce";
 import Placeholder from "../../components/skeleton";
+import moment from "moment";
 
 type DropItemType = { id: number; section: EmployeeRole };
 const selectionRangeInit = {
@@ -119,8 +120,12 @@ const Employees = () => {
           limit: pagination.limit,
           offset: pagination.offset,
           license_id__company__id: id,
-          created_at__gte: selectionRange.startDate,
-          created_at__lte: selectionRange.endDate,
+          created_at__gte: selectionRange.startDate
+            ? moment(selectionRange.startDate).format("YYYY-MM-DDTHH:mm")
+            : undefined,
+          created_at__lte: selectionRange.endDate
+            ? moment(selectionRange.endDate).format("YYYY-MM-DDTHH:mm")
+            : undefined,
           ordering: sort,
           ...params,
         },

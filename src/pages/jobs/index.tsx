@@ -36,6 +36,7 @@ import cssVar from "utility/css-var";
 import { debounce } from "utility/debounce";
 import { findMatchingId } from "utility/find-matching-id";
 import { CustTypeData } from ".././../constants";
+import moment from "moment";
 
 type DropItemType = { id: number; section: JobStatusRole };
 
@@ -142,10 +143,10 @@ const Jobs = () => {
           customer__company__in: id,
           ordering: sort,
           created_at__gte: selectionRange.startDate
-            ? TimeFormat(selectionRange.startDate)
+            ? moment(selectionRange.startDate).format("YYYY-MM-DDTHH:mm")
             : undefined,
           created_at__lte: selectionRange.endDate
-            ? TimeFormat(selectionRange.endDate)
+            ? moment(selectionRange.endDate).format("YYYY-MM-DDTHH:mm")
             : undefined,
           customer__customer_type: custType,
 
