@@ -67,6 +67,7 @@ const AppointmentQuestions = () => {
           work_type: workType,
           is_sub_question: false,
           company: id,
+          limit: 50,
         },
       });
       setQData(() => response.data.results!);

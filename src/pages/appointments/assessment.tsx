@@ -70,6 +70,7 @@ const Assessment = (props: PageProps) => {
         params: {
           question__is_sub_question: false,
           appointment: (props.location.state as LocState).apptId,
+          limit: 50,
         },
       });
 
@@ -86,6 +87,7 @@ const Assessment = (props: PageProps) => {
         params: {
           appointment: (props.location.state as LocState).apptId,
           is_sub_question: false,
+          limit: 50,
         },
       });
 
