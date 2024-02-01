@@ -24,7 +24,7 @@ const AnsQuestion = ({
   data,
   formParent = "parent",
 }: {
-  data: QAnsResultT;
+  data: Partial<QAnsResultT>;
   formParent?: string;
 }) => {
   const { control, register, setValue, handleSubmit } = useForm<{
@@ -33,8 +33,8 @@ const AnsQuestion = ({
     question_type: string;
   }>({
     defaultValues: {
-      content: data.question.content,
-      question_type: data.question.question_type,
+      content: data?.question?.content,
+      question_type: data?.question?.question_type,
       // options: data.question.options,
       options: [],
     },
@@ -59,7 +59,7 @@ const AnsQuestion = ({
         handleSubmit(onSubmit)(e);
       }}
       className={`pl-5 ${
-        data?.question?.options?.length > 0 &&
+        data?.question?.options?.length! > 0 &&
         data?.question?.has_sub_question &&
         "border-l border-blue-500"
       }`}
@@ -69,20 +69,20 @@ const AnsQuestion = ({
         <span className={locStyles.qBorder}>{data?.question?.content}</span>
       </p>
       <div className="">
-        {checkforMultiChecker.includes(data?.question?.question_type) ? (
+        {checkforMultiChecker.includes(data?.question?.question_type!) ? (
           <div className="mt-3">
             {data?.question?.options?.map((option, index) => {
               return (
                 <Options
-                  selectedOpt={data.selected_options}
+                  selectedOpt={data?.selected_options!}
                   option={option}
-                  company={data?.question?.company}
-                  work_type={data?.question?.work_type}
+                  company={data?.question?.company!}
+                  work_type={data?.question?.work_type!}
                   //   fetchNestQ={fetchNestQ}
-                  parentQId={data?.question.id}
+                  parentQId={data?.question?.id!}
                   register={register}
                   index={index}
-                  hasSubQ={data.question.has_sub_question}
+                  hasSubQ={data?.question?.has_sub_question!}
                 />
               );
             })}
