@@ -288,6 +288,7 @@ const Appintments = () => {
           description: "Requested Quote",
         },
       });
+      setSnippitAudited(() => []);
       MsgToast("Quote Send!", "success");
       await fetchData();
     } catch (error) {
