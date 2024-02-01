@@ -42,12 +42,12 @@ function AppProvider({ children }: { children: JSX.Element }) {
       fetchCategory,
     ])
       .then(async (values) => {
-        const appt = await values[0]();
-        const workTypes = await values[1]();
-        const emp = await values[2]();
-        const company = await values[3]();
-        const questions = await values[4]();
-        const category = await values[5]();
+        const appt = (await values[0]()) || {};
+        const workTypes = (await values[1]()) || {};
+        const emp = (await values[2]()) || {};
+        const company = (await values[3]()) || {};
+        const questions = (await values[4]()) || {};
+        const category = (await values[5]()) || {};
 
         setAppState((prev) => ({
           ...prev,

@@ -1,6 +1,8 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from "axios";
 import { LoginResType } from "type/auth";
 
+const notToReload = ["/login/", "/change-password/"];
+
 const Axios: AxiosInstance = axios.create({
   baseURL: process.env.API_URL + "/api",
   // timeout: 10000,
@@ -39,7 +41,7 @@ Axios.interceptors.response.use(
       let pathname =
         typeof window !== "undefined" ? window.location.pathname : "";
 
-      if (pathname === "/login/") return Promise.reject(error);
+      if (notToReload.includes(pathname)) return Promise.reject(error);
       localStorage.setItem("user", "null");
       window.location.replace("/login");
     }

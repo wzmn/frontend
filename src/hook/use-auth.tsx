@@ -39,7 +39,6 @@ const useAuth = () => {
 
   const HandleRedirect = ({ children }: Props) => {
     const { userAuth, companyAuth } = useAuthContext();
-
     if (!!userAuth) {
       // If user is logged in then redirect to dashboard or navigate to a redirect from login
       // if (location.search.match(/\?redirect\=(.*)/)) {

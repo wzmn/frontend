@@ -1,32 +1,92 @@
 import { Disclosure } from "@headlessui/react";
 import Button from "components/button";
 import Divider from "components/divider";
-import React from "react";
+import React, { useState } from "react";
 import { FaChevronDown } from "react-icons/fa";
 import { IoCallOutline } from "react-icons/io5";
 import { LuClipboardList } from "react-icons/lu";
 import { TfiEmail } from "react-icons/tfi";
 import * as commonStyles from "styles/pages/common.module.scss";
 import * as styles from "../styles.module.scss";
+import { Assessment, TransactionsResultT } from "type/transactions";
+import TimeFormat from "services/time-format";
+import { request } from "services/http-request";
+import { TRANSACTIONS_MANAGEMENT } from "constants/api";
+import MsgToast from "services/msg-toast";
 
-const TransactionCard = () => {
+const TransactionCard = ({
+  data,
+  refetch,
+}: {
+  data: Partial<TransactionsResultT>;
+  refetch: () => Promise<void>;
+}) => {
+  const [loading, setLoading] = useState(false);
+
+  async function changePaymentStatus(status: string, id: number) {
+    setLoading((prev) => !prev);
+    try {
+      const data = {
+        payment_status: status,
+      };
+      const resp = await request({
+        url: TRANSACTIONS_MANAGEMENT + id + "/emi_status_change/",
+        method: "patch",
+        data,
+      });
+      MsgToast("Status Change Sucessfully", "success");
+      await refetch();
+    } catch (error) {
+      MsgToast("Try again later", "error");
+    } finally {
+      setLoading((prev) => !prev);
+    }
+  }
+
   return (
     <div>
       <div className={`${styles.profileSetting} ${styles.mtb}`}>
-        <p className={styles.textBold}>Order ID: OD152595555</p>
+        <p className={styles.textBold}>Transaction ID: {data?.ref_id}</p>
 
-        <p className={styles.userSettings}>Download Invoice</p>
+        {/* <p className={styles.userSettings}>Download Invoice</p> */}
       </div>
       <Divider />
-      <p className={styles.mtb}>
-        <span className={styles.textBold}>Order Placed:</span>
-        15 December 2023
-      </p>
+      <div className={`${styles.profileSetting} ${styles.mtb}`}>
+        <p className={styles.textBold}>
+          Quote Request ID: {data?.details?.quote_request?.id}
+        </p>
+
+        {/* <p className={styles.userSettings}>Download Invoice</p> */}
+      </div>
+      <Divider />
 
       <p className={styles.mtb}>
-        <span className={styles.textBold}>Order Completed:</span>
-        18 December 2023
+        <span className={styles.textBold}>Order Placed: </span>
+        {TimeFormat(data?.created_at || "")}
       </p>
+
+      <Divider />
+      <p className={styles.mtb}>
+        <span className={styles.textBold}>Transaction Method: </span>
+        {data?.transaction_method?.toUpperCase()}
+      </p>
+
+      {/* <Divider />
+      <p className={styles.mtb}>
+        <span className={styles.textBold}>Total Discounts: </span>
+        {data?.total_discounts}
+      </p> */}
+
+      <Divider />
+      <p className={styles.mtb}>
+        <span className={styles.textBold}>Payment Status: </span>
+        {data?.payment_status?.toUpperCase().replace("_", " ")}
+      </p>
+
+      {/* <p className={styles.mtb}>
+        <span className={styles.textBold}>Order Completed:</span>
+        {18 December 2023}
+      </p> */}
       <Divider />
 
       <Disclosure>
@@ -36,8 +96,8 @@ const TransactionCard = () => {
             <Disclosure.Button className={` ${open ? "" : ""} ${styles.mtb}`}>
               <div className={styles.dwBtn}>
                 <p className="">
-                  <span className={styles.textBold}>Batch Name:</span>
-                  CLU ASSESSMENT(03)
+                  <span className={styles.textBold}>Appointments :</span>(
+                  {data?.details?.quote_request?.assessments?.length || 0})
                 </p>
 
                 <FaChevronDown
@@ -46,8 +106,8 @@ const TransactionCard = () => {
               </div>
             </Disclosure.Button>
             <Disclosure.Panel className={`${styles.panel} mb-5`}>
-              {[1, 2, 3].map((item: number) => {
-                return <List data={{}} />;
+              {data?.details?.quote_request.assessments?.map((assessment) => {
+                return <List data={assessment} />;
               })}
             </Disclosure.Panel>
 
@@ -56,31 +116,50 @@ const TransactionCard = () => {
         )}
       </Disclosure>
 
-      <p className={styles.mtb}>
-        <span className={styles.textBold}>Price:</span>
+      <p className={`mb-8 mt-4`}>
+        <span className={styles.textBold}>Total Amount:</span>
         <div className={styles.priceTag}>
-          <Button title="$1200" />
+          <Button title={"$" + data?.total_amount} />
         </div>
       </p>
+
+      {data?.payment_status === "processing_emi" ? (
+        <div className="flex gap-3">
+          <Button
+            isLoading={loading}
+            disabled={loading}
+            title="Accept"
+            onClick={() => changePaymentStatus("completed", data?.id!)}
+          />
+          <Button
+            isLoading={loading}
+            disabled={loading}
+            title="Reject"
+            onClick={() => changePaymentStatus("canceled", data?.id!)}
+            color="red"
+          />
+        </div>
+      ) : null}
     </div>
   );
 };
 
-function List({ data }: { data: any }) {
+function List({ data }: { data: Assessment }) {
   const { card, cardInfo, contactInfo, icon, contact } = commonStyles;
   // const { open, setElement, toggle } = useRightBarContext();
 
   return (
     <div className={`${styles.card} ${styles.cardBorder}`}>
+      <p className="font-medium"> Appt ID : {data.id}</p>
       <div className={styles.cardInfo}>
         <p className="mb-2">
-          {/* {data.user?.first_name} */}
-          Jason Stone
+          {`${data?.job?.customer?.user?.first_name || "N/A"} ${
+            data?.job?.customer?.user?.last_name || "N/A"
+          }`}
         </p>
         <p className="mb-2">
           {" "}
-          {/* Created on: {TimeFormat(data.user?.created_at,'ddd, MM a')} */}
-          created on: Mon,3.40 am
+          Created on: {TimeFormat(data?.job?.customer?.created_at)}
         </p>
       </div>
       <div className={`${styles.contactInfo} ${styles.contact}`}>
@@ -90,8 +169,7 @@ function List({ data }: { data: any }) {
           </span>
 
           <span className={styles.contact}>
-            {/* {data.user?.email} */}
-            jason@gmail.com
+            {data?.job?.customer?.user?.email}
           </span>
         </div>
 
@@ -101,13 +179,12 @@ function List({ data }: { data: any }) {
           </span>
 
           <span className={styles.contact}>
-            {/* {data.user?.phone} */}
-            jason@gmail.com
+            {data?.job?.customer?.user?.phone}
           </span>
         </div>
 
-        <LuClipboardList className={styles.absIcon} />
-        <p className={styles.count}>3</p>
+        {/* <LuClipboardList className={styles.absIcon} /> */}
+        {/* <p className={styles.count}>3</p> */}
       </div>
     </div>
   );
