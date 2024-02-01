@@ -154,7 +154,9 @@ const TransactionCard = ({
       <p className={styles.mtb}>
         <span className={styles.textBold}>Solar Victoria Rebates: </span>
         {data.sv_eligible}
-        {data?.sv_eligible! === true ? data?.sv_value : 0}
+        {data?.sv_eligible! === true || data?.sv_eligible! === null
+          ? data?.sv_value
+          : 0}
       </p>
 
       <p className={`mb-8 mt-4`}>
