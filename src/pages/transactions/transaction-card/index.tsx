@@ -22,6 +22,7 @@ const TransactionCard = ({
   refetch: () => Promise<void>;
 }) => {
   const [loading, setLoading] = useState(false);
+  const [svLoading, setSvLoading] = useState(false);
 
   async function changePaymentStatus(status: string, id: number) {
     setLoading((prev) => !prev);
@@ -31,6 +32,26 @@ const TransactionCard = ({
       };
       const resp = await request({
         url: TRANSACTIONS_MANAGEMENT + id + "/emi_status_change/",
+        method: "patch",
+        data,
+      });
+      MsgToast("Status Change Sucessfully", "success");
+      await refetch();
+    } catch (error) {
+      MsgToast("Try again later", "error");
+    } finally {
+      setLoading((prev) => !prev);
+    }
+  }
+
+  async function svStatus(status: boolean, id: number) {
+    setLoading((prev) => !prev);
+    try {
+      const data = {
+        sv_eligible: status,
+      };
+      const resp = await request({
+        url: TRANSACTIONS_MANAGEMENT + id + "/sv_update/",
         method: "patch",
         data,
       });
@@ -136,6 +157,24 @@ const TransactionCard = ({
             disabled={loading}
             title="Reject"
             onClick={() => changePaymentStatus("canceled", data?.id!)}
+            color="red"
+          />
+        </div>
+      ) : null}
+
+      {data?.sv_interested && data.sv_eligible === null ? (
+        <div className="flex gap-3">
+          <Button
+            isLoading={loading}
+            disabled={loading}
+            title="Solar Victoria Accepted"
+            onClick={() => svStatus(true, data?.id!)}
+          />
+          <Button
+            isLoading={loading}
+            disabled={loading}
+            title="Solar Victoria Rejected"
+            onClick={() => svStatus(false, data?.id!)}
             color="red"
           />
         </div>
