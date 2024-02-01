@@ -23,6 +23,7 @@ import {
 } from "type/global";
 import * as apptStyle from "./styles.module.scss";
 import { ApptResultT } from "type/appointment";
+import { it } from "node:test";
 
 type LocState = {
   wtId: string;
@@ -122,6 +123,10 @@ const Assessment = (props: PageProps) => {
   }
 
   useEffect(() => {
+    if (apptId === undefined) {
+      navigate(-1);
+      return;
+    }
     fetchQuestionsAns();
     fetchDocumentsAns();
     fetchAppt();
@@ -157,7 +162,9 @@ const Assessment = (props: PageProps) => {
             <div className="grid grid-cols-2 gap-4 ">
               {apptDetails?.products.map((item) => {
                 return (
-                  <Link to="/settings/view-product">
+                  <Link
+                    to={`/settings/view-product/?productId=${item?.product?.id}`}
+                  >
                     <div className="relative w-96 h-60 rounded-xl border border-1 ">
                       <div className="w-44 h-44 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
                         <img
