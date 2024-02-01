@@ -121,10 +121,10 @@ const Employees = () => {
           offset: pagination.offset,
           license_id__company__id: id,
           created_at__gte: selectionRange.startDate
-            ? moment(selectionRange.startDate).format("YYYY-MM-DDTHH:mm")
+            ? moment(selectionRange.startDate).format("YYYY-MM-DDT00:00")
             : undefined,
           created_at__lte: selectionRange.endDate
-            ? moment(selectionRange.endDate).format("YYYY-MM-DDTHH:mm")
+            ? moment(selectionRange.endDate).format("YYYY-MM-DDT23:59")
             : undefined,
           ordering: sort,
           ...params,
