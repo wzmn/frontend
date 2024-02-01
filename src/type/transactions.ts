@@ -20,6 +20,7 @@ export interface TransactionsResultT {
   gateway_transaction_id: null | string;
   gateway_response_details: null;
   sv_interested: boolean;
+  sv_value: string;
   sv_eligible: null;
   opting_emi: boolean;
   user: number;

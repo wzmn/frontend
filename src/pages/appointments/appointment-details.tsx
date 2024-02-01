@@ -185,9 +185,10 @@ ${data?.job?.address?.state ? data?.job?.address?.state : ""} ${
 
                 <p className={`${styles.name} ${styles.createBy}`}>
                   <span className={styles.bold}>
-                    Customer Created by: &nbsp;{" "}
+                    Customer Created by: &nbsp;
+                    {data?.job?.customer?.customer_created_by || "N/A"}
                   </span>
-
+                  <br />
                   <span className={styles.tag2}>
                     {TimeFormat(data?.job?.customer?.user?.created_at!)}
                   </span>

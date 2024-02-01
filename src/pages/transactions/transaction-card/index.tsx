@@ -23,6 +23,11 @@ const TransactionCard = ({
 }) => {
   const [loading, setLoading] = useState(false);
   const [svLoading, setSvLoading] = useState(false);
+  // const totalAmt = Number(data?.total_amount || 0);
+  // const gst = Number(data?.total_gst || 0);
+  // const totalAmtInGst = Number(totalAmt + gst || 0);
+  // const discount = Number(data?.total_discounts || 0);
+  // const totalPayableAmt = Math.abs(totalAmtInGst - discount);
 
   async function changePaymentStatus(status: string, id: number) {
     setLoading((prev) => !prev);
@@ -66,6 +71,14 @@ const TransactionCard = ({
 
   return (
     <div>
+      {data?.sv_interested && (
+        <>
+          <div className={`${styles.profileSetting} ${styles.mtb}`}>
+            <p className={"font-bold"}>Customer Applied For Solar Victoria</p>
+          </div>
+          <Divider />
+        </>
+      )}
       <div className={`${styles.profileSetting} ${styles.mtb}`}>
         <p className={styles.textBold}>Transaction ID: {data?.ref_id}</p>
 
@@ -79,6 +92,7 @@ const TransactionCard = ({
 
         {/* <p className={styles.userSettings}>Download Invoice</p> */}
       </div>
+
       <Divider />
 
       <p className={styles.mtb}>
@@ -92,22 +106,12 @@ const TransactionCard = ({
         {data?.transaction_method?.toUpperCase()}
       </p>
 
-      {/* <Divider />
-      <p className={styles.mtb}>
-        <span className={styles.textBold}>Total Discounts: </span>
-        {data?.total_discounts}
-      </p> */}
-
       <Divider />
       <p className={styles.mtb}>
         <span className={styles.textBold}>Payment Status: </span>
         {data?.payment_status?.toUpperCase().replace("_", " ")}
       </p>
 
-      {/* <p className={styles.mtb}>
-        <span className={styles.textBold}>Order Completed:</span>
-        {18 December 2023}
-      </p> */}
       <Divider />
 
       <Disclosure>
@@ -136,11 +140,29 @@ const TransactionCard = ({
           </>
         )}
       </Disclosure>
+      <Divider />
+
+      {/* <p className={styles.mtb}>
+        <span className={styles.textBold}>Total Amount (In GST): </span>
+        {String(totalAmtInGst.toFixed(2))}
+      </p> */}
+      {/* <p className={styles.mtb}>
+        <span className={styles.textBold}>GST: </span>
+        {data?.total_gst}
+      </p> */}
+
+      <p className={styles.mtb}>
+        <span className={styles.textBold}>Solar Victoria Rebates: </span>
+        {data.sv_eligible}
+        {data?.sv_eligible! === true ? data?.sv_value : 0}
+      </p>
 
       <p className={`mb-8 mt-4`}>
-        <span className={styles.textBold}>Total Amount:</span>
+        <span className={styles.textBold}>Total Payable Amount :</span>
         <div className={styles.priceTag}>
-          <Button title={"$" + data?.total_amount} />
+          <Button
+            title={"$" + String(Number(data?.amount_payable).toFixed(2))}
+          />
         </div>
       </p>
 
