@@ -398,7 +398,7 @@ const CompanyRegistration = () => {
                         countryCallingCodeEditable={false}
                         international
                         className="w-full"
-                        placeholder="Enter phone number"
+                        placeholder="Enter phone Number"
                         value={phoneNumber!}
                         onChange={(val) =>
                           setValue("company_mobile_phone", val!)
@@ -412,13 +412,15 @@ const CompanyRegistration = () => {
                   </div>
 
                   <div className="max-w-3xl">
+                    <Label title="Landline No." />
+
                     <div className="">
                       <PhoneInput
                         defaultCountry="AU"
                         countryCallingCodeEditable={false}
                         international
                         className="w-full"
-                        placeholder="Enter phone number"
+                        placeholder="Enter Landline Number"
                         value={companyLandline!}
                         onChange={(val) => setValue("company_landline", val!)}
                         inputComponent={TextField}

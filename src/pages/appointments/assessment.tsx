@@ -40,7 +40,7 @@ const reAssessment = [
 ];
 
 const Assessment = (props: PageProps) => {
-  const [data, setData] = useState<QAnsResultT[]>();
+  const [data, setData] = useState<Partial<QAnsResultT>[]>();
   const [docData, setDocData] = useState<DocumentsAnsT[]>();
   const [loading, setLoading] = useState(false);
   const [apptDetails, setApptDetails] = useState<ApptResultT>();
@@ -134,7 +134,7 @@ const Assessment = (props: PageProps) => {
           <FormWraper>
             <div className="space-y-10 mb-3">
               {data?.map((qAns, index) => {
-                return <AnsQuestion data={qAns} key={index} />;
+                return <AnsQuestion data={qAns!} key={index} />;
               })}
             </div>
           </FormWraper>
@@ -160,12 +160,15 @@ const Assessment = (props: PageProps) => {
                       <div className="w-44 h-44 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
                         <img
                           className="w-full h-full object-contain"
-                          src={item.product.primary_image.file}
+                          src={
+                            item?.product?.primary_image?.file ||
+                            "/assets/images/img_placeholder.webp"
+                          }
                           alt=""
                         />
                       </div>
                       <p className="absolute truncate  text-ellipsis overflow-hidden text-sm left-4 top-1 w-80">
-                        {item.product.name}
+                        {item?.product?.name}
                       </p>
                       <div className="absolute bottom-0 left-4">
                         {/* <p className="text-sm">Is Energy Safe</p>
