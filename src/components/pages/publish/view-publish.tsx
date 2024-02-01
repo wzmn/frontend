@@ -106,8 +106,7 @@ const ViewPublish = ({
                       {appt?.job?.work_type?.title}
                     </p>
                     <p className="">
-                      Job ID :{" "}
-                      <span className={styles.tag}>{appt?.job?.id}</span>
+                      Appt ID : <span className={styles.tag}>{appt?.id}</span>
                     </p>
                     <LuClipboardList />
                     {/* <p className={styles.count}>3</p> */}

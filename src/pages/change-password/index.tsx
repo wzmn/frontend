@@ -7,15 +7,17 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { confirmPasswordSchema } from "schema/auth-schema";
 import { InferType } from "yup";
 import { request } from "services/http-request";
-import { CONFIRM_PASSWORD } from "constants/api";
+import { CHANGE_EMAIL, CONFIRM_PASSWORD } from "constants/api";
 import { navigate } from "gatsby";
 import { toast } from "react-toastify";
+import MsgToast from "services/msg-toast";
 
 type FormType = InferType<typeof confirmPasswordSchema>;
 
 const ChangePassword = () => {
   const params = new URLSearchParams(location.search);
   const token = params.get("token");
+  const userId = params.get("id");
 
   const {
     register,
@@ -26,22 +28,33 @@ const ChangePassword = () => {
   });
 
   const onSubmit = async (data: FormType) => {
-    try {
-      const response = await request({
-        url: CONFIRM_PASSWORD,
-        method: "post",
-        data: {
+    const url = userId
+      ? CHANGE_EMAIL + userId + "/reset_password"
+      : CONFIRM_PASSWORD;
+
+    const dataToSend = userId
+      ? {
+          enter_password: data.password,
+          confirm_password: data.passwordConfirmation,
+        }
+      : {
           password: data.password,
           password_confirm: data.passwordConfirmation,
           token,
-        },
+        };
+    try {
+      const response = await request({
+        url: url,
+        method: userId ? "patch" : "post",
+        data: dataToSend,
       });
-      toast("changed sucessfully");
+      MsgToast("changed sucessfully", "success");
+      console.log(response);
       navigate("/login", {
         replace: true,
       });
     } catch (error) {
-      toast("Something went wrong ");
+      MsgToast("Something went wrong ", "error");
     }
   };
 

@@ -55,11 +55,11 @@ const sideBarData = [
   //   title: "EFT Orders",
   //   link: "/eft-orders",
   // },
-  // {
-  //   svg: "/assets/icons/transactions.svg",
-  //   title: "Transactions",
-  //   link: "/transactions",
-  // },
+  {
+    svg: "/assets/icons/transactions.svg",
+    title: "Transactions",
+    link: "/transactions",
+  },
   {
     svg: "/assets/icons/settings.svg",
     title: "Settings",

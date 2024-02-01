@@ -32,6 +32,10 @@ const Login = (props: any) => {
         method: "post",
       })
         .then(async (s) => {
+          // if (!s?.data?.is_password_set) {
+          //   navigate(`/change-password?id=${s?.data?.user_id}`);
+          //   return;
+          // }
           setUserAuth(s?.data);
 
           if (s.data.staff === "false") {
