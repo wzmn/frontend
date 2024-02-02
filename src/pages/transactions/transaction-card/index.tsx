@@ -173,13 +173,13 @@ const TransactionCard = ({
           <Button
             isLoading={loading}
             disabled={loading}
-            title="Accept"
+            title="Accept EMI"
             onClick={() => changePaymentStatus("completed", data?.id!)}
           />
           <Button
             isLoading={loading}
             disabled={loading}
-            title="Reject"
+            title="Reject EMI"
             onClick={() => changePaymentStatus("canceled", data?.id!)}
             color="red"
           />
