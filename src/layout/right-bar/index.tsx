@@ -1,8 +1,7 @@
-import React from "react";
-import * as styles from "./styles.module.scss";
-import { AiOutlineClose } from "react-icons/ai";
-import { BsThreeDots } from "react-icons/bs";
 import { useRightBarContext } from "providers/right-bar-provider";
+import React from "react";
+import { AiOutlineClose } from "react-icons/ai";
+import * as styles from "./styles.module.scss";
 
 const RightBar = () => {
   const { open, toggle, element, title, actions } = useRightBarContext();
@@ -14,7 +13,11 @@ const RightBar = () => {
         <div className={styles.actions}>
           {/* <BsThreeDots className=" cursor-pointer" /> */}
           {actions}
-          <AiOutlineClose className=" cursor-pointer" onClick={toggle} />
+          <AiOutlineClose
+            id="close"
+            className=" cursor-pointer"
+            onClick={toggle}
+          />
         </div>
       </div>
       <div className={`${styles.rightBar}`}>

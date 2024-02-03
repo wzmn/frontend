@@ -46,6 +46,7 @@ export default function ApptList({
           `Appt ID: ${data.id}`,
           <>
             <IoEyeOutline
+              id="eye"
               onClick={() => {
                 window.open(
                   `appointment-details/?appointment=${data.id}`,

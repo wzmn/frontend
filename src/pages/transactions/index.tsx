@@ -7,6 +7,8 @@ import { request } from "services/http-request";
 import { TransactionsRespT, TransactionsResultT } from "type/transactions";
 import { TRANSACTIONS_MANAGEMENT } from "constants/api";
 import Pagination from "components/pagination";
+import UserIdentifyer from "services/user-identifyer";
+import companyIdFetcher from "services/company-id-fetcher";
 
 const Transactions = () => {
   const [data, setData] = useState<Partial<TransactionsResultT>[]>([]);
@@ -20,12 +22,17 @@ const Transactions = () => {
     totalRecords: 0,
   });
 
+  const userRole = UserIdentifyer();
+  const id = companyIdFetcher(userRole);
+
   async function fetchData() {
     try {
       setLoading(true);
       const response = await request<TransactionsRespT>({
         url: TRANSACTIONS_MANAGEMENT,
         params: {
+          company__in: id,
+
           limit: pagination.limit,
           offset: pagination.offset,
           ordering: "-created_at",

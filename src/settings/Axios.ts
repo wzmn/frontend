@@ -12,12 +12,19 @@ const Axios: AxiosInstance = axios.create({
 // Add a request interceptor
 Axios.interceptors.request.use(
   function (config) {
-    if (!(localStorage.getItem("user") === "undefined")) {
+    if (
+      !(
+        localStorage.getItem("user") === "undefined" ||
+        localStorage.getItem("user") === "null"
+      )
+    ) {
       const user = JSON.parse(
         localStorage.getItem("user") + ""
       ) as LoginResType;
       config.headers.Authorization = "Bearer " + user?.access;
       // Do something before request is sent
+    } else {
+      delete config.headers.Authorization;
     }
     return config;
   },

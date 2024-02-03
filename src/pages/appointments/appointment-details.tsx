@@ -150,7 +150,6 @@ const AppointmentDetails = (props: PageProps) => {
                     </span>
 
                     <span className={styles.contact}>
-                      {/* {data?.customer?.user?.groups || "N/A"} */}
                       {`
                     ${
                       data?.job?.address?.building_number
@@ -186,7 +185,13 @@ ${data?.job?.address?.state ? data?.job?.address?.state : ""} ${
                 <p className={`${styles.name} ${styles.createBy}`}>
                   <span className={styles.bold}>
                     Customer Created by: &nbsp;
-                    {data?.job?.customer?.customer_created_by || "N/A"}
+                    {`${
+                      data?.job?.customer?.customer_created_by?.user
+                        ?.first_name || "N/A"
+                    } ${
+                      data?.job?.customer?.customer_created_by?.user
+                        ?.last_name || "N/A"
+                    }`}
                   </span>
                   <br />
                   <span className={styles.tag2}>

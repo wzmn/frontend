@@ -57,6 +57,7 @@ export default function CustList({
           `Customer ID: ${data.id}`,
           <>
             <IoEyeOutline
+              id="eye"
               onClick={() => {
                 window.open(`customer-details/?customer=${data.id}`, "_blank");
               }}
