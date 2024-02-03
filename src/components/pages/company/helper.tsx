@@ -56,6 +56,7 @@ export function List({
           `Company ID: ${data.id}`,
           <>
             <IoEyeOutline
+              id="eye"
               onClick={() => {
                 window.open(`company-details/?company=${data.id}`, "_blank");
               }}

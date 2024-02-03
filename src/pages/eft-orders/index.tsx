@@ -287,6 +287,7 @@ export function List({
           `Customer ID: ${data.id}`,
           <>
             <IoEyeOutline
+              id="eye"
               onClick={() => {
                 window.open(`job-details/?job=${data.id}`, "_blank");
               }}

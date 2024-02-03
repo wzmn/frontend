@@ -26,9 +26,8 @@ const useAuth = () => {
       companyAuth?.company_verified === false
     ) {
       typeof window !== "undefined" && navigate("/upload-company-details");
+      return null;
     }
-
-    console.log("diredjbhg ", companyAuth?.company_verified);
 
     // if (!companyAuth?.company_verified) {
     //   typeof window !== "undefined" && navigate("/upload-company-details");
@@ -49,6 +48,7 @@ const useAuth = () => {
         companyAuth?.company_verified === false
       ) {
         typeof window !== "undefined" && navigate("/upload-company-details");
+        return null;
       } else {
         typeof window !== "undefined" && navigate("/");
       }

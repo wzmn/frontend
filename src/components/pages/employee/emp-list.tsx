@@ -49,6 +49,7 @@ export function EmpList({
           `Employee ID: ${data.id}`,
           <>
             <IoEyeOutline
+              id="eye"
               onClick={() => {
                 window.open(`employee-details/?employee=${data.id}`, "_blank");
               }}

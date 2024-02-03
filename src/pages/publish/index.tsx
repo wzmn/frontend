@@ -18,6 +18,8 @@ import {
   QuoteStatusT,
 } from "type/quotes";
 import { ApptResultT } from "type/appointment";
+import UserIdentifyer from "services/user-identifyer";
+import companyIdFetcher from "services/company-id-fetcher";
 
 type DropItemType = { id: number; section: JobStatusRole };
 
@@ -46,6 +48,9 @@ const Publish = () => {
     totalRecords: 0,
   });
 
+  const userRole = UserIdentifyer();
+  const id = companyIdFetcher(userRole);
+
   const { btnCont, tableCont } = commonStyles;
 
   const table = useRef<HTMLDivElement>(null);
@@ -68,6 +73,7 @@ const Publish = () => {
       const response = await request<QuoteRespT>({
         url: REQUEST_QUOTE,
         params: {
+          company__in: id,
           limit: pagination.limit,
           offset: pagination.offset,
         },

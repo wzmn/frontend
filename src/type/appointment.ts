@@ -93,7 +93,7 @@ export interface Customer {
   company: Company;
   role: string;
   address: null;
-  customer_created_by: null;
+  customer_created_by: CustomerCreatedBy;
   ref_id: null;
   created_at: Date;
   updated_at: Date;
@@ -104,6 +104,46 @@ export interface Customer {
   abn: null | string;
   sms_consent_type: string;
   customer_source: string;
+}
+
+export interface CustomerCreatedBy {
+  id: number;
+  user: User;
+  role: string;
+  employee_created_by: string;
+  company: number;
+  documents: any[];
+  ref_id: string;
+  created_at: Date;
+  updated_at: Date;
+  is_active: boolean;
+  is_verified: boolean;
+  license_id: number;
+  created_by: null;
+  reports_to: null;
+}
+
+export interface User {
+  id: number;
+  ref_id: null;
+  created_at: Date;
+  updated_at: Date;
+  is_active: boolean;
+  username: null;
+  email: string;
+  phone: string;
+  first_name: string;
+  last_name: string;
+  profile_pic: null;
+  is_superuser: boolean;
+  is_staff: boolean;
+  is_verified: boolean;
+  is_password_set: boolean;
+  last_login: Date;
+  fcm_token: null;
+  is_surveyed: boolean;
+  groups: any[];
+  user_permissions: any[];
 }
 
 export interface Company {
