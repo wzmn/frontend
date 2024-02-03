@@ -9,6 +9,7 @@ export const employeeRegistrationSchema = object({
     email: string().trim().matches(EmailReg, "Invalid email"),
   }),
   role: string().required("required"),
+  reports_to: string().trim().required("Required"),
 });
 
 export type EmployeeRegistrationSchemaType = InferType<
