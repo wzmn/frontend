@@ -1,8 +1,10 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import Button from "components/button";
 import ButtonGroup from "components/button-group";
+import ComboBox, { ComboBoxDataT } from "components/combo-box";
 import FormSection from "components/form-sections";
 import FormWraper from "components/form-wrapper";
+import Label from "components/label";
 import UploadDoc from "components/pages/company/upload-doc/upload-doc";
 import Radio from "components/radio";
 import TextField from "components/text-field";
@@ -10,19 +12,22 @@ import { COUNTRY_COMPLIANCE, EMPLOYEE_LISTING } from "constants/api";
 import { navigate } from "gatsby";
 import * as companyStyles from "pages/company/styles.module.scss";
 import { useRightBarContext } from "providers/right-bar-provider";
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import PhoneInput from "react-phone-number-input";
 import {
   EmployeeRegistrationSchemaType,
   employeeRegistrationSchema,
 } from "schema/employee-schema";
 import companyIdFetcher from "services/company-id-fetcher";
+import employeeList from "services/employee-list";
 import { request } from "services/http-request";
 import MsgToast from "services/msg-toast";
 import UserIdentifyer from "services/user-identifyer";
 import * as styles from "styles/pages/common.module.scss";
+import { EmpResultT } from "type/employee";
 import { ComplianceRespT, ComplianceResultT } from "type/global";
-import PhoneInput from "react-phone-number-input";
+import { debounce } from "utility/debounce";
 
 interface FileProps extends File {
   preview: string;
@@ -76,6 +81,14 @@ const empRoleList = [
   },
 ];
 
+const showEmpFieldFor = [
+  "superadmin",
+  "admin",
+  "owner",
+  "manager",
+  "team lead",
+];
+
 const EmployeeRegistration = () => {
   const [OTP, setOTP] = useState<string>("");
   const [files, setFiles] = useState<FileProps[]>([]);
@@ -83,6 +96,7 @@ const EmployeeRegistration = () => {
   const userRole = UserIdentifyer();
 
   const [compliance, setCompliance] = useState<ComplianceState>(initialState());
+  const [empListData, setEmpListData] = useState<ComboBoxDataT[]>([]);
 
   const id = companyIdFetcher(userRole);
 
@@ -138,16 +152,42 @@ const EmployeeRegistration = () => {
         list[item?.priority?.toLowerCase()!].push(item);
       });
 
-      console.log(list, " listtttttt");
-
       setCompliance(() => list);
     } catch (error) {
       console.log(error);
     }
   }
 
+  async function handleEmployeeList(e?: ChangeEvent<HTMLInputElement>) {
+    try {
+      // if (!id) {
+      //   alert("Please Select Country");
+      //   return;
+      // }
+      const res = await employeeList({
+        search: e?.target?.value,
+        license_id__company__id: id,
+        role__title__in: ["Manager", "Team Lead"].toString(),
+      });
+
+      const empFilteredList = res.results?.map((item) => ({
+        label:
+          item.user?.first_name +
+          " " +
+          item.user?.last_name +
+          " (" +
+          item.role +
+          ")",
+        ...item,
+      })) as ComboBoxDataT[];
+
+      setEmpListData(() => empFilteredList);
+    } catch (error) {}
+  }
+
   useEffect(() => {
     fetchCountryCompliance();
+    handleEmployeeList();
 
     // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
     return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
@@ -202,6 +242,24 @@ const EmployeeRegistration = () => {
                     />
                   </div>
                 </div>
+                {showEmpFieldFor.includes(userRole) && (
+                  <div className={styles.formGrid}>
+                    <div className="max-w-3xl mt-4">
+                      <Label title="Report To" />
+                      <ComboBox<EmpResultT>
+                        placeholder="Employee"
+                        data={empListData}
+                        handleSelect={(e) => {
+                          setValue("reports_to", String(e?.user?.id));
+                        }}
+                        onChange={debounce(handleEmployeeList)}
+                      />
+                      <p className={styles.errorMessage}>
+                        {errors.reports_to?.message}
+                      </p>
+                    </div>
+                  </div>
+                )}
                 <div className={styles.userRole}>
                   <p className={styles.name}>
                     <span className={styles.bold}>Employee Role</span>
