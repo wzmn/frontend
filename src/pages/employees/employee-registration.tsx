@@ -242,7 +242,7 @@ const EmployeeRegistration = () => {
                     />
                   </div>
                 </div>
-                {showEmpFieldFor.includes(userRole) && (
+                {/* {showEmpFieldFor.includes(userRole) && (
                   <div className={styles.formGrid}>
                     <div className="max-w-3xl mt-4">
                       <Label title="Report To" />
@@ -259,7 +259,7 @@ const EmployeeRegistration = () => {
                       </p>
                     </div>
                   </div>
-                )}
+                )} */}
                 <div className={styles.userRole}>
                   <p className={styles.name}>
                     <span className={styles.bold}>Employee Role</span>
