@@ -6,6 +6,8 @@ import { fetchEmpStatus } from "./emp";
 import { fetchQuestionsList } from "./questions";
 import { AppProviderType } from "./type";
 import { fetchWorkTypes } from "./work-types";
+import { useAuthContext } from "providers/auth-provider";
+import { useCompanyContext } from "providers/company-provider";
 
 const AppContext = createContext({} as AppProviderType);
 

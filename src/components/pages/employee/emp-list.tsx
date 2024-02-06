@@ -15,9 +15,11 @@ import ViewEmp from "./view-emp";
 export function EmpList({
   data,
   loading,
+  refetch,
 }: {
   data: EmployeeDataStateType;
   loading: boolean;
+  refetch: (params?: Record<any, any>) => Promise<void>;
 }) {
   const { card, cardInfo, contactInfo, icon, contact, header } = commonStyles;
   const { open, setElement, toggle } = useRightBarContext();
@@ -26,16 +28,18 @@ export function EmpList({
     try {
       toggle();
       const response = await toast.promise(
-        request({
-          url: EMPLOYEE_LISTING + data.id + "/",
-          method: "delete",
-        }),
+        async () =>
+          await request({
+            url: EMPLOYEE_LISTING + data.id + "/",
+            method: "delete",
+          }),
         {
           pending: "Wait...",
           success: "Deleted ",
           error: "Cannot delete try again later",
         }
       );
+      await refetch();
     } catch (error) {}
   }
 

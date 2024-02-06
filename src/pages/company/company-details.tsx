@@ -71,8 +71,16 @@ const CompanyDetails = (props: PageProps) => {
             <FormWraper>
               <>
                 <p className={styles.name}>
-                  <span className={styles.bold}>ABN No: {data?.id}</span>
+                  <span className={styles.bold}>
+                    Company Name: {data?.company_name}
+                  </span>
                 </p>
+
+                <div className={styles.contactInfo}>
+                  <span className={styles.contact}>
+                    ABN No: {data?.company_abn}
+                  </span>
+                </div>
 
                 <div className={styles.contactInfo}>
                   <div className="">
@@ -81,7 +89,7 @@ const CompanyDetails = (props: PageProps) => {
                     </span>
 
                     <span className={styles.contact}>
-                      {data?.company_owner?.email}
+                      {data?.company_email}
                     </span>
                   </div>
 
@@ -91,7 +99,7 @@ const CompanyDetails = (props: PageProps) => {
                     </span>
 
                     <span className={styles.contact}>
-                      {data?.company_owner?.phone}
+                      {data?.company_mobile_phone}
                     </span>
                   </div>
 
@@ -133,6 +141,56 @@ const CompanyDetails = (props: PageProps) => {
                     />
                   </div>
                 </div>
+              </>
+            </FormWraper>
+          </div>
+        </FormSection>
+
+        <FormSection title="Owner Details">
+          <div className="flex-1">
+            <FormWraper>
+              <>
+                <div className={styles.contactInfo}>
+                  <div className="">
+                    <span className={styles.icon}>
+                      <TfiEmail className={styles.icon} />
+                    </span>
+
+                    <span className={styles.contact}>
+                      {data?.company_owner?.email}
+                    </span>
+                  </div>
+
+                  <div className="">
+                    <span className={styles.icon}>
+                      <IoCallOutline className={styles.icon} />
+                    </span>
+
+                    <span className={styles.contact}>
+                      {data?.company_owner?.phone}
+                    </span>
+                  </div>
+
+                  <div className="">
+                    <span className={styles.icon}>
+                      <IoLocationOutline className={styles.icon} />
+                    </span>
+
+                    <span className={styles.contact}>
+                      {data?.company_address?.formatted_address || "N/A"}
+                    </span>
+                  </div>
+                </div>
+
+                <Divider />
+
+                <p className={`${styles.name} ${styles.createBy}`}>
+                  <span className={styles.bold}>Created at: &nbsp; </span>
+                  {/* &nbsp; */}
+                  <span className={styles.tag2}>
+                    {TimeFormat(data?.company_owner?.created_at!)}
+                  </span>
+                </p>
               </>
             </FormWraper>
           </div>

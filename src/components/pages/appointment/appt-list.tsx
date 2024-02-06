@@ -19,11 +19,13 @@ export default function ApptList({
   loading,
   snippitAuditedCheckboxHandler,
   snippitAudited,
+  refetch,
 }: {
   data: ApptResultT;
   loading: boolean;
   snippitAuditedCheckboxHandler: (val: string) => void;
   snippitAudited: string[];
+  refetch: (params?: Record<any, any>) => Promise<void>;
 }) {
   const { card, cardInfo, contactInfo, icon, contact, header } = commonStyles;
   const { open, setElement, toggle } = useRightBarContext();

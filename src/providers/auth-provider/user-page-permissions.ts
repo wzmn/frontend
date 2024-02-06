@@ -49,6 +49,8 @@ const superAdmin = [
   "/eft-orders",
 ];
 
+const scheduler = ["/appointments", "/settings"];
+
 export function userAccessRouter(): string[] {
   const userRole = UserIdentifyer();
   switch (userRole) {
@@ -67,6 +69,8 @@ export function userAccessRouter(): string[] {
       return agent;
     case "snippit auditor":
       return snippitAuditor;
+    case "scheduler":
+      return scheduler;
     default:
       return [];
   }

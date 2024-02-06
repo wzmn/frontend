@@ -402,6 +402,7 @@ const Jobs = () => {
                             <JobList
                               loading={dragItem.status}
                               data={dragItem}
+                              refetch={fetchData}
                             />
                           </>
                         </Drage>

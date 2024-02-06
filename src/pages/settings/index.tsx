@@ -13,6 +13,8 @@ import { toast } from "react-toastify";
 import { request } from "services/http-request";
 import UserIdentifyer from "services/user-identifyer";
 
+const productQuestionSection = ["superadmin", "owner", "admin", "manager"];
+
 const Settings = () => {
   const [chageEmail, setChangeEmail] = useState(false);
   const [chagePhone, setChangePhone] = useState(false);
@@ -24,13 +26,14 @@ const Settings = () => {
   const changePassword = async () => {
     try {
       const response = await toast.promise(
-        request({
-          url: RESET_PASSWORD,
-          method: "post",
-          data: {
-            email: userAuth.email,
-          },
-        }),
+        async () =>
+          await request({
+            url: RESET_PASSWORD,
+            method: "post",
+            data: {
+              email: userAuth.email,
+            },
+          }),
         {
           pending: "Wait...",
           success: "Please Check Your Email ",
@@ -114,23 +117,25 @@ const Settings = () => {
           </FormWraper>
         </FormSection>
 
-        <FormSection title="Appt Questions">
-          <FormWraper>
-            <div className={settingtyles.profileSetting}>
-              {/* <div className={settingtyles.cont1}></div>
+        {productQuestionSection.includes(userRole) && (
+          <FormSection title="Appt Questions">
+            <FormWraper>
+              <div className={settingtyles.profileSetting}>
+                {/* <div className={settingtyles.cont1}></div>
             <div className={settingtyles.cont2}></div> */}
-              <p className={`${settingtyles.otherUser} ${settingtyles.mtB}`}>
-                View the most recently updated Questions
-              </p>
-              <Link
-                to="appointment-questions"
-                className={`${settingtyles.userSettings} ${settingtyles.mtB}`}
-              >
-                Questions
-              </Link>
-            </div>
-          </FormWraper>
-        </FormSection>
+                <p className={`${settingtyles.otherUser} ${settingtyles.mtB}`}>
+                  View the most recently updated Questions
+                </p>
+                <Link
+                  to="appointment-questions"
+                  className={`${settingtyles.userSettings} ${settingtyles.mtB}`}
+                >
+                  Questions
+                </Link>
+              </div>
+            </FormWraper>
+          </FormSection>
+        )}
 
         {/* <FormSection title="EFT Orders">
           <FormWraper>
@@ -168,7 +173,7 @@ const Settings = () => {
           </FormWraper>
         </FormSection> */}
 
-        {userRole === "superadmin" && (
+        {productQuestionSection.includes(userRole) && (
           <FormSection title="Products">
             <FormWraper>
               <div className={settingtyles.profileSetting}>

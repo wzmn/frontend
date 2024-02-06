@@ -17,10 +17,12 @@ export function List({
   data,
   loading,
   index,
+  refetch,
 }: {
   data: CompanyExtraDataType;
   loading: boolean;
   index: number;
+  refetch: (params?: Record<any, any>) => Promise<void>;
 }) {
   // to="company-details"
   const colors = {
@@ -34,16 +36,18 @@ export function List({
     try {
       toggle();
       const response = await toast.promise(
-        request({
-          url: COMPANY_LISTING + data.id + "/",
-          method: "delete",
-        }),
+        async () =>
+          await request({
+            url: COMPANY_LISTING + data.id + "/",
+            method: "delete",
+          }),
         {
           pending: "Wait...",
           success: "Deleted ",
           error: "Cannot delete try again later",
         }
       );
+      await refetch();
     } catch (error) {}
   }
 

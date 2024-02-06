@@ -139,6 +139,9 @@ const AddSubQuestions = ({
               options: [],
               company,
               work_type,
+              is_sub_question: true,
+              parent_question_id: parentQId,
+              has_sub_question: false,
             });
             // addNewQ();
             // setViewModal((prev) => !prev);

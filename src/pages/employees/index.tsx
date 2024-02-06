@@ -55,7 +55,7 @@ const sortType = [
   },
 ];
 
-const createEmpRole = ["superadmin", "admin", "owner"];
+const createEmpRole = ["superadmin", "admin", "owner", "manager"];
 
 const Employees = () => {
   const {
@@ -309,6 +309,7 @@ const Employees = () => {
                             <EmpList
                               loading={dragItem.status}
                               data={dragItem}
+                              refetch={fetchData}
                             />
                           </>
                         </Drage>
