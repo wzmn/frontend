@@ -187,6 +187,16 @@ const Appintments = () => {
     }
   }
 
+  function comFilter(companyId?: number) {
+    if (userRole !== "scheduler") {
+      return { job__customer__company__in: companyId || id };
+    } else if (userRole === "scheduler" && id === null) {
+      return {};
+    } else {
+      return { job__customer__company__in: id };
+    }
+  }
+
   async function fetchData(params?: Record<any, any>, companyId?: number) {
     try {
       setLoading(true);
@@ -196,6 +206,7 @@ const Appintments = () => {
           limit: pagination.limit,
           offset: pagination.offset,
           job__customer__company__in: companyId || id,
+          // ...comFilter(companyId),
           ordering: sort,
           created_at__gte: selectionRange.startDate
             ? moment(selectionRange.startDate).format("YYYY-MM-DDT00:00")
