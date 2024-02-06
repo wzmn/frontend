@@ -402,6 +402,7 @@ const Customers = () => {
                             data={dragItem}
                             loading={dragItem.status}
                             index={index}
+                            refetch={fetchData}
                           />
                         </Drage>
                       </Fragment>

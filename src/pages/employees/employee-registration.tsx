@@ -1,4 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import { AxiosError } from "axios";
 import Button from "components/button";
 import ButtonGroup from "components/button-group";
 import ComboBox, { ComboBoxDataT } from "components/combo-box";
@@ -11,9 +12,13 @@ import TextField from "components/text-field";
 import { COUNTRY_COMPLIANCE, EMPLOYEE_LISTING } from "constants/api";
 import { navigate } from "gatsby";
 import * as companyStyles from "pages/company/styles.module.scss";
+import { useAppContext } from "providers/app-provider";
+import { fetchEmpStatus } from "providers/app-provider/emp";
+import { useAuthContext } from "providers/auth-provider";
+import { useCompanyContext } from "providers/company-provider";
 import { useRightBarContext } from "providers/right-bar-provider";
 import React, { ChangeEvent, useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { UseFormRegister, useForm } from "react-hook-form";
 import PhoneInput from "react-phone-number-input";
 import {
   EmployeeRegistrationSchemaType,
@@ -25,7 +30,7 @@ import { request } from "services/http-request";
 import MsgToast from "services/msg-toast";
 import UserIdentifyer from "services/user-identifyer";
 import * as styles from "styles/pages/common.module.scss";
-import { EmpResultT } from "type/employee";
+import { EmpResultT, EmpStatusT } from "type/employee";
 import { ComplianceRespT, ComplianceResultT } from "type/global";
 import { debounce } from "utility/debounce";
 
@@ -97,8 +102,10 @@ const EmployeeRegistration = () => {
 
   const [compliance, setCompliance] = useState<ComplianceState>(initialState());
   const [empListData, setEmpListData] = useState<ComboBoxDataT[]>([]);
+  const [empRoleData, setEmpRoleData] = useState<EmpStatusT[]>([]);
 
   const id = companyIdFetcher(userRole);
+  const { userAuth } = useAuthContext();
 
   const {
     register,
@@ -114,6 +121,14 @@ const EmployeeRegistration = () => {
   const userPhone = watch("user.phone");
 
   const empRole = watch("role");
+  const { company } = useCompanyContext();
+
+  async function fetchEmpRoles() {
+    const statusData = await fetchEmpStatus({
+      company_type: company.company_type,
+    });
+    setEmpRoleData(() => statusData.statusData!);
+  }
 
   async function onSubmit(data: EmployeeRegistrationSchemaType) {
     try {
@@ -128,9 +143,17 @@ const EmployeeRegistration = () => {
       });
       console.log(response);
       MsgToast("Added Sucessfully", "success");
-    } catch (error: any) {
-      console.log("error");
-      MsgToast(error.response.data.error, "error");
+      navigate(-1);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.response?.status === 500) {
+          MsgToast("Server Error!!!", "error");
+          return;
+        }
+        MsgToast(error?.response?.data?.error, "error");
+      } else {
+        MsgToast("Something Went Wrong", "error");
+      }
     }
   }
 
@@ -167,7 +190,7 @@ const EmployeeRegistration = () => {
       const res = await employeeList({
         search: e?.target?.value,
         license_id__company__id: id,
-        role__title__in: ["Manager", "Team Lead"].toString(),
+        role__title__in: ["Admin", "Manager", "Team Lead"].toString(),
       });
 
       const empFilteredList = res.results?.map((item) => ({
@@ -192,6 +215,10 @@ const EmployeeRegistration = () => {
     // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
     return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
   }, []);
+
+  useEffect(() => {
+    fetchEmpRoles();
+  }, [JSON.stringify(company)]);
 
   return (
     <div className="grow">
@@ -242,7 +269,7 @@ const EmployeeRegistration = () => {
                     />
                   </div>
                 </div>
-                {/* {showEmpFieldFor.includes(userRole) && (
+                {showEmpFieldFor.includes(userRole) && (
                   <div className={styles.formGrid}>
                     <div className="max-w-3xl mt-4">
                       <Label title="Report To" />
@@ -250,7 +277,7 @@ const EmployeeRegistration = () => {
                         placeholder="Employee"
                         data={empListData}
                         handleSelect={(e) => {
-                          setValue("reports_to", String(e?.user?.id));
+                          setValue("reports_to", String(e?.id));
                         }}
                         onChange={debounce(handleEmployeeList)}
                       />
@@ -259,23 +286,19 @@ const EmployeeRegistration = () => {
                       </p>
                     </div>
                   </div>
-                )} */}
+                )}
+
                 <div className={styles.userRole}>
                   <p className={styles.name}>
                     <span className={styles.bold}>Employee Role</span>
                   </p>
                   <div className={styles.roles}>
-                    {empRoleList.map((role) => {
+                    {empRoleData?.map((role) => {
                       // if (roleBaseList?.[role?.value]?.includes(role.value)) {
                       //   return null;
                       // }
-                      return (
-                        <Radio
-                          label={role.value}
-                          value={role.value}
-                          {...register("role")}
-                        />
-                      );
+
+                      return <RoleHandler register={register} role={role} />;
                     })}
                   </div>
                 </div>
@@ -370,5 +393,36 @@ const EmployeeRegistration = () => {
     </div>
   );
 };
+
+function RoleHandler({
+  role,
+  register,
+}: {
+  role: EmpStatusT;
+  register: UseFormRegister<EmployeeRegistrationSchemaType>;
+}) {
+  const { userAuth } = useAuthContext();
+  if (role?.title.toLowerCase() === "owner") return null;
+  return (
+    <>
+      {(role?.is_snippit_only && userAuth.staff === "true") ||
+      (role?.is_snippit_only &&
+        userAuth.emp_license_info.company.company_name ===
+          "Snippit Central") ? (
+        <Radio
+          label={role?.title?.toUpperCase()}
+          value={role?.title}
+          {...register("role")}
+        />
+      ) : (
+        <Radio
+          label={role?.title?.toUpperCase()}
+          value={role?.title}
+          {...register("role")}
+        />
+      )}
+    </>
+  );
+}
 
 export default EmployeeRegistration;

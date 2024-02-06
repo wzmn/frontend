@@ -15,9 +15,11 @@ import ViewJob from "./view-job";
 export default function JobList({
   data,
   loading,
+  refetch,
 }: {
   data: JobDataStateType;
   loading: boolean;
+  refetch: (params?: Record<any, any>) => Promise<void>;
 }) {
   const { card, cardInfo, contactInfo, icon, contact, header } = commonStyles;
   const { open, setElement, toggle } = useRightBarContext();
@@ -26,16 +28,18 @@ export default function JobList({
     try {
       toggle();
       const response = await toast.promise(
-        request({
-          url: JOB_LISTING + data.id + "/",
-          method: "delete",
-        }),
+        async () =>
+          await request({
+            url: JOB_LISTING + data.id + "/",
+            method: "delete",
+          }),
         {
           pending: "Wait...",
           success: "Deleted ",
           error: "Cannot delete try again later",
         }
       );
+      await refetch();
     } catch (error) {}
   }
 

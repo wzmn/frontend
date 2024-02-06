@@ -348,6 +348,7 @@ const Company = () => {
                                 data={dragItem}
                                 loading={dragItem.status}
                                 index={index}
+                                refetch={fetchData}
                               />
                             </>
                           </Drage>

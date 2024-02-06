@@ -95,11 +95,19 @@ export type EmpStatusRespT = PaginationType<EmpStatusT[]>;
 
 export interface EmpStatusT {
   id: number;
-  ref_id: string;
+  ref_id: null;
   created_at: Date;
   updated_at: Date;
   is_active: boolean;
   title: EmployeeRole;
+  company_type: string;
+  is_snippit_only: boolean;
+}
+
+export enum CompanyType {
+  Buyer = "buyer",
+  Installer = "installer",
+  Seller = "seller",
 }
 
 export type EmpStateStatus = Record<EmployeeRole, EmployeeDataStateType[]>;

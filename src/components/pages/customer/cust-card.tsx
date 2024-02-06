@@ -21,10 +21,12 @@ export default function CustList({
   data,
   loading,
   index,
+  refetch,
 }: {
   data: CustomerDataExtraType;
   loading: boolean;
   index: number;
+  refetch: (e?: any) => Promise<void>;
 }) {
   // target="_blank" href={`customer-details/?customer=${data.id}`}
   const { open, setElement, toggle } = useRightBarContext();
@@ -33,16 +35,18 @@ export default function CustList({
     try {
       toggle();
       const response = await toast.promise(
-        request({
-          url: CUSTOMER_LISTING + data.id + "/",
-          method: "delete",
-        }),
+        async () =>
+          await request({
+            url: CUSTOMER_LISTING + data.id + "/",
+            method: "delete",
+          }),
         {
           pending: "Wait...",
           success: "Deleted ",
           error: "Cannot delete try again later",
         }
       );
+      await refetch();
     } catch (error) {}
   }
 

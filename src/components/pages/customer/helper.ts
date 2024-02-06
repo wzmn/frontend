@@ -25,7 +25,7 @@ type CustFetchDataT = {
 };
 
 type RT = {
-  fetchData: (e?: any) => void;
+  fetchData: (e?: any) => Promise<void>;
   loading: boolean;
 };
 
@@ -65,7 +65,7 @@ export function usefetchData({
         }));
 
       response?.data?.results?.forEach((item) => {
-        filterData[item.cust_status].push({
+        filterData[item?.cust_status as CustomerStatus].push({
           ...item,
           status: false,
         } as CustomerDataExtraType);

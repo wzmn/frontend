@@ -492,6 +492,7 @@ const Appintments = () => {
                                 snippitAudited={snippitAudited}
                                 loading={dragItem.status}
                                 data={dragItem}
+                                refetch={fetchData}
                               />
                             </>
                           </Drage>

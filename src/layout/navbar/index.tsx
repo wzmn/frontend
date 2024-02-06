@@ -47,22 +47,31 @@ const Navbar = () => {
     handleCompany();
   }, []);
 
+  function ComFilter() {
+    if (typeof window !== "undefined") {
+      if (location.pathname === "/company/") return null;
+    }
+    return (
+      <div className="ml-1">
+        <ComboBox<ComResultT>
+          placeholder={company?.company_name}
+          data={companyListData}
+          handleSelect={(e) => {
+            setCompany(e);
+          }}
+          onChange={handleCompany}
+        />
+      </div>
+    );
+  }
+
   return (
     <>
       {userRole === "superadmin" ? (
         <div className={styles.navbar}>
           <div className={styles.leftSide}>
             <FaGripLines onClick={toggle} className={styles.burger} />
-            <div className="ml-1">
-              <ComboBox<ComResultT>
-                placeholder={company?.company_name}
-                data={companyListData}
-                handleSelect={(e) => {
-                  setCompany(e);
-                }}
-                onChange={handleCompany}
-              />
-            </div>
+            <ComFilter />
           </div>
           <div className={styles.rightSide}>
             {/* <svg id="notification" xmlns="http://www.w3.org/2000/svg" width="24.394" height="27.113" viewBox="0 0 24.394 27.113">

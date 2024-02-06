@@ -1,6 +1,7 @@
 import React from "react";
 import { PageProps, navigate } from "gatsby";
 import { useAuthContext } from "providers/auth-provider";
+import { userAccessRouter } from "providers/auth-provider/user-page-permissions";
 
 type Props = {
   children: JSX.Element;
@@ -29,6 +30,9 @@ const useAuth = () => {
       return null;
     }
 
+    // if (!userAccessRouter().some((val) => val + "/" === location.pathname))
+    //   typeof window !== "undefined" && navigate(userAccessRouter()[0] || "");
+
     // if (!companyAuth?.company_verified) {
     //   typeof window !== "undefined" && navigate("/upload-company-details");
     //   // return null;
@@ -50,7 +54,7 @@ const useAuth = () => {
         typeof window !== "undefined" && navigate("/upload-company-details");
         return null;
       } else {
-        typeof window !== "undefined" && navigate("/");
+        typeof window !== "undefined" && navigate(userAccessRouter()[0] || "");
       }
       // }
       return null;
