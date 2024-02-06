@@ -81,7 +81,8 @@ const ViewCompany = ({ data }: { data: CompanyExtraDataType }) => {
         </p> */}
 
         <p className={styles.additionalInfo}>
-          <span className={styles.title}>LGA: &nbsp;</span> City of Swan
+          <span className={styles.title}>LGA: &nbsp;</span>{" "}
+          {data?.company_address?.lga || "N/A"}
         </p>
       </div>
 
