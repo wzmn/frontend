@@ -206,7 +206,7 @@ ${data?.job?.address?.state ? data?.job?.address?.state : ""} ${
           </div>
         </FormSection>
 
-        <FormSection title="Comments">
+        {/* <FormSection title="Comments">
           <div className="flex-1">
             <FormWraper>
               <>
@@ -223,7 +223,7 @@ ${data?.job?.address?.state ? data?.job?.address?.state : ""} ${
               </>
             </FormWraper>
           </div>
-        </FormSection>
+        </FormSection> */}
       </div>
     </div>
   );
