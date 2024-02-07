@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDrop } from "react-dnd";
 import * as styles from "./styles.module.scss";
 

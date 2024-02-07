@@ -38,6 +38,7 @@ import {
   AppointmentExtraDataType,
   AppointmentStatusType,
   ApptStateStatus,
+  ApptStatues,
   ApptStatuesResp,
 } from "type/appointment";
 import cssVar from "utility/css-var";
@@ -157,9 +158,9 @@ const Appintments = () => {
     section: AppointmentStatusType,
     make: boolean = true
   ) {
+    console.log(data);
     if (schedulingAppt.includes(section?.toLowerCase())) {
       const dt = data[item.section].find((val) => val.id === item.id);
-      console.log("item", item);
       navigate(`schedule-appointment/?apptId=${item.id}&status=${section}`, {
         state: dt?.job,
       });
@@ -176,9 +177,8 @@ const Appintments = () => {
 
     // console.log(item, section);
     // if (item.section === section) return;
-    const copyData: any = { ...data };
+    const copyData = { ...data };
     let idx = findMatchingId(data, item.id, item.section);
-    console.log(idx, " idddx");
 
     if (idx !== undefined) {
       const pop = copyData[item.section].splice(idx, 1)[0];
@@ -225,6 +225,11 @@ const Appintments = () => {
 
       let filterData = JSON.parse(JSON.stringify(status)) as ApptStateStatus;
 
+      //this is to make all record empty before calling this function otherwise it will stack
+      Object.keys(data).map(
+        (item) => (filterData[item as AppointmentStatusType].length = 0)
+      );
+
       setPagination((prev) => ({
         ...prev,
         totalRecords: Number(response?.data?.count),
@@ -237,9 +242,8 @@ const Appintments = () => {
             status: false,
           });
       });
-      console.table(data);
 
-      setData((s) => ({ ...s, ...filterData }));
+      setData((s) => ({ ...s, ...JSON.parse(JSON.stringify(filterData)) }));
     } catch (error) {
       console.log(error);
     } finally {
@@ -370,7 +374,6 @@ const Appintments = () => {
   useEffect(() => {
     // For skeleton
     if (JSON.stringify(status) !== "{}") fetchData();
-    console.table(data);
   }, [
     pagination.page,
     pagination.limit,
@@ -381,6 +384,8 @@ const Appintments = () => {
     JSON.stringify(workType),
     custType,
   ]);
+
+  useEffect(() => {}, [data]);
 
   // useEffect(() => {
   //   // For skeleton
