@@ -30,8 +30,11 @@ const useAuth = () => {
       return null;
     }
 
-    // if (!userAccessRouter().some((val) => val + "/" === location.pathname))
-    //   typeof window !== "undefined" && navigate(userAccessRouter()[0] || "");
+    // userAccessRouter().map((val) =>
+    //   console.log(val, " routtttt", location.pathname)
+    // );
+
+    // typeof window !== "undefined" && navigate(userAccessRouter()[0] || "");
 
     // if (!companyAuth?.company_verified) {
     //   typeof window !== "undefined" && navigate("/upload-company-details");

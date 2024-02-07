@@ -121,7 +121,7 @@ const Schedule = ({ item, companyId, apptId, apptStatus }: Props) => {
     // if (userRole === "agent") {
     //   setValue("assessment_assigned_to_id", userAuth.user_id);
     // }
-  }, []);
+  }, [companyId]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
