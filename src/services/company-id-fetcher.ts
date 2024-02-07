@@ -6,12 +6,15 @@ function companyIdFetcher(str: string) {
   const role = (str || "").toLowerCase();
   const { company } = useCompanyContext();
   const { userAuth } = useAuthContext();
-  useEffect(() => {}, [JSON.stringify(company)]);
-  if (JSON.stringify(company) === "{}" || JSON.stringify(company) === null) {
-    return null;
+  // useEffect(() => {}, [JSON.stringify(company)]);
+  // if (JSON.stringify(company) === "{}") {
+  //   return null;
+  // }
+  if (companyFilterAccessRoles.includes(role)) {
+    return company?.id;
   }
-  if (companyFilterAccessRoles.includes(role)) return company?.id;
-  return userAuth?.emp_license_info.company?.id;
+
+  return userAuth?.emp_license_info?.company?.id;
 }
 
 export default companyIdFetcher;

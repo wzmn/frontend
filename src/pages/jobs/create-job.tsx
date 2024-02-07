@@ -157,7 +157,7 @@ const CreateJob = (props: PageProps) => {
     handleEmployeeList();
     // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
     // return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
-  }, [id]);
+  }, [JSON.stringify(id)]);
 
   // useEffect(() => {
   //   console.log(errors);
@@ -166,6 +166,7 @@ const CreateJob = (props: PageProps) => {
 
   return (
     <>
+      {id + " kdj,"}
       <p className={styles.title}>Create Job</p>
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-16 mb-3">
