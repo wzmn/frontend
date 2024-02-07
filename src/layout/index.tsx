@@ -20,6 +20,8 @@ import AuthLayout from "./auth-layout";
 import Footer from "./footer.tsx";
 import * as styles from "./styles.module.scss";
 import CompanyChecker from "./company-checker";
+import { navigate } from "gatsby";
+import { userAccessRouter } from "providers/auth-provider/user-page-permissions";
 
 const routeNotToInclude = [
   "/login/",
@@ -43,6 +45,7 @@ const Layout = ({ children }: Props) => {
     window.addEventListener("online", () => alertIfOnline);
 
     console.log(!routeNotToInclude.includes(pathname), "apthhhhh", pathname);
+    // typeof window !== "undefined" && navigate(userAccessRouter()[0] || "");
 
     return () => {
       window.removeEventListener("offline", () => alertIfOffline);

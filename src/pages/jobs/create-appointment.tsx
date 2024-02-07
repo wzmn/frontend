@@ -1,16 +1,12 @@
-import Checkbox from "components/checkbox";
-import FormSection from "components/form-sections";
-import FormWraper from "components/form-wrapper";
-import React, { useEffect } from "react";
+import { useLocation } from "@reach/router";
+import { useAppContext } from "providers/app-provider";
+import React from "react";
 import { useForm } from "react-hook-form";
 import * as styles from "styles/pages/common.module.scss";
+import { ApptStateStatus } from "type/appointment";
+import { Result } from "type/job";
 import Schedule from "./Schedule";
 import * as jobStyles from "./styles.module.scss";
-import Input from "components/input";
-import { useAppContext } from "providers/app-provider";
-import { useLocation } from "@reach/router";
-import { Result, WorkType } from "type/job";
-import { ApptStateStatus } from "type/appointment";
 
 const CreateAppointment = () => {
   const { register, watch } = useForm();

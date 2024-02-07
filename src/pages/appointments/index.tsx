@@ -159,7 +159,8 @@ const Appintments = () => {
   ) {
     if (schedulingAppt.includes(section?.toLowerCase())) {
       const dt = data[item.section].find((val) => val.id === item.id);
-      navigate(`/jobs/create-appointment/?apptId=${dt?.id}&status=${section}`, {
+      console.log("item", item);
+      navigate(`schedule-appointment/?apptId=${item.id}&status=${section}`, {
         state: dt?.job,
       });
       return;
@@ -236,8 +237,9 @@ const Appintments = () => {
             status: false,
           });
       });
+      console.table(data);
 
-      setData(() => filterData);
+      setData((s) => ({ ...s, ...filterData }));
     } catch (error) {
       console.log(error);
     } finally {
@@ -368,6 +370,7 @@ const Appintments = () => {
   useEffect(() => {
     // For skeleton
     if (JSON.stringify(status) !== "{}") fetchData();
+    console.table(data);
   }, [
     pagination.page,
     pagination.limit,
@@ -378,6 +381,14 @@ const Appintments = () => {
     JSON.stringify(workType),
     custType,
   ]);
+
+  // useEffect(() => {
+  //   // For skeleton
+  //   if (JSON.stringify(status) !== "{}") fetchData();
+  //   location.reload();
+  // }, [
+  //   JSON.stringify(id), //stringifyed because can be null also
+  // ]);
 
   return (
     <>
