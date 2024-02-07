@@ -48,6 +48,7 @@ import { CustTypeData } from ".././../constants";
 import { colAccepList } from "components/pages/appointment/helper";
 import MsgToast from "services/msg-toast";
 import moment from "moment";
+import { useCompanyContext } from "providers/company-provider";
 
 const selectionRangeInit = {
   startDate: undefined,
@@ -131,6 +132,7 @@ const Appintments = () => {
 
   const userRole = UserIdentifyer();
   const id = companyIdFetcher(userRole);
+  const { company } = useCompanyContext();
 
   function clearFilters() {
     setSelectionRange(() => selectionRangeInit);
@@ -187,9 +189,9 @@ const Appintments = () => {
     }
   }
 
-  function comFilter(companyId?: number) {
+  function comFilter() {
     if (userRole !== "scheduler") {
-      return { job__customer__company__in: companyId || id };
+      return { job__customer__company__in: id };
     } else if (userRole === "scheduler" && id === null) {
       return {};
     } else {
@@ -197,7 +199,7 @@ const Appintments = () => {
     }
   }
 
-  async function fetchData(params?: Record<any, any>, companyId?: number) {
+  async function fetchData(params?: Record<any, any>) {
     try {
       setLoading(true);
       const response = await request<AppointmentDataType>({
@@ -205,8 +207,8 @@ const Appintments = () => {
         params: {
           limit: pagination.limit,
           offset: pagination.offset,
-          job__customer__company__in: companyId || id,
-          // ...comFilter(companyId),
+          // job__customer__company__in: companyId || id,
+          ...comFilter(),
           ordering: sort,
           created_at__gte: selectionRange.startDate
             ? moment(selectionRange.startDate).format("YYYY-MM-DDT00:00")
@@ -370,7 +372,7 @@ const Appintments = () => {
     pagination.page,
     pagination.limit,
     status,
-    id,
+    JSON.stringify(id), //stringifyed because can be null also
     sort,
     JSON.stringify(selectionRange),
     JSON.stringify(workType),

@@ -1,12 +1,14 @@
 import ComboBox, { ComboBoxDataT } from "components/combo-box";
 import SelectList from "components/select-list";
-import { useCompanyContext } from "providers/company-provider";
+import {
+  CompanyProviderDataT,
+  useCompanyContext,
+} from "providers/company-provider";
 import { useSidebarContext } from "providers/sidebar-provider";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { FaGripLines } from "react-icons/fa";
 import companyList from "services/company-list";
 import UserIdentifyer from "services/user-identifyer";
-import { ComResultT } from "type/company";
 import { debounce } from "utility/debounce";
 import * as styles from "./styles.module.scss";
 
@@ -25,47 +27,7 @@ const comFilterRole = ["superadmin", "scheduler"];
 
 const Navbar = () => {
   const { toggle } = useSidebarContext();
-  const { navbar, burger, rightSide, leftSide } = styles;
-  const { company, setCompany } = useCompanyContext();
-  const [companyListData, setCompanyListData] = useState<ComboBoxDataT[]>([]);
   const userRole = UserIdentifyer();
-
-  const handleCompany = debounce(async (e?: ChangeEvent<HTMLInputElement>) => {
-    const res = await companyList({
-      search: e?.target?.value ?? "",
-    });
-
-    const companyFilteredList = res.results?.map((item) => ({
-      label: item.company_name,
-      ...item,
-    })) as ComboBoxDataT[];
-
-    JSON.stringify(company) === "{}" && setCompany(res.results![0]);
-
-    setCompanyListData(() => companyFilteredList);
-  });
-
-  useEffect(() => {
-    handleCompany();
-  }, []);
-
-  // function ComFilter() {
-  //   if (typeof window !== "undefined") {
-  //     if (location.pathname === "/company/") return null;
-  //   }
-  //   return (
-  //     <div className="ml-1">
-  //       <ComboBox<ComResultT>
-  //         placeholder={company?.company_name}
-  //         data={companyListData}
-  //         handleSelect={(e) => {
-  //           setCompany(e);
-  //         }}
-  //         onChange={handleCompany}
-  //       />
-  //     </div>
-  //   );
-  // }
 
   return (
     <>
@@ -73,10 +35,7 @@ const Navbar = () => {
         <div className={styles.navbar}>
           <div className={styles.leftSide}>
             <FaGripLines onClick={toggle} className={styles.burger} />
-            <ComFilter
-              companyListData={companyListData}
-              handleCompany={handleCompany}
-            />
+            <ComFilter />
           </div>
           <div className={styles.rightSide}>
             {/* <svg id="notification" xmlns="http://www.w3.org/2000/svg" width="24.394" height="27.113" viewBox="0 0 24.394 27.113">
@@ -218,18 +177,46 @@ const Navbar = () => {
   );
 };
 
-function ComFilter({ companyListData, handleCompany }: any) {
+function ComFilter() {
   const { company, setCompany } = useCompanyContext();
+  const [companyListData, setCompanyListData] = useState<ComboBoxDataT[]>([]);
+
+  const userRole = UserIdentifyer();
+
+  const handleCompany = debounce(async (e?: ChangeEvent<HTMLInputElement>) => {
+    const res = await companyList({
+      search: e?.target?.value ?? "",
+    });
+
+    const companyFilteredList = res.results?.map((item) => ({
+      label: item.company_name,
+      ...item,
+    })) as CompanyProviderDataT[];
+
+    if (userRole === "scheduler") {
+      companyFilteredList.unshift({ label: "All" } as CompanyProviderDataT);
+      JSON.stringify(company) === "{}" && setCompany(companyFilteredList[0]);
+    } else {
+      JSON.stringify(company) === "{}" && setCompany(res.results![0]);
+    }
+
+    setCompanyListData(() => companyFilteredList);
+  });
+
+  useEffect(() => {
+    handleCompany();
+  }, []);
 
   if (typeof window !== "undefined") {
     if (location.pathname === "/company/") return null;
   }
   return (
     <div className="ml-1">
-      <ComboBox<ComResultT>
-        placeholder={company?.company_name}
+      <ComboBox<CompanyProviderDataT>
+        placeholder={company?.company_name || company?.label}
         data={companyListData}
         handleSelect={(e) => {
+          console.log(e);
           setCompany(e);
         }}
         onChange={handleCompany}

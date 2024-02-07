@@ -7,9 +7,13 @@ import React, {
 } from "react";
 import { ComResultT } from "type/company";
 
+export type CompanyProviderDataT = ComResultT & {
+  label?: string;
+};
+
 export type CompanyProviderT = {
-  company: ComResultT;
-  setCompany: Dispatch<SetStateAction<ComResultT>>;
+  company: CompanyProviderDataT;
+  setCompany: Dispatch<SetStateAction<CompanyProviderDataT>>;
 };
 
 const CompanyContext = createContext({} as CompanyProviderT);
@@ -17,7 +21,9 @@ const CompanyContext = createContext({} as CompanyProviderT);
 export const useCompanyContext = () => useContext(CompanyContext);
 
 const CompanyProvider = ({ children }: { children: JSX.Element }) => {
-  const [company, setCompany] = useState<ComResultT>({} as ComResultT);
+  const [company, setCompany] = useState<CompanyProviderDataT>(
+    {} as CompanyProviderDataT
+  );
 
   return (
     <CompanyContext.Provider value={{ company, setCompany }}>
