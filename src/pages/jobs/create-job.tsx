@@ -166,7 +166,6 @@ const CreateJob = (props: PageProps) => {
 
   return (
     <>
-      {id + " kdj,"}
       <p className={styles.title}>Create Job</p>
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-16 mb-3">
