@@ -142,18 +142,18 @@ const CompanyRegistration = () => {
       address: AddressSchemaT;
     }
   ) {
-    const dt: any = {
-      ...data,
-      company_address: { ...data.address, lat: 0, long: 0 },
-    };
-
-    delete dt["address"];
-    // console.log(dt);
-
     try {
+      const dt: any = {
+        ...data,
+        company_address: { ...data.address, lat: 0, long: 0 },
+      };
+
+      delete dt["address"];
+      // console.log(dt);
       const formData = objectToFormData({
         company: dt,
       });
+
       Object.keys(documents).forEach((item) => {
         Object.entries(documents[item as KeyType]).forEach((item, index) => {
           formData.append(
@@ -199,13 +199,15 @@ const CompanyRegistration = () => {
       //   });
       // }
     } catch (error: any) {
-      if (error.response.data.company_owner.hasOwnProperty("email")) {
-        MsgToast(error.response.data.company_owner.email[0], "error");
-      } else if (error.response.data.company_owner.hasOwnProperty("phone")) {
-        MsgToast(error.response.data.company_owner.phone[0], "error");
-      } else {
-        MsgToast("Try Again Later", "error");
-      }
+      try {
+        if (error.response.data.company_owner.hasOwnProperty("email")) {
+          MsgToast(error.response.data.company_owner.email[0], "error");
+        } else if (error.response.data.company_owner.hasOwnProperty("phone")) {
+          MsgToast(error.response.data.company_owner.phone[0], "error");
+        } else {
+          MsgToast("Try Again Later", "error");
+        }
+      } catch (error) {}
     }
   }
 

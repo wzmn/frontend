@@ -11,7 +11,7 @@ import * as jobStyles from "./styles.module.scss";
 const CreateAppointment = () => {
   const { register, watch } = useForm();
 
-  const { workTypes } = useAppContext();
+  const { workTypes = [] } = useAppContext();
   let workTypeList = watch("workType");
   const location = useLocation();
   const params = new URLSearchParams(location.search);

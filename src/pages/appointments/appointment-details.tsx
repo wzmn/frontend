@@ -2,6 +2,7 @@ import Divider from "components/divider";
 import { DNDImageFileType } from "components/dnd-image";
 import FormSection from "components/form-sections";
 import FormWraper from "components/form-wrapper";
+import Input from "components/input";
 import Radio from "components/radio";
 import { APPOINTMENT_LISTING } from "constants/api";
 import { PageProps } from "gatsby";
@@ -205,7 +206,7 @@ ${data?.job?.address?.state ? data?.job?.address?.state : ""} ${
           </div>
         </FormSection>
 
-        {/* <FormSection title="Comments">
+        <FormSection title="Comments">
           <div className="flex-1">
             <FormWraper>
               <>
@@ -222,7 +223,7 @@ ${data?.job?.address?.state ? data?.job?.address?.state : ""} ${
               </>
             </FormWraper>
           </div>
-        </FormSection> */}
+        </FormSection>
       </div>
     </div>
   );

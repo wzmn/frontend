@@ -136,6 +136,7 @@ const CreateJob = (props: PageProps) => {
       const res = await employeeList({
         search: e?.target?.value,
         license_id__company__id: id,
+        role__title__in: ["Owner", "Manager", "Team Lead", "Agent"].toString(),
       });
 
       const empFilteredList = res.results?.map((item) => ({
