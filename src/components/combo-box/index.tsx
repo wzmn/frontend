@@ -12,6 +12,7 @@ import * as styles from "./styles.module.scss";
 export type ComboBoxDataT = Partial<
   {
     label: string;
+    value?: any;
   } & {
     [keyof in string]: any;
   }

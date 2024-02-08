@@ -191,3 +191,17 @@ export type SelectionRangeInitT = {
   endDate: undefined | string | Date;
   key: string;
 };
+
+export interface FilterValue {
+  success: boolean;
+  message: string;
+  status: number;
+  data: FilterValueData;
+}
+
+export interface FilterValueData {
+  states: string[];
+  suburbs: string[];
+  lgas: string[];
+  postcodes: string[];
+}

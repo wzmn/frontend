@@ -50,6 +50,7 @@ import { colAccepList } from "components/pages/appointment/helper";
 import MsgToast from "services/msg-toast";
 import moment from "moment";
 import { useCompanyContext } from "providers/company-provider";
+import { FilterValue, FilterValueData } from "type/global";
 
 const selectionRangeInit = {
   startDate: undefined,
@@ -64,6 +65,17 @@ let apptStatusState = {} as Record<
   AppointmentStatusType,
   AppointmentExtraDataType[]
 >;
+
+type KeyVal = {
+  label: string;
+  value: string;
+}[];
+
+type FilterDataValueT = {
+  keys: KeyVal;
+  values: KeyVal;
+  orignalData: Partial<FilterValueData>;
+};
 
 const schedulingAppt = ["confirmed", "rescheduled"];
 
@@ -98,6 +110,46 @@ const data1 = [
     value: "Pincode",
   },
 ];
+
+function comboFilter(status?: keyof FilterValueData, value?: string) {
+  switch (status) {
+    case "lgas":
+      return {
+        job__address__lga: value,
+        job__address__state: "",
+        job__address__suburb: "",
+        job__address__pincode: "",
+      };
+    case "postcodes":
+      return {
+        job__address__lga: "",
+        job__address__state: "",
+        job__address__suburb: "",
+        job__address__pincode: value,
+      };
+    case "states":
+      return {
+        job__address__lga: "",
+        job__address__state: value,
+        job__address__suburb: "",
+        job__address__pincode: "",
+      };
+    case "suburbs":
+      return {
+        job__address__lga: "",
+        job__address__state: "",
+        job__address__suburb: value,
+        job__address__pincode: "",
+      };
+    default:
+      return {
+        job__address__lga: "",
+        job__address__state: "",
+        job__address__suburb: "",
+        job__address__pincode: "",
+      };
+  }
+}
 
 const Appintments = () => {
   const {
@@ -134,6 +186,16 @@ const Appintments = () => {
   const userRole = UserIdentifyer();
   const id = companyIdFetcher(userRole);
   const { company } = useCompanyContext();
+  const [filterDataValues, setFiltersDataValues] = useState<FilterDataValueT>({
+    keys: [],
+    values: [],
+    orignalData: {},
+  });
+
+  const [multiFilter, setMultiFilter] = useState({
+    key: "",
+    value: "",
+  });
 
   function clearFilters() {
     setSelectionRange(() => selectionRangeInit);
@@ -219,6 +281,10 @@ const Appintments = () => {
             : undefined,
           job__work_type__title__in: workType.toString(),
           customer__customer_type: custType,
+          ...comboFilter(
+            multiFilter.key as keyof FilterValueData,
+            multiFilter.value
+          ),
           ...params,
         },
       });
@@ -364,6 +430,30 @@ const Appintments = () => {
     setWorkType(() => [...list]);
   }
 
+  async function filterValues() {
+    try {
+      const resp = await request<FilterValue>({
+        url: APPOINTMENT_LISTING + "filter_values",
+      });
+
+      const filterKeys: KeyVal = Object.keys(resp?.data?.data).map((val) => ({
+        label: val.slice(0, val.length - 1).toUpperCase(),
+        value: val,
+      }));
+
+      filterKeys.unshift({
+        label: "All",
+        value: "",
+      });
+
+      setFiltersDataValues((prev) => ({
+        ...prev,
+        keys: filterKeys,
+        orignalData: resp?.data?.data,
+      }));
+    } catch (error) {}
+  }
+
   useEffect(() => {
     table.current!.addEventListener("wheel", handleScroll);
     return () => {
@@ -383,9 +473,13 @@ const Appintments = () => {
     JSON.stringify(selectionRange),
     JSON.stringify(workType),
     custType,
+    multiFilter.value,
   ]);
 
   useEffect(() => {}, [data]);
+  useEffect(() => {
+    filterValues();
+  }, []);
 
   // useEffect(() => {
   //   // For skeleton
@@ -455,16 +549,28 @@ const Appintments = () => {
             </div>
           </Filterbtn>
         </div>
-        {/* <CombineCombo
-          data1={data1}
-          data2={[]}
+        <CombineCombo
+          value2={multiFilter.value}
+          data1={filterDataValues.keys}
+          data2={filterDataValues.values}
           handleSelectData1={(e) => {
-            console.log(e);
+            setMultiFilter((prev) => ({ ...prev, key: e.value }));
+            if (e.value === "") {
+              setMultiFilter((prev) => ({ ...prev, value: "" }));
+              setFiltersDataValues((prev) => ({ ...prev, values: [] }));
+            }
+
+            setFiltersDataValues((prev) => {
+              const values = prev.orignalData[
+                e.value as keyof FilterValueData
+              ]?.map((val) => ({ label: val.toUpperCase(), value: val }))!;
+              return { ...prev, values: values };
+            });
           }}
           handleSelectData2={(e) => {
-            console.log(e);
+            setMultiFilter((prev) => ({ ...prev, value: e.value }));
           }}
-        /> */}
+        />
         <div className="w-32">
           <Filterbtn icon={<img src="/assets/icons/sort.svg" />} title="Sort">
             <SortFilter

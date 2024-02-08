@@ -236,7 +236,7 @@ function ComFilter() {
         onChange={handleCompany}
       />
 
-      <div className="flex gap-3">
+      {/* <div className="flex gap-3">
         {companyListFilter.map((com, index) => {
           return (
             <p key={com.id} className="border px-2 text-sm flex items-center">
@@ -250,7 +250,7 @@ function ComFilter() {
             </p>
           );
         })}
-      </div>
+      </div> */}
     </div>
   );
 }

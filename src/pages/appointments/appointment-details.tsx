@@ -246,15 +246,22 @@ ${data?.job?.address?.state ? data?.job?.address?.state : ""} ${
               <>
                 <div className="">
                   <div className={styles.commentBox + " mb-4"}>
-                    <div className={styles.user}>JJ</div>
+                    <div className={styles.user}>
+                      {userAuth?.first_name?.slice(0, 2)?.toUpperCase()}
+                    </div>
                     <div className={styles.input}>
                       <Input
                         className={styles.input}
                         varient="regular"
                         placeholder="Add a comment..."
                         onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => {
-                          if (e.key === "Enter")
+                          if (
+                            e.key === "Enter" &&
+                            e.currentTarget.value !== ""
+                          ) {
                             addUpdateComment(e.currentTarget.value);
+                            e.currentTarget.value = "";
+                          }
                         }}
                       />
                     </div>
