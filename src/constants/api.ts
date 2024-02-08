@@ -22,6 +22,7 @@ export const CATEGORY = "/product/category/";
 //APPT
 export const APPOINTMENT_LISTING = "/appointments/management/";
 export const APPT_STATUES = "/appointments/appointment_status/";
+export const APPT_COMMENT = "/appointments/add-comments/";
 //QUESTIONS
 export const APPT_Q = "/appointments/questions/";
 export const SUB_Q_CONDITIONS = "/appointments/subquestion-conditions/";

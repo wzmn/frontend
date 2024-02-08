@@ -2,7 +2,11 @@ import Checkbox from "components/checkbox";
 import { useRightBarContext } from "providers/right-bar-provider";
 import React from "react";
 import { ImSpinner10 } from "react-icons/im";
-import { IoCallOutline, IoEyeOutline } from "react-icons/io5";
+import {
+  IoCallOutline,
+  IoEyeOutline,
+  IoLocationOutline,
+} from "react-icons/io5";
 import { TfiEmail } from "react-icons/tfi";
 import TimeFormat from "services/time-format";
 import * as commonStyles from "styles/pages/common.module.scss";
@@ -89,25 +93,35 @@ export default function ApptList({
           <p className="title">{data?.job?.customer?.user?.first_name}</p>
           <span className="">
             {" "}
-            created on: {TimeFormat(data?.created_at, "ddd DD")} at{" "}
-            {TimeFormat(data?.created_at, "hh:mm a")}
+            {TimeFormat(data?.created_at)}
+            {/* {TimeFormat(data?.created_at, "hh:mm a")} */}
           </span>
         </div>
         <div className={contactInfo}>
           <div className="">
-            <span className={icon}>
+            <span className={icon + " self-start"}>
               <TfiEmail className={icon} />
             </span>
 
             <span className={contact}>{data?.job?.customer?.user?.email}</span>
           </div>
 
-          <div className="">
-            <span className={icon}>
+          <div className="mt-2">
+            <span className={icon + " self-start"}>
               <IoCallOutline className={icon} />
             </span>
 
             <span className={contact}>{data?.job?.customer?.user?.phone}</span>
+          </div>
+
+          <div className="mt-2">
+            <span className={icon + " self-start"}>
+              <IoLocationOutline className={icon} />
+            </span>
+
+            <span className={contact}>
+              {data?.job?.address?.formatted_address}
+            </span>
           </div>
         </div>
       </div>

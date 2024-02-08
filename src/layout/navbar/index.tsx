@@ -11,6 +11,7 @@ import companyList from "services/company-list";
 import UserIdentifyer from "services/user-identifyer";
 import { debounce } from "utility/debounce";
 import * as styles from "./styles.module.scss";
+import { RxCross2 } from "react-icons/rx";
 
 const data = [
   { label: "Wade Cooper" },
@@ -178,7 +179,8 @@ const Navbar = () => {
 };
 
 function ComFilter() {
-  const { company, setCompany } = useCompanyContext();
+  const { company, setCompany, setCompanyListFilter, companyListFilter } =
+    useCompanyContext();
   const [companyListData, setCompanyListData] = useState<ComboBoxDataT[]>([]);
 
   const userRole = UserIdentifyer();
@@ -188,10 +190,12 @@ function ComFilter() {
       search: e?.target?.value ?? "",
     });
 
-    const companyFilteredList = res.results?.map((item) => ({
-      label: item.company_name,
-      ...item,
-    })) as CompanyProviderDataT[];
+    const companyFilteredList = res.results?.map((item) => {
+      return {
+        label: item.company_name,
+        ...item,
+      };
+    }) as CompanyProviderDataT[];
 
     if (userRole === "scheduler") {
       companyFilteredList.unshift({ label: "All" } as CompanyProviderDataT);
@@ -203,6 +207,12 @@ function ComFilter() {
     setCompanyListData(() => companyFilteredList);
   });
 
+  function deleteComFilterList(index: number) {
+    const list = [...companyListFilter];
+    list.splice(index, 1);
+    setCompanyListFilter(() => [...list]);
+  }
+
   useEffect(() => {
     handleCompany();
   }, []);
@@ -211,16 +221,36 @@ function ComFilter() {
     if (location.pathname === "/company/") return null;
   }
   return (
-    <div className="ml-1">
+    <div className=" flex items-center gap-4 ml-1">
       <ComboBox<CompanyProviderDataT>
         placeholder={company?.company_name || company?.label}
         data={companyListData}
         handleSelect={(e) => {
           console.log(e);
           setCompany(e);
+
+          const check = companyListFilter.some((item) => item.id === e.id);
+
+          if (!check) setCompanyListFilter((prev) => [...prev, e]);
         }}
         onChange={handleCompany}
       />
+
+      {/* <div className="flex gap-3">
+        {companyListFilter.map((com, index) => {
+          return (
+            <p key={com.id} className="border px-2 text-sm flex items-center">
+              {com?.label}
+              <span
+                className="ml-2 text-balance cursor-pointer"
+                onClick={() => deleteComFilterList(index)}
+              >
+                <RxCross2 />
+              </span>
+            </p>
+          );
+        })}
+      </div> */}
     </div>
   );
 }

@@ -7,6 +7,7 @@ export interface ApptResultT {
   job: Job;
   appointment_status: string;
   products: ProductElement[];
+  comments: Comment[];
   assessment_assigned_to: AssessmentAssignedTo | null;
   ref_id: null;
   created_at: Date;
@@ -18,6 +19,17 @@ export interface ApptResultT {
   installation_completed_on: null;
   self_assessment: boolean;
   assessment_completed: boolean;
+}
+
+export interface Comment {
+  id: number;
+  ref_id: null;
+  created_at: Date;
+  updated_at: Date;
+  is_active: boolean;
+  comment: string;
+  user: string;
+  appointment: number;
 }
 
 export interface AssessmentAssignedTo {

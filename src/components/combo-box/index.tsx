@@ -12,6 +12,7 @@ import * as styles from "./styles.module.scss";
 export type ComboBoxDataT = Partial<
   {
     label: string;
+    value?: any;
   } & {
     [keyof in string]: any;
   }
@@ -98,7 +99,7 @@ const ComboBox = forwardRef(
                 ) : (
                   data?.map((item) => (
                     <Combobox.Option
-                      key={item.label}
+                      key={item?.label}
                       className={({ active }) =>
                         `${styles.option} ${active && styles.active}
                         }`
@@ -112,7 +113,7 @@ const ComboBox = forwardRef(
                               selected ? "font-medium" : "font-normal"
                             }`}
                           >
-                            {item.label}
+                            {item?.label}
                           </span>
                         </>
                       )}

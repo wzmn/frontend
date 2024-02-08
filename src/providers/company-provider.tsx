@@ -13,7 +13,9 @@ export type CompanyProviderDataT = ComResultT & {
 
 export type CompanyProviderT = {
   company: CompanyProviderDataT;
+  companyListFilter: CompanyProviderDataT[];
   setCompany: Dispatch<SetStateAction<CompanyProviderDataT>>;
+  setCompanyListFilter: Dispatch<SetStateAction<CompanyProviderDataT[]>>;
 };
 
 const CompanyContext = createContext({} as CompanyProviderT);
@@ -25,8 +27,14 @@ const CompanyProvider = ({ children }: { children: JSX.Element }) => {
     {} as CompanyProviderDataT
   );
 
+  const [companyListFilter, setCompanyListFilter] = useState<
+    CompanyProviderDataT[]
+  >([]);
+
   return (
-    <CompanyContext.Provider value={{ company, setCompany }}>
+    <CompanyContext.Provider
+      value={{ company, setCompany, companyListFilter, setCompanyListFilter }}
+    >
       {children}
     </CompanyContext.Provider>
   );
