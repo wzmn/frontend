@@ -98,7 +98,7 @@ const ComboBox = forwardRef(
                 ) : (
                   data?.map((item) => (
                     <Combobox.Option
-                      key={item.label}
+                      key={item?.label}
                       className={({ active }) =>
                         `${styles.option} ${active && styles.active}
                         }`
@@ -112,7 +112,7 @@ const ComboBox = forwardRef(
                               selected ? "font-medium" : "font-normal"
                             }`}
                           >
-                            {item.label}
+                            {item?.label}
                           </span>
                         </>
                       )}
