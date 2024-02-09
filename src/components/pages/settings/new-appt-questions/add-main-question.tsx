@@ -8,10 +8,8 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoMdAdd } from "react-icons/io";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import companyIdFetcher from "services/company-id-fetcher";
 import { request } from "services/http-request";
 import MsgToast from "services/msg-toast";
-import UserIdentifyer from "services/user-identifyer";
 import * as commonStyles from "styles/pages/common.module.scss";
 import { InferType, array, boolean, object, string } from "yup";
 import { checkforMultiChecker, questions } from "./helper";
@@ -69,25 +67,20 @@ const AddMainQuestion = ({
     defaultValues: {},
   });
 
-  const uderRole = UserIdentifyer();
-
-  const id = companyIdFetcher(uderRole);
+  const params = new URLSearchParams(location.search);
+  const companyId = params.get("companyId");
 
   const qType = watch("question_type");
   const options = watch("options");
 
   async function onSubmit(data: SchemaMainQ) {
     try {
-      if (!id) {
-        alert("Please Select Country");
-        return;
-      }
       const response = await request({
         url: APPT_Q,
         method: "post",
         data: {
           ...data,
-          company: id,
+          company: companyId,
           work_type: workType,
           has_sub_question: enabled,
           is_sub_question: false,

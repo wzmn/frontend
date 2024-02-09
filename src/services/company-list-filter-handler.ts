@@ -1,7 +1,6 @@
-import { useCompanyContext } from "providers/company-provider";
-import companyIdFetcher from "./company-id-fetcher";
-import UserIdentifyer from "./user-identifyer";
 import { useAuthContext } from "providers/auth-provider";
+import { useCompanyContext } from "providers/company-provider";
+import UserIdentifyer from "./user-identifyer";
 
 const roles = ["superadmin", "scheduler"];
 

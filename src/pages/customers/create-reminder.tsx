@@ -11,7 +11,6 @@ import { PageProps, navigate } from "gatsby";
 import moment from "moment";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import companyIdFetcher from "services/company-id-fetcher";
 import employeeList from "services/employee-list";
 import { request } from "services/http-request";
 import MsgToast from "services/msg-toast";
@@ -80,7 +79,8 @@ const CreateReminder = (props: PageProps) => {
 
   const [empListData, setEmpListData] = useState<ComboBoxDataT[]>([]);
 
-  const id = companyIdFetcher(userRole);
+  const params = new URLSearchParams(location.search);
+  const companyId = params.get("companyId");
 
   async function onSubmit(data: ReminderSchemaT) {
     try {
@@ -108,7 +108,7 @@ const CreateReminder = (props: PageProps) => {
       // }
       const res = await employeeList({
         search: e?.target?.value,
-        license_id__company__id: id,
+        license_id__company__id: companyId,
         role__title: "Agent",
       });
 

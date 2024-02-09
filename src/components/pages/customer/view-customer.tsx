@@ -16,6 +16,7 @@ import Button from "components/button";
 import { Link } from "gatsby";
 import { AiOutlinePlus } from "react-icons/ai";
 import TimeFormat from "services/time-format";
+import companyListFilterHandler from "services/company-list-filter-handler";
 
 const ViewCustomer = ({ data }: { data: CustResultT }) => {
   const {
@@ -44,6 +45,8 @@ const ViewCustomer = ({ data }: { data: CustResultT }) => {
     },
     [JSON.stringify(data)]
   );
+
+  const companyListFilterHandlerId = companyListFilterHandler();
 
   return (
     <div className={styles.view}>
@@ -272,7 +275,10 @@ const ViewCustomer = ({ data }: { data: CustResultT }) => {
         )}
       </Disclosure>
 
-      <Link to="create-reminder" state={{ custId: data.id }}>
+      <Link
+        to={`create-reminder/?companyId=${companyListFilterHandlerId?.[0]}`}
+        state={{ custId: data.id }}
+      >
         <Button
           width="full"
           title="Create Reminder"

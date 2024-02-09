@@ -12,7 +12,6 @@ import TextField from "components/text-field";
 import { COUNTRY_COMPLIANCE, EMPLOYEE_LISTING } from "constants/api";
 import { navigate } from "gatsby";
 import * as companyStyles from "pages/company/styles.module.scss";
-import { useAppContext } from "providers/app-provider";
 import { fetchEmpStatus } from "providers/app-provider/emp";
 import { useAuthContext } from "providers/auth-provider";
 import { useCompanyContext } from "providers/company-provider";
@@ -24,7 +23,6 @@ import {
   EmployeeRegistrationSchemaType,
   employeeRegistrationSchema,
 } from "schema/employee-schema";
-import companyIdFetcher from "services/company-id-fetcher";
 import employeeList from "services/employee-list";
 import { request } from "services/http-request";
 import MsgToast from "services/msg-toast";
@@ -103,9 +101,8 @@ const EmployeeRegistration = () => {
   const [compliance, setCompliance] = useState<ComplianceState>(initialState());
   const [empListData, setEmpListData] = useState<ComboBoxDataT[]>([]);
   const [empRoleData, setEmpRoleData] = useState<EmpStatusT[]>([]);
-
-  const id = companyIdFetcher(userRole);
-  const { userAuth } = useAuthContext();
+  const params = new URLSearchParams(location.search);
+  const companyId = params.get("companyId");
 
   const {
     register,
@@ -132,14 +129,10 @@ const EmployeeRegistration = () => {
 
   async function onSubmit(data: EmployeeRegistrationSchemaType) {
     try {
-      if (!id) {
-        alert("Please Select Country");
-        return;
-      }
       const response = await request({
         url: EMPLOYEE_LISTING,
         method: "post",
-        data: { ...data, company: id },
+        data: { ...data, company: companyId },
       });
       console.log(response);
       MsgToast("Added Sucessfully", "success");
@@ -189,7 +182,7 @@ const EmployeeRegistration = () => {
       // }
       const res = await employeeList({
         search: e?.target?.value,
-        license_id__company__id: id,
+        license_id__company__id: companyId,
         role__title__in: ["Admin", "Manager", "Team Lead"].toString(),
       });
 

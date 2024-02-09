@@ -12,8 +12,10 @@ import CustList from "components/pages/customer/cust-card";
 import { usefetchData } from "components/pages/customer/helper";
 import Pagination from "components/pagination";
 import Placeholder from "components/skeleton";
+import ToolTip from "components/tooltip";
 import { CUSTOMER_LISTING, EXPORT_CUST } from "constants/api";
 import { Link } from "gatsby";
+import moment from "moment";
 import React, {
   ChangeEvent,
   Fragment,
@@ -23,12 +25,13 @@ import React, {
 } from "react";
 import { DateRangePicker } from "react-date-range";
 import { AiOutlinePlus } from "react-icons/ai";
+import { CiExport } from "react-icons/ci";
 import { IoIosArrowDown } from "react-icons/io";
 import { toast } from "react-toastify";
-import companyIdFetcher from "services/company-id-fetcher";
+import companyListFilterHandler from "services/company-list-filter-handler";
+import companyListIdTooltipHandler from "services/company-tooltip-handler";
+import downloadFile from "services/download-file";
 import { request } from "services/http-request";
-import TimeFormat from "services/time-format";
-import UserIdentifyer from "services/user-identifyer";
 import * as styles from "styles/pages/common.module.scss";
 import {
   CustomerDataExtraType,
@@ -38,14 +41,8 @@ import {
 import cssVar from "utility/css-var";
 import { debounce } from "utility/debounce";
 import { findMatchingId } from "utility/find-matching-id";
-import * as locStyles from "./styles.module.scss";
 import { CustTypeData } from ".././../constants";
-import moment from "moment";
-import { CiExport } from "react-icons/ci";
-import downloadFile from "services/download-file";
-import companyListFilterHandler from "services/company-list-filter-handler";
-import ToolTip from "components/tooltip";
-import companyListIdTooltipHandler from "services/company-tooltip-handler";
+import * as locStyles from "./styles.module.scss";
 
 type DropItemType = { id: number; section: CustomerStatus };
 
@@ -98,7 +95,6 @@ const Customers = () => {
 
   const table = useRef<HTMLDivElement>(null);
 
-  const userRole = UserIdentifyer();
   const companyListFilterHandlerId = companyListFilterHandler();
   const { fetchData, loading } = usefetchData({
     params: {
@@ -298,7 +294,7 @@ const Customers = () => {
       <div className={locStyles.btnCont}>
         <ToolTip label={companyListIdTooltipHandler()}>
           <Link
-            to={`customer-registration?companyId=${companyListFilterHandlerId?.[0]}`}
+            to={`customer-registration/?companyId=${companyListFilterHandlerId?.[0]}`}
             className={locStyles.alignWithCard}
           >
             <Button

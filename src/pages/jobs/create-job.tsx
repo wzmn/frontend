@@ -13,12 +13,12 @@ import { useAppContext } from "providers/app-provider";
 import { useAuthContext } from "providers/auth-provider";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import PhoneInput from "react-phone-number-input";
 import {
   JobRegistrationSchemaType,
   conditionalSchema,
 } from "schema/job-schema";
 import Address from "services/address";
-import companyIdFetcher from "services/company-id-fetcher";
 import employeeList from "services/employee-list";
 import { request } from "services/http-request";
 import MsgToast from "services/msg-toast";
@@ -29,7 +29,6 @@ import { EmpResultT } from "type/employee";
 import { debounce } from "utility/debounce";
 import { WorkTypeLabel } from "./create-appointment";
 import * as jobStyles from "./styles.module.scss";
-import PhoneInput from "react-phone-number-input";
 
 const showEmpFieldFor = [
   "superadmin",
@@ -44,10 +43,11 @@ const CreateJob = (props: PageProps) => {
   const [empListData, setEmpListData] = useState<ComboBoxDataT[]>([]);
   const userRole = UserIdentifyer();
   const { workTypes } = useAppContext();
-  const id = companyIdFetcher(userRole);
   const { userAuth } = useAuthContext();
 
   const { location } = props;
+  const params = new URLSearchParams(location.search);
+  const companyId = params.get("companyId");
 
   const custData = (location?.state as any)?.custData as CustResultT;
 
@@ -89,10 +89,10 @@ const CreateJob = (props: PageProps) => {
 
   async function onSubmit(data: JobRegistrationSchemaType) {
     try {
-      if (!id) {
-        alert("Please Select Country");
-        return;
-      }
+      // if (!id) {
+      //   alert("Please Select Country");
+      //   return;
+      // }
       const response = await request({
         url: APPOINTMENT_LISTING,
         method: "post",
@@ -100,7 +100,7 @@ const CreateJob = (props: PageProps) => {
           job: {
             customer: {
               user: data.customer.user,
-              company: id,
+              company: companyId,
               customer_type: data.customer.customer_type,
             },
             address: data.address,
@@ -135,7 +135,7 @@ const CreateJob = (props: PageProps) => {
       // }
       const res = await employeeList({
         search: e?.target?.value,
-        license_id__company__id: id,
+        license_id__company__id: companyId,
         role__title__in: ["Owner", "Manager", "Team Lead", "Agent"].toString(),
       });
 
@@ -158,7 +158,7 @@ const CreateJob = (props: PageProps) => {
     handleEmployeeList();
     // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
     // return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
-  }, [JSON.stringify(id)]);
+  }, []);
 
   // useEffect(() => {
   //   console.log(errors);

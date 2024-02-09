@@ -51,9 +51,8 @@ const customerRegistration = () => {
   const [empListData, setEmpListData] = useState<ComboBoxDataT[]>([]);
   const userRole = UserIdentifyer();
   const params = new URLSearchParams(location.search);
-  const companyId = params.get("appointment");
+  const companyId = params.get("companyId");
 
-  // const id = companyIdFetcher(userRole);
   const methods = useForm<CustomerRegistrationSchemaType>({
     shouldUseNativeValidation: false,
     resolver: yupResolver(customerRegistrationSchema),

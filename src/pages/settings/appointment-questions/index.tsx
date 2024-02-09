@@ -13,7 +13,6 @@ import { useAppContext } from "providers/app-provider";
 import { useFieldArray, useForm } from "react-hook-form";
 import { FaPlus } from "react-icons/fa";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import companyIdFetcher from "services/company-id-fetcher";
 import { request } from "services/http-request";
 import UserIdentifyer from "services/user-identifyer";
 import {
@@ -31,7 +30,8 @@ const AppointmentQuestions = () => {
 
   const [mainQList, setMainQList] = useState<any[]>([]);
   const userRole = UserIdentifyer();
-  const id = companyIdFetcher(userRole);
+  const params = new URLSearchParams(location.search);
+  const companyId = params.get("companyId");
 
   const { control, handleSubmit, register, setValue, watch } = useForm<{
     questions: AddQuestionsT[];
@@ -66,7 +66,7 @@ const AppointmentQuestions = () => {
         params: {
           work_type: workType,
           is_sub_question: false,
-          company: id,
+          company: companyId,
           limit: 50,
         },
       });
@@ -92,7 +92,7 @@ const AppointmentQuestions = () => {
 
   useEffect(() => {
     fetchWTQ();
-  }, [workType, id]);
+  }, [workType, companyId]);
 
   useEffect(() => {
     setWorkType(() => String(workTypes?.[0]?.id));

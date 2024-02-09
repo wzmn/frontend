@@ -6,10 +6,12 @@ import Input from "components/input";
 import Menu from "components/menu";
 import * as menuStyle from "components/menu/styles.module.scss";
 import Modal from "components/modal";
+import { SortFilter } from "components/pages/common";
 import Pagination from "components/pagination";
 import Placeholder from "components/skeleton";
 import { COMPANY_LISTING } from "constants/api";
 import { Link } from "gatsby";
+import moment from "moment";
 import { useAppContext } from "providers/app-provider";
 import React, {
   ChangeEvent,
@@ -20,7 +22,9 @@ import React, {
 } from "react";
 import { DateRangePicker } from "react-date-range";
 import { AiOutlinePlus } from "react-icons/ai";
+import { IoIosArrowDown } from "react-icons/io";
 import { request } from "services/http-request";
+import UserIdentifyer from "services/user-identifyer";
 import * as styles from "styles/pages/common.module.scss";
 import {
   CompanyDataType,
@@ -31,13 +35,7 @@ import {
 import cssVar from "utility/css-var";
 import { debounce } from "utility/debounce";
 import { findMatchingId } from "utility/find-matching-id";
-import { CompanyFilter, List } from "../../components/pages/company/helper";
-import UserIdentifyer from "services/user-identifyer";
-import companyIdFetcher from "services/company-id-fetcher";
-import { IoIosArrowDown } from "react-icons/io";
-import { TbCircuitSwitchClosed } from "react-icons/tb";
-import { SortFilter } from "components/pages/common";
-import moment from "moment";
+import { List } from "../../components/pages/company/helper";
 
 export const CompanyTypeData = [
   {
@@ -104,7 +102,7 @@ const Company = () => {
   });
 
   const userRole = UserIdentifyer();
-  const id = companyIdFetcher(userRole);
+  // const companyListFilterHandlerId = companyListFilterHandler();
 
   function getColumnColor(int: number) {
     const colors = [
@@ -145,7 +143,7 @@ const Company = () => {
         params: {
           limit: pagination.limit,
           offset: pagination.offset,
-          company__id: id,
+          // company__in: companyListFilterHandlerId.toString(),
           ordering: sort,
           created_at__gte: selectionRange.startDate
             ? moment(selectionRange.startDate).format("YYYY-MM-DDT00:00")
@@ -254,7 +252,7 @@ const Company = () => {
     pagination.page,
     pagination.limit,
     status,
-    id,
+    // JSON.stringify(companyListFilterHandlerId),
     sort,
     JSON.stringify(selectionRange),
     comType,
@@ -264,7 +262,7 @@ const Company = () => {
     <>
       <div className={styles.btnCont}>
         <div className="">
-          <Link to="company-registration">
+          <Link to={`company-registration`}>
             <Button
               width="full"
               title="Create Company"

@@ -1,6 +1,5 @@
 import Badge from "components/badge";
 import Button from "components/button";
-import CombineCombo from "components/combine-combo";
 import { Drop } from "components/drop-zone";
 import { Drage } from "components/drop-zone/drage";
 import Filterbtn from "components/filterBtn";
@@ -12,8 +11,10 @@ import { SortFilter } from "components/pages/common";
 import JobList from "components/pages/job/job-card";
 import Pagination from "components/pagination";
 import Placeholder from "components/skeleton";
+import ToolTip from "components/tooltip";
 import { EXPORT_JOB, JOB_LISTING } from "constants/api";
 import { Link } from "gatsby-link";
+import moment from "moment";
 import React, {
   ChangeEvent,
   Fragment,
@@ -23,11 +24,14 @@ import React, {
 } from "react";
 import { DateRangePicker } from "react-date-range";
 import { AiOutlinePlus } from "react-icons/ai";
+import { CiExport } from "react-icons/ci";
 import { IoIosArrowDown } from "react-icons/io";
-import companyIdFetcher from "services/company-id-fetcher";
+import { toast } from "react-toastify";
+import companyListFilterHandler from "services/company-list-filter-handler";
+import companyListIdTooltipHandler from "services/company-tooltip-handler";
+import downloadFile from "services/download-file";
 import { WorkTypeFilter } from "services/filters";
 import { request } from "services/http-request";
-import TimeFormat from "services/time-format";
 import UserIdentifyer from "services/user-identifyer";
 import * as commonStyles from "styles/pages/common.module.scss";
 import * as styles from "styles/pages/common.module.scss";
@@ -36,11 +40,7 @@ import cssVar from "utility/css-var";
 import { debounce } from "utility/debounce";
 import { findMatchingId } from "utility/find-matching-id";
 import { CustTypeData } from ".././../constants";
-import moment from "moment";
-import { CiExport } from "react-icons/ci";
-import { toast } from "react-toastify";
 import * as locStyles from "./styles.module.scss";
-import downloadFile from "services/download-file";
 
 type DropItemType = { id: number; section: JobStatusRole };
 
@@ -113,7 +113,7 @@ const Jobs = () => {
   // } = useForm<FilterT>();
 
   const userRole = UserIdentifyer();
-  const id = companyIdFetcher(userRole);
+  const companyListFilterHandlerId = companyListFilterHandler();
 
   // const workType = watchFilters("workType");
 
@@ -144,7 +144,8 @@ const Jobs = () => {
           limit: pagination.limit,
           offset: pagination.offset,
           work_type__title__in: workType.toString(),
-          customer__company__in: id,
+          customer__company__in: companyListFilterHandlerId.toString(),
+
           ordering: sort,
           created_at__gte: selectionRange.startDate
             ? moment(selectionRange.startDate).format("YYYY-MM-DDT00:00")
@@ -307,7 +308,7 @@ const Jobs = () => {
   }, [
     pagination.page,
     pagination.limit,
-    id,
+    JSON.stringify(companyListFilterHandlerId),
     JSON.stringify(workType),
     sort,
     JSON.stringify(selectionRange),
@@ -317,16 +318,21 @@ const Jobs = () => {
   return (
     <>
       <div className={locStyles.btnCont}>
-        <div className="">
-          <Link to="create-job" className={locStyles.alignWithCard}>
-            <Button
-              width="full"
-              title="Create Job"
-              icon={<AiOutlinePlus />}
-              className="flex-row-reverse"
-            />
-          </Link>
-        </div>
+        <ToolTip label={companyListIdTooltipHandler()}>
+          <div className="">
+            <Link
+              to={`create-job/?companyId=${companyListFilterHandlerId?.[0]}`}
+              className={locStyles.alignWithCard}
+            >
+              <Button
+                width="full"
+                title="Create Job"
+                icon={<AiOutlinePlus />}
+                className="flex-row-reverse"
+              />
+            </Link>
+          </div>
+        </ToolTip>
 
         <div className={locStyles.alignWithCard}>
           <Input
