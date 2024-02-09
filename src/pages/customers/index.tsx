@@ -12,8 +12,10 @@ import CustList from "components/pages/customer/cust-card";
 import { usefetchData } from "components/pages/customer/helper";
 import Pagination from "components/pagination";
 import Placeholder from "components/skeleton";
+import ToolTip from "components/tooltip";
 import { CUSTOMER_LISTING, EXPORT_CUST } from "constants/api";
 import { Link } from "gatsby";
+import moment from "moment";
 import React, {
   ChangeEvent,
   Fragment,
@@ -23,12 +25,13 @@ import React, {
 } from "react";
 import { DateRangePicker } from "react-date-range";
 import { AiOutlinePlus } from "react-icons/ai";
+import { CiExport } from "react-icons/ci";
 import { IoIosArrowDown } from "react-icons/io";
 import { toast } from "react-toastify";
-import companyIdFetcher from "services/company-id-fetcher";
+import companyListFilterHandler from "services/company-list-filter-handler";
+import companyListIdTooltipHandler from "services/company-tooltip-handler";
+import downloadFile from "services/download-file";
 import { request } from "services/http-request";
-import TimeFormat from "services/time-format";
-import UserIdentifyer from "services/user-identifyer";
 import * as styles from "styles/pages/common.module.scss";
 import {
   CustomerDataExtraType,
@@ -38,9 +41,8 @@ import {
 import cssVar from "utility/css-var";
 import { debounce } from "utility/debounce";
 import { findMatchingId } from "utility/find-matching-id";
-import * as locStyles from "./styles.module.scss";
 import { CustTypeData } from ".././../constants";
-import moment from "moment";
+import * as locStyles from "./styles.module.scss";
 
 type DropItemType = { id: number; section: CustomerStatus };
 
@@ -93,14 +95,13 @@ const Customers = () => {
 
   const table = useRef<HTMLDivElement>(null);
 
-  const userRole = UserIdentifyer();
-  const id = companyIdFetcher(userRole);
-
+  const companyListFilterHandlerId = companyListFilterHandler();
   const { fetchData, loading } = usefetchData({
     params: {
       limit: pagination.limit,
       offset: pagination.offset,
-      company__id: id,
+      // company__id: id,
+      company__in: companyListFilterHandlerId.toString(),
       ordering: sort,
       created_at__gte: selectionRange.startDate
         ? moment(selectionRange.startDate).format("YYYY-MM-DDT00:00")
@@ -229,15 +230,16 @@ const Customers = () => {
   //   }
   // }
 
-  async function exportCust() {
+  async function exportCustData() {
     try {
       const response = await toast.promise(
-        request({
+        request<Blob>({
           url: EXPORT_CUST,
           method: "get",
           params: {
             file_format: "CSV",
           },
+          responseType: "blob",
         }),
         {
           pending: "Wait...",
@@ -245,6 +247,7 @@ const Customers = () => {
           error: "Cannot export try again later",
         }
       );
+      downloadFile(response.data, "customer_data.xls");
     } catch (error) {}
   }
 
@@ -280,7 +283,7 @@ const Customers = () => {
   }, [
     pagination.page,
     pagination.limit,
-    id,
+    JSON.stringify(companyListFilterHandlerId),
     sort,
     JSON.stringify(selectionRange.endDate),
     custType,
@@ -289,14 +292,20 @@ const Customers = () => {
   return (
     <>
       <div className={locStyles.btnCont}>
-        <Link to="customer-registration" className={locStyles.alignWithCard}>
-          <Button
-            width="default"
-            title="Create Customer"
-            icon={<AiOutlinePlus />}
-            className="flex-row-reverse"
-          />
-        </Link>
+        <ToolTip label={companyListIdTooltipHandler()}>
+          <Link
+            to={`customer-registration/?companyId=${companyListFilterHandlerId?.[0]}`}
+            className={locStyles.alignWithCard}
+          >
+            <Button
+              width="default"
+              disabled={companyListIdTooltipHandler() !== "" ? true : false}
+              title="Create Customer"
+              icon={<AiOutlinePlus />}
+              className="flex-row-reverse"
+            />
+          </Link>
+        </ToolTip>
         <div className={locStyles.alignWithCard}>
           <Input
             name="company-search"
@@ -353,15 +362,15 @@ const Customers = () => {
           </Filterbtn>
         </div>
 
-        {/* <div className="w-44 flex gap-3">
-          <div className={locStyles.impExpBtn}>
+        <div className="w-44 flex gap-3">
+          {/* <div className={locStyles.impExpBtn}>
             <Button
               icon={<CiImport />}
               className={`flex-row-reverse`}
               color={"white"}
               title="Import"
             />
-          </div>
+          </div> */}
 
           <div className={locStyles.impExpBtn}>
             <Button
@@ -369,10 +378,10 @@ const Customers = () => {
               className={`flex-row-reverse`}
               color={"white"}
               title="Export"
-              onClick={() => exportCust()}
+              onClick={() => exportCustData()}
             />
           </div>
-        </div> */}
+        </div>
       </div>
 
       <div className={`${styles.tableCont} drop-container`} ref={table}>

@@ -10,16 +10,10 @@ import cssVar from "utility/css-var";
 // import View from "pages/jobs/view";
 import { PublishList } from "components/pages/publish";
 import Placeholder from "components/skeleton";
-import * as styles from "styles/pages/common.module.scss";
-import {
-  QuoteRespT,
-  QuoteResultExtraT,
-  QuoteResultT,
-  QuoteStatusT,
-} from "type/quotes";
-import { ApptResultT } from "type/appointment";
+import companyListFilterHandler from "services/company-list-filter-handler";
 import UserIdentifyer from "services/user-identifyer";
-import companyIdFetcher from "services/company-id-fetcher";
+import * as styles from "styles/pages/common.module.scss";
+import { QuoteRespT, QuoteResultT, QuoteStatusT } from "type/quotes";
 
 type DropItemType = { id: number; section: JobStatusRole };
 
@@ -49,7 +43,7 @@ const Publish = () => {
   });
 
   const userRole = UserIdentifyer();
-  const id = companyIdFetcher(userRole);
+  const companyListFilterHandlerId = companyListFilterHandler();
 
   const { btnCont, tableCont } = commonStyles;
 
@@ -73,7 +67,7 @@ const Publish = () => {
       const response = await request<QuoteRespT>({
         url: REQUEST_QUOTE,
         params: {
-          company__in: id,
+          company__in: companyListFilterHandlerId.toString(),
           limit: pagination.limit,
           offset: pagination.offset,
         },
@@ -204,7 +198,11 @@ const Publish = () => {
 
   useEffect(() => {
     fetchData();
-  }, [pagination.page, pagination.limit]);
+  }, [
+    pagination.page,
+    pagination.limit,
+    JSON.stringify(companyListFilterHandlerId),
+  ]);
 
   return (
     <>

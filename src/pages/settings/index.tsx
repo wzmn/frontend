@@ -12,6 +12,9 @@ import { RESET_PASSWORD } from "constants/api";
 import { toast } from "react-toastify";
 import { request } from "services/http-request";
 import UserIdentifyer from "services/user-identifyer";
+import companyListFilterHandler from "services/company-list-filter-handler";
+import ToolTip from "components/tooltip";
+import companyListIdTooltipHandler from "services/company-tooltip-handler";
 
 const productQuestionSection = ["superadmin", "owner", "admin", "manager"];
 
@@ -22,6 +25,7 @@ const Settings = () => {
   const { userAuth, setUserAuth, setCompanyAuth } = useAuthContext();
 
   const userRole = UserIdentifyer();
+  const companyListFilterHandlerId = companyListFilterHandler();
 
   const changePassword = async () => {
     try {
@@ -121,17 +125,17 @@ const Settings = () => {
           <FormSection title="Appt Questions">
             <FormWraper>
               <div className={settingtyles.profileSetting}>
-                {/* <div className={settingtyles.cont1}></div>
-            <div className={settingtyles.cont2}></div> */}
                 <p className={`${settingtyles.otherUser} ${settingtyles.mtB}`}>
                   View the most recently updated Questions
                 </p>
-                <Link
-                  to="appointment-questions"
-                  className={`${settingtyles.userSettings} ${settingtyles.mtB}`}
-                >
-                  Questions
-                </Link>
+                <ToolTip label={companyListIdTooltipHandler()}>
+                  <Link
+                    to={`appointment-questions/?companyId=${companyListFilterHandlerId?.[0]}`}
+                    className={`${settingtyles.userSettings} ${settingtyles.mtB}`}
+                  >
+                    Questions
+                  </Link>
+                </ToolTip>
               </div>
             </FormWraper>
           </FormSection>

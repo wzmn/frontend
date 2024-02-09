@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from "axios";
-import { LoginResType } from "type/auth";
+import { LoginResType, UseLocalStorageP1Type } from "type/auth";
 
 const notToReload = ["/login/", "/change-password/"];
 
@@ -14,13 +14,11 @@ Axios.interceptors.request.use(
   function (config) {
     if (
       !(
-        localStorage.getItem("user") === "undefined" ||
-        localStorage.getItem("user") === "null"
+        getItem<LoginResType | string>("user") + "" === "undefined" ||
+        getItem<LoginResType | string>("user") + "" === "null"
       )
     ) {
-      const user = JSON.parse(
-        localStorage.getItem("user") + ""
-      ) as LoginResType;
+      const user = getItem<LoginResType>("user");
       config.headers.Authorization = "Bearer " + user?.access;
       // Do something before request is sent
     } else {
@@ -49,7 +47,7 @@ Axios.interceptors.response.use(
         typeof window !== "undefined" ? window.location.pathname : "";
 
       if (notToReload.includes(pathname)) return Promise.reject(error);
-      localStorage.setItem("user", "null");
+      setItem("user", "null");
       window.location.replace("/login");
     }
 
@@ -58,5 +56,13 @@ Axios.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+export function getItem<T = any>(key: UseLocalStorageP1Type): T {
+  return JSON.parse(localStorage.getItem(key) + "");
+}
+
+export function setItem(key: UseLocalStorageP1Type, val: string) {
+  return localStorage.setItem(key, val);
+}
 
 export default Axios;

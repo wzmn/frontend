@@ -3,8 +3,6 @@ import { Drop } from "components/drop-zone";
 import { Drage } from "components/drop-zone/drage";
 import Filterbtn from "components/filterBtn";
 import Input from "components/input";
-import Menu from "components/menu";
-import { CompanyFilter } from "components/pages/company/helper";
 import Pagination from "components/pagination";
 import { EMPLOYEE_LISTING } from "constants/api";
 import { Link } from "gatsby";
@@ -27,15 +25,17 @@ import * as menuStyle from "components/menu/styles.module.scss";
 import Modal from "components/modal";
 import { SortFilter } from "components/pages/common";
 import { EmpList } from "components/pages/employee/emp-list";
+import ToolTip from "components/tooltip";
+import moment from "moment";
 import { useAppContext } from "providers/app-provider";
 import { DateRangePicker } from "react-date-range";
 import { IoIosArrowDown } from "react-icons/io";
-import companyIdFetcher from "services/company-id-fetcher";
+import companyListFilterHandler from "services/company-list-filter-handler";
+import companyListIdTooltipHandler from "services/company-tooltip-handler";
 import MsgToast from "services/msg-toast";
 import UserIdentifyer from "services/user-identifyer";
 import { debounce } from "utility/debounce";
 import Placeholder from "../../components/skeleton";
-import moment from "moment";
 
 type DropItemType = { id: number; section: EmployeeRole };
 const selectionRangeInit = {
@@ -77,7 +77,7 @@ const Employees = () => {
   });
 
   const userRole = UserIdentifyer();
-  const id = companyIdFetcher(userRole);
+  const companyListFilterHandlerId = companyListFilterHandler();
 
   function getColumnColor(int: number) {
     const colors = [
@@ -119,7 +119,7 @@ const Employees = () => {
         params: {
           limit: pagination.limit,
           offset: pagination.offset,
-          license_id__company__id: id,
+          license_id__company__id: companyListFilterHandlerId.toString(),
           created_at__gte: selectionRange.startDate
             ? moment(selectionRange.startDate).format("YYYY-MM-DDT00:00")
             : undefined,
@@ -229,7 +229,7 @@ const Employees = () => {
     pagination.page,
     pagination.limit,
     status,
-    id,
+    JSON.stringify(companyListFilterHandlerId),
     sort,
     JSON.stringify(selectionRange),
   ]);
@@ -239,16 +239,20 @@ const Employees = () => {
     <>
       <div className={btnCont}>
         {createEmpRole.includes(userRole) && (
-          <div className="">
-            <Link to="employee-registration">
-              <Button
-                width="full"
-                title="Create Employee"
-                icon={<AiOutlinePlus />}
-                className="flex-row-reverse"
-              />
-            </Link>
-          </div>
+          <ToolTip label={companyListIdTooltipHandler()}>
+            <div className="">
+              <Link
+                to={`employee-registration/?companyId=${companyListFilterHandlerId?.[0]}`}
+              >
+                <Button
+                  width="full"
+                  title="Create Employee"
+                  icon={<AiOutlinePlus />}
+                  className="flex-row-reverse"
+                />
+              </Link>
+            </div>
+          </ToolTip>
         )}
 
         <div className="">

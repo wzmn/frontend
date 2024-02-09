@@ -13,10 +13,8 @@ import { FaPlus } from "react-icons/fa";
 import { ImSpinner10 } from "react-icons/im";
 import { IoIosSend, IoMdAdd } from "react-icons/io";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import companyIdFetcher from "services/company-id-fetcher";
 import { request } from "services/http-request";
 import MsgToast from "services/msg-toast";
-import UserIdentifyer from "services/user-identifyer";
 import { Option, WorkTypeQuestionT } from "type/global";
 import * as settingStyles from "./styles.module.scss";
 
@@ -135,9 +133,8 @@ function Question({
 
   const [deleteLoad, setDeleteLoad] = useState(false);
 
-  const uderRole = UserIdentifyer();
-
-  const id = companyIdFetcher(uderRole);
+  const params = new URLSearchParams(location.search);
+  const companyId = params.get("companyId");
 
   const fetchOtps = async () => {
     try {
@@ -151,16 +148,12 @@ function Question({
 
   async function onSubmit(data: any) {
     try {
-      if (!id) {
-        alert("Please Select Country");
-        return;
-      }
       const response = await request<WorkTypeQuestionT>({
         url: APPT_Q + (question.id ? question.id + "/" : ""),
         method: question.id ? "patch" : "post",
         data: {
           ...data,
-          company: id,
+          company: companyId,
           work_type: question.work_type,
         },
       });

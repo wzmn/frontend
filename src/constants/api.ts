@@ -10,7 +10,6 @@ export const EMPLOYEE_LISTING = "/employee/management/";
 export const EMPLOYEE_STATUS = "/employee/list-roles/";
 //CUSTOMER
 export const CUSTOMER_LISTING = "customer/management/";
-export const EXPORT_CUST = "/customer/export_data/";
 //COMPANY
 export const CONPAMY_UPLOAD_DOCS = "/company/info/";
 export const COMPANY_LISTING = "/company/basic/";
@@ -39,3 +38,8 @@ export const REQUEST_QUOTE = "/quote/request/";
 export const PRODUCT_MANAGEMENT = "/product/management/";
 //transactions
 export const TRANSACTIONS_MANAGEMENT = "/transactions/";
+
+//Exporting
+export const EXPORT_CUST = "/customer/export_data/";
+export const EXPORT_APPT = "/appointments/export_appointments/";
+export const EXPORT_JOB = "/jobs/export_jobs/";

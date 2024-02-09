@@ -10,7 +10,7 @@ import PublishModal from "components/pages/appointment/publish-modal";
 import { SortFilter } from "components/pages/common";
 import Pagination from "components/pagination";
 import Placeholder from "components/skeleton";
-import { APPOINTMENT_LISTING, REQUEST_QUOTE } from "constants/api";
+import { APPOINTMENT_LISTING, EXPORT_APPT, REQUEST_QUOTE } from "constants/api";
 import { navigate } from "gatsby";
 import { useAppContext } from "providers/app-provider";
 import React, {
@@ -22,7 +22,6 @@ import React, {
 } from "react";
 import { DateRangePicker } from "react-date-range";
 import { IoIosArrowDown } from "react-icons/io";
-import companyIdFetcher from "services/company-id-fetcher";
 import { request } from "services/http-request";
 import UserIdentifyer from "services/user-identifyer";
 import * as commonStyles from "styles/pages/common.module.scss";
@@ -31,26 +30,28 @@ import * as styles from "styles/pages/common.module.scss";
 import Badge from "components/badge";
 import CombineCombo from "components/combine-combo";
 import Menu from "components/menu";
+import { colAccepList } from "components/pages/appointment/helper";
+import moment from "moment";
+import { useCompanyContext } from "providers/company-provider";
+import { CiExport } from "react-icons/ci";
+import { toast } from "react-toastify";
+import companyListFilterHandler from "services/company-list-filter-handler";
+import downloadFile from "services/download-file";
 import { WorkTypeFilter } from "services/filters";
-import TimeFormat from "services/time-format";
+import MsgToast from "services/msg-toast";
 import {
   AppointmentDataType,
   AppointmentExtraDataType,
   AppointmentStatusType,
   ApptStateStatus,
-  ApptStatues,
   ApptStatuesResp,
 } from "type/appointment";
+import { FilterValue, FilterValueData } from "type/global";
 import cssVar from "utility/css-var";
 import { debounce } from "utility/debounce";
 import { findMatchingId } from "utility/find-matching-id";
-import * as locStyles from "./styles.module.scss";
 import { CustTypeData } from ".././../constants";
-import { colAccepList } from "components/pages/appointment/helper";
-import MsgToast from "services/msg-toast";
-import moment from "moment";
-import { useCompanyContext } from "providers/company-provider";
-import { FilterValue, FilterValueData } from "type/global";
+import * as locStyles from "./styles.module.scss";
 
 const selectionRangeInit = {
   startDate: undefined,
@@ -184,7 +185,7 @@ const Appintments = () => {
   const table = useRef<HTMLDivElement>(null);
 
   const userRole = UserIdentifyer();
-  const id = companyIdFetcher(userRole);
+
   const { company } = useCompanyContext();
   const [filterDataValues, setFiltersDataValues] = useState<FilterDataValueT>({
     keys: [],
@@ -196,6 +197,8 @@ const Appintments = () => {
     key: "",
     value: "",
   });
+
+  const companyListFilterHandlerId = companyListFilterHandler();
 
   function clearFilters() {
     setSelectionRange(() => selectionRangeInit);
@@ -252,15 +255,15 @@ const Appintments = () => {
     }
   }
 
-  function comFilter() {
-    if (userRole !== "scheduler") {
-      return { job__customer__company__in: id };
-    } else if (userRole === "scheduler" && id === null) {
-      return {};
-    } else {
-      return { job__customer__company__in: id };
-    }
-  }
+  // function comFilter() {
+  //   if (userRole !== "scheduler") {
+  //     return { job__customer__company__in: id };
+  //   } else if (userRole === "scheduler" && id === null) {
+  //     return {};
+  //   } else {
+  //     return { job__customer__company__in: id };
+  //   }
+  // }
 
   async function fetchData(params?: Record<any, any>) {
     try {
@@ -271,7 +274,9 @@ const Appintments = () => {
           limit: pagination.limit,
           offset: pagination.offset,
           // job__customer__company__in: companyId || id,
-          ...comFilter(),
+          // ...comFilter(),
+          job__customer__company__in: companyListFilterHandlerId.toString(),
+
           ordering: sort,
           created_at__gte: selectionRange.startDate
             ? moment(selectionRange.startDate).format("YYYY-MM-DDT00:00")
@@ -454,6 +459,27 @@ const Appintments = () => {
     } catch (error) {}
   }
 
+  async function exportApptData() {
+    try {
+      const response = await toast.promise(
+        request<Blob>({
+          url: EXPORT_APPT,
+          method: "get",
+          params: {
+            file_format: "CSV",
+          },
+          responseType: "blob",
+        }),
+        {
+          pending: "Wait...",
+          success: "Exported! ",
+          error: "Cannot export try again later",
+        }
+      );
+      downloadFile(response.data, "appointment_data.xls");
+    } catch (error) {}
+  }
+
   useEffect(() => {
     table.current!.addEventListener("wheel", handleScroll);
     return () => {
@@ -468,7 +494,7 @@ const Appintments = () => {
     pagination.page,
     pagination.limit,
     status,
-    JSON.stringify(id), //stringifyed because can be null also
+    JSON.stringify(companyListFilterHandlerId), //stringifyed because can be null also
     sort,
     JSON.stringify(selectionRange),
     JSON.stringify(workType),
@@ -592,6 +618,27 @@ const Appintments = () => {
             />
           </div>
         )}
+
+        <div className="w-44 flex gap-3">
+          {/* <div className={locStyles.impExpBtn}>
+            <Button
+              icon={<CiImport />}
+              className={`flex-row-reverse`}
+              color={"white"}
+              title="Import"
+            />
+          </div> */}
+
+          <div className={locStyles.impExpBtn}>
+            <Button
+              icon={<CiExport />}
+              className={`flex-row-reverse`}
+              color={"white"}
+              title="Export"
+              onClick={() => exportApptData()}
+            />
+          </div>
+        </div>
       </div>
 
       <div className={`${tableCont} drop-container`} ref={table}>

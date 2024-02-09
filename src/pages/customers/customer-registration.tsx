@@ -16,13 +16,12 @@ import * as styles from "styles/pages/common.module.scss";
 import { ComboBoxDataT } from "components/combo-box";
 import { CUSTOMER_LISTING } from "constants/api";
 import { navigate } from "gatsby";
+import PhoneInput from "react-phone-number-input";
 import Address from "services/address";
-import companyIdFetcher from "services/company-id-fetcher";
 import employeeList from "services/employee-list";
 import { request } from "services/http-request";
 import MsgToast from "services/msg-toast";
 import UserIdentifyer from "services/user-identifyer";
-import PhoneInput from "react-phone-number-input";
 
 const countries = [
   { label: "ADMIN" },
@@ -51,7 +50,9 @@ const customerRegistration = () => {
   const [files, setFiles] = useState<FileProps[]>([]);
   const [empListData, setEmpListData] = useState<ComboBoxDataT[]>([]);
   const userRole = UserIdentifyer();
-  const id = companyIdFetcher(userRole);
+  const params = new URLSearchParams(location.search);
+  const companyId = params.get("companyId");
+
   const methods = useForm<CustomerRegistrationSchemaType>({
     shouldUseNativeValidation: false,
     resolver: yupResolver(customerRegistrationSchema),
@@ -73,16 +74,16 @@ const customerRegistration = () => {
 
   async function onSubmit(data: CustomerRegistrationSchemaType) {
     try {
-      if (!id) {
-        alert("Please Select Country");
-        return;
-      }
+      // if (!id) {
+      //   alert("Please Select Country");
+      //   return;
+      // }
 
       const dt = {
         ...data,
         user: data.user,
         // assigned_to: data.assigned_to,
-        company: id,
+        company: companyId,
       };
 
       console.log(data);
@@ -104,7 +105,7 @@ const customerRegistration = () => {
     try {
       const res = await employeeList({
         search: typeof e === "string" ? "" : e?.target?.value,
-        license_id__company__id: id,
+        license_id__company__id: companyId,
       });
 
       const empFilteredList = res.results?.map((item) => ({
@@ -126,7 +127,7 @@ const customerRegistration = () => {
     handleEmployeeList();
     // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
     return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
-  }, [id]);
+  }, []);
 
   function toLoc(arrOfObj: Array<any>) {
     console.log("track toLoc");
