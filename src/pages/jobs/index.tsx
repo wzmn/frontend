@@ -12,7 +12,7 @@ import { SortFilter } from "components/pages/common";
 import JobList from "components/pages/job/job-card";
 import Pagination from "components/pagination";
 import Placeholder from "components/skeleton";
-import { JOB_LISTING } from "constants/api";
+import { EXPORT_JOB, JOB_LISTING } from "constants/api";
 import { Link } from "gatsby-link";
 import React, {
   ChangeEvent,
@@ -37,6 +37,10 @@ import { debounce } from "utility/debounce";
 import { findMatchingId } from "utility/find-matching-id";
 import { CustTypeData } from ".././../constants";
 import moment from "moment";
+import { CiExport } from "react-icons/ci";
+import { toast } from "react-toastify";
+import * as locStyles from "./styles.module.scss";
+import downloadFile from "services/download-file";
 
 type DropItemType = { id: number; section: JobStatusRole };
 
@@ -270,6 +274,27 @@ const Jobs = () => {
     }
   };
 
+  async function exportJobData() {
+    try {
+      const response = await toast.promise(
+        request<Blob>({
+          url: EXPORT_JOB,
+          method: "get",
+          params: {
+            file_format: "CSV",
+          },
+          responseType: "blob",
+        }),
+        {
+          pending: "Wait...",
+          success: "Exported! ",
+          error: "Cannot export try again later",
+        }
+      );
+      downloadFile(response.data, "job_data.xls");
+    } catch (error) {}
+  }
+
   useEffect(() => {
     table.current!.addEventListener("wheel", handleScroll);
     return () => {
@@ -291,9 +316,9 @@ const Jobs = () => {
 
   return (
     <>
-      <div className={styles.btnCont}>
+      <div className={locStyles.btnCont}>
         <div className="">
-          <Link to="create-job">
+          <Link to="create-job" className={locStyles.alignWithCard}>
             <Button
               width="full"
               title="Create Job"
@@ -303,7 +328,7 @@ const Jobs = () => {
           </Link>
         </div>
 
-        <div className="">
+        <div className={locStyles.alignWithCard}>
           <Input
             name="company-search"
             placeholder="Search"
@@ -314,41 +339,43 @@ const Jobs = () => {
         {/* <div className="w-64">
           <SelectBox color="full-white" data={dataList} />
         </div> */}
-        <Filterbtn icon={<IoIosArrowDown />} title="Filter">
-          <div className="relative h-40">
-            <Menu title="Work Type" dropPosition={styles.menuPos}>
-              <WorkTypeFilter
-                workType={workType}
-                setValue={workTypeFilterHandler}
-              />
-            </Menu>
-            <div
-              onClick={() => {
-                setVisible((prev) => !prev);
-              }}
-              className={menuStyle.menu}
-            >
-              <button>Date</button>
-            </div>
+        <div className={locStyles.alignWithCard}>
+          <Filterbtn icon={<IoIosArrowDown />} title="Filter">
+            <div className="relative h-40">
+              <Menu title="Work Type" dropPosition={styles.menuPos}>
+                <WorkTypeFilter
+                  workType={workType}
+                  setValue={workTypeFilterHandler}
+                />
+              </Menu>
+              <div
+                onClick={() => {
+                  setVisible((prev) => !prev);
+                }}
+                className={menuStyle.menu}
+              >
+                <button>Date</button>
+              </div>
 
-            <Menu title="Customer Type" dropPosition={styles.menuPos}>
-              <SortFilter
-                data={CustTypeData}
-                defaultChecked={custType}
-                setValue={(e) => {
-                  setCustType(e);
+              <Menu title="Customer Type" dropPosition={styles.menuPos}>
+                <SortFilter
+                  data={CustTypeData}
+                  defaultChecked={custType}
+                  setValue={(e) => {
+                    setCustType(e);
+                  }}
+                />
+              </Menu>
+              <Badge
+                label="clear"
+                className="absolute bottom-2 left-0 text-blue-600 cursor-pointer"
+                onClick={() => {
+                  clearFilters();
                 }}
               />
-            </Menu>
-            <Badge
-              label="clear"
-              className="absolute bottom-2 left-0 text-blue-600 cursor-pointer"
-              onClick={() => {
-                clearFilters();
-              }}
-            />
-          </div>
-        </Filterbtn>
+            </div>
+          </Filterbtn>
+        </div>
 
         {/* <CombineCombo
           data1={data1}
@@ -371,6 +398,27 @@ const Jobs = () => {
               }}
             />
           </Filterbtn>
+        </div>
+
+        <div className="w-44 flex gap-3">
+          {/* <div className={locStyles.impExpBtn}>
+            <Button
+              icon={<CiImport />}
+              className={`flex-row-reverse`}
+              color={"white"}
+              title="Import"
+            />
+          </div> */}
+
+          <div className={locStyles.impExpBtn}>
+            <Button
+              icon={<CiExport />}
+              className={`flex-row-reverse`}
+              color={"white"}
+              title="Export"
+              onClick={() => exportJobData()}
+            />
+          </div>
         </div>
       </div>
 

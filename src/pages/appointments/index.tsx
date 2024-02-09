@@ -10,7 +10,12 @@ import PublishModal from "components/pages/appointment/publish-modal";
 import { SortFilter } from "components/pages/common";
 import Pagination from "components/pagination";
 import Placeholder from "components/skeleton";
-import { APPOINTMENT_LISTING, REQUEST_QUOTE } from "constants/api";
+import {
+  APPOINTMENT_LISTING,
+  EXPORT_APPT,
+  EXPORT_CUST,
+  REQUEST_QUOTE,
+} from "constants/api";
 import { navigate } from "gatsby";
 import { useAppContext } from "providers/app-provider";
 import React, {
@@ -51,6 +56,9 @@ import MsgToast from "services/msg-toast";
 import moment from "moment";
 import { useCompanyContext } from "providers/company-provider";
 import { FilterValue, FilterValueData } from "type/global";
+import { CiExport } from "react-icons/ci";
+import { toast } from "react-toastify";
+import downloadFile from "services/download-file";
 
 const selectionRangeInit = {
   startDate: undefined,
@@ -454,6 +462,27 @@ const Appintments = () => {
     } catch (error) {}
   }
 
+  async function exportApptData() {
+    try {
+      const response = await toast.promise(
+        request<Blob>({
+          url: EXPORT_APPT,
+          method: "get",
+          params: {
+            file_format: "CSV",
+          },
+          responseType: "blob",
+        }),
+        {
+          pending: "Wait...",
+          success: "Exported! ",
+          error: "Cannot export try again later",
+        }
+      );
+      downloadFile(response.data, "appointment_data.xls");
+    } catch (error) {}
+  }
+
   useEffect(() => {
     table.current!.addEventListener("wheel", handleScroll);
     return () => {
@@ -592,6 +621,27 @@ const Appintments = () => {
             />
           </div>
         )}
+
+        <div className="w-44 flex gap-3">
+          {/* <div className={locStyles.impExpBtn}>
+            <Button
+              icon={<CiImport />}
+              className={`flex-row-reverse`}
+              color={"white"}
+              title="Import"
+            />
+          </div> */}
+
+          <div className={locStyles.impExpBtn}>
+            <Button
+              icon={<CiExport />}
+              className={`flex-row-reverse`}
+              color={"white"}
+              title="Export"
+              onClick={() => exportApptData()}
+            />
+          </div>
+        </div>
       </div>
 
       <div className={`${tableCont} drop-container`} ref={table}>

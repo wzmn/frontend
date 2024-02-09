@@ -41,6 +41,8 @@ import { findMatchingId } from "utility/find-matching-id";
 import * as locStyles from "./styles.module.scss";
 import { CustTypeData } from ".././../constants";
 import moment from "moment";
+import { CiExport } from "react-icons/ci";
+import downloadFile from "services/download-file";
 
 type DropItemType = { id: number; section: CustomerStatus };
 
@@ -229,15 +231,16 @@ const Customers = () => {
   //   }
   // }
 
-  async function exportCust() {
+  async function exportCustData() {
     try {
       const response = await toast.promise(
-        request({
+        request<Blob>({
           url: EXPORT_CUST,
           method: "get",
           params: {
             file_format: "CSV",
           },
+          responseType: "blob",
         }),
         {
           pending: "Wait...",
@@ -245,6 +248,7 @@ const Customers = () => {
           error: "Cannot export try again later",
         }
       );
+      downloadFile(response.data, "customer_data.xls");
     } catch (error) {}
   }
 
@@ -353,15 +357,15 @@ const Customers = () => {
           </Filterbtn>
         </div>
 
-        {/* <div className="w-44 flex gap-3">
-          <div className={locStyles.impExpBtn}>
+        <div className="w-44 flex gap-3">
+          {/* <div className={locStyles.impExpBtn}>
             <Button
               icon={<CiImport />}
               className={`flex-row-reverse`}
               color={"white"}
               title="Import"
             />
-          </div>
+          </div> */}
 
           <div className={locStyles.impExpBtn}>
             <Button
@@ -369,10 +373,10 @@ const Customers = () => {
               className={`flex-row-reverse`}
               color={"white"}
               title="Export"
-              onClick={() => exportCust()}
+              onClick={() => exportCustData()}
             />
           </div>
-        </div> */}
+        </div>
       </div>
 
       <div className={`${styles.tableCont} drop-container`} ref={table}>
