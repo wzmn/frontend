@@ -197,12 +197,12 @@ function ComFilter() {
       };
     }) as CompanyProviderDataT[];
 
-    if (userRole === "scheduler") {
-      companyFilteredList.unshift({ label: "All" } as CompanyProviderDataT);
-      JSON.stringify(company) === "{}" && setCompany(companyFilteredList[0]);
-    } else {
-      JSON.stringify(company) === "{}" && setCompany(res.results![0]);
-    }
+    // if (userRole === "scheduler") {
+    companyFilteredList.unshift({ label: "All" } as CompanyProviderDataT);
+    JSON.stringify(company) === "{}" && setCompany(companyFilteredList[0]);
+    // } else {
+    //   JSON.stringify(company) === "{}" && setCompany(res.results![0]);
+    // }
 
     setCompanyListData(() => companyFilteredList);
   });
@@ -221,28 +221,37 @@ function ComFilter() {
     if (location.pathname === "/company/") return null;
   }
   return (
-    <div className=" flex items-center gap-4 ml-1">
-      <ComboBox<CompanyProviderDataT>
-        placeholder={company?.company_name || company?.label}
-        data={companyListData}
-        handleSelect={(e) => {
-          console.log(e);
-          setCompany(e);
+    <div className="">
+      <div className="w-44">
+        <ComboBox<CompanyProviderDataT>
+          placeholder={company?.company_name || company?.label}
+          data={companyListData}
+          handleSelect={(e) => {
+            console.log(e);
+            setCompany(e);
+            if (e.label === "All") {
+              setCompanyListFilter(() => []);
+              return;
+            }
 
-          const check = companyListFilter.some((item) => item.id === e.id);
+            const check = companyListFilter.some((item) => item.id === e.id);
 
-          if (!check) setCompanyListFilter((prev) => [...prev, e]);
-        }}
-        onChange={handleCompany}
-      />
+            if (!check) setCompanyListFilter((prev) => [...prev, e]);
+          }}
+          onChange={handleCompany}
+        />
+      </div>
 
-      {/* <div className="flex gap-3">
+      <div className="flex gap-3 w-full mt-2">
         {companyListFilter.map((com, index) => {
           return (
-            <p key={com.id} className="border px-2 text-sm flex items-center">
+            <p
+              key={com.id}
+              className="border px-2 text-sm flex flex-nowrap items-center"
+            >
               {com?.label}
               <span
-                className="ml-2 text-balance cursor-pointer"
+                className="ml-2  text-balance cursor-pointer"
                 onClick={() => deleteComFilterList(index)}
               >
                 <RxCross2 />
@@ -250,7 +259,7 @@ function ComFilter() {
             </p>
           );
         })}
-      </div> */}
+      </div>
     </div>
   );
 }

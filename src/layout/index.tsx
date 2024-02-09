@@ -22,6 +22,7 @@ import * as styles from "./styles.module.scss";
 import CompanyChecker from "./company-checker";
 import { navigate } from "gatsby";
 import { userAccessRouter } from "providers/auth-provider/user-page-permissions";
+import { HasNestedRouteReg } from "constants/regex";
 
 const routeNotToInclude = [
   "/login/",
@@ -73,7 +74,9 @@ const Layout = ({ children }: Props) => {
                               <Sidebar />
                               <div className={styles.children}>
                                 <div className={styles.mainContent}>
-                                  <Navbar />
+                                  {!HasNestedRouteReg.test(
+                                    location?.pathname
+                                  ) && <Navbar />}
                                   {children}
                                   {/* <Footer /> */}
                                 </div>

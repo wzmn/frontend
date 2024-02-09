@@ -43,6 +43,9 @@ import { CustTypeData } from ".././../constants";
 import moment from "moment";
 import { CiExport } from "react-icons/ci";
 import downloadFile from "services/download-file";
+import companyListFilterHandler from "services/company-list-filter-handler";
+import ToolTip from "components/tooltip";
+import companyListIdTooltipHandler from "services/company-tooltip-handler";
 
 type DropItemType = { id: number; section: CustomerStatus };
 
@@ -96,13 +99,13 @@ const Customers = () => {
   const table = useRef<HTMLDivElement>(null);
 
   const userRole = UserIdentifyer();
-  const id = companyIdFetcher(userRole);
-
+  const companyListFilterHandlerId = companyListFilterHandler();
   const { fetchData, loading } = usefetchData({
     params: {
       limit: pagination.limit,
       offset: pagination.offset,
-      company__id: id,
+      // company__id: id,
+      company__in: companyListFilterHandlerId.toString(),
       ordering: sort,
       created_at__gte: selectionRange.startDate
         ? moment(selectionRange.startDate).format("YYYY-MM-DDT00:00")
@@ -284,7 +287,7 @@ const Customers = () => {
   }, [
     pagination.page,
     pagination.limit,
-    id,
+    JSON.stringify(companyListFilterHandlerId),
     sort,
     JSON.stringify(selectionRange.endDate),
     custType,
@@ -293,14 +296,20 @@ const Customers = () => {
   return (
     <>
       <div className={locStyles.btnCont}>
-        <Link to="customer-registration" className={locStyles.alignWithCard}>
-          <Button
-            width="default"
-            title="Create Customer"
-            icon={<AiOutlinePlus />}
-            className="flex-row-reverse"
-          />
-        </Link>
+        <ToolTip label={companyListIdTooltipHandler()}>
+          <Link
+            to={`customer-registration?companyId=${companyListFilterHandlerId?.[0]}`}
+            className={locStyles.alignWithCard}
+          >
+            <Button
+              width="default"
+              disabled={companyListIdTooltipHandler() !== "" ? true : false}
+              title="Create Customer"
+              icon={<AiOutlinePlus />}
+              className="flex-row-reverse"
+            />
+          </Link>
+        </ToolTip>
         <div className={locStyles.alignWithCard}>
           <Input
             name="company-search"
