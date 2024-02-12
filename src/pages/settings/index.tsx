@@ -132,6 +132,7 @@ const Settings = () => {
                   <Link
                     to={`appointment-questions/?companyId=${companyListFilterHandlerId?.[0]}`}
                     className={`${settingtyles.userSettings} ${settingtyles.mtB}`}
+                    aria-label="Questions"
                   >
                     Questions
                   </Link>
