@@ -249,6 +249,7 @@ const Employees = () => {
                   title="Create Employee"
                   icon={<AiOutlinePlus />}
                   className="flex-row-reverse"
+                  disabled={companyListIdTooltipHandler() !== "" ? true : false}
                 />
               </Link>
             </div>

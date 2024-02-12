@@ -29,6 +29,7 @@ import { EmpResultT } from "type/employee";
 import { debounce } from "utility/debounce";
 import { WorkTypeLabel } from "./create-appointment";
 import * as jobStyles from "./styles.module.scss";
+import { AxiosError } from "axios";
 
 const showEmpFieldFor = [
   "superadmin",
@@ -119,6 +120,14 @@ const CreateJob = (props: PageProps) => {
       navigate(-1);
     } catch (error) {
       console.log("error");
+      if (error instanceof AxiosError) {
+        error as AxiosError<string[]>;
+        MsgToast(error.response?.data[0]!, "error");
+        return;
+      } else if (error instanceof Error) {
+        MsgToast(error?.message, "error");
+        return;
+      }
       MsgToast("Something went wrong", "error");
     }
   }

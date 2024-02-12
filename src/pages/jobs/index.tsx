@@ -288,7 +288,7 @@ const Jobs = () => {
         }),
         {
           pending: "Wait...",
-          success: "Exported! ",
+          success: "Downloaded Successfully!",
           error: "Cannot export try again later",
         }
       );
@@ -329,6 +329,7 @@ const Jobs = () => {
                 title="Create Job"
                 icon={<AiOutlinePlus />}
                 className="flex-row-reverse"
+                disabled={companyListIdTooltipHandler() !== "" ? true : false}
               />
             </Link>
           </div>
