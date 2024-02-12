@@ -75,7 +75,9 @@ const Layout = ({ children }: Props) => {
                               <div className={styles.children}>
                                 <div className={styles.mainContent}>
                                   {!HasNestedRouteReg.test(
-                                    location?.pathname
+                                    typeof window !== "undefined"
+                                      ? location?.pathname
+                                      : ""
                                   ) && <Navbar />}
                                   {children}
                                   {/* <Footer /> */}
