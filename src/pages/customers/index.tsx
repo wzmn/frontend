@@ -296,6 +296,7 @@ const Customers = () => {
           <Link
             to={`customer-registration/?companyId=${companyListFilterHandlerId?.[0]}`}
             className={locStyles.alignWithCard}
+            aria-label="create-customer"
           >
             <Button
               width="default"

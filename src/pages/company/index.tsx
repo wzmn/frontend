@@ -262,7 +262,7 @@ const Company = () => {
     <>
       <div className={styles.btnCont}>
         <div className="">
-          <Link to={`company-registration`}>
+          <Link to={`company-registration`} aria-label="create-company">
             <Button
               width="full"
               title="Create Company"

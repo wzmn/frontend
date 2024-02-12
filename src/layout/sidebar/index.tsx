@@ -111,6 +111,7 @@ const Sidebar = () => {
                   activeClassName={styles.active}
                   key={item.title}
                   to={item.link}
+                  aria-label={item.title}
                   className={styles.link}
                 >
                   <img className={styles.img} src={item.svg} alt={item.title} />

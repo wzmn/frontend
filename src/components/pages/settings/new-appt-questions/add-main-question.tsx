@@ -163,6 +163,7 @@ const AddMainQuestion = ({
         <div className="w-52">
           <SelectBox
             data={questions}
+            name="select_q_type"
             placeholder="Select"
             onChange={(e) => {
               setValue(`question_type`, e.value);
@@ -219,6 +220,7 @@ const AddMainQuestion = ({
         <Button
           type="submit"
           title="Submit"
+          name="submit"
           isLoading={isSubmitting}
           disabled={isSubmitting}
         />

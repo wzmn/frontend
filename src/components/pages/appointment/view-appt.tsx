@@ -205,6 +205,7 @@ const ViewAppt = ({
           to={`/jobs/create-appointment/?apptId=${data?.id}`}
           state={data?.job}
           className="mt-10 "
+          aria-label="schedule-appt"
         >
           <Button
             width="full"
@@ -223,6 +224,7 @@ const ViewAppt = ({
             apptId: data?.id,
           }}
           className="mt-10"
+          aria-label="view-assessment"
         >
           <Button
             width="full"

@@ -160,6 +160,7 @@ const AppointmentQuestions = () => {
               </FormWraper>
             </FormSection>
             <RiDeleteBin6Line
+              name="delete_q"
               onClick={() => {
                 deleteQ(index);
               }}

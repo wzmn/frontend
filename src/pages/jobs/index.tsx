@@ -323,6 +323,7 @@ const Jobs = () => {
             <Link
               to={`create-job/?companyId=${companyListFilterHandlerId?.[0]}`}
               className={locStyles.alignWithCard}
+              aria-label="create-job"
             >
               <Button
                 width="full"
