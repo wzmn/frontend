@@ -200,6 +200,7 @@ const Reminder = (props: PageProps) => {
                 <TextButton
                   className="mt-5"
                   label="Create Reminder"
+                  name="create-reminder"
                   icon={<GoPlus />}
                   onClick={() => {
                     navigate("/customers/create-reminder");

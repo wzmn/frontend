@@ -282,6 +282,7 @@ const ViewCustomer = ({ data }: { data: CustResultT }) => {
         <Button
           width="full"
           title="Create Reminder"
+          name="create-reminder"
           icon={<AiOutlinePlus />}
           className="flex-row-reverse justify-between"
         />

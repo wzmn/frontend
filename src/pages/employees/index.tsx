@@ -243,6 +243,7 @@ const Employees = () => {
             <div className="">
               <Link
                 to={`employee-registration/?companyId=${companyListFilterHandlerId?.[0]}`}
+                aria-label="create-employee"
               >
                 <Button
                   width="full"
