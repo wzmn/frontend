@@ -8,6 +8,8 @@ import { TransactionsRespT, TransactionsResultT } from "type/transactions";
 import { TRANSACTIONS_MANAGEMENT } from "constants/api";
 import Pagination from "components/pagination";
 import UserIdentifyer from "services/user-identifyer";
+import companyListFilterHandler from "services/company-list-filter-handler";
+import Placeholder from "components/skeleton";
 
 const Transactions = () => {
   const [data, setData] = useState<Partial<TransactionsResultT>[]>([]);
@@ -21,14 +23,15 @@ const Transactions = () => {
     totalRecords: 0,
   });
 
+  const companyListFilterHandlerId = companyListFilterHandler();
+
   async function fetchData() {
     try {
       setLoading(true);
       const response = await request<TransactionsRespT>({
         url: TRANSACTIONS_MANAGEMENT,
         params: {
-          // company__in: id,
-
+          company_id: companyListFilterHandlerId.toString(),
           limit: pagination.limit,
           offset: pagination.offset,
           ordering: "-created_at",
@@ -50,7 +53,22 @@ const Transactions = () => {
 
   useEffect(() => {
     fetchData();
-  }, [pagination.page, pagination.limit]);
+  }, [
+    pagination.page,
+    pagination.limit,
+    JSON.stringify(companyListFilterHandlerId),
+  ]);
+
+  if (loading) {
+    return (
+      <div className="grow space-y-10">
+        <Placeholder />
+        <Placeholder />
+        <Placeholder />
+        <Placeholder />
+      </div>
+    );
+  }
 
   return (
     <div className="grow">
