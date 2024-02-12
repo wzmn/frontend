@@ -243,7 +243,7 @@ const Customers = () => {
         }),
         {
           pending: "Wait...",
-          success: "Exported! ",
+          success: "Downloaded Successfully!",
           error: "Cannot export try again later",
         }
       );
