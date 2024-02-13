@@ -300,6 +300,7 @@ const CustomerDetails = (props: PageProps) => {
                         to={`/jobs/create-job/?custId=${data?.id}&companyId=${data?.company?.id}`}
                         state={{ custData: data }}
                         className="flex items-center"
+                        aria-label="create_job"
                       >
                         <span className="text-blue-500 mr-2">Create Job</span>
                         <AiOutlinePlus className="text-blue-500 text-xl" />
@@ -326,6 +327,7 @@ const CustomerDetails = (props: PageProps) => {
                         <Link
                           to={`/jobs/create-job/?custId=${data?.id}`}
                           state={{ custData: data }}
+                          aria-label="create_job"
                         >
                           <span className="text-blue-500 mr-2">Create Job</span>
                           <AiOutlinePlus className="text-blue-500 text-xl" />
@@ -352,7 +354,11 @@ const CustomerDetails = (props: PageProps) => {
                 {reminderResp.results?.length! > 0 ? (
                   reminderResp?.results?.map((item) => {
                     return (
-                      <Link to="/customers/reminder/" key={item.id}>
+                      <Link
+                        to="/customers/reminder/"
+                        key={item.id}
+                        aria-label="create_reminder"
+                      >
                         <ReminderList
                           data={item}
                           custData={data!}
@@ -371,6 +377,7 @@ const CustomerDetails = (props: PageProps) => {
               <Link
                 to="/customers/create-reminder"
                 className="flex items-center"
+                aria-label="create_reminder"
               >
                 <span className="text-blue-500 mr-2">Create Reminder</span>
                 <AiOutlinePlus className="text-blue-500 text-xl" />

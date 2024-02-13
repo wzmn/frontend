@@ -278,6 +278,7 @@ ${data?.address?.state ? data?.address?.state : ""} ${
                           title="Create Appointment"
                           icon={<AiOutlinePlus />}
                           className="flex-row-reverse justify-between"
+                          name="create_appointment"
                         />
                       </Link>
                     </div>
@@ -299,6 +300,7 @@ ${data?.address?.state ? data?.address?.state : ""} ${
                             title="Create Appointment"
                             icon={<AiOutlinePlus />}
                             className="flex-row-reverse justify-between"
+                            aria-label="create_reminder"
                           />
                         </Link>
                       </div>
