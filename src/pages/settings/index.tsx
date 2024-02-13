@@ -189,12 +189,12 @@ const Settings = () => {
                 >
                   Add / View Listing for Products
                 </p>
-                <Link
+                {/* <Link
                   to="add-product"
                   className={`${settingtyles.userSettings} ${settingtyles.mtB} mr-2`}
                 >
                   Add
-                </Link>
+                </Link> */}
                 /
                 <Link
                   to="list-products"

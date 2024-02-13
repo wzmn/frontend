@@ -36,6 +36,8 @@ export const REMINDER_LISTING = "/employee/tasks/";
 export const REQUEST_QUOTE = "/quote/request/";
 //product
 export const PRODUCT_MANAGEMENT = "/product/management/";
+export const PRODUCT_CATEGORY = "/product/category/";
+export const PRODUCT_CERTIFICATES = "/product/certificates/";
 //transactions
 export const TRANSACTIONS_MANAGEMENT = "/transactions/";
 
