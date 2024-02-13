@@ -297,7 +297,7 @@ const CustomerDetails = (props: PageProps) => {
                     })}
                     <div className="flex justify-between w-full items-center">
                       <Link
-                        to={`/jobs/create-job/?custId=${data?.id}`}
+                        to={`/jobs/create-job/?custId=${data?.id}&companyId=${data?.company?.id}`}
                         state={{ custData: data }}
                         className="flex items-center"
                       >

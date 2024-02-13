@@ -59,7 +59,7 @@ export default function SelectBox({
   }, [value]);
 
   return (
-    <div className={`w-full ${styles.rel}`}>
+    <div className={`w-full ${styles.rel} `} style={{ zIndex: "inherit" }}>
       <Listbox disabled={disabled} date-name={name} onChange={onSelect}>
         <div className={`  ${styles.index}`}>
           <Listbox.Button
