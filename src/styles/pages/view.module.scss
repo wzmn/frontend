@@ -1,0 +1,99 @@
+@import "../variable.scss";
+@import "./additional.module.scss";
+
+.view {
+  padding-bottom: 1rem;
+  & .divider {
+    padding: 1rem 0rem;
+    margin-bottom: 10px;
+  }
+  & .panel {
+    padding-top: 0.5rem;
+  }
+  & .bold {
+    font-weight: 500;
+    font-size: $font-normal;
+    text-align: left;
+  }
+  & .tag {
+    text-align: left;
+    font-size: $font-base;
+    color: var(--color-cloudy_grey);
+  }
+  text-align: left;
+  & .details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  & .additionalInfo {
+    color: var(--color-cloudy_grey);
+    & .title {
+      font-weight: 500;
+    }
+    margin-bottom: 15px;
+
+    // &:not(:first-child):not(:last-child) {
+    //   padding: 1rem 0rem;
+    // }
+  }
+
+  & .status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  & .reminder {
+    border-color: var(--color-dusty_grey);
+    border-width: 1px;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  & .reminder-title {
+    font-size: medium;
+  }
+  & .reminder-icon {
+    flex-basis: 30px;
+    height: 25px;
+    fill: var(--color-cloudy_grey);
+  }
+  & .reminder-Id {
+    font-size: small;
+  }
+  & .job {
+    position: relative;
+    border: 0.5px solid var(--color-cloudy_grey_light);
+    padding: 0.5rem 0.5rem;
+    font-size: $font-base;
+    &:not(:first-child):not(:last-child) {
+      margin: 0.5rem 0rem;
+    }
+    & svg {
+      position: absolute;
+      top: 50%;
+      right: 1rem;
+      transform: translateY(-50%);
+      color: var(--color-cloudy_grey);
+      font-size: 2.5rem;
+    }
+    & .count {
+      background-color: var(--color-blue_dress);
+      width: fit-content;
+      width: 1.3rem;
+      height: 1.3rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 100%;
+      color: var(--color-white);
+      position: absolute;
+      right: 2.4rem;
+      top: 2rem;
+    }
+  }
+}

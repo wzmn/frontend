@@ -1,0 +1,50 @@
+@import "./media.scss";
+@import "./variable.scss";
+@import "./common.scss";
+
+.c-container {
+  width: 100%;
+  margin: 0rem auto;
+  //   height: 100vh;
+  //   background-color: khaki;
+}
+body {
+  background-color: var(--color-base-grey);
+}
+
+@include sm {
+  .c-container {
+    width: 640px;
+  }
+}
+
+@include md {
+  .c-container {
+    width: 768px;
+  }
+}
+
+@include lg {
+  .c-container {
+    width: 1024px;
+  }
+}
+
+@include xl {
+  .c-container {
+    width: 1280px;
+  }
+}
+
+@include xl-2 {
+  .c-container {
+    width: 1536px;
+  }
+}
+
+.blue {
+  color: var(--color-blue_dress);
+}
+.fill-blue {
+  fill: var(--color-blue_dress);
+}

@@ -1,0 +1,23 @@
+@import "styles/variable.scss";
+
+.drop-position {
+  top: 2rem;
+  left: -2rem;
+}
+
+.action-svg {
+  font-size: 1rem !important;
+}
+
+.sort-cont {
+  padding: 1rem 1rem;
+  & .filter {
+    padding: 0.3rem 0.4rem;
+    & > label {
+      display: flex;
+      gap: 1rem;
+      font-size: $font-base;
+      cursor: pointer;
+    }
+  }
+}

@@ -1,0 +1,105 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+/* @import "./variable.scss"; */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
+  margin: 0%;
+  padding: 0%;
+}
+p::first-letter {
+  text-transform: capitalize;
+}
+/* // $test-color: pink;
+// @mixin fun() {
+//   --color-test: #{$test-color};
+// } */
+
+@layer base {
+  :root {
+    /* // @include fun(); */
+    /* white shades */
+    --color-white: #ffffff;
+    --color-white-80: #ffffff80;
+
+    /* yellow shades */
+    --color-candlelight: #fed000;
+    --color-base-grey: #fafafa;
+
+    /* blue shades */
+    --color-aqua_blue: #32d0d1;
+    --color-aqua_blue_light: #32d0d152;
+    --color-aqua_blue_lighter: #32d0d1b2;
+    --color-macaw-blue-green: #32d0d117;
+
+    --color-dark_sky_blue: #3b9dff;
+    --color-blue_dress: #0a84ff;
+
+    /* black shades */
+    --color-black: #000000;
+    --color-half_black: #0000000d;
+    --color-black29: #00000029;
+
+    /* gray shades */
+    --color-cloudy_grey: #666666;
+    --color-dusty_grey: #99999926;
+    --color-dusty_grey_dark: #99999959;
+    --color-dove_grey: #7070701c;
+    --color-cloudy_grey_light: #66666621;
+    --color-cloudy_grey_lighter: #6666668a;
+    --color-cloudy_grey_lighter2: #66666622;
+
+    /* brown shades */
+    --color-ginger_brown: #ccb6554c;
+
+    /* green shades  */
+    --color-hummingbird_green: #97dc21;
+    --color-salad_green: #86da3d;
+    --color-medium_aquamarine: #4ad2a7;
+    --color-kiwi-green: #97dc2129;
+
+    /* red shades */
+    --color-red-dark: #e02020;
+    --color-red: #ea1a1a;
+
+    /* ######################### size ##################### */
+    --font-size-14: 14px;
+    --font-size-16: 16px;
+    --font-size-25: 25px;
+  }
+}
+
+/* // :root[data-theme="dark"] {
+//   $test-color: yellow;
+//   @include fun();
+// } */
+
+body {
+  /* background: transparent
+    linear-gradient(
+      119deg,
+      var(--color-candlelight) 0%,
+      var(--color-aqua_blue_light) 0%,
+      var(--color-dusty_grey) 100%
+    )
+    0% 0% no-repeat padding-box; */
+}
+
+input[type="datetime-local"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator,
+input[type="date"]::-webkit-calendar-picker-indicator {
+  background: transparent;
+  bottom: 0;
+  color: transparent;
+  cursor: pointer;
+  height: auto;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: auto;
+}

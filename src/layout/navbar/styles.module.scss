@@ -1,0 +1,43 @@
+@import "styles/variable.scss";
+@import "styles/media.scss";
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  row-gap: 1rem;
+  flex-wrap: wrap;
+  @include sm {
+    flex-wrap: nowrap;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+}
+
+.right-side,
+.left-side {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  column-gap: 20px;
+}
+
+.right-side {
+  justify-content: end;
+}
+
+.left-side {
+  justify-content: start;
+
+}
+
+.burger {
+  cursor: pointer;
+  margin-right: 15px;
+
+  @include xl {
+    display: none;
+  }
+}

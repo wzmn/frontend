@@ -1,0 +1,99 @@
+@import "styles/media.scss";
+@import "styles/common.scss";
+@import "styles/variable";
+
+$right-bar-width: 100%;
+$header-height: 3rem;
+
+.right-bar-cont {
+  background-color: #ffffff;
+  width: $right-bar-width;
+  // height: 45rem;
+  box-shadow: 0px 3px 6px #00000029;
+  overflow: hidden;
+
+  height: 100%;
+  border-radius: 5px;
+  position: absolute;
+  top: 0%;
+  right: 0%;
+  padding: 32px;
+  // padding: 1rem 0.7rem;
+
+  // box-sizing: border-box;
+  transform: translate($right-bar-width, 0%);
+  transition: 0.3s all ease-out;
+  z-index: 20;
+
+  &.slide-in {
+    transform: translate(0rem, 0%);
+    // transform: translate(calc(100vw - 20vw - 25rem), -50%);
+    @include md {
+      transform: translate(-1rem, -316px);
+    }
+  }
+
+  & .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    // top: 0;
+    width: 100%;
+    margin-bottom: 38px;
+    // background-color: pink;
+    // height: $header-height;
+
+    & .actions {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      & svg {
+        font-size: $font-larger;
+        cursor: pointer;
+      }
+    }
+
+    & .title {
+      font-size: $font-large;
+      font-weight: 500;
+      letter-spacing: 0.1rem;
+      position: relative;
+    }
+
+    & .title::after {
+      content: "";
+      width: 110%;
+      height: 2px;
+      position: absolute;
+      bottom: -7px;
+      left: 0px;
+      border-radius: 2rem;
+      background-color: var(--color-blue_dress);
+    }
+  }
+
+  & .right-bar {
+    width: 100%;
+    height: calc(100% - $header-height);
+    // overflow: hidden;
+    // position: relative;
+    // padding-bottom: 1rem;
+
+    & .bar-body {
+      overflow: hidden;
+      overflow-y: auto;
+      @include scrollBarStyle;
+
+      height: 100%;
+    }
+  }
+
+  @include md {
+    $right-bar-width: 26rem !global;
+
+    top: 50%;
+    transform: translate(calc($right-bar-width + 1rem), -316px);
+    width: $right-bar-width;
+    max-height: 46.3rem;
+  }
+}

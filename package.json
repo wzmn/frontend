@@ -1,50 +1,68 @@
 {
-  "name": "gatsby-starter-default",
+  "name": "crm",
+  "version": "1.0.1",
   "private": true,
-  "description": "A simple starter to get up and developing quickly with Gatsby and TailwindCSS",
-  "version": "0.3.0",
-  "author": "Kostas Vrouvas <hello@kosvrouvas.com>",
-  "dependencies": {
-    "autoprefixer": "^10.4.7",
-    "gatsby": "^4.24.4",
-    "gatsby-plugin-google-analytics": "^4.0.0",
-    "gatsby-plugin-image": "^2.24.0",
-    "gatsby-plugin-manifest": "^4.24.0",
-    "gatsby-plugin-offline": "^5.24.0",
-    "gatsby-plugin-postcss": "^5.24.0",
-    "gatsby-plugin-purgecss": "^6.1.2",
-    "gatsby-plugin-react-helmet": "^5.24.0",
-    "gatsby-plugin-sharp": "^4.24.0",
-    "gatsby-source-filesystem": "^4.24.0",
-    "gatsby-transformer-sharp": "^4.24.0",
-    "postcss": "^8.4.14",
-    "prop-types": "^15.7.2",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-helmet": "^6.1.0"
-  },
-  "devDependencies": {
-    "prettier": "^2.7.1",
-    "tailwindcss": "^3.2.0"
-  },
+  "description": "crm",
+  "author": "anish_cogncise",
   "keywords": [
     "gatsby"
   ],
-  "license": "MIT",
   "scripts": {
-    "build": "gatsby build",
     "develop": "gatsby develop",
-    "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
-    "start": "npm run develop",
+    "start": "gatsby develop",
+    "build": "gatsby build",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
-    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
+    "typecheck": "tsc --noEmit"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/kosvrouvas/gatsby-tailwindcss-starter"
+  "dependencies": {
+    "@headlessui/react": "^1.7.17",
+    "@hookform/resolvers": "^3.3.2",
+    "@react-google-maps/api": "^2.19.2",
+    "@types/react-dnd": "^3.0.2",
+    "axios": "^1.6.2",
+    "chart.js": "^4.4.1",
+    "chartjs-chart-funnel": "^4.1.7",
+    "date-fns": "^2.30.0",
+    "firebase": "^10.7.1",
+    "gatsby": "^5.12.12",
+    "gatsby-plugin-image": "^3.11.0",
+    "gatsby-plugin-manifest": "^5.12.3",
+    "gatsby-plugin-remove-serviceworker": "^1.0.0",
+    "gatsby-plugin-resolve-src": "^2.1.0",
+    "gatsby-plugin-sass": "^6.12.3",
+    "moment": "^2.29.4",
+    "moment-timezone": "^0.5.44",
+    "react": "^18.2.0",
+    "react-date-range": "^1.4.0",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
+    "react-dom": "^18.2.0",
+    "react-dropzone": "^14.2.3",
+    "react-hook-form": "^7.49.0",
+    "react-icons": "^5.0.1",
+    "react-otp-input": "^3.1.0",
+    "react-phone-number-input": "^3.3.9",
+    "react-toastify": "^9.1.3",
+    "react-use-downloader": "^1.2.4",
+    "sass": "^1.69.5",
+    "use-places-autocomplete": "^4.0.1",
+    "yup": "^1.3.2"
   },
-  "bugs": {
-    "url": "https://github.com/kosvrouvas/gatsby-tailwindcss-starter/issues"
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/google-map-react": "^2.1.10",
+    "@types/node": "^20.10.4",
+    "@types/react": "^18.2.43",
+    "@types/react-date-range": "^1.4.9",
+    "@types/react-dom": "^18.2.17",
+    "@types/react-dropzone": "^5.1.0",
+    "@types/react-icons": "^3.0.0",
+    "@types/react-otp-input": "^2.0.5",
+    "autoprefixer": "^10.4.16",
+    "gatsby-plugin-postcss": "^6.12.0",
+    "postcss": "^8.4.32",
+    "tailwindcss": "^3.3.6",
+    "typescript": "^5.3.3"
   }
 }

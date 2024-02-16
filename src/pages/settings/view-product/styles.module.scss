@@ -1,0 +1,6 @@
+.price-view-btn {
+  & > button {
+    width: 9rem !important;
+    pointer-events: none;
+  }
+}

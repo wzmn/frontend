@@ -1,0 +1,94 @@
+@import "../variable.scss";
+.name {
+  font-size: $font-normal;
+
+  & .bold {
+    font-weight: 500;
+  }
+
+  & .tag {
+    color: var(--color-blue_dress);
+  }
+
+  & .tag2 {
+    color: var(--color-cloudy_grey);
+  }
+}
+
+.contact-info {
+  // margin: 2rem 0rem;
+  // & div:nth-child(n) {
+  //   margin-bottom: 0.9rem;
+  // }
+  & div {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    color: var(--color-cloudy_grey);
+
+    & .icon {
+      // width: 1rem;
+      // height: 1rem;
+      & > * {
+        font-size: $font-large;
+        color: var(--color-cloudy_grey);
+      }
+    }
+  }
+}
+
+.create-by {
+  padding: 1rem 0rem;
+}
+
+.user-role {
+  margin-top: 2rem;
+  display: flex;
+  gap: 2rem;
+
+  & .roles {
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1;
+    gap: 2rem;
+  }
+}
+
+.card-cont {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.card-other {
+  cursor: pointer;
+  position: relative;
+  border: 1px solid var(--color-cloudy_grey_light);
+  border-radius: 5px;
+  & .contact {
+    & .abs-icon {
+      position: absolute;
+      right: 0rem;
+      top: 60%;
+      transform: translateY(-50%);
+      font-size: 2rem;
+    }
+
+    & .count {
+      background-color: var(--color-blue_dress);
+      width: fit-content;
+      width: 1rem;
+      height: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 100%;
+      color: var(--color-white);
+      position: absolute;
+      right: 1rem;
+      top: 70%;
+      transform: translateY(-50%);
+    }
+  }
+}

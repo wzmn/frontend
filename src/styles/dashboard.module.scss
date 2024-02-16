@@ -1,0 +1,72 @@
+@import "./media.scss";
+@import "./variable.scss";
+@import "./common.scss";
+
+.topbar {
+    background-color: white;
+    display: flex;
+    width: 100%;
+     > div {
+        // border-radius: 5px;
+        // padding-top: 20px;
+        // padding-bottom: 20px;
+        // padding-left: 30px;
+        // padding-right: 30px;
+        // flex-grow: 1;
+        // flex-shrink: 1;
+        // flex-basis: 0%;
+        // box-shadow: 0px 0px 10px #00000029;
+        // display: flex;
+        // flex-direction: column;
+        justify-content: space-between;
+     }
+     img {
+        max-width: 100%;
+     }
+
+
+     // Override everything here
+    //  .topbar-left {
+    //     padding-right: 25px;
+    //  }
+    //  .topbar-center {
+    //     flex-basis: 20%;
+    //  }
+}
+
+.topbar-left {
+    background:transparent linear-gradient(317deg, #0A84FF 0%, #32D0D1 100%) 0% 0% no-repeat padding-box;
+}
+
+.topbar-center {
+    background: transparent linear-gradient(137deg, #32D0D1 0%, #196869BA 100%) 0% 0% no-repeat padding-box;
+
+}
+
+.topbar-right {
+    background: transparent linear-gradient(140deg, #97DC21 0%, #4C6E11 100%) 0% 0% no-repeat padding-box;
+}
+
+.canvas {
+    background: #FED00017;
+}
+.bids {
+    background-color: #32D0D117;
+}
+
+.pyramid {
+    width: 500PX;
+    display: flex;
+    flex-direction: column;
+    height: 350px;
+    -webkit-clip-path: polygon(50% 0, 100% 100%, 0 100%);
+    clip-path: polygon(50% 0, 100% 100%, 0 100%);
+    transform: rotate(180deg);
+}
+
+.pyramid-section {
+    flex: 1 1 100%;
+    background-color: green;
+    margin-bottom: 2px;
+    transform: rotate(-180deg);
+}

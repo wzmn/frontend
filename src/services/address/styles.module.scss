@@ -1,0 +1,12 @@
+.view-in-map-btn {
+  border: 0.5px solid var(--color-cloudy_grey_lighter2);
+  padding: 0.5rem !important;
+  width: fit-content !important;
+}
+
+.search-grid {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 4rem;
+  grid-template-columns: 1fr 8rem;
+}

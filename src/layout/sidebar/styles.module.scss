@@ -1,0 +1,172 @@
+@import "styles/variable.scss";
+@import "styles/media.scss";
+@import "styles/common.scss";
+
+$shrink-sidebar-width: 5rem;
+
+.sidebar-cont {
+  z-index: 1;
+  // overflow: hidden;
+  position: absolute;
+
+  width: $sidebar-width;
+  height: 100vh;
+  z-index: 10;
+  transition: all 0.25s ease-in-out;
+  transition-property: width, transform;
+  transform: translateX(-$sidebar-width - 50px);
+
+  &.slide-in {
+    transform: translateX(0);
+
+    & .sidebar {
+      & .title-img {
+        width: 13.45rem;
+        height: 3.778rem;
+        background-image: url("/assets/images/Snippit_Logo.png");
+      }
+    }
+  }
+
+  & > .back-arrow {
+    z-index: 1;
+    position: absolute;
+    top: 100px;
+    left: 100%;
+    scale: 1.5;
+    cursor: pointer;
+    transform: translateX(-5px);
+    background: var(--color-base-grey);
+    border-radius: 50%;
+
+    @include xl {
+      display: none;
+    }
+  }
+  .sidebar {
+    overflow-x: hidden;
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: absolute;
+    padding-bottom: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1607843137);
+    background-color: var(--color-base-grey);
+
+    .sidebar-links {
+      display: flex;
+      flex-direction: column;
+      row-gap: min(2.5vh, 2rem);
+      $icon-size: min(3.5vh, 2rem);
+      & > .link {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        position: relative;
+        cursor: pointer;
+        font-size: 0.9rem;
+        line-height: 1;
+
+        &::after {
+          content: "";
+          width: 8.438rem;
+          border-bottom: 1px solid var(--color-cloudy_grey);
+          transition: border 0.5s ease;
+          position: absolute;
+          bottom: 0rem;
+          left: calc($icon-size + 0.6rem);
+        }
+
+        &:hover::after,
+        &.active::after {
+          border-bottom: 2px solid var(--color-blue_dress);
+        }
+        &.active::after {
+          width: 9rem;
+        }
+        &.active {
+          font-weight: 500;
+        }
+        & > .img {
+          width: $icon-size;
+          height: $icon-size;
+        }
+
+        & > p {
+          color: var(--color-black);
+        }
+      }
+    }
+
+    @include scrollBarStyle;
+  }
+
+  @include lg {
+    // transform: translateX(0);
+    // width: $shrink-sidebar-width;
+    // position: relative;
+    // &.slide-in {
+    //   position: relative;
+    //   width: $sidebar-width;
+    // }
+  }
+
+  @include xl {
+    width: $sidebar-width;
+    position: relative;
+    transform: translateX(0);
+    &.slide-in {
+      position: relative;
+    }
+  }
+}
+.menu {
+  flex: 1;
+  margin-top: 2rem;
+  padding-left: 5px;
+  display: flex;
+  align-items: flex-start;
+}
+
+.logo {
+  max-width: 150px;
+  margin: 0 auto;
+}
+
+.user-details {
+  // margin-top: 5rem;
+  display: flex;
+  gap: 1rem;
+  width: 12.063rem;
+  margin-top: 2rem;
+}
+
+.user-details > .user-img {
+  width: 2.813rem;
+  height: 2.813rem;
+  border-radius: 100%;
+}
+
+.user-details > .user-name > p {
+  font-size: $font-normal;
+}
+
+.user-details > .user-name > .user-role {
+  font-size: $font-medium;
+  display: flex;
+  gap: 0.3rem;
+  align-items: center;
+}
+
+.user-details > .user-name > .user-role > p {
+  color: var(--color-blue_dress);
+}
+
+.user-details > .user-name > .user-role > .icon {
+  cursor: pointer;
+}

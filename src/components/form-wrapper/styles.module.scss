@@ -1,0 +1,25 @@
+@import "styles/media.scss";
+
+.form-wrapper {
+  background: var(--color-white-80) 0% 0% no-repeat padding-box;
+  // box-shadow: 0px 3px 6px var(--color-black29);
+  opacity: 0.88;
+  // margin: 1rem;
+  // height: 27.917rem;
+  border-radius: 10px;
+  padding: 1rem;
+  backdrop-filter: blur(50px);
+  -webkit-backdrop-filter: blur(50px);
+  // background-color: pink;
+  box-shadow: 0px 0px 6px #00000029;
+
+  flex: 1;
+
+  @include sm {
+    padding: 1.4rem 2.093rem;
+  }
+
+  @include md {
+    padding: 2.053rem 2.593rem;
+  }
+}

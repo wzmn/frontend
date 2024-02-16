@@ -1,0 +1,33 @@
+@import "styles/variable.scss";
+
+.dropzone-cont {
+  width: inherit;
+  height: inherit;
+  cursor: pointer;
+  background: var(--color-white-80) 0% 0% no-repeat padding-box;
+  border: 0.5px dashed #000000;
+  opacity: 0.65;
+  border-radius: 2rem;
+
+  & > div {
+    height: 100%;
+  }
+
+  & .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    height: 100%;
+
+    & img {
+      width: 2.285rem;
+    }
+    & p {
+      margin-top: 1rem;
+      color: var(--color-blue_dress);
+      font-size: $font-medium;
+    }
+  }
+}

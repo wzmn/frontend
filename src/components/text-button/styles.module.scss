@@ -1,0 +1,12 @@
+@import "styles/variable.scss";
+.text-btn {
+  color: var(--color-blue_dress);
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  font-size: $font-medium;
+
+  & i {
+    font-size: $font-large;
+  }
+}

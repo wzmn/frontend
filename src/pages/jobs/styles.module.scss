@@ -1,0 +1,44 @@
+@import "styles/variable.scss";
+@import "styles/media.scss";
+
+.wt {
+  border: 0.5px solid var(--color-dusty_grey_dark);
+  padding: 1rem;
+  font-size: $font-small;
+  border-radius: 5px;
+}
+
+.wt-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.border-ring {
+  border: 1px solid var(--color-candlelight);
+}
+
+.imp-exp-btn > button {
+  width: 7rem !important;
+}
+
+.btn-cont {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  @include lg {
+    gap: 1.75rem;
+    margin-bottom: 1rem;
+  }
+  margin-bottom: 1rem;
+  align-items: center;
+  width: 100%;
+
+  & > .alignWithCard {
+    flex-basis: 220px;
+    flex-grow: 1;
+    @include lg {
+      flex-grow: 0;
+    }
+  }
+}

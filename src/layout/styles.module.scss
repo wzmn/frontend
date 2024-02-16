@@ -1,0 +1,43 @@
+@import "styles/variable.scss";
+@import "styles/common.scss";
+// .container {
+//   margin: 0rem 10%;
+// }
+
+.layout {
+  display: flex;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  // overflow-y: scroll;
+
+  /* margin: 0rem 10%; */
+}
+
+.children {
+  padding: 0rem 1rem;
+  // background: transparent
+  //   linear-gradient(
+  //     128deg,
+  //     var(--color-candlelight) 0%,
+  //     var(--color-aqua_blue_light) 0%,
+  //     var(--color-dusty_grey) 100%
+  //   )
+  //   0% 0% no-repeat padding-box;
+  background-color: rgb(250 250 250);
+  flex: 1;
+  overflow: scroll;
+  position: relative;
+
+  & .main-content {
+    overflow: hidden;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    padding-right: 10px;
+    @include scrollBarStyle;
+  }
+  @include scrollBarStyle;
+}

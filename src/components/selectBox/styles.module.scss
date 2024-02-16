@@ -1,0 +1,77 @@
+@import "../../styles/variable";
+
+.select-box-scroll-bar::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+/* Track */
+.select-box-scroll-bar::-webkit-scrollbar-track {
+  /* box-shadow: inset 0 0 5px grey; */
+  border-radius: 10px;
+}
+
+/* Handle */
+.select-box-scroll-bar::-webkit-scrollbar-thumb {
+  background-color: var(--color-half_black);
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+.select-box-scroll-bar::-webkit-scrollbar-thumb:hover {
+  background: var(--color-dusty_grey);
+}
+
+.rel {
+  position: relative;
+
+  & .index {
+    z-index: 10;
+  }
+
+  &:has(.index:is(:empty)) {
+    & .placeholder {
+      color: pink;
+    }
+  }
+
+  // & .placeholder {
+  //   top: -1rem;
+  //   position: absolute;
+  // }
+}
+// relative w-full cursor-default rounded-md py-2 pl-3 pr-10 text-left shadow-md focus:outline-none  sm:text-sm
+
+.lst-box-btn {
+  position: relative;
+  width: 100%;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 8.5px 11px;
+  text-align: left;
+  outline: none;
+  border: 1px solid var(--color-cloudy_grey_lighter2);
+
+  &.large {
+    background-color: red;
+  }
+
+  //colors
+  &.gray {
+    background: var(--color-dusty_grey) 0% 0% no-repeat padding-box;
+  }
+
+  &.white {
+    background: var(--color-white-80) 0% 0% no-repeat padding-box;
+  }
+
+  &.full-white {
+    background: white 0% 0% no-repeat padding-box;
+  }
+
+  &.transparent {
+    background: pink 0% 0% no-repeat padding-box;
+    border: 1px solid gray;
+  }
+}
+
+// varients

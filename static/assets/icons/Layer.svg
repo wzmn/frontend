@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="30.266" height="34.38" viewBox="0 0 30.266 34.38">
+  <g id="Layer_1" data-name="Layer 1" transform="translate(0.25 0.25)">
+    <g id="Group_226" data-name="Group 226">
+      <rect id="Rectangle_240" data-name="Rectangle 240" width="6.679" height="1.274" transform="translate(9.224 10.282)" fill="#fff" stroke="#000" stroke-width="0.5"/>
+      <rect id="Rectangle_241" data-name="Rectangle 241" width="1.336" height="1.274" transform="translate(5.98 14.341)" fill="#fff" stroke="#000" stroke-width="0.5"/>
+      <rect id="Rectangle_242" data-name="Rectangle 242" width="6.679" height="1.274" transform="translate(9.224 6.224)" fill="#fff" stroke="#000" stroke-width="0.5"/>
+      <rect id="Rectangle_243" data-name="Rectangle 243" width="6.679" height="1.274" transform="translate(9.224 14.341)" fill="#fff" stroke="#000" stroke-width="0.5"/>
+      <rect id="Rectangle_244" data-name="Rectangle 244" width="1.336" height="1.274" transform="translate(5.98 10.282)" fill="#fff" stroke="#000" stroke-width="0.5"/>
+      <path id="Path_209" data-name="Path 209" d="M24.789,20.038v-.046A3.94,3.94,0,0,0,21.8,16.174V0H0V31.889H11.943V33.88H29.766V20.038H24.789Zm-1.9-.046v.046H18.818v-.046a2.036,2.036,0,1,1,4.073,0Zm-10.948,10H1.9V1.9H19.905V16.173a3.94,3.94,0,0,0-2.986,3.818v.046H11.943v9.953Zm15.925,1.991H13.842V26.5a8.417,8.417,0,0,0,1.05.472,16.693,16.693,0,0,0,5.014.915v2.057h1.9V27.888a16.672,16.672,0,0,0,5.014-.915,8.473,8.473,0,0,0,1.05-.472v5.48Zm0-8.009c0,.233-.457.751-1.716,1.222a15.664,15.664,0,0,1-5.3.814,15.66,15.66,0,0,1-5.3-.814c-1.26-.472-1.716-.99-1.716-1.222V21.937H27.868v2.036Z" fill="#fff" stroke="#000" stroke-width="0.5"/>
+      <rect id="Rectangle_245" data-name="Rectangle 245" width="1.336" height="1.274" transform="translate(5.98 6.224)" fill="#fff" stroke="#000" stroke-width="0.5"/>
+    </g>
+  </g>
+</svg>

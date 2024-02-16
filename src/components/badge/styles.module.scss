@@ -1,0 +1,8 @@
+@import "styles/variable.scss";
+
+.badge {
+  font-size: $font-xsmall;
+  width: fit-content;
+  padding: 0.1rem 1rem;
+  border-radius: 4px;
+}

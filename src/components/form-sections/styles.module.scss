@@ -1,0 +1,44 @@
+@import "styles/media.scss";
+.form-section {
+  // padding: 0rem 1.688rem;
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+  position: relative;
+  z-index: 0;
+  margin-bottom: 3rem;
+  & .label {
+    color: var(--color-black);
+    position: relative;
+    // margin-top: 4.937rem;
+    font-weight: 500;
+    align-self: self-start;
+    // background-color: pink;
+    @include xl {
+      flex-basis: 16rem;
+    }
+
+    &::after {
+      content: "";
+      width: 11.875rem;
+      // height: 0.1rem;
+      position: absolute;
+      bottom: -5px;
+      left: 0px;
+      border-radius: 2rem;
+      border-bottom: 2px solid var(--color-blue_dress);
+      // background-color: var(--color-blue_dress);
+    }
+    & .note {
+      color: var(--color-red-dark);
+    }
+  }
+
+  @include xl {
+    flex-direction: row;
+    align-items: flex-end;
+    padding: 0rem 0rem;
+
+    // background-color: pink;
+  }
+}
